@@ -42,7 +42,7 @@
             <version>9.4.1208</version>
         </dependency>
 
-        <!-- sevlet -->
+        <!-- servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
