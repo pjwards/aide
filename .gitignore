@@ -25,4 +25,12 @@ bin
 .git
 .svn
 *.bak
+.gradle
 .idea
+gradlew
+gradlew.bat
+gradle
+logs
+
+# Mac
+.DS_Store
