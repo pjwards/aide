@@ -2,17 +2,22 @@ package com.pjwards.aide.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class UserTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserTest.class);
     private User user;
     private Date date;
 
     @Before
-    public void setup(){
+    public void setup() {
         user = new User();
         date = new Date();
         user.setId(1L).setName("jisung").setEmail("a@a.com").setPassword("4194105091094")
@@ -20,14 +25,14 @@ public class UserTest {
     }
 
     @Test
-    public void testUser() throws Exception{
-        assertEquals(user.getCompany(),"google");
-        assertEquals(user.getCreatedDate(),date);
-        assertEquals(user.getEmail(),"a@a.com");
-        assertEquals(user.getId(),(Long)1L);
-        assertEquals(user.getLastDate(),date);
-        assertEquals(user.getName(),"jisung");
-        assertEquals(user.getPassword(),"4194105091094");
+    public void testUser() throws Exception {
+        assertThat(user.getCompany(), is("google"));
+        assertThat(user.getCreatedDate(), is(date));
+        assertThat(user.getEmail(), is("a@a.com"));
+        assertThat(user.getId(), is(1L));
+        assertThat(user.getLastDate(), is(date));
+        assertThat(user.getName(), is("jisung"));
+        assertThat(user.getPassword(), is("4194105091094"));
 
     }
 }

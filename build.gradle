@@ -4,54 +4,57 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'idea'
-apply plugin: 'org.akhikhl.gretty'
+apply plugin: 'spring-boot'
 
-// JDK 8
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+buildscript {
+    ext.springBootVersion = '1.3.3.RELEASE'
+    ext.springSecurityVersion = '4.0.4.RELEASE'
+    ext.postgresqlVersion = '9.4.1208'
+    ext.h2Version = '1.4.191'
+
+    repositories {
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+war {
+    baseName = 'aide'
+    version =  '0.0.1'
+}
 
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
-    mavenLocal()
     mavenCentral()
+    mavenLocal()
+    jcenter()
 }
 
 dependencies {
-    compile 'ch.qos.logback:logback-classic:1.1.3'
-    compile 'javax.servlet:jstl:1.2'
-    compile 'org.springframework:spring-context:4.2.5.RELEASE'
-    compile 'org.springframework:spring-webmvc:4.2.5.RELEASE'
 
-    // Data
-    compile 'org.springframework.data:spring-data-jpa:1.9.4.RELEASE'
-    compile 'org.postgresql:postgresql:9.4.1208'
+    // DB
+    compile "org.postgresql:postgresql:${postgresqlVersion}"
+    compile "com.h2database:h2:${h2Version}"
 
-    // include in compile only, exclude in the war
-    providedCompile 'javax.servlet:servlet-api:2.5'
+    // Spring Boot
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
 
-    // Test
+    // Spring Security
+    compile "org.springframework.security:spring-security-core:${springSecurityVersion}"
+    compile "org.springframework.security:spring-security-web:${springSecurityVersion}"
+    compile "org.springframework.security:spring-security-config:${springSecurityVersion}"
+
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile 'org.springframework:spring-test:4.2.5.RELEASE'
-    testCompile 'org.subethamail:subethasmtp:3.1.7'
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 }
 
-// Gretty Embedded Jetty
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'org.akhikhl.gretty:gretty:+'
-    }
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.11'
 }
 
-// Don't use Jetty8, even it's a servlet 3.0+ container,
-// but not support non-jar WebApplicationInitializer scanning.
-// It will cause "No Spring WebApplicationInitializer types detected on classpath"
-gretty {
-    port = 8080
-    contextPath = 'spring4'
-    servletContainer = 'jetty9' //tomcat7 or tomcat8
-}

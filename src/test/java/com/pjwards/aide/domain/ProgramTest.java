@@ -2,42 +2,51 @@ package com.pjwards.aide.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.sql.Time;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 public class ProgramTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProgramTest.class);
     private static final long TWO_HOUR = 2 * 60 * 60 * 1000;
     private Program program;
-    private Time begin;
-    private Time end;
-    private DateFormat formatter;
+    private Date begin;
+    private Date end;
 
     @Before
     public void setup() throws ParseException {
         program = new Program();
-        begin = new Time(System.currentTimeMillis());
-        end = new Time(System.currentTimeMillis() + TWO_HOUR);
+        begin = new Date(System.currentTimeMillis());
+        end = new Date(System.currentTimeMillis() + TWO_HOUR);
 
-        ProgramDate programDate = new ProgramDate();
-        formatter = new SimpleDateFormat("yyyy-MM-dd");
-        programDate.setDay(formatter.parse("2016-01-01"));
-
-        program.setTitle("title").setDescription("description").setBegin(begin).setEnd(end).setDate(programDate);
+        program
+                .setId(1L)
+                .setTitle("title")
+                .setDescription("description")
+                .setBegin(begin)
+                .setEnd(end);
     }
 
     @Test
     public void testProgram() throws Exception {
+        assertThat(program.getId(), is(1L));
         assertThat(program.getTitle(), is("title"));
         assertThat(program.getDescription(), is("description"));
         assertThat(program.getBegin(), is(begin));
         assertThat(program.getEnd(), is(end));
         assertThat(program.getEnd().getTime() - program.getBegin().getTime(), is(TWO_HOUR));
-        assertThat(formatter.format(program.getDate().getDay()), is("2016-01-01"));
+    }
+
+    @Test
+    public void testGetTime() {
+        assertThat(program.getEndTime().getTime() - program.getBeginTime().getTime(), is(TWO_HOUR));
+        assertThat(program.getBeginTime().toString(), is(program.getBegin().toString().substring(11, 19)));
+        assertThat(program.getEndTime().toString(), is(program.getEnd().toString().substring(11, 19)));
     }
 }
