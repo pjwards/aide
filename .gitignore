@@ -31,3 +31,6 @@ gradlew
 gradlew.bat
 gradle
 logs
+
+# Mac
+.DS_Store
