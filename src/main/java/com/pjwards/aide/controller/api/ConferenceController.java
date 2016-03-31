@@ -25,13 +25,13 @@ public class ConferenceController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Conference> getAll() {
-        LOGGER.debug("Finding all conferences.");
+        LOGGER.debug("[API] Finding all conferences.");
         return conferenceService.findAll();
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public Map<String, Object> create(@Valid @RequestBody Conference conference) {
-        LOGGER.debug("Creating a new conference with information: {}", conference);
+        LOGGER.debug("[API] Creating a new conference with information: {}", conference);
 
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("message", "Conference created successfully");
@@ -41,14 +41,14 @@ public class ConferenceController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public Conference getDetails(@PathVariable("id") Long id) throws ConferenceNotFoundException {
-        LOGGER.debug("Finding conference with id: {}", id);
+        LOGGER.debug("[API] Finding conference with id: {}", id);
         return conferenceService.findById(id);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public Map<String, Object> update(@PathVariable("id") Long id,
                                       @Valid @RequestBody Conference conference) throws ConferenceNotFoundException {
-        LOGGER.debug("Updating a conference with information: {}", conference);
+        LOGGER.debug("[API] Updating a conference with information: {}", conference);
 
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("message", "Conference updated successfully");
@@ -59,7 +59,7 @@ public class ConferenceController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public Map<String, Object> delete(@PathVariable("id") Long id) throws ConferenceNotFoundException {
-        LOGGER.debug("Deleting a conference with id: {}", id);
+        LOGGER.debug("[API] Deleting a conference with id: {}", id);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Conference deleted successfully");
