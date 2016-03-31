@@ -1,16 +1,20 @@
 package com.pjwards.aide.domain;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Conference {
 
+    public static final int MAX_LENGTH_NAME = 100;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = MAX_LENGTH_NAME)
     private String name;
 
     @Lob()
@@ -40,57 +44,59 @@ public class Conference {
     )
     private List<Program> programList;
 
-    public Long getId() {
-        return id;
+    public Conference() {
     }
 
-    public Conference setId(Long id) {
-        this.id = id;
-        return this;
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public Conference setName(String name) {
-        this.name = name;
-        return this;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public Conference setDescription(String description) {
-        this.description = description;
-        return this;
     }
 
     public List<ProgramDate> getProgramDateList() {
         return programDateList;
     }
 
-    public Conference setProgramDateList(List<ProgramDate> programDateList) {
-        this.programDateList = programDateList;
-        return this;
-    }
-
     public List<Room> getRooms() {
         return rooms;
-    }
-
-    public Conference setRooms(List<Room> rooms) {
-        this.rooms = rooms;
-        return this;
     }
 
     public List<Program> getProgramList() {
         return programList;
     }
 
-    public Conference setProgramList(List<Program> programList) {
-        this.programList = programList;
-        return this;
+    public void update(Conference updated) {
+        this.name = updated.name;
+        this.description = updated.description;
+    }
+
+    public static class Builder {
+        private Conference built;
+
+        public Builder(String name, String description) {
+            built = new Conference();
+            built.name = name;
+            built.description = description;
+        }
+
+        public Conference build() {
+            return built;
+        }
+
+        public Builder id(Long id) {
+            built.id = id;
+            return this;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

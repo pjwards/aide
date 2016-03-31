@@ -34,12 +34,10 @@ public class ProgramDateRepositoryTest {
 
     @Before
     public void setup() throws ParseException {
-        conference = new Conference();
-        conference.setName("name").setDescription("description");
+        conference = new Conference.Builder("name", "description").build();
         conferenceRepository.save(conference);
 
-        programDate = new ProgramDate();
-        programDate.setFormattedDay("2016-01-01").setConference(conference);
+        programDate = new ProgramDate.Builder("2016-01-01").conference(conference).build();
         programDateRepository.save(programDate);
     }
 
@@ -51,7 +49,6 @@ public class ProgramDateRepositoryTest {
     @Test(expected = DataIntegrityViolationException.class)
     public void testSaveException() {
         programDate = new ProgramDate();
-        programDate.setConference(conference);
         programDateRepository.save(programDate);
     }
 }

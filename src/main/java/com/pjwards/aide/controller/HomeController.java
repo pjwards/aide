@@ -10,7 +10,6 @@ public class HomeController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
-
     @RequestMapping("/")
     public String index() {
         return "Greeting from Spring Boot";

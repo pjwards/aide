@@ -1,5 +1,7 @@
 package com.pjwards.aide.domain;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
@@ -7,11 +9,13 @@ import java.util.Date;
 @Entity
 public class Program {
 
+    public static final int MAX_LENGTH_TITLE = 100;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = MAX_LENGTH_TITLE)
     private String title;
 
     @Lob()
@@ -38,22 +42,15 @@ public class Program {
     @JoinColumn(name = "conference_id", nullable = false)
     private Conference conference;
 
+    public Program() {
+    }
+
     public Long getId() {
         return id;
     }
 
-    public Program setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public Program setTitle(String title) {
-        this.title = title;
-        return this;
     }
 
     public String getDescription() {
@@ -69,45 +66,8 @@ public class Program {
         return begin;
     }
 
-    public Program setBegin(Date begin) {
-        this.begin = begin;
-        return this;
-    }
-
     public Date getEnd() {
         return end;
-    }
-
-    public Program setEnd(Date end) {
-        this.end = end;
-        return this;
-    }
-
-    public ProgramDate getDate() {
-        return date;
-    }
-
-    public Program setDate(ProgramDate date) {
-        this.date = date;
-        return this;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public Program setRoom(Room room) {
-        this.room = room;
-        return this;
-    }
-
-    public Conference getConference() {
-        return conference;
-    }
-
-    public Program setConference(Conference conference) {
-        this.conference = conference;
-        return this;
     }
 
     /**
@@ -126,5 +86,65 @@ public class Program {
      */
     public Time getEndTime() {
         return new Time(this.getEnd().getTime());
+    }
+
+    public ProgramDate getDate() {
+        return date;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public Conference getConference() {
+        return conference;
+    }
+
+    public void update(Program updated) {
+        this.title = updated.title;
+        this.description = updated.description;
+        this.begin = updated.begin;
+        this.end = updated.end;
+    }
+
+    public static class Builder {
+        private Program built;
+
+        public Builder(String title, String description, Date begin, Date end) {
+            built = new Program();
+            built.title = title;
+            built.description = description;
+            built.begin = begin;
+            built.end = end;
+        }
+
+        public Program build() {
+            return built;
+        }
+
+        public Builder id(Long id) {
+            built.id = id;
+            return this;
+        }
+
+        public Builder conference(Conference conference) {
+            built.conference = conference;
+            return this;
+        }
+
+        public Builder room(Room room) {
+            built.room = room;
+            return this;
+        }
+
+        public Builder date(ProgramDate date) {
+            built.date = date;
+            return this;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

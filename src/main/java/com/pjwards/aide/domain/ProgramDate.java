@@ -1,5 +1,7 @@
 package com.pjwards.aide.domain;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -29,40 +31,19 @@ public class ProgramDate {
     @JoinColumn(name = "conference_id", nullable = false)
     private Conference conference;
 
+    public ProgramDate() {
+    }
+
+    public ProgramDate(Date day) {
+        this.day = day;
+    }
+
     public Long getId() {
         return id;
     }
 
-    public ProgramDate setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
     public Date getDay() {
         return day;
-    }
-
-    public ProgramDate setDay(Date day) {
-        this.day = day;
-        return this;
-    }
-
-    public List<Program> getProgramList() {
-        return programList;
-    }
-
-    public ProgramDate setProgramList(List<Program> programList) {
-        this.programList = programList;
-        return this;
-    }
-
-    public Conference getConference() {
-        return conference;
-    }
-
-    public ProgramDate setConference(Conference conference) {
-        this.conference = conference;
-        return this;
     }
 
     /**
@@ -102,7 +83,7 @@ public class ProgramDate {
     /**
      * Set day by given day and format
      *
-     * @param day given day
+     * @param day    given day
      * @param format given format
      * @return this
      * @throws ParseException
@@ -111,5 +92,55 @@ public class ProgramDate {
         DateFormat formatter = new SimpleDateFormat(format);
         this.day = formatter.parse(day);
         return this;
+    }
+
+    public List<Program> getProgramList() {
+        return programList;
+    }
+
+    public Conference getConference() {
+        return conference;
+    }
+
+    public void update(ProgramDate updated) {
+        this.day = updated.day;
+    }
+
+    public static class Builder {
+        private ProgramDate built;
+
+        public Builder(Date day) {
+            built = new ProgramDate();
+            built.day = day;
+        }
+
+        public Builder(String day) throws ParseException {
+            built = new ProgramDate();
+            built.setFormattedDay(day);
+        }
+
+        public Builder(String day, String format) throws ParseException {
+            built = new ProgramDate();
+            built.setFormattedDay(day, format);
+        }
+
+        public ProgramDate build() {
+            return built;
+        }
+
+        public Builder id(Long id) {
+            built.id = id;
+            return this;
+        }
+
+        public Builder conference(Conference conference) {
+            built.conference = conference;
+            return this;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
