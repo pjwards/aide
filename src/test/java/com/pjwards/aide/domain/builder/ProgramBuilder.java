@@ -1,7 +1,6 @@
 package com.pjwards.aide.domain.builder;
 
 import com.pjwards.aide.domain.Program;
-import com.pjwards.aide.exception.WrongInputDateException;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Date;
