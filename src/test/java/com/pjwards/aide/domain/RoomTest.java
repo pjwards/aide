@@ -12,10 +12,10 @@ import static org.junit.Assert.assertThat;
 public class RoomTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomTest.class);
-
-    private static final String NAME = "room";
-    private static final String LOCATION = "101";
+    private static final String NAME = "name";
+    private static final String LOCATION = "location";
     private static final String DESCRIPTION = "description";
+
     private Room room;
 
     @Before

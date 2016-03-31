@@ -39,7 +39,7 @@ public class Program {
     private Room room;
 
     @ManyToOne
-    @JoinColumn(name = "conference_id", nullable = false)
+    @JoinColumn(name = "conference_id")
     private Conference conference;
 
     public Program() {

@@ -20,24 +20,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class ConferenceRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceRepositoryTest.class);
+    private static final String NAME = "name";
+    private static final  String DESCRIPTION = "description";
+
     private Conference conference;
 
     @Autowired
     private ConferenceRepository conferenceRepository;
 
-    @Before
-    public void setup() {
-        conference = new Conference.Builder("name", "description").build();
+    @Test
+    public void testSaveWithMandatory() {
+        conference = new Conference.Builder(NAME, DESCRIPTION).build();
         conferenceRepository.save(conference);
     }
 
-    @Test
-    public void testSave() {
-
-    }
-
     @Test(expected = DataIntegrityViolationException.class)
-    public void testSaveException() {
+    public void testSave_EmptyRoom_ShouldOccurNoInteractionsWanted() {
         conference = new Conference();
         conferenceRepository.save(conference);
     }

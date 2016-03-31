@@ -21,9 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoomRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomRepositoryTest.class);
+    private static final String NAME = "name";
+    private static final String LOCATION = "location";
+    private static final String DESCRIPTION = "description";
 
     private Room room;
-    private Conference conference;
 
     @Autowired
     private RoomRepository roomRepository;
@@ -31,22 +33,23 @@ public class RoomRepositoryTest {
     @Autowired
     private ConferenceRepository conferenceRepository;
 
-    @Before
-    public void setup() {
-        conference = new Conference.Builder("name", "description").build();
-        conferenceRepository.save(conference);
-
-        room = new Room.Builder("room", "101", "description").conference(conference).build();
+    @Test
+    public void testSaveWithMandatory() {
+        room = new Room.Builder(NAME, LOCATION, DESCRIPTION).build();
         roomRepository.save(room);
     }
 
     @Test
-    public void testSave() {
+    public void testSaveWithAll() {
+        Conference conference = new Conference.Builder(NAME, DESCRIPTION).build();
+        conferenceRepository.save(conference);
 
+        room = new Room.Builder(NAME, LOCATION, DESCRIPTION).conference(conference).build();
+        roomRepository.save(room);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    public void testSaveException() {
+    public void testSave_EmptyRoom_ShouldOccurNoInteractionsWanted() {
         room = new Room();
         roomRepository.save(room);
     }

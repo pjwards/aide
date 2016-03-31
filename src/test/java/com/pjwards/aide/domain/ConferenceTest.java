@@ -12,9 +12,9 @@ import static org.junit.Assert.assertThat;
 public class ConferenceTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceTest.class);
-
     private static final String NAME = "name";
     private static final  String DESCRIPTION = "description";
+
     private Conference conference;
 
     @Before

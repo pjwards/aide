@@ -26,12 +26,13 @@ import java.util.Date;
 public class ProgramRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProgramRepositoryTest.class);
-    private ProgramDate programDate;
-    private Room room;
-    private Conference conference;
+    private static final long TWO_HOUR = 2 * 60 * 60 * 1000;
+    private static final String TITLE = "title";
+    private static final String DESCRIPTION = "description";
+    private static final Date BEGIN = new Date(System.currentTimeMillis());
+    private static final Date END = new Date(System.currentTimeMillis() + TWO_HOUR);
+
     private Program program;
-    private Date begin;
-    private Date end;
 
     @Autowired
     private ProgramRepository programRepository;
@@ -45,32 +46,30 @@ public class ProgramRepositoryTest {
     @Autowired
     private ConferenceRepository conferenceRepository;
 
-    @Before
-    public void setup() throws ParseException {
-        conference = new Conference.Builder("name", "description").build();
-        conferenceRepository.save(conference);
-
-        programDate = new ProgramDate();
-        programDate = new ProgramDate.Builder("2016-01-01").conference(conference).build();
-        programDateRepository.save(programDate);
-
-        room = new Room.Builder("room", "101", "description").conference(conference).build();
-        roomRepository.save(room);
-
-        begin = new Date(System.currentTimeMillis());
-        end = new Date(System.currentTimeMillis() + 2 * 60 * 60 * 1000);
-        program = new Program.Builder("title", "description", begin, end)
-                .conference(conference).room(room).date(programDate).build();
+    @Test
+    public void testSaveWithMandatory() {
+        program = new Program.Builder(TITLE, DESCRIPTION, BEGIN, END).build();
         programRepository.save(program);
     }
 
     @Test
-    public void testSave() {
+    public void testSaveWithAll() throws ParseException {
+        Conference conference = new Conference.Builder("name", "description").build();
+        conferenceRepository.save(conference);
 
+        ProgramDate programDate = new ProgramDate.Builder("2016-01-01").conference(conference).build();
+        programDateRepository.save(programDate);
+
+        Room room = new Room.Builder("room", "101", "description").conference(conference).build();
+        roomRepository.save(room);
+
+        program = new Program.Builder(TITLE, DESCRIPTION, BEGIN, END)
+                .conference(conference).room(room).date(programDate).build();
+        programRepository.save(program);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    public void testSaveException() {
+    public void testSave_EmptyRoom_ShouldOccurNoInteractionsWanted() {
         program = new Program();
         programRepository.save(program);
     }

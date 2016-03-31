@@ -8,16 +8,17 @@ import java.util.List;
 @Entity
 public class Room {
 
-    public static final int MAX_LENGTH_NAME = 100;
+    public static final int MAX_LENGTH_NAME = 50;
+    public static final int MAX_LENGTH_LOCATION = 100;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = MAX_LENGTH_NAME)
     private String name;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = MAX_LENGTH_LOCATION)
     private String location;
 
     @Lob()
@@ -32,7 +33,7 @@ public class Room {
     private List<Program> programList;
 
     @ManyToOne
-    @JoinColumn(name = "conference_id", nullable = false)
+    @JoinColumn(name = "conference_id")
     private Conference conference;
 
     public Room() {

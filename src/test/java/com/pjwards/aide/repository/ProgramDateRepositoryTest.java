@@ -23,8 +23,9 @@ import java.text.ParseException;
 public class ProgramDateRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProgramDateRepositoryTest.class);
+    private static final String DATE = "2016-01-01";
+
     private ProgramDate programDate;
-    private Conference conference;
 
     @Autowired
     private ProgramDateRepository programDateRepository;
@@ -32,22 +33,23 @@ public class ProgramDateRepositoryTest {
     @Autowired
     private ConferenceRepository conferenceRepository;
 
-    @Before
-    public void setup() throws ParseException {
-        conference = new Conference.Builder("name", "description").build();
-        conferenceRepository.save(conference);
-
-        programDate = new ProgramDate.Builder("2016-01-01").conference(conference).build();
+    @Test
+    public void testSaveWithMandatory() throws ParseException {
+        programDate = new ProgramDate.Builder(DATE).build();
         programDateRepository.save(programDate);
     }
 
     @Test
-    public void testSave() {
+    public void testSaveWithAll() throws ParseException {
+        Conference conference = new Conference.Builder("name", "description").build();
+        conferenceRepository.save(conference);
 
+        programDate = new ProgramDate.Builder(DATE).conference(conference).build();
+        programDateRepository.save(programDate);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    public void testSaveException() {
+    public void testSave_EmptyRoom_ShouldOccurNoInteractionsWanted() {
         programDate = new ProgramDate();
         programDateRepository.save(programDate);
     }

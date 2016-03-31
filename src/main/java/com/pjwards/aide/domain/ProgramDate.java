@@ -28,7 +28,7 @@ public class ProgramDate {
     private List<Program> programList;
 
     @ManyToOne
-    @JoinColumn(name = "conference_id", nullable = false)
+    @JoinColumn(name = "conference_id")
     private Conference conference;
 
     public ProgramDate() {

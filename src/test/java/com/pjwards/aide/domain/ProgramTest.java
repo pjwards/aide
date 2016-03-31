@@ -15,7 +15,6 @@ import static org.junit.Assert.*;
 public class ProgramTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProgramTest.class);
-
     private static final long TWO_HOUR = 2 * 60 * 60 * 1000;
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";

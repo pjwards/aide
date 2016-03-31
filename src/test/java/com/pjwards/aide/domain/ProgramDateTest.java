@@ -16,6 +16,7 @@ import static org.junit.Assert.assertThat;
 public class ProgramDateTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProgramDateTest.class);
+
     private ProgramDate programDate;
     private DateFormat formatter;
 
