@@ -14,25 +14,17 @@ public class UserTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserTest.class);
     private User user;
-    private Date date;
 
     @Before
     public void setup() {
-        user = new User();
-        date = new Date();
-        user.setId(1L).setName("jisung").setEmail("a@a.com").setPassword("4194105091094")
-                .setCreatedDate(date).setLastDate(date).setCompany("google");
+        user = new User.Builder("jisung", "a@a.com", "4194105091094").company("google").build();
     }
 
     @Test
     public void testUser() throws Exception {
         assertThat(user.getCompany(), is("google"));
-        assertThat(user.getCreatedDate(), is(date));
         assertThat(user.getEmail(), is("a@a.com"));
-        assertThat(user.getId(), is(1L));
-        assertThat(user.getLastDate(), is(date));
         assertThat(user.getName(), is("jisung"));
         assertThat(user.getPassword(), is("4194105091094"));
-
     }
 }

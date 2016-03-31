@@ -14,21 +14,16 @@ import static org.junit.Assert.assertThat;
 public class ConferenceRoleTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceRoleTest.class);
-    private ConferenceRole role;
-    private Date date;
-
+    private ConferenceRole conferenceRole;
 
     @Before
     public void setup() {
-        date = new Date();
-        role = new ConferenceRole();
-        role.setId(1L).setRole(Role.ADMIN);
+        conferenceRole = new ConferenceRole.Builder(Role.ADMIN).build();
     }
 
     @Test
     public void testUser() throws Exception{
-        assertThat(role.getId(),is(1L));
-        assertThat(role.getRole(),is(Role.ADMIN));
+        assertThat(conferenceRole.getRole(),is(Role.ADMIN));
     }
 
 }

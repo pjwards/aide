@@ -4,6 +4,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Conference {
@@ -43,6 +44,17 @@ public class Conference {
             fetch = FetchType.EAGER
     )
     private List<Program> programList;
+
+    @ManyToMany
+    @JoinTable(name = "CONFERENCE_ROLE",
+            joinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK"),
+            inverseJoinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK")
+    )
+    private Set<ConferenceRole> conferenceRoleSet;
+
+    public Set<ConferenceRole> getConferenceRoleSet() {
+        return conferenceRoleSet;
+    }
 
     public Conference() {
     }
