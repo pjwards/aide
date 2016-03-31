@@ -6,6 +6,7 @@ import com.pjwards.aide.exception.RoomNotFoundException;
 import java.util.List;
 
 public interface RoomService {
+
     /**
      * Returns a list of rooms.
      *

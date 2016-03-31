@@ -6,6 +6,10 @@ import org.springframework.http.MediaType;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 public class TestUtil {
@@ -30,5 +34,13 @@ public class TestUtil {
         }
 
         return builder.toString();
+    }
+
+    public static String convertUTCDateToGMTString(Date date) throws ParseException {
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
+        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        //Time in GMT
+        return dateFormatGmt.format(date);
     }
 }

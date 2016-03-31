@@ -45,5 +45,9 @@ public class ConferenceTest {
         assertThat(conference.getRooms(), nullValue());
         assertThat(conference.getProgramDateList(), nullValue());
         assertThat(conference.getProgramList(), nullValue());
+
+        conference.update(NAME, DESCRIPTION);
+        assertThat(conference.getName(), is(NAME));
+        assertThat(conference.getDescription(), is(DESCRIPTION));
     }
 }

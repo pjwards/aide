@@ -107,6 +107,13 @@ public class Program {
         this.end = updated.end;
     }
 
+    public void update(String title, String description, Date begin, Date end) {
+        this.title = title;
+        this.description = description;
+        this.begin = begin;
+        this.end = end;
+    }
+
     public static class Builder {
         private Program built;
 
@@ -120,11 +127,6 @@ public class Program {
 
         public Program build() {
             return built;
-        }
-
-        public Builder id(Long id) {
-            built.id = id;
-            return this;
         }
 
         public Builder conference(Conference conference) {

@@ -1,6 +1,7 @@
 package com.pjwards.aide.service.conference;
 
 import com.pjwards.aide.domain.Conference;
+import com.pjwards.aide.domain.builder.ConferenceBuilder;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
 import com.pjwards.aide.repository.ConferenceRepository;
 import org.junit.Before;
@@ -47,7 +48,10 @@ public class ConferenceServiceImplTest {
 
     @Test
     public void testAdd_NewConference_ShouldSaveConference() {
-        Conference conference = new Conference.Builder(NAME, DESCRIPTION).build();
+        Conference conference = new ConferenceBuilder()
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         conferenceService.add(conference);
 
@@ -64,7 +68,11 @@ public class ConferenceServiceImplTest {
 
     @Test
     public void findById_ConferenceFound_ShouldReturnFoundConference() throws ConferenceNotFoundException {
-        Conference model = new Conference.Builder(NAME, DESCRIPTION).id(ID).build();
+        Conference model = new ConferenceBuilder()
+                .id(ID)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceRepositoryMock.findOne(ID)).thenReturn(model);
 
@@ -88,8 +96,16 @@ public class ConferenceServiceImplTest {
 
     @Test
     public void update_ConferenceFound_ShouldUpdateConference() throws ConferenceNotFoundException {
-        Conference updated = new Conference.Builder(UPDATED_NAME, UPDATED_DESCRIPTION).id(ID).build();
-        Conference model = new Conference.Builder(NAME, DESCRIPTION).id(ID).build();
+        Conference updated = new ConferenceBuilder()
+                .id(ID)
+                .name(UPDATED_NAME)
+                .description(UPDATED_DESCRIPTION)
+                .build();
+        Conference model = new ConferenceBuilder()
+                .id(ID)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceRepositoryMock.findOne(updated.getId())).thenReturn(model);
 
@@ -106,7 +122,11 @@ public class ConferenceServiceImplTest {
 
     @Test(expected = ConferenceNotFoundException.class)
     public void update_ConferenceNotFound_ShouldThrowException() throws ConferenceNotFoundException {
-        Conference updated = new Conference.Builder(UPDATED_NAME, UPDATED_DESCRIPTION).id(ID).build();
+        Conference updated = new ConferenceBuilder()
+                .id(ID)
+                .name(UPDATED_NAME)
+                .description(UPDATED_DESCRIPTION)
+                .build();
 
         when(conferenceRepositoryMock.findOne(updated.getId())).thenReturn(null);
 
@@ -118,7 +138,11 @@ public class ConferenceServiceImplTest {
 
     @Test
     public void deleteById_TodoEntryFound_ShouldDeleteTodoEntryAndReturnIt() throws ConferenceNotFoundException {
-        Conference model = new Conference.Builder(NAME, DESCRIPTION).id(ID).build();
+        Conference model = new ConferenceBuilder()
+                .id(ID)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceRepositoryMock.findOne(ID)).thenReturn(model);
 

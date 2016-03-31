@@ -5,7 +5,6 @@ import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Program;
 import com.pjwards.aide.domain.ProgramDate;
 import com.pjwards.aide.domain.Room;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

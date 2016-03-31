@@ -3,7 +3,6 @@ package com.pjwards.aide.repository;
 import com.pjwards.aide.config.ApplicationConfig;
 import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.ProgramDate;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -23,7 +22,7 @@ import java.text.ParseException;
 public class ProgramDateRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProgramDateRepositoryTest.class);
-    private static final String DATE = "2016-01-01";
+    private static final String DAY = "2016-01-01";
 
     private ProgramDate programDate;
 
@@ -35,7 +34,7 @@ public class ProgramDateRepositoryTest {
 
     @Test
     public void testSaveWithMandatory() throws ParseException {
-        programDate = new ProgramDate.Builder(DATE).build();
+        programDate = new ProgramDate.Builder(DAY).build();
         programDateRepository.save(programDate);
     }
 
@@ -44,7 +43,7 @@ public class ProgramDateRepositoryTest {
         Conference conference = new Conference.Builder("name", "description").build();
         conferenceRepository.save(conference);
 
-        programDate = new ProgramDate.Builder(DATE).conference(conference).build();
+        programDate = new ProgramDate.Builder(DAY).conference(conference).build();
         programDateRepository.save(programDate);
     }
 

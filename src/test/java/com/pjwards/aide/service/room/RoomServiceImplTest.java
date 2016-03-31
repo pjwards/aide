@@ -1,10 +1,9 @@
 package com.pjwards.aide.service.room;
 
 import com.pjwards.aide.domain.Room;
+import com.pjwards.aide.domain.builder.RoomBuilder;
 import com.pjwards.aide.exception.RoomNotFoundException;
 import com.pjwards.aide.repository.RoomRepository;
-import com.pjwards.aide.service.room.RoomService;
-import com.pjwards.aide.service.room.RoomServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -16,7 +15,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class RoomServiceImplTest {
 
@@ -52,7 +50,11 @@ public class RoomServiceImplTest {
 
     @Test
     public void testAdd_NewRoom_ShouldSaveRoom() {
-        Room room = new Room.Builder(NAME, LOCATION, DESCRIPTION).build();
+        Room room = new RoomBuilder()
+                .name(NAME)
+                .location(LOCATION)
+                .description(DESCRIPTION)
+                .build();
 
         roomService.add(room);
 
@@ -69,7 +71,12 @@ public class RoomServiceImplTest {
 
     @Test
     public void findById_RoomFound_ShouldReturnFoundRoom() throws RoomNotFoundException {
-        Room model = new Room.Builder(NAME, LOCATION, DESCRIPTION).id(ID).build();
+        Room model = new RoomBuilder()
+                .id(ID)
+                .name(NAME)
+                .location(LOCATION)
+                .description(DESCRIPTION)
+                .build();
 
         when(roomRepositoryMock.findOne(ID)).thenReturn(model);
 
@@ -93,8 +100,18 @@ public class RoomServiceImplTest {
 
     @Test
     public void update_RoomFound_ShouldUpdateRoom() throws RoomNotFoundException {
-        Room updated = new Room.Builder(UPDATED_NAME, UPDATED_LOCATION, UPDATED_DESCRIPTION).id(ID).build();
-        Room model = new Room.Builder(NAME, LOCATION, DESCRIPTION).id(ID).build();
+        Room updated = new RoomBuilder()
+                .id(ID)
+                .name(UPDATED_NAME)
+                .location(UPDATED_LOCATION)
+                .description(UPDATED_DESCRIPTION)
+                .build();
+        Room model = new RoomBuilder()
+                .id(ID)
+                .name(NAME)
+                .location(LOCATION)
+                .description(DESCRIPTION)
+                .build();
 
         when(roomRepositoryMock.findOne(updated.getId())).thenReturn(model);
 
@@ -111,7 +128,12 @@ public class RoomServiceImplTest {
 
     @Test(expected = RoomNotFoundException.class)
     public void update_RoomNotFound_ShouldThrowException() throws RoomNotFoundException {
-        Room updated = new Room.Builder(UPDATED_NAME, UPDATED_LOCATION, UPDATED_DESCRIPTION).id(ID).build();
+        Room updated = new RoomBuilder()
+                .id(ID)
+                .name(UPDATED_NAME)
+                .location(UPDATED_LOCATION)
+                .description(UPDATED_DESCRIPTION)
+                .build();
 
         when(roomRepositoryMock.findOne(updated.getId())).thenReturn(null);
 
@@ -123,7 +145,12 @@ public class RoomServiceImplTest {
 
     @Test
     public void deleteById_TodoEntryFound_ShouldDeleteTodoEntryAndReturnIt() throws RoomNotFoundException {
-        Room model = new Room.Builder(NAME, LOCATION, DESCRIPTION).id(ID).build();
+        Room model = new RoomBuilder()
+                .id(ID)
+                .name(NAME)
+                .location(LOCATION)
+                .description(DESCRIPTION)
+                .build();
 
         when(roomRepositoryMock.findOne(ID)).thenReturn(model);
 

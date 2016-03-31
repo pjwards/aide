@@ -2,6 +2,7 @@ package com.pjwards.aide.controller.api;
 
 import com.pjwards.aide.config.ApplicationConfig;
 import com.pjwards.aide.domain.Room;
+import com.pjwards.aide.domain.builder.RoomBuilder;
 import com.pjwards.aide.exception.RoomNotFoundException;
 import com.pjwards.aide.service.room.RoomService;
 import com.pjwards.aide.util.TestUtil;
@@ -28,12 +29,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,8 +59,18 @@ public class RoomControllerTest {
 
     @Test
     public void testGetAll_RoomsFound_ShoudReturnFoundRoom() throws Exception {
-        Room first = new Room.Builder("name1", "location1", "description1").id(1L).build();
-        Room second = new Room.Builder("name2", "location2", "description2").id(2L).build();
+        Room first = new RoomBuilder()
+                .id(1L)
+                .name("name1")
+                .location("location1")
+                .description("description1")
+                .build();
+        Room second = new RoomBuilder()
+                .id(2L)
+                .name("name2")
+                .location("location2")
+                .description("description2")
+                .build();
 
         when(roomService.findAll()).thenReturn(Arrays.asList(first, second));
 
@@ -86,7 +93,12 @@ public class RoomControllerTest {
 
     @Test
     public void testCreate_NewRoom_ShouldAddRoomReturnAddedRoom() throws Exception {
-        Room added = new Room.Builder(NAME, LOCATION, DESCRIPTION).id(1L).build();
+        Room added = new RoomBuilder()
+                .id(1L)
+                .name(NAME)
+                .location(LOCATION)
+                .description(DESCRIPTION)
+                .build();
 
         when(roomService.add(any(Room.class))).thenReturn(added);
 
@@ -130,7 +142,12 @@ public class RoomControllerTest {
     public void testCreate_NameAndLocationAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
         String name = TestUtil.createStringWithLength(Room.MAX_LENGTH_NAME + 1);
         String location = TestUtil.createStringWithLength(Room.MAX_LENGTH_LOCATION + 1);
-        Room room = new Room.Builder(name, location, DESCRIPTION).build();
+        Room room = new RoomBuilder()
+                .id(1L)
+                .name(name)
+                .location(location)
+                .description(DESCRIPTION)
+                .build();
 
         mockMvc.perform(post("/api/rooms")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -144,7 +161,12 @@ public class RoomControllerTest {
 
     @Test
     public void testGetDetails_RoomFound_ShouldReturnFoundRoom() throws Exception {
-        Room found = new Room.Builder(NAME, LOCATION, DESCRIPTION).id(1L).build();
+        Room found = new RoomBuilder()
+                .id(1L)
+                .name(NAME)
+                .location(LOCATION)
+                .description(DESCRIPTION)
+                .build();
 
         when(roomService.findById(1L)).thenReturn(found);
 
@@ -173,7 +195,12 @@ public class RoomControllerTest {
 
     @Test
     public void testUpdate_RoomFound_ShouldUpdateRoomAndReturnIt() throws Exception {
-        Room updated = new Room.Builder(NAME, LOCATION, DESCRIPTION).id(1L).build();
+        Room updated = new RoomBuilder()
+                .id(1L)
+                .name(NAME)
+                .location(LOCATION)
+                .description(DESCRIPTION)
+                .build();
 
         when(roomService.update(any(Room.class))).thenReturn(updated);
 
@@ -202,7 +229,9 @@ public class RoomControllerTest {
 
     @Test(expected = NoInteractionsWanted.class)
     public void testUpdate_EmptyRoom_ShouldOccurNoInteractionsWanted() throws Exception {
-        Room room = new Room.Builder(null, null, null).id(1L).build();
+        Room room = new RoomBuilder()
+                .id(1L)
+                .build();
 
         mockMvc.perform(put("/api/rooms/{id}", 1L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -218,7 +247,12 @@ public class RoomControllerTest {
     public void testUpdate_NameAndLocationAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
         String name = TestUtil.createStringWithLength(Room.MAX_LENGTH_NAME + 1);
         String location = TestUtil.createStringWithLength(Room.MAX_LENGTH_LOCATION + 1);
-        Room room = new Room.Builder(name, location, DESCRIPTION).id(1L).build();
+        Room room = new RoomBuilder()
+                .id(1L)
+                .name(name)
+                .location(name)
+                .description(DESCRIPTION)
+                .build();
 
         mockMvc.perform(put("/api/rooms/{id}", 1L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -232,7 +266,12 @@ public class RoomControllerTest {
 
     @Test
     public void testUpdate_RoomNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        Room updated = new Room.Builder(NAME, LOCATION, DESCRIPTION).id(3L).build();
+        Room updated = new RoomBuilder()
+                .id(3L)
+                .name(NAME)
+                .location(LOCATION)
+                .description(DESCRIPTION)
+                .build();
 
         when(roomService.update(any(Room.class))).thenThrow(new RoomNotFoundException(""));
 
@@ -255,13 +294,19 @@ public class RoomControllerTest {
 
     @Test
     public void testDelete_RoomFound_ShouldDeleteRoomAndReturnIt() throws Exception {
-        Room deleted = new Room.Builder(NAME, LOCATION, DESCRIPTION).id(1L).build();
+        Room deleted = new RoomBuilder()
+                .id(1L)
+                .name(NAME)
+                .location(LOCATION)
+                .description(DESCRIPTION)
+                .build();
 
         when(roomService.deleteById(1L)).thenReturn(deleted);
 
         mockMvc.perform(delete("/api/rooms/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.message", is("Room deleted successfully")))
                 .andExpect(jsonPath("$.room.id", is(1)))
                 .andExpect(jsonPath("$.room.name", is(NAME)))
                 .andExpect(jsonPath("$.room.location", is(LOCATION)))

@@ -79,6 +79,12 @@ public class Room {
         this.description = updated.description;
     }
 
+    public void update(String name, String location, String description) {
+        this.name = name;
+        this.location = location;
+        this.description = description;
+    }
+
     public static class Builder {
         private Room built;
 
@@ -91,11 +97,6 @@ public class Room {
 
         public Room build() {
             return built;
-        }
-
-        public Builder id(Long id) {
-            built.id = id;
-            return this;
         }
 
         public Builder conference(Conference conference) {

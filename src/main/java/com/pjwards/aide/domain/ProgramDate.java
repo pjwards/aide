@@ -1,16 +1,21 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.time.DateUtils;
 
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class ProgramDate {
+
+    public static final String DAY_FORMAT = "yyyy-MM-dd";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,6 +23,7 @@ public class ProgramDate {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssz")
     private Date day;
 
     @OneToMany(
@@ -52,8 +58,7 @@ public class ProgramDate {
      * @return formatted day
      */
     public String getFormattedDay() {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(this.getDay());
+        return this.getFormattedDay(DAY_FORMAT);
     }
 
     /**
@@ -75,9 +80,7 @@ public class ProgramDate {
      * @throws ParseException
      */
     public ProgramDate setFormattedDay(String day) throws ParseException {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        this.day = formatter.parse(day);
-        return this;
+        return this.setFormattedDay(day, DAY_FORMAT);
     }
 
     /**
@@ -90,8 +93,12 @@ public class ProgramDate {
      */
     public ProgramDate setFormattedDay(String day, String format) throws ParseException {
         DateFormat formatter = new SimpleDateFormat(format);
-        this.day = formatter.parse(day);
+        this.day = this.truncateDate(formatter.parse(day));
         return this;
+    }
+
+    public Date truncateDate(Date date) {
+        return DateUtils.truncate(date, Calendar.DATE);
     }
 
     public List<Program> getProgramList() {
@@ -106,12 +113,16 @@ public class ProgramDate {
         this.day = updated.day;
     }
 
+    public void update(Date day) {
+        this.day = truncateDate(day);
+    }
+
     public static class Builder {
         private ProgramDate built;
 
         public Builder(Date day) {
             built = new ProgramDate();
-            built.day = day;
+            built.day = built.truncateDate(day);
         }
 
         public Builder(String day) throws ParseException {
@@ -126,11 +137,6 @@ public class ProgramDate {
 
         public ProgramDate build() {
             return built;
-        }
-
-        public Builder id(Long id) {
-            built.id = id;
-            return this;
         }
 
         public Builder conference(Conference conference) {

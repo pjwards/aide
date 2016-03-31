@@ -48,5 +48,10 @@ public class RoomTest {
         assertThat(room.getDescription(), is(UPDATED_DESCRIPTION));
         assertThat(room.getConference(), nullValue());
         assertThat(room.getProgramList(), nullValue());
+
+        room.update(NAME, LOCATION, DESCRIPTION);
+        assertThat(room.getName(), is(NAME));
+        assertThat(room.getLocation(), is(LOCATION));
+        assertThat(room.getDescription(), is(DESCRIPTION));
     }
 }

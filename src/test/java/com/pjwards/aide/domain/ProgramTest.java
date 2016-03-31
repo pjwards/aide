@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 import java.text.ParseException;
 import java.util.Date;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ProgramTest {
 
@@ -58,6 +58,13 @@ public class ProgramTest {
         assertThat(program.getDate(), nullValue());
         assertThat(program.getBegin(), is(UPDATED_BEGIN));
         assertThat(program.getEnd(), is(UPDATED_END));
+        assertThat(program.getEnd().getTime() - program.getBegin().getTime(), is(TWO_HOUR));
+
+        program.update(TITLE, DESCRIPTION, BEGIN, END);
+        assertThat(program.getTitle(), is(TITLE));
+        assertThat(program.getDescription(), is(DESCRIPTION));
+        assertThat(program.getBegin(), is(BEGIN));
+        assertThat(program.getEnd(), is(END));
         assertThat(program.getEnd().getTime() - program.getBegin().getTime(), is(TWO_HOUR));
     }
 
