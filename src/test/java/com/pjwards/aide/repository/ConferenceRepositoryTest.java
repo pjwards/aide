@@ -27,8 +27,7 @@ public class ConferenceRepositoryTest {
 
     @Before
     public void setup() {
-        conference = new Conference();
-        conference.setName("name").setDescription("description");
+        conference = new Conference.Builder("name", "description").build();
         conferenceRepository.save(conference);
     }
 
@@ -40,7 +39,6 @@ public class ConferenceRepositoryTest {
     @Test(expected = DataIntegrityViolationException.class)
     public void testSaveException() {
         conference = new Conference();
-        conference.setName("name");
         conferenceRepository.save(conference);
     }
 

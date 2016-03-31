@@ -47,30 +47,20 @@ public class ProgramRepositoryTest {
 
     @Before
     public void setup() throws ParseException {
-        conference = new Conference();
-        conference.setName("name").setDescription("description");
+        conference = new Conference.Builder("name", "description").build();
         conferenceRepository.save(conference);
 
         programDate = new ProgramDate();
-        programDate.setFormattedDay("2016-01-01").setConference(conference);
+        programDate = new ProgramDate.Builder("2016-01-01").conference(conference).build();
         programDateRepository.save(programDate);
 
-        room = new Room();
-        room.setName("room").setLocation("101").setDescription("description").setConference(conference);
+        room = new Room.Builder("room", "101", "description").conference(conference).build();
         roomRepository.save(room);
 
-        program = new Program();
         begin = new Date(System.currentTimeMillis());
         end = new Date(System.currentTimeMillis() + 2 * 60 * 60 * 1000);
-
-        program
-                .setTitle("title")
-                .setDescription("description")
-                .setBegin(begin)
-                .setEnd(end)
-                .setConference(conference)
-                .setDate(programDate)
-                .setRoom(room);
+        program = new Program.Builder("title", "description", begin, end)
+                .conference(conference).room(room).date(programDate).build();
         programRepository.save(program);
     }
 
@@ -82,14 +72,6 @@ public class ProgramRepositoryTest {
     @Test(expected = DataIntegrityViolationException.class)
     public void testSaveException() {
         program = new Program();
-
-        program
-                .setDescription("description")
-                .setBegin(begin)
-                .setEnd(end)
-                .setConference(conference)
-                .setDate(programDate)
-                .setRoom(room);
         programRepository.save(program);
     }
 }

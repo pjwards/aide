@@ -33,12 +33,10 @@ public class RoomRepositoryTest {
 
     @Before
     public void setup() {
-        conference = new Conference();
-        conference.setName("name").setDescription("description");
+        conference = new Conference.Builder("name", "description").build();
         conferenceRepository.save(conference);
 
-        room = new Room();
-        room.setName("room").setLocation("101").setDescription("description").setConference(conference);
+        room = new Room.Builder("room", "101", "description").conference(conference).build();
         roomRepository.save(room);
     }
 
@@ -50,7 +48,6 @@ public class RoomRepositoryTest {
     @Test(expected = DataIntegrityViolationException.class)
     public void testSaveException() {
         room = new Room();
-        room.setLocation("101").setDescription("description").setConference(conference);
         roomRepository.save(room);
     }
 }
