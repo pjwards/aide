@@ -88,30 +88,31 @@ public class ConferenceServiceImplTest {
 
     @Test
     public void update_ConferenceFound_ShouldUpdateConference() throws ConferenceNotFoundException {
+        Conference updated = new Conference.Builder(UPDATED_NAME, UPDATED_DESCRIPTION).id(ID).build();
         Conference model = new Conference.Builder(NAME, DESCRIPTION).id(ID).build();
 
-        when(conferenceRepositoryMock.findOne(model.getId())).thenReturn(model);
+        when(conferenceRepositoryMock.findOne(updated.getId())).thenReturn(model);
 
-        Conference actual = conferenceService.update(model);
+        conferenceService.update(updated);
 
         verify(conferenceRepositoryMock, times(1)).findOne(model.getId());
         verify(conferenceRepositoryMock, times(1)).save(model);
         verifyNoMoreInteractions(conferenceRepositoryMock);
 
-        assertThat(actual.getId(), is(model.getId()));
-        assertThat(actual.getName(), is(model.getName()));
-        assertThat(actual.getDescription(), is(model.getDescription()));
+        assertThat(model.getId(), is(updated.getId()));
+        assertThat(model.getName(), is(updated.getName()));
+        assertThat(model.getDescription(), is(updated.getDescription()));
     }
 
     @Test(expected = ConferenceNotFoundException.class)
     public void update_ConferenceNotFound_ShouldThrowException() throws ConferenceNotFoundException {
-        Conference model = new Conference.Builder(NAME, DESCRIPTION).id(ID).build();
+        Conference updated = new Conference.Builder(UPDATED_NAME, UPDATED_DESCRIPTION).id(ID).build();
 
-        when(conferenceRepositoryMock.findOne(model.getId())).thenReturn(null);
+        when(conferenceRepositoryMock.findOne(updated.getId())).thenReturn(null);
 
-        conferenceService.update(model);
+        conferenceService.update(updated);
 
-        verify(conferenceRepositoryMock, times(1)).findOne(model.getId());
+        verify(conferenceRepositoryMock, times(1)).findOne(updated.getId());
         verifyNoMoreInteractions(conferenceRepositoryMock);
     }
 
