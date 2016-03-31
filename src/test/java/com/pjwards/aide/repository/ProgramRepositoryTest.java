@@ -5,6 +5,7 @@ import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Program;
 import com.pjwards.aide.domain.ProgramDate;
 import com.pjwards.aide.domain.Room;
+import com.pjwards.aide.exception.WrongInputDateException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -46,13 +47,13 @@ public class ProgramRepositoryTest {
     private ConferenceRepository conferenceRepository;
 
     @Test
-    public void testSaveWithMandatory() {
+    public void testSaveWithMandatory() throws WrongInputDateException {
         program = new Program.Builder(TITLE, DESCRIPTION, BEGIN, END).build();
         programRepository.save(program);
     }
 
     @Test
-    public void testSaveWithAll() throws ParseException {
+    public void testSaveWithAll() throws ParseException, WrongInputDateException {
         Conference conference = new Conference.Builder("name", "description").build();
         conferenceRepository.save(conference);
 

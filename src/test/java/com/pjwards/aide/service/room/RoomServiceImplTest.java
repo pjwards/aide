@@ -36,7 +36,7 @@ public class RoomServiceImplTest {
     }
 
     @Test
-    public void findAll_ShouldReturnListOfRoom() {
+    public void testFindAll_ShouldReturnListOfRoom() {
         List<Room> models = new ArrayList<>();
         when(roomRepositoryMock.findAll()).thenReturn(models);
 
@@ -70,7 +70,7 @@ public class RoomServiceImplTest {
     }
 
     @Test
-    public void findById_RoomFound_ShouldReturnFoundRoom() throws RoomNotFoundException {
+    public void testFindById_RoomFound_ShouldReturnFoundRoom() throws RoomNotFoundException {
         Room model = new RoomBuilder()
                 .id(ID)
                 .name(NAME)
@@ -89,7 +89,7 @@ public class RoomServiceImplTest {
     }
 
     @Test(expected = RoomNotFoundException.class)
-    public void findById_RoomNotFound_ShouldThrowException() throws RoomNotFoundException {
+    public void testFindById_RoomNotFound_ShouldThrowException() throws RoomNotFoundException {
         when(roomRepositoryMock.findOne(ID)).thenReturn(null);
 
         roomService.findById(ID);
@@ -99,7 +99,7 @@ public class RoomServiceImplTest {
     }
 
     @Test
-    public void update_RoomFound_ShouldUpdateRoom() throws RoomNotFoundException {
+    public void testUpdate_RoomFound_ShouldUpdateRoom() throws RoomNotFoundException {
         Room updated = new RoomBuilder()
                 .id(ID)
                 .name(UPDATED_NAME)
@@ -127,7 +127,7 @@ public class RoomServiceImplTest {
     }
 
     @Test(expected = RoomNotFoundException.class)
-    public void update_RoomNotFound_ShouldThrowException() throws RoomNotFoundException {
+    public void testUpdate_RoomNotFound_ShouldThrowException() throws RoomNotFoundException {
         Room updated = new RoomBuilder()
                 .id(ID)
                 .name(UPDATED_NAME)
@@ -144,7 +144,7 @@ public class RoomServiceImplTest {
     }
 
     @Test
-    public void deleteById_TodoEntryFound_ShouldDeleteTodoEntryAndReturnIt() throws RoomNotFoundException {
+    public void testDeleteById_RoomFound_ShouldDeleteRoomAndReturnIt() throws RoomNotFoundException {
         Room model = new RoomBuilder()
                 .id(ID)
                 .name(NAME)
@@ -164,7 +164,7 @@ public class RoomServiceImplTest {
     }
 
     @Test(expected = RoomNotFoundException.class)
-    public void deleteById_TodoEntryNotFound_ShouldThrowException() throws RoomNotFoundException {
+    public void testDeleteById_RoomNotFound_ShouldThrowException() throws RoomNotFoundException {
         when(roomRepositoryMock.findOne(ID)).thenReturn(null);
 
         roomService.deleteById(ID);

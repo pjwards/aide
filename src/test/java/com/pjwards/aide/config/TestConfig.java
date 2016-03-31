@@ -1,6 +1,7 @@
 package com.pjwards.aide.config;
 
 import com.pjwards.aide.service.conference.ConferenceService;
+import com.pjwards.aide.service.program.ProgramService;
 import com.pjwards.aide.service.programdate.ProgramDateService;
 import com.pjwards.aide.service.room.RoomService;
 import com.sun.deploy.config.DefaultConfig;
@@ -24,5 +25,10 @@ public class TestConfig extends DefaultConfig {
     @Bean
     public ProgramDateService programDateService() {
         return Mockito.mock(ProgramDateService.class);
+    }
+
+    @Bean
+    public ProgramService programService() {
+        return Mockito.mock(ProgramService.class);
     }
 }

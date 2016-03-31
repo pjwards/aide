@@ -36,7 +36,7 @@ public class HomeControllerTest {
     }
 
     @Test
-    public void root() throws Exception {
+    public void testRoot() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk());
 //                .andExpect(view().name("index"))

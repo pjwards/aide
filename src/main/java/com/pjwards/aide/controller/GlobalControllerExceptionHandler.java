@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 class GlobalControllerExceptionHandler {
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     @ResponseBody

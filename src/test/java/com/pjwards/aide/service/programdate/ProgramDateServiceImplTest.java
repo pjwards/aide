@@ -33,7 +33,7 @@ public class ProgramDateServiceImplTest {
     }
 
     @Test
-    public void findAll_ShouldReturnListOfProgramDate() {
+    public void testFindAll_ShouldReturnListOfProgramDate() {
         List<ProgramDate> models = new ArrayList<>();
         when(programDateRepositoryMock.findAll()).thenReturn(models);
 
@@ -64,7 +64,7 @@ public class ProgramDateServiceImplTest {
     }
 
     @Test
-    public void findById_ProgramDateFound_ShouldReturnFoundProgramDate() throws ProgramDateNotFoundException, ParseException {
+    public void testFindById_ProgramDateFound_ShouldReturnFoundProgramDate() throws ProgramDateNotFoundException, ParseException {
         ProgramDate model = new ProgramDateBuilder()
                 .id(ID)
                 .day(DAY)
@@ -81,7 +81,7 @@ public class ProgramDateServiceImplTest {
     }
 
     @Test(expected = ProgramDateNotFoundException.class)
-    public void findById_ProgramDateNotFound_ShouldThrowException() throws ProgramDateNotFoundException {
+    public void testFindById_ProgramDateNotFound_ShouldThrowException() throws ProgramDateNotFoundException {
         when(programDateRepositoryMock.findOne(ID)).thenReturn(null);
 
         programDateService.findById(ID);
@@ -91,7 +91,7 @@ public class ProgramDateServiceImplTest {
     }
 
     @Test
-    public void update_ProgramDateFound_ShouldUpdateProgramDate() throws ProgramDateNotFoundException, ParseException {
+    public void testUpdate_ProgramDateFound_ShouldUpdateProgramDate() throws ProgramDateNotFoundException, ParseException {
         ProgramDate updated = new ProgramDateBuilder()
                 .id(ID)
                 .day(UPDATED_DAY)
@@ -114,7 +114,7 @@ public class ProgramDateServiceImplTest {
     }
 
     @Test(expected = ProgramDateNotFoundException.class)
-    public void update_ProgramDateNotFound_ShouldThrowException() throws ProgramDateNotFoundException, ParseException {
+    public void testUpdate_ProgramDateNotFound_ShouldThrowException() throws ProgramDateNotFoundException, ParseException {
         ProgramDate updated = new ProgramDateBuilder()
                 .id(ID)
                 .day(UPDATED_DAY)
@@ -129,7 +129,7 @@ public class ProgramDateServiceImplTest {
     }
 
     @Test
-    public void deleteById_TodoEntryFound_ShouldDeleteTodoEntryAndReturnIt() throws ProgramDateNotFoundException, ParseException {
+    public void testDeleteById_ProgramDateFound_ShouldDeleteProgramDateAndReturnIt() throws ProgramDateNotFoundException, ParseException {
         ProgramDate model = new ProgramDateBuilder()
                 .id(ID)
                 .day(DAY)
@@ -147,7 +147,7 @@ public class ProgramDateServiceImplTest {
     }
 
     @Test(expected = ProgramDateNotFoundException.class)
-    public void deleteById_TodoEntryNotFound_ShouldThrowException() throws ProgramDateNotFoundException {
+    public void testDeleteById_ProgramDateNotFound_ShouldThrowException() throws ProgramDateNotFoundException {
         when(programDateRepositoryMock.findOne(ID)).thenReturn(null);
 
         programDateService.deleteById(ID);
