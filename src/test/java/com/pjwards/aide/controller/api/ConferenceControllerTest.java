@@ -2,6 +2,7 @@ package com.pjwards.aide.controller.api;
 
 import com.pjwards.aide.config.ApplicationConfig;
 import com.pjwards.aide.domain.Conference;
+import com.pjwards.aide.domain.builder.ConferenceBuilder;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
 import com.pjwards.aide.service.conference.ConferenceService;
 import com.pjwards.aide.util.TestUtil;
@@ -15,20 +16,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.*;
+import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -42,6 +39,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class ConferenceControllerTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceControllerTest.class);
+    private static final String NAME = "name";
+    private static final String DESCRIPTION = "description";
 
     private MockMvc mockMvc;
 
@@ -59,8 +58,16 @@ public class ConferenceControllerTest {
 
     @Test
     public void testGetAll_ConferencesFound_ShoudReturnFoundConference() throws Exception {
-        Conference first = new Conference.Builder("name1", "description1").id(1L).build();
-        Conference second = new Conference.Builder("name2", "description2").id(2L).build();
+        Conference first = new ConferenceBuilder()
+                .id(1L)
+                .name("name1")
+                .description("description1")
+                .build();
+        Conference second = new ConferenceBuilder()
+                .id(2L)
+                .name("name2")
+                .description("description2")
+                .build();
 
         when(conferenceService.findAll()).thenReturn(Arrays.asList(first, second));
 
@@ -81,7 +88,11 @@ public class ConferenceControllerTest {
 
     @Test
     public void testCreate_NewConference_ShouldAddConferenceReturnAddedConference() throws Exception {
-        Conference added = new Conference.Builder("name", "description").id(1L).build();
+        Conference added = new ConferenceBuilder()
+                .id(1L)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceService.add(any(Conference.class))).thenReturn(added);
 
@@ -93,8 +104,8 @@ public class ConferenceControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message", is("Conference created successfully")))
                 .andExpect(jsonPath("$.conference.id", is(1)))
-                .andExpect(jsonPath("$.conference.name", is("name")))
-                .andExpect(jsonPath("$.conference.description", is("description")));
+                .andExpect(jsonPath("$.conference.name", is(NAME)))
+                .andExpect(jsonPath("$.conference.description", is(DESCRIPTION)));
 
         ArgumentCaptor<Conference> conferenceArgumentCaptor = ArgumentCaptor.forClass(Conference.class);
         verify(conferenceService, times(1)).add(conferenceArgumentCaptor.capture());
@@ -102,8 +113,8 @@ public class ConferenceControllerTest {
 
         Conference conferenceArgument = conferenceArgumentCaptor.getValue();
         assertThat(conferenceArgument.getId(), is(1L));
-        assertThat(conferenceArgument.getName(), is("name"));
-        assertThat(conferenceArgument.getDescription(), is("description"));
+        assertThat(conferenceArgument.getName(), is(NAME));
+        assertThat(conferenceArgument.getDescription(), is(DESCRIPTION));
     }
 
     @Test(expected = NoInteractionsWanted.class)
@@ -123,7 +134,10 @@ public class ConferenceControllerTest {
     @Test(expected = NoInteractionsWanted.class)
     public void testCreate_NameAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
         String name = TestUtil.createStringWithLength(Conference.MAX_LENGTH_NAME + 1);
-        Conference conference = new Conference.Builder(name, "description").build();
+        Conference conference = new ConferenceBuilder()
+                .name(name)
+                .description(DESCRIPTION)
+                .build();
 
         mockMvc.perform(post("/api/conferences")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -137,7 +151,11 @@ public class ConferenceControllerTest {
 
     @Test
     public void testGetDetails_ConferenceFound_ShouldReturnFoundConference() throws Exception {
-        Conference found = new Conference.Builder("name", "description").id(1L).build();
+        Conference found = new ConferenceBuilder()
+                .id(1L)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceService.findById(1L)).thenReturn(found);
 
@@ -145,8 +163,8 @@ public class ConferenceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.name", is("name")))
-                .andExpect(jsonPath("$.description", is("description")));
+                .andExpect(jsonPath("$.name", is(NAME)))
+                .andExpect(jsonPath("$.description", is(DESCRIPTION)));
 
         verify(conferenceService, times(1)).findById(1L);
         verifyNoMoreInteractions(conferenceService);
@@ -165,7 +183,11 @@ public class ConferenceControllerTest {
 
     @Test
     public void testUpdate_ConferenceFound_ShouldUpdateConferenceAndReturnIt() throws Exception {
-        Conference updated = new Conference.Builder("name", "description").id(1L).build();
+        Conference updated = new ConferenceBuilder()
+                .id(1L)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceService.update(any(Conference.class))).thenReturn(updated);
 
@@ -177,8 +199,8 @@ public class ConferenceControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message", is("Conference updated successfully")))
                 .andExpect(jsonPath("$.conference.id", is(1)))
-                .andExpect(jsonPath("$.conference.name", is("name")))
-                .andExpect(jsonPath("$.conference.description", is("description")));
+                .andExpect(jsonPath("$.conference.name", is(NAME)))
+                .andExpect(jsonPath("$.conference.description", is(DESCRIPTION)));
 
         ArgumentCaptor<Conference> conferenceArgumentCaptor = ArgumentCaptor.forClass(Conference.class);
         verify(conferenceService, times(1)).update(conferenceArgumentCaptor.capture());
@@ -186,13 +208,15 @@ public class ConferenceControllerTest {
 
         Conference conferenceArgument = conferenceArgumentCaptor.getValue();
         assertThat(conferenceArgument.getId(), is(1L));
-        assertThat(conferenceArgument.getName(), is("name"));
-        assertThat(conferenceArgument.getDescription(), is("description"));
+        assertThat(conferenceArgument.getName(), is(NAME));
+        assertThat(conferenceArgument.getDescription(), is(DESCRIPTION));
     }
 
     @Test(expected = NoInteractionsWanted.class)
     public void testUpdate_EmptyConference_ShouldOccurNoInteractionsWanted() throws Exception {
-        Conference conference = new Conference.Builder(null, null).id(1L).build();
+        Conference conference = new ConferenceBuilder()
+                .id(1L)
+                .build();
 
         mockMvc.perform(put("/api/conferences/{id}", 1L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -207,7 +231,11 @@ public class ConferenceControllerTest {
     @Test(expected = NoInteractionsWanted.class)
     public void testUpdate_NameAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
         String name = TestUtil.createStringWithLength(Conference.MAX_LENGTH_NAME + 1);
-        Conference conference = new Conference.Builder(name, "description").id(1L).build();
+        Conference conference = new ConferenceBuilder()
+                .id(1L)
+                .name(name)
+                .description(DESCRIPTION)
+                .build();
 
         mockMvc.perform(put("/api/conferences/{id}", 1L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -221,7 +249,11 @@ public class ConferenceControllerTest {
 
     @Test
     public void testUpdate_ConferenceNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        Conference updated = new Conference.Builder("name", "description").id(3L).build();
+        Conference updated = new ConferenceBuilder()
+                .id(3L)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceService.update(any(Conference.class))).thenThrow(new ConferenceNotFoundException(""));
 
@@ -237,22 +269,27 @@ public class ConferenceControllerTest {
 
         Conference conferenceArgument = conferenceArgumentCaptor.getValue();
         assertThat(conferenceArgument.getId(), is(3L));
-        assertThat(conferenceArgument.getName(), is("name"));
-        assertThat(conferenceArgument.getDescription(), is("description"));
+        assertThat(conferenceArgument.getName(), is(NAME));
+        assertThat(conferenceArgument.getDescription(), is(DESCRIPTION));
     }
 
     @Test
     public void testDelete_ConferenceFound_ShouldDeleteConferenceAndReturnIt() throws Exception {
-        Conference deleted = new Conference.Builder("name", "description").id(1L).build();
+        Conference deleted = new ConferenceBuilder()
+                .id(1L)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceService.deleteById(1L)).thenReturn(deleted);
 
         mockMvc.perform(delete("/api/conferences/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.message", is("Conference deleted successfully")))
                 .andExpect(jsonPath("$.conference.id", is(1)))
-                .andExpect(jsonPath("$.conference.name", is("name")))
-                .andExpect(jsonPath("$.conference.description", is("description")));
+                .andExpect(jsonPath("$.conference.name", is(NAME)))
+                .andExpect(jsonPath("$.conference.description", is(DESCRIPTION)));
 
         verify(conferenceService, times(1)).deleteById(1L);
         verifyNoMoreInteractions(conferenceService);

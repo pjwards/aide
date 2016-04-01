@@ -1,6 +1,7 @@
 package com.pjwards.aide.service.conference;
 
 import com.pjwards.aide.domain.Conference;
+import com.pjwards.aide.domain.builder.ConferenceBuilder;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
 import com.pjwards.aide.repository.ConferenceRepository;
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class ConferenceServiceImplTest {
     }
 
     @Test
-    public void findAll_ShouldReturnListOfConference() {
+    public void testFindAll_ShouldReturnListOfConference() {
         List<Conference> models = new ArrayList<>();
         when(conferenceRepositoryMock.findAll()).thenReturn(models);
 
@@ -47,7 +48,10 @@ public class ConferenceServiceImplTest {
 
     @Test
     public void testAdd_NewConference_ShouldSaveConference() {
-        Conference conference = new Conference.Builder(NAME, DESCRIPTION).build();
+        Conference conference = new ConferenceBuilder()
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         conferenceService.add(conference);
 
@@ -63,8 +67,12 @@ public class ConferenceServiceImplTest {
     }
 
     @Test
-    public void findById_ConferenceFound_ShouldReturnFoundConference() throws ConferenceNotFoundException {
-        Conference model = new Conference.Builder(NAME, DESCRIPTION).id(ID).build();
+    public void testFindById_ConferenceFound_ShouldReturnFoundConference() throws ConferenceNotFoundException {
+        Conference model = new ConferenceBuilder()
+                .id(ID)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceRepositoryMock.findOne(ID)).thenReturn(model);
 
@@ -77,7 +85,7 @@ public class ConferenceServiceImplTest {
     }
 
     @Test(expected = ConferenceNotFoundException.class)
-    public void findById_ConferenceNotFound_ShouldThrowException() throws ConferenceNotFoundException {
+    public void testFindById_ConferenceNotFound_ShouldThrowException() throws ConferenceNotFoundException {
         when(conferenceRepositoryMock.findOne(ID)).thenReturn(null);
 
         conferenceService.findById(ID);
@@ -87,37 +95,54 @@ public class ConferenceServiceImplTest {
     }
 
     @Test
-    public void update_ConferenceFound_ShouldUpdateConference() throws ConferenceNotFoundException {
-        Conference model = new Conference.Builder(NAME, DESCRIPTION).id(ID).build();
+    public void testUpdate_ConferenceFound_ShouldUpdateConference() throws ConferenceNotFoundException {
+        Conference updated = new ConferenceBuilder()
+                .id(ID)
+                .name(UPDATED_NAME)
+                .description(UPDATED_DESCRIPTION)
+                .build();
+        Conference model = new ConferenceBuilder()
+                .id(ID)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
-        when(conferenceRepositoryMock.findOne(model.getId())).thenReturn(model);
+        when(conferenceRepositoryMock.findOne(updated.getId())).thenReturn(model);
 
-        Conference actual = conferenceService.update(model);
+        conferenceService.update(updated);
 
         verify(conferenceRepositoryMock, times(1)).findOne(model.getId());
         verify(conferenceRepositoryMock, times(1)).save(model);
         verifyNoMoreInteractions(conferenceRepositoryMock);
 
-        assertThat(actual.getId(), is(model.getId()));
-        assertThat(actual.getName(), is(model.getName()));
-        assertThat(actual.getDescription(), is(model.getDescription()));
+        assertThat(model.getId(), is(updated.getId()));
+        assertThat(model.getName(), is(updated.getName()));
+        assertThat(model.getDescription(), is(updated.getDescription()));
     }
 
     @Test(expected = ConferenceNotFoundException.class)
-    public void update_ConferenceNotFound_ShouldThrowException() throws ConferenceNotFoundException {
-        Conference model = new Conference.Builder(NAME, DESCRIPTION).id(ID).build();
+    public void tesetUpdate_ConferenceNotFound_ShouldThrowException() throws ConferenceNotFoundException {
+        Conference updated = new ConferenceBuilder()
+                .id(ID)
+                .name(UPDATED_NAME)
+                .description(UPDATED_DESCRIPTION)
+                .build();
 
-        when(conferenceRepositoryMock.findOne(model.getId())).thenReturn(null);
+        when(conferenceRepositoryMock.findOne(updated.getId())).thenReturn(null);
 
-        conferenceService.update(model);
+        conferenceService.update(updated);
 
-        verify(conferenceRepositoryMock, times(1)).findOne(model.getId());
+        verify(conferenceRepositoryMock, times(1)).findOne(updated.getId());
         verifyNoMoreInteractions(conferenceRepositoryMock);
     }
 
     @Test
-    public void deleteById_TodoEntryFound_ShouldDeleteTodoEntryAndReturnIt() throws ConferenceNotFoundException {
-        Conference model = new Conference.Builder(NAME, DESCRIPTION).id(ID).build();
+    public void testDeleteById_ConferenceFound_ShouldDeleteConferenceAndReturnIt() throws ConferenceNotFoundException {
+        Conference model = new ConferenceBuilder()
+                .id(ID)
+                .name(NAME)
+                .description(DESCRIPTION)
+                .build();
 
         when(conferenceRepositoryMock.findOne(ID)).thenReturn(model);
 
@@ -131,7 +156,7 @@ public class ConferenceServiceImplTest {
     }
 
     @Test(expected = ConferenceNotFoundException.class)
-    public void deleteById_TodoEntryNotFound_ShouldThrowException() throws ConferenceNotFoundException {
+    public void testDeleteById_ConferenceNotFound_ShouldThrowException() throws ConferenceNotFoundException {
         when(conferenceRepositoryMock.findOne(ID)).thenReturn(null);
 
         conferenceService.deleteById(ID);

@@ -12,9 +12,9 @@ import static org.junit.Assert.assertThat;
 public class ConferenceTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceTest.class);
-
     private static final String NAME = "name";
     private static final  String DESCRIPTION = "description";
+
     private Conference conference;
 
     @Before
@@ -45,5 +45,9 @@ public class ConferenceTest {
         assertThat(conference.getRooms(), nullValue());
         assertThat(conference.getProgramDateList(), nullValue());
         assertThat(conference.getProgramList(), nullValue());
+
+        conference.update(NAME, DESCRIPTION);
+        assertThat(conference.getName(), is(NAME));
+        assertThat(conference.getDescription(), is(DESCRIPTION));
     }
 }

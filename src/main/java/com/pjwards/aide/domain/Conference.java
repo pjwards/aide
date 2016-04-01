@@ -76,6 +76,11 @@ public class Conference {
         this.description = updated.description;
     }
 
+    public void update(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public static class Builder {
         private Conference built;
 
@@ -87,11 +92,6 @@ public class Conference {
 
         public Conference build() {
             return built;
-        }
-
-        public Builder id(Long id) {
-            built.id = id;
-            return this;
         }
     }
 

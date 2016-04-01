@@ -36,13 +36,13 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Transactional
     @Override
-    public Conference add(Conference created) {
-        LOGGER.debug("Creating a new conference with information: {}", created);
+    public Conference add(Conference added) {
+        LOGGER.debug("Creating a new conference with information: {}", added);
 
-        created =  conferenceRepository.save(created);
-        LOGGER.debug("Added a conference with information: {}", created);
+        added =  conferenceRepository.save(added);
+        LOGGER.debug("Added a conference with information: {}", added);
 
-        return created;
+        return added;
     }
 
 
