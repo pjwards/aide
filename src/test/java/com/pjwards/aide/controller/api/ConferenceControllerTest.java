@@ -1,6 +1,7 @@
 package com.pjwards.aide.controller.api;
 
 import com.pjwards.aide.config.ApplicationConfig;
+import com.pjwards.aide.config.TestConfig;
 import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.builder.ConferenceBuilder;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
@@ -15,6 +16,7 @@ import org.mockito.exceptions.verification.NoInteractionsWanted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -34,7 +36,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
+@ContextConfiguration(classes = {TestConfig.class, ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
 @WebAppConfiguration
 public class ConferenceControllerTest {
 
@@ -44,8 +46,9 @@ public class ConferenceControllerTest {
 
     private MockMvc mockMvc;
 
+    @Qualifier("conferenceService")
     @Autowired
-    private ConferenceService conferenceService;
+    private ConferenceService conferenceServiceMock;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -53,7 +56,7 @@ public class ConferenceControllerTest {
     @Before
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        Mockito.reset(conferenceService);
+        Mockito.reset(conferenceServiceMock);
     }
 
     @Test
@@ -69,7 +72,7 @@ public class ConferenceControllerTest {
                 .description("description2")
                 .build();
 
-        when(conferenceService.findAll()).thenReturn(Arrays.asList(first, second));
+        when(conferenceServiceMock.findAll()).thenReturn(Arrays.asList(first, second));
 
         mockMvc.perform(get("/api/conferences"))
                 .andExpect(status().isOk())
@@ -82,8 +85,8 @@ public class ConferenceControllerTest {
                 .andExpect(jsonPath("$[1].name", is("name2")))
                 .andExpect(jsonPath("$[1].description", is("description2")));
 
-        verify(conferenceService, times(1)).findAll();
-        verifyNoMoreInteractions(conferenceService);
+        verify(conferenceServiceMock, times(1)).findAll();
+        verifyNoMoreInteractions(conferenceServiceMock);
     }
 
     @Test
@@ -94,7 +97,7 @@ public class ConferenceControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(conferenceService.add(any(Conference.class))).thenReturn(added);
+        when(conferenceServiceMock.add(any(Conference.class))).thenReturn(added);
 
         mockMvc.perform(post("/api/conferences")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -108,8 +111,8 @@ public class ConferenceControllerTest {
                 .andExpect(jsonPath("$.conference.description", is(DESCRIPTION)));
 
         ArgumentCaptor<Conference> conferenceArgumentCaptor = ArgumentCaptor.forClass(Conference.class);
-        verify(conferenceService, times(1)).add(conferenceArgumentCaptor.capture());
-        verifyNoMoreInteractions(conferenceService);
+        verify(conferenceServiceMock, times(1)).add(conferenceArgumentCaptor.capture());
+        verifyNoMoreInteractions(conferenceServiceMock);
 
         Conference conferenceArgument = conferenceArgumentCaptor.getValue();
         assertThat(conferenceArgument.getId(), is(1L));
@@ -128,7 +131,7 @@ public class ConferenceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(conferenceService);
+        verifyZeroInteractions(conferenceServiceMock);
     }
 
     @Test(expected = NoInteractionsWanted.class)
@@ -146,7 +149,7 @@ public class ConferenceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(conferenceService);
+        verifyZeroInteractions(conferenceServiceMock);
     }
 
     @Test
@@ -157,7 +160,7 @@ public class ConferenceControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(conferenceService.findById(1L)).thenReturn(found);
+        when(conferenceServiceMock.findById(1L)).thenReturn(found);
 
         mockMvc.perform(get("/api/conferences/{id}", 1L))
                 .andExpect(status().isOk())
@@ -166,19 +169,19 @@ public class ConferenceControllerTest {
                 .andExpect(jsonPath("$.name", is(NAME)))
                 .andExpect(jsonPath("$.description", is(DESCRIPTION)));
 
-        verify(conferenceService, times(1)).findById(1L);
-        verifyNoMoreInteractions(conferenceService);
+        verify(conferenceServiceMock, times(1)).findById(1L);
+        verifyNoMoreInteractions(conferenceServiceMock);
     }
 
     @Test
     public void testGetDetails_ConferenceNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        when(conferenceService.findById(1L)).thenThrow(new ConferenceNotFoundException(""));
+        when(conferenceServiceMock.findById(1L)).thenThrow(new ConferenceNotFoundException(""));
 
         mockMvc.perform(get("/api/conferences/{id}", 1L))
                 .andExpect(status().isBadRequest());
 
-        verify(conferenceService, times(1)).findById(1L);
-        verifyNoMoreInteractions(conferenceService);
+        verify(conferenceServiceMock, times(1)).findById(1L);
+        verifyNoMoreInteractions(conferenceServiceMock);
     }
 
     @Test
@@ -189,7 +192,7 @@ public class ConferenceControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(conferenceService.update(any(Conference.class))).thenReturn(updated);
+        when(conferenceServiceMock.update(any(Conference.class))).thenReturn(updated);
 
         mockMvc.perform(put("/api/conferences/{id}", 1L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -203,8 +206,8 @@ public class ConferenceControllerTest {
                 .andExpect(jsonPath("$.conference.description", is(DESCRIPTION)));
 
         ArgumentCaptor<Conference> conferenceArgumentCaptor = ArgumentCaptor.forClass(Conference.class);
-        verify(conferenceService, times(1)).update(conferenceArgumentCaptor.capture());
-        verifyNoMoreInteractions(conferenceService);
+        verify(conferenceServiceMock, times(1)).update(conferenceArgumentCaptor.capture());
+        verifyNoMoreInteractions(conferenceServiceMock);
 
         Conference conferenceArgument = conferenceArgumentCaptor.getValue();
         assertThat(conferenceArgument.getId(), is(1L));
@@ -225,7 +228,7 @@ public class ConferenceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(conferenceService);
+        verifyZeroInteractions(conferenceServiceMock);
     }
 
     @Test(expected = NoInteractionsWanted.class)
@@ -244,7 +247,7 @@ public class ConferenceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(conferenceService);
+        verifyZeroInteractions(conferenceServiceMock);
     }
 
     @Test
@@ -255,7 +258,7 @@ public class ConferenceControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(conferenceService.update(any(Conference.class))).thenThrow(new ConferenceNotFoundException(""));
+        when(conferenceServiceMock.update(any(Conference.class))).thenThrow(new ConferenceNotFoundException(""));
 
         mockMvc.perform(put("/api/conferences/{id}", 3L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -264,8 +267,8 @@ public class ConferenceControllerTest {
                 .andExpect(status().isBadRequest());
 
         ArgumentCaptor<Conference> conferenceArgumentCaptor = ArgumentCaptor.forClass(Conference.class);
-        verify(conferenceService, times(1)).update(conferenceArgumentCaptor.capture());
-        verifyNoMoreInteractions(conferenceService);
+        verify(conferenceServiceMock, times(1)).update(conferenceArgumentCaptor.capture());
+        verifyNoMoreInteractions(conferenceServiceMock);
 
         Conference conferenceArgument = conferenceArgumentCaptor.getValue();
         assertThat(conferenceArgument.getId(), is(3L));
@@ -281,7 +284,7 @@ public class ConferenceControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(conferenceService.deleteById(1L)).thenReturn(deleted);
+        when(conferenceServiceMock.deleteById(1L)).thenReturn(deleted);
 
         mockMvc.perform(delete("/api/conferences/{id}", 1L))
                 .andExpect(status().isOk())
@@ -291,18 +294,18 @@ public class ConferenceControllerTest {
                 .andExpect(jsonPath("$.conference.name", is(NAME)))
                 .andExpect(jsonPath("$.conference.description", is(DESCRIPTION)));
 
-        verify(conferenceService, times(1)).deleteById(1L);
-        verifyNoMoreInteractions(conferenceService);
+        verify(conferenceServiceMock, times(1)).deleteById(1L);
+        verifyNoMoreInteractions(conferenceServiceMock);
     }
 
     @Test
     public void testDelete_ConferenceNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        when(conferenceService.deleteById(3L)).thenThrow(new ConferenceNotFoundException(""));
+        when(conferenceServiceMock.deleteById(3L)).thenThrow(new ConferenceNotFoundException(""));
 
         mockMvc.perform(delete("/api/conferences/{id}", 3L))
                 .andExpect(status().isBadRequest());
 
-        verify(conferenceService, times(1)).deleteById(3L);
-        verifyNoMoreInteractions(conferenceService);
+        verify(conferenceServiceMock, times(1)).deleteById(3L);
+        verifyNoMoreInteractions(conferenceServiceMock);
     }
 }

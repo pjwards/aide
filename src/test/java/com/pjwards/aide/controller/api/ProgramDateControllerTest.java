@@ -2,6 +2,7 @@ package com.pjwards.aide.controller.api;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.pjwards.aide.config.ApplicationConfig;
+import com.pjwards.aide.config.TestConfig;
 import com.pjwards.aide.domain.ProgramDate;
 import com.pjwards.aide.domain.builder.ProgramDateBuilder;
 import com.pjwards.aide.exception.ProgramDateNotFoundException;
@@ -15,6 +16,7 @@ import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -34,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
+@ContextConfiguration(classes = {TestConfig.class, ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
 @WebAppConfiguration
 public class ProgramDateControllerTest {
 
@@ -43,8 +45,9 @@ public class ProgramDateControllerTest {
 
     private MockMvc mockMvc;
 
+    @Qualifier("programDateService")
     @Autowired
-    private ProgramDateService programDateService;
+    private ProgramDateService programDateServiceMock;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -52,7 +55,7 @@ public class ProgramDateControllerTest {
     @Before
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        Mockito.reset(programDateService);
+        Mockito.reset(programDateServiceMock);
     }
 
     @Test
@@ -66,7 +69,7 @@ public class ProgramDateControllerTest {
                 .day("2016-01-02")
                 .build();
 
-        when(programDateService.findAll()).thenReturn(Arrays.asList(first, second));
+        when(programDateServiceMock.findAll()).thenReturn(Arrays.asList(first, second));
 
         mockMvc.perform(get("/api/program-dates"))
                 .andExpect(status().isOk())
@@ -77,8 +80,8 @@ public class ProgramDateControllerTest {
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].day", is(TestUtil.convertUTCDateToGMTString(second.getDay()))));
 
-        verify(programDateService, times(1)).findAll();
-        verifyNoMoreInteractions(programDateService);
+        verify(programDateServiceMock, times(1)).findAll();
+        verifyNoMoreInteractions(programDateServiceMock);
     }
 
     @Test
@@ -88,7 +91,7 @@ public class ProgramDateControllerTest {
                 .day(DAY)
                 .build();
 
-        when(programDateService.add(any(ProgramDate.class))).thenReturn(added);
+        when(programDateServiceMock.add(any(ProgramDate.class))).thenReturn(added);
 
         mockMvc.perform(post("/api/program-dates")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -101,8 +104,8 @@ public class ProgramDateControllerTest {
                 .andExpect(jsonPath("$.programDate.day", is(TestUtil.convertUTCDateToGMTString(added.getDay()))));
 
         ArgumentCaptor<ProgramDate> programDateArgumentCaptor = ArgumentCaptor.forClass(ProgramDate.class);
-        verify(programDateService, times(1)).add(programDateArgumentCaptor.capture());
-        verifyNoMoreInteractions(programDateService);
+        verify(programDateServiceMock, times(1)).add(programDateArgumentCaptor.capture());
+        verifyNoMoreInteractions(programDateServiceMock);
 
         ProgramDate programDateArgument = programDateArgumentCaptor.getValue();
         assertThat(programDateArgument.getId(), is(1L));
@@ -120,7 +123,7 @@ public class ProgramDateControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(programDateService);
+        verifyZeroInteractions(programDateServiceMock);
     }
 
     @Test
@@ -131,7 +134,7 @@ public class ProgramDateControllerTest {
                 .build();
         ;
 
-        when(programDateService.findById(1L)).thenReturn(found);
+        when(programDateServiceMock.findById(1L)).thenReturn(found);
 
         mockMvc.perform(get("/api/program-dates/{id}", 1L))
                 .andExpect(status().isOk())
@@ -139,19 +142,19 @@ public class ProgramDateControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.day", is(TestUtil.convertUTCDateToGMTString(found.getDay()))));
 
-        verify(programDateService, times(1)).findById(1L);
-        verifyNoMoreInteractions(programDateService);
+        verify(programDateServiceMock, times(1)).findById(1L);
+        verifyNoMoreInteractions(programDateServiceMock);
     }
 
     @Test
     public void testGetDetails_ProgramDateNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        when(programDateService.findById(1L)).thenThrow(new ProgramDateNotFoundException(""));
+        when(programDateServiceMock.findById(1L)).thenThrow(new ProgramDateNotFoundException(""));
 
         mockMvc.perform(get("/api/program-dates/{id}", 1L))
                 .andExpect(status().isBadRequest());
 
-        verify(programDateService, times(1)).findById(1L);
-        verifyNoMoreInteractions(programDateService);
+        verify(programDateServiceMock, times(1)).findById(1L);
+        verifyNoMoreInteractions(programDateServiceMock);
     }
 
     @Test
@@ -161,7 +164,7 @@ public class ProgramDateControllerTest {
                 .day(DAY)
                 .build();
 
-        when(programDateService.update(any(ProgramDate.class))).thenReturn(updated);
+        when(programDateServiceMock.update(any(ProgramDate.class))).thenReturn(updated);
 
         mockMvc.perform(put("/api/program-dates/{id}", 1L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -174,8 +177,8 @@ public class ProgramDateControllerTest {
                 .andExpect(jsonPath("$.programDate.day", is(TestUtil.convertUTCDateToGMTString(updated.getDay()))));
 
         ArgumentCaptor<ProgramDate> programDateArgumentCaptor = ArgumentCaptor.forClass(ProgramDate.class);
-        verify(programDateService, times(1)).update(programDateArgumentCaptor.capture());
-        verifyNoMoreInteractions(programDateService);
+        verify(programDateServiceMock, times(1)).update(programDateArgumentCaptor.capture());
+        verifyNoMoreInteractions(programDateServiceMock);
 
         ProgramDate programDateArgument = programDateArgumentCaptor.getValue();
         assertThat(programDateArgument.getId(), is(1L));
@@ -195,7 +198,7 @@ public class ProgramDateControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(programDateService);
+        verifyZeroInteractions(programDateServiceMock);
     }
 
     @Test
@@ -204,7 +207,7 @@ public class ProgramDateControllerTest {
                 .id(3L)
                 .day(DAY)
                 .build();
-        when(programDateService.update(any(ProgramDate.class))).thenThrow(new ProgramDateNotFoundException(""));
+        when(programDateServiceMock.update(any(ProgramDate.class))).thenThrow(new ProgramDateNotFoundException(""));
 
         mockMvc.perform(put("/api/program-dates/{id}", 3L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -213,8 +216,8 @@ public class ProgramDateControllerTest {
                 .andExpect(status().isBadRequest());
 
         ArgumentCaptor<ProgramDate> programDateArgumentCaptor = ArgumentCaptor.forClass(ProgramDate.class);
-        verify(programDateService, times(1)).update(programDateArgumentCaptor.capture());
-        verifyNoMoreInteractions(programDateService);
+        verify(programDateServiceMock, times(1)).update(programDateArgumentCaptor.capture());
+        verifyNoMoreInteractions(programDateServiceMock);
 
         ProgramDate programDateArgument = programDateArgumentCaptor.getValue();
         assertThat(programDateArgument.getId(), is(3L));
@@ -228,7 +231,7 @@ public class ProgramDateControllerTest {
                 .day(DAY)
                 .build();
 
-        when(programDateService.deleteById(1L)).thenReturn(deleted);
+        when(programDateServiceMock.deleteById(1L)).thenReturn(deleted);
 
         mockMvc.perform(delete("/api/program-dates/{id}", 1L))
                 .andExpect(status().isOk())
@@ -237,18 +240,18 @@ public class ProgramDateControllerTest {
                 .andExpect(jsonPath("$.programDate.id", is(1)))
                 .andExpect(jsonPath("$.programDate.day", is(TestUtil.convertUTCDateToGMTString(deleted.getDay()))));
 
-        verify(programDateService, times(1)).deleteById(1L);
-        verifyNoMoreInteractions(programDateService);
+        verify(programDateServiceMock, times(1)).deleteById(1L);
+        verifyNoMoreInteractions(programDateServiceMock);
     }
 
     @Test
     public void testDelete_ProgramDateNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        when(programDateService.deleteById(3L)).thenThrow(new ProgramDateNotFoundException(""));
+        when(programDateServiceMock.deleteById(3L)).thenThrow(new ProgramDateNotFoundException(""));
 
         mockMvc.perform(delete("/api/program-dates/{id}", 3L))
                 .andExpect(status().isBadRequest());
 
-        verify(programDateService, times(1)).deleteById(3L);
-        verifyNoMoreInteractions(programDateService);
+        verify(programDateServiceMock, times(1)).deleteById(3L);
+        verifyNoMoreInteractions(programDateServiceMock);
     }
 }
