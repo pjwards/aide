@@ -27,10 +27,13 @@ bin
 *.bak
 .gradle
 .idea
-gradlew
+gradlew.sh
 gradlew.bat
 gradle
 logs
 
 # Mac
 .DS_Store
+
+node_modules/
+bower_components

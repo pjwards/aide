@@ -2,6 +2,7 @@ package com.pjwards.aide.controller.api;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.pjwards.aide.config.ApplicationConfig;
+import com.pjwards.aide.config.TestConfig;
 import com.pjwards.aide.domain.Program;
 import com.pjwards.aide.domain.builder.ProgramBuilder;
 import com.pjwards.aide.exception.ProgramNotFoundException;
@@ -16,6 +17,7 @@ import org.mockito.exceptions.verification.NoInteractionsWanted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
+@ContextConfiguration(classes = {TestConfig.class, ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
 @WebAppConfiguration
 public class ProgramControllerTest {
 
@@ -51,8 +53,9 @@ public class ProgramControllerTest {
 
     private MockMvc mockMvc;
 
+    @Qualifier("programService")
     @Autowired
-    private ProgramService programService;
+    private ProgramService programServiceMock;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -60,7 +63,7 @@ public class ProgramControllerTest {
     @Before
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        Mockito.reset(programService);
+        Mockito.reset(programServiceMock);
     }
 
     @Test
@@ -85,7 +88,7 @@ public class ProgramControllerTest {
                 .end(END_2)
                 .build();
 
-        when(programService.findAll()).thenReturn(Arrays.asList(first, second));
+        when(programServiceMock.findAll()).thenReturn(Arrays.asList(first, second));
 
         mockMvc.perform(get("/api/programs"))
                 .andExpect(status().isOk())
@@ -102,8 +105,8 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$[1].begin", is(TestUtil.convertUTCDateToGMTString(BEGIN_2))))
                 .andExpect(jsonPath("$[1].end", is(TestUtil.convertUTCDateToGMTString(END_2))));
 
-        verify(programService, times(1)).findAll();
-        verifyNoMoreInteractions(programService);
+        verify(programServiceMock, times(1)).findAll();
+        verifyNoMoreInteractions(programServiceMock);
     }
 
     @Test
@@ -116,7 +119,7 @@ public class ProgramControllerTest {
                 .end(END)
                 .build();
 
-        when(programService.add(any(Program.class))).thenReturn(added);
+        when(programServiceMock.add(any(Program.class))).thenReturn(added);
 
         mockMvc.perform(post("/api/programs")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -132,8 +135,8 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$.program.end", is(TestUtil.convertUTCDateToGMTString(END))));
 
         ArgumentCaptor<Program> programArgumentCaptor = ArgumentCaptor.forClass(Program.class);
-        verify(programService, times(1)).add(programArgumentCaptor.capture());
-        verifyNoMoreInteractions(programService);
+        verify(programServiceMock, times(1)).add(programArgumentCaptor.capture());
+        verifyNoMoreInteractions(programServiceMock);
 
         Program programArgument = programArgumentCaptor.getValue();
         assertThat(programArgument.getId(), is(1L));
@@ -156,7 +159,7 @@ public class ProgramControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(programService);
+        verifyZeroInteractions(programServiceMock);
     }
 
     @Test(expected = NoInteractionsWanted.class)
@@ -176,7 +179,7 @@ public class ProgramControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(programService);
+        verifyZeroInteractions(programServiceMock);
     }
 
     @Test
@@ -189,7 +192,7 @@ public class ProgramControllerTest {
                 .end(END)
                 .build();
 
-        when(programService.findById(1L)).thenReturn(found);
+        when(programServiceMock.findById(1L)).thenReturn(found);
 
         mockMvc.perform(get("/api/programs/{id}", 1L))
                 .andExpect(status().isOk())
@@ -200,19 +203,19 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$.begin", is(TestUtil.convertUTCDateToGMTString(BEGIN))))
                 .andExpect(jsonPath("$.end", is(TestUtil.convertUTCDateToGMTString(END))));
 
-        verify(programService, times(1)).findById(1L);
-        verifyNoMoreInteractions(programService);
+        verify(programServiceMock, times(1)).findById(1L);
+        verifyNoMoreInteractions(programServiceMock);
     }
 
     @Test
     public void testGetDetails_ProgramNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        when(programService.findById(1L)).thenThrow(new ProgramNotFoundException(""));
+        when(programServiceMock.findById(1L)).thenThrow(new ProgramNotFoundException(""));
 
         mockMvc.perform(get("/api/programs/{id}", 1L))
                 .andExpect(status().isBadRequest());
 
-        verify(programService, times(1)).findById(1L);
-        verifyNoMoreInteractions(programService);
+        verify(programServiceMock, times(1)).findById(1L);
+        verifyNoMoreInteractions(programServiceMock);
     }
 
     @Test
@@ -225,7 +228,7 @@ public class ProgramControllerTest {
                 .end(END)
                 .build();
 
-        when(programService.update(any(Program.class))).thenReturn(updated);
+        when(programServiceMock.update(any(Program.class))).thenReturn(updated);
 
         mockMvc.perform(put("/api/programs/{id}", 1L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -241,8 +244,8 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$.program.end", is(TestUtil.convertUTCDateToGMTString(END))));
 
         ArgumentCaptor<Program> programArgumentCaptor = ArgumentCaptor.forClass(Program.class);
-        verify(programService, times(1)).update(programArgumentCaptor.capture());
-        verifyNoMoreInteractions(programService);
+        verify(programServiceMock, times(1)).update(programArgumentCaptor.capture());
+        verifyNoMoreInteractions(programServiceMock);
 
         Program programArgument = programArgumentCaptor.getValue();
         assertThat(programArgument.getId(), is(1L));
@@ -267,7 +270,7 @@ public class ProgramControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(programService);
+        verifyZeroInteractions(programServiceMock);
     }
 
     @Test(expected = NoInteractionsWanted.class)
@@ -288,7 +291,7 @@ public class ProgramControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(programService);
+        verifyZeroInteractions(programServiceMock);
     }
 
     @Test
@@ -301,7 +304,7 @@ public class ProgramControllerTest {
                 .end(END)
                 .build();
 
-        when(programService.update(any(Program.class))).thenThrow(new ProgramNotFoundException(""));
+        when(programServiceMock.update(any(Program.class))).thenThrow(new ProgramNotFoundException(""));
 
         mockMvc.perform(put("/api/programs/{id}", 3L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -310,8 +313,8 @@ public class ProgramControllerTest {
                 .andExpect(status().isBadRequest());
 
         ArgumentCaptor<Program> programArgumentCaptor = ArgumentCaptor.forClass(Program.class);
-        verify(programService, times(1)).update(programArgumentCaptor.capture());
-        verifyNoMoreInteractions(programService);
+        verify(programServiceMock, times(1)).update(programArgumentCaptor.capture());
+        verifyNoMoreInteractions(programServiceMock);
 
         Program programArgument = programArgumentCaptor.getValue();
         assertThat(programArgument.getId(), is(3L));
@@ -333,7 +336,7 @@ public class ProgramControllerTest {
                 .end(END)
                 .build();
 
-        when(programService.deleteById(1L)).thenReturn(deleted);
+        when(programServiceMock.deleteById(1L)).thenReturn(deleted);
 
         mockMvc.perform(delete("/api/programs/{id}", 1L))
                 .andExpect(status().isOk())
@@ -345,18 +348,18 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$.program.begin", is(TestUtil.convertUTCDateToGMTString(BEGIN))))
                 .andExpect(jsonPath("$.program.end", is(TestUtil.convertUTCDateToGMTString(END))));
 
-        verify(programService, times(1)).deleteById(1L);
-        verifyNoMoreInteractions(programService);
+        verify(programServiceMock, times(1)).deleteById(1L);
+        verifyNoMoreInteractions(programServiceMock);
     }
 
     @Test
     public void testDelete_ProgramNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        when(programService.deleteById(3L)).thenThrow(new ProgramNotFoundException(""));
+        when(programServiceMock.deleteById(3L)).thenThrow(new ProgramNotFoundException(""));
 
         mockMvc.perform(delete("/api/programs/{id}", 3L))
                 .andExpect(status().isBadRequest());
 
-        verify(programService, times(1)).deleteById(3L);
-        verifyNoMoreInteractions(programService);
+        verify(programServiceMock, times(1)).deleteById(3L);
+        verifyNoMoreInteractions(programServiceMock);
     }
 }

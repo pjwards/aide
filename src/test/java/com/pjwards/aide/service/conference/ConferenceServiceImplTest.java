@@ -121,7 +121,7 @@ public class ConferenceServiceImplTest {
     }
 
     @Test(expected = ConferenceNotFoundException.class)
-    public void tesetUpdate_ConferenceNotFound_ShouldThrowException() throws ConferenceNotFoundException {
+    public void testUpdate_ConferenceNotFound_ShouldThrowException() throws ConferenceNotFoundException {
         Conference updated = new ConferenceBuilder()
                 .id(ID)
                 .name(UPDATED_NAME)

@@ -1,6 +1,7 @@
 package com.pjwards.aide.controller.api;
 
 import com.pjwards.aide.config.ApplicationConfig;
+import com.pjwards.aide.config.TestConfig;
 import com.pjwards.aide.domain.Room;
 import com.pjwards.aide.domain.builder.RoomBuilder;
 import com.pjwards.aide.exception.RoomNotFoundException;
@@ -15,6 +16,7 @@ import org.mockito.exceptions.verification.NoInteractionsWanted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -34,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
+@ContextConfiguration(classes = {TestConfig.class, ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
 @WebAppConfiguration
 public class RoomControllerTest {
 
@@ -45,8 +47,9 @@ public class RoomControllerTest {
 
     private MockMvc mockMvc;
 
+    @Qualifier("roomService")
     @Autowired
-    private RoomService roomService;
+    private RoomService roomServiceMock;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -54,7 +57,7 @@ public class RoomControllerTest {
     @Before
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        Mockito.reset(roomService);
+        Mockito.reset(roomServiceMock);
     }
 
     @Test
@@ -72,7 +75,7 @@ public class RoomControllerTest {
                 .description("description2")
                 .build();
 
-        when(roomService.findAll()).thenReturn(Arrays.asList(first, second));
+        when(roomServiceMock.findAll()).thenReturn(Arrays.asList(first, second));
 
         mockMvc.perform(get("/api/rooms"))
                 .andExpect(status().isOk())
@@ -87,8 +90,8 @@ public class RoomControllerTest {
                 .andExpect(jsonPath("$[1].location", is("location2")))
                 .andExpect(jsonPath("$[1].description", is("description2")));
 
-        verify(roomService, times(1)).findAll();
-        verifyNoMoreInteractions(roomService);
+        verify(roomServiceMock, times(1)).findAll();
+        verifyNoMoreInteractions(roomServiceMock);
     }
 
     @Test
@@ -100,7 +103,7 @@ public class RoomControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(roomService.add(any(Room.class))).thenReturn(added);
+        when(roomServiceMock.add(any(Room.class))).thenReturn(added);
 
         mockMvc.perform(post("/api/rooms")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -115,8 +118,8 @@ public class RoomControllerTest {
                 .andExpect(jsonPath("$.room.description", is(DESCRIPTION)));
 
         ArgumentCaptor<Room> roomArgumentCaptor = ArgumentCaptor.forClass(Room.class);
-        verify(roomService, times(1)).add(roomArgumentCaptor.capture());
-        verifyNoMoreInteractions(roomService);
+        verify(roomServiceMock, times(1)).add(roomArgumentCaptor.capture());
+        verifyNoMoreInteractions(roomServiceMock);
 
         Room roomArgument = roomArgumentCaptor.getValue();
         assertThat(roomArgument.getId(), is(1L));
@@ -135,7 +138,7 @@ public class RoomControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(roomService);
+        verifyZeroInteractions(roomServiceMock);
     }
 
     @Test(expected = NoInteractionsWanted.class)
@@ -156,7 +159,7 @@ public class RoomControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(roomService);
+        verifyZeroInteractions(roomServiceMock);
     }
 
     @Test
@@ -168,7 +171,7 @@ public class RoomControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(roomService.findById(1L)).thenReturn(found);
+        when(roomServiceMock.findById(1L)).thenReturn(found);
 
         mockMvc.perform(get("/api/rooms/{id}", 1L))
                 .andExpect(status().isOk())
@@ -178,19 +181,19 @@ public class RoomControllerTest {
                 .andExpect(jsonPath("$.location", is(LOCATION)))
                 .andExpect(jsonPath("$.description", is(DESCRIPTION)));
 
-        verify(roomService, times(1)).findById(1L);
-        verifyNoMoreInteractions(roomService);
+        verify(roomServiceMock, times(1)).findById(1L);
+        verifyNoMoreInteractions(roomServiceMock);
     }
 
     @Test
     public void testGetDetails_RoomNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        when(roomService.findById(1L)).thenThrow(new RoomNotFoundException(""));
+        when(roomServiceMock.findById(1L)).thenThrow(new RoomNotFoundException(""));
 
         mockMvc.perform(get("/api/rooms/{id}", 1L))
                 .andExpect(status().isBadRequest());
 
-        verify(roomService, times(1)).findById(1L);
-        verifyNoMoreInteractions(roomService);
+        verify(roomServiceMock, times(1)).findById(1L);
+        verifyNoMoreInteractions(roomServiceMock);
     }
 
     @Test
@@ -202,7 +205,7 @@ public class RoomControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(roomService.update(any(Room.class))).thenReturn(updated);
+        when(roomServiceMock.update(any(Room.class))).thenReturn(updated);
 
         mockMvc.perform(put("/api/rooms/{id}", 1L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -217,8 +220,8 @@ public class RoomControllerTest {
                 .andExpect(jsonPath("$.room.description", is(DESCRIPTION)));
 
         ArgumentCaptor<Room> roomArgumentCaptor = ArgumentCaptor.forClass(Room.class);
-        verify(roomService, times(1)).update(roomArgumentCaptor.capture());
-        verifyNoMoreInteractions(roomService);
+        verify(roomServiceMock, times(1)).update(roomArgumentCaptor.capture());
+        verifyNoMoreInteractions(roomServiceMock);
 
         Room roomArgument = roomArgumentCaptor.getValue();
         assertThat(roomArgument.getId(), is(1L));
@@ -240,7 +243,7 @@ public class RoomControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(roomService);
+        verifyZeroInteractions(roomServiceMock);
     }
 
     @Test(expected = NoInteractionsWanted.class)
@@ -261,7 +264,7 @@ public class RoomControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
 
-        verifyZeroInteractions(roomService);
+        verifyZeroInteractions(roomServiceMock);
     }
 
     @Test
@@ -273,7 +276,7 @@ public class RoomControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(roomService.update(any(Room.class))).thenThrow(new RoomNotFoundException(""));
+        when(roomServiceMock.update(any(Room.class))).thenThrow(new RoomNotFoundException(""));
 
         mockMvc.perform(put("/api/rooms/{id}", 3L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -282,8 +285,8 @@ public class RoomControllerTest {
                 .andExpect(status().isBadRequest());
 
         ArgumentCaptor<Room> roomArgumentCaptor = ArgumentCaptor.forClass(Room.class);
-        verify(roomService, times(1)).update(roomArgumentCaptor.capture());
-        verifyNoMoreInteractions(roomService);
+        verify(roomServiceMock, times(1)).update(roomArgumentCaptor.capture());
+        verifyNoMoreInteractions(roomServiceMock);
 
         Room roomArgument = roomArgumentCaptor.getValue();
         assertThat(roomArgument.getId(), is(3L));
@@ -301,7 +304,7 @@ public class RoomControllerTest {
                 .description(DESCRIPTION)
                 .build();
 
-        when(roomService.deleteById(1L)).thenReturn(deleted);
+        when(roomServiceMock.deleteById(1L)).thenReturn(deleted);
 
         mockMvc.perform(delete("/api/rooms/{id}", 1L))
                 .andExpect(status().isOk())
@@ -312,18 +315,18 @@ public class RoomControllerTest {
                 .andExpect(jsonPath("$.room.location", is(LOCATION)))
                 .andExpect(jsonPath("$.room.description", is(DESCRIPTION)));
 
-        verify(roomService, times(1)).deleteById(1L);
-        verifyNoMoreInteractions(roomService);
+        verify(roomServiceMock, times(1)).deleteById(1L);
+        verifyNoMoreInteractions(roomServiceMock);
     }
 
     @Test
     public void testDelete_RoomNotFound_ShouldReturnHttpStatusCode400() throws Exception {
-        when(roomService.deleteById(3L)).thenThrow(new RoomNotFoundException(""));
+        when(roomServiceMock.deleteById(3L)).thenThrow(new RoomNotFoundException(""));
 
         mockMvc.perform(delete("/api/rooms/{id}", 3L))
                 .andExpect(status().isBadRequest());
 
-        verify(roomService, times(1)).deleteById(3L);
-        verifyNoMoreInteractions(roomService);
+        verify(roomServiceMock, times(1)).deleteById(3L);
+        verifyNoMoreInteractions(roomServiceMock);
     }
 }
