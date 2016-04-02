@@ -6,14 +6,16 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ConferenceRoleTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceRoleTest.class);
+    private static final Role CONFERENCE_ROLE = Role.ADMIN;
+
     private ConferenceRole conferenceRole;
 
     @Before
@@ -22,8 +24,22 @@ public class ConferenceRoleTest {
     }
 
     @Test
-    public void testUser() throws Exception{
-        assertThat(conferenceRole.getRole(),is(Role.ADMIN));
+    public void testBuildWithMandatoryInformation() {
+        assertThat(conferenceRole.getId(), nullValue());
+        assertThat(conferenceRole.getRole(), is(CONFERENCE_ROLE));
+        assertThat(conferenceRole.getUserSet(), nullValue());
+        assertThat(conferenceRole.getConferenceSet(), nullValue());
+    }
+
+    @Test
+    public void testUpdate(){
+        Role UPDATE_ROLE = Role.USER;
+        conferenceRole.update(UPDATE_ROLE);
+
+        assertThat(conferenceRole.getId(), nullValue());
+        assertThat(conferenceRole.getRole(), is(CONFERENCE_ROLE));
+        assertThat(conferenceRole.getUserSet(), nullValue());
+        assertThat(conferenceRole.getConferenceSet(), nullValue());
     }
 
 }

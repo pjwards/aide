@@ -2,6 +2,7 @@ package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pjwards.aide.domain.enums.Role;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -49,6 +50,18 @@ public class ConferenceRole {
         return conferenceSet;
     }
 
+    public ConferenceRole(){
+
+    }
+
+    public ConferenceRole(Role conferenceRole){
+        this.conferenceRole = conferenceRole;
+    }
+
+    public void update(Role conferenceRole){
+        this.conferenceRole = conferenceRole;
+    }
+
     public static class Builder {
         private ConferenceRole built;
 
@@ -77,4 +90,8 @@ public class ConferenceRole {
         }
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

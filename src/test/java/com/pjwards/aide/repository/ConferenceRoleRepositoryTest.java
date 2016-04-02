@@ -3,6 +3,7 @@ package com.pjwards.aide.repository;
 import com.pjwards.aide.config.ApplicationConfig;
 import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.ConferenceRole;
+import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.enums.Role;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
+import java.util.HashSet;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,6 +27,12 @@ import java.util.Set;
 public class ConferenceRoleRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceRoleRepositoryTest.class);
+    private static final Role ROLE = Role.ADMIN;
+    private static final String NAME = "jisung";
+    private static final String DESCRPTION = "hello";
+    private static final String EMAIL = "a@a.com";
+    private static final String PASSWORD = "4194105091094";
+
     private ConferenceRole conferenceRole;
 
     @Autowired
@@ -34,15 +41,30 @@ public class ConferenceRoleRepositoryTest {
     @Autowired
     private ConferenceRepository conferenceRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Before
-    public void setup() throws ParseException{
-        conferenceRole = new ConferenceRole.Builder(Role.ADMIN).build();
+    public void testSaveWithMandatory() {
+        conferenceRole = new ConferenceRole.Builder(ROLE).build();
         conferenceRoleRepository.save(conferenceRole);
     }
 
     @Test
-    public void testSave(){
+    public void testSaveWithAll() throws ParseException{
+        Conference conference = new Conference.Builder(NAME, DESCRPTION).build();
+        conferenceRepository.save(conference);
 
+        User user = new User.Builder(NAME, EMAIL, PASSWORD).build();
+        userRepository.save(user);
+
+        conferenceRole = new ConferenceRole.Builder(ROLE).user(new HashSet<User>(){{
+            add(user);
+        }}).conference(new HashSet<Conference>(){{
+            add(conference);
+        }}).build();
+
+        conferenceRoleRepository.save(conferenceRole);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
