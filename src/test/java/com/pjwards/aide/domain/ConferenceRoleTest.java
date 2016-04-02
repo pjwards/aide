@@ -6,29 +6,40 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ConferenceRoleTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceRoleTest.class);
-    private ConferenceRole role;
-    private Date date;
+    private static final Role CONFERENCE_ROLE = Role.ADMIN;
 
+    private ConferenceRole conferenceRole;
 
     @Before
     public void setup() {
-        date = new Date();
-        role = new ConferenceRole();
-        role.setId(1L).setRole(Role.ADMIN);
+        conferenceRole = new ConferenceRole.Builder(Role.ADMIN).build();
     }
 
     @Test
-    public void testUser() throws Exception{
-        assertThat(role.getId(),is(1L));
-        assertThat(role.getRole(),is(Role.ADMIN));
+    public void testBuildWithMandatoryInformation() {
+        assertThat(conferenceRole.getId(), nullValue());
+        assertThat(conferenceRole.getRole(), is(CONFERENCE_ROLE));
+        assertThat(conferenceRole.getUserSet(), nullValue());
+        assertThat(conferenceRole.getConferenceSet(), nullValue());
+    }
+
+    @Test
+    public void testUpdate(){
+        Role UPDATE_ROLE = Role.USER;
+        conferenceRole.update(UPDATE_ROLE);
+
+        assertThat(conferenceRole.getId(), nullValue());
+        assertThat(conferenceRole.getRole(), is(CONFERENCE_ROLE));
+        assertThat(conferenceRole.getUserSet(), nullValue());
+        assertThat(conferenceRole.getConferenceSet(), nullValue());
     }
 
 }
