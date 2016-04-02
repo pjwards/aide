@@ -1,0 +1,31 @@
+{
+  "name": "aide",
+  "dependencies": {
+    "jquery": ">= 2.2.0",
+    "bootstrap": ">= 3.3.6"
+  },
+  "version": "0.1.0",
+  "homepage": "https://github.com/pjwards/aide",
+  "authors": [
+    "Donghyun Seo <egaoneko@naver.com>"
+  ],
+  "description": "AIDE Project",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "springboot",
+    "gradle",
+    "bower"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/main/resources/static/bower_components",
+    "test",
+    "tests"
+  ]
+}
