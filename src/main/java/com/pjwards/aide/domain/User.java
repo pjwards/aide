@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
+@Entity
 public class User {
     public static final int MAX_LENGTH_NAME = 50;
     public static final int MAX_LENGTH_COMPANY = 100;

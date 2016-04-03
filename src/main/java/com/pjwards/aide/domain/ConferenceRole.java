@@ -7,6 +7,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import javax.persistence.*;
 import java.util.Set;
 
+@Entity
 public class ConferenceRole {
 
     @Id
@@ -26,7 +27,7 @@ public class ConferenceRole {
     private Set<User> userSet;
 
     @ManyToMany
-    @JoinTable(name = "CONFERENCE_ROLE",
+    @JoinTable(name = "CONFERENCE_CONFERENCE_ROLE",
             joinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK")
     )
