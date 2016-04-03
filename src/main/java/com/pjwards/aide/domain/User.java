@@ -45,10 +45,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(name = "USER_ROLE",
-            joinColumns = @JoinColumn(name = "USER_ID_FRK"),
-            inverseJoinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK")
+    @ManyToMany(
+            targetEntity = ConferenceRole.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "userSet"
     )
     private Set<ConferenceRole> conferenceRoleSet;
 

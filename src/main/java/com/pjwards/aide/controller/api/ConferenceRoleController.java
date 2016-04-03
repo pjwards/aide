@@ -34,7 +34,7 @@ public class ConferenceRoleController {
 
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("message", "ConferenceRole created successfully");
-        response.put("user", conferenceRoleService.add(conferenceRole));
+        response.put("conferenceRole", conferenceRoleService.add(conferenceRole));
         return response;
     }
 
@@ -51,7 +51,7 @@ public class ConferenceRoleController {
 
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("message", "ConferenceRole updated successfully");
-        response.put("user", conferenceRoleService.update(conferenceRole));
+        response.put("conferenceRole", conferenceRoleService.update(conferenceRole));
         return response;
     }
 
@@ -62,7 +62,7 @@ public class ConferenceRoleController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "ConferenceRole deleted successfully");
-        response.put("user", conferenceRoleService.deleteById(id));
+        response.put("conferenceRole", conferenceRoleService.deleteById(id));
         return response;
     }
 }
