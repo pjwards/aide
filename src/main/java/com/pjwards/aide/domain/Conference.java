@@ -46,7 +46,7 @@ public class Conference {
     private List<Program> programList;
 
     @ManyToMany
-    @JoinTable(name = "CONFERENCE_ROLE",
+    @JoinTable(name = "CONFERENCE_CONFERENCE_ROLE",
             joinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK")
     )
