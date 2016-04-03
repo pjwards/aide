@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.mockito.exceptions.verification.NoInteractionsWanted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -75,9 +77,9 @@ public class ConferenceRoleControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].conferenceRole", is(ROLE)))
+                .andExpect(jsonPath("$[0].role", is(ROLE.toString())))
                 .andExpect(jsonPath("$[1].id", is(2)))
-                .andExpect(jsonPath("$[1].conferenceRole", is(Role.HOST)));
+                .andExpect(jsonPath("$[1].role", is(Role.HOST.toString())));
 
         verify(conferenceRoleService, times(1)).findAll();
         verifyNoMoreInteractions(conferenceRoleService);
@@ -100,7 +102,7 @@ public class ConferenceRoleControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message", is("ConferenceRole created successfully")))
                 .andExpect(jsonPath("$.conferenceRole.id", is(1)))
-                .andExpect(jsonPath("$.conferenceRole.conferenceRole", is(ROLE)));
+                .andExpect(jsonPath("$.conferenceRole.role", is(ROLE.toString())));
 
         ArgumentCaptor<ConferenceRole> conferenceRoleArgumentCaptor = ArgumentCaptor.forClass(ConferenceRole.class);
         verify(conferenceRoleService, times(1)).add(conferenceRoleArgumentCaptor.capture());
@@ -111,7 +113,7 @@ public class ConferenceRoleControllerTest {
         assertThat(conferenceRoleArgument.getRole(), is(ROLE));
     }
 
-    @Test(expected = JsonMappingException.class)
+    @Test(expected = NoInteractionsWanted.class)
     public void testCreate_EmptyConferenceRole_ShouldOccurNoInteractionsWanted() throws Exception {
         ConferenceRole conferenceRole = new ConferenceRole();
 
@@ -138,7 +140,7 @@ public class ConferenceRoleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.conferenceRole", is(ROLE)));
+                .andExpect(jsonPath("$.role", is(ROLE.toString())));
 
         verify(conferenceRoleService, times(1)).findById(1L);
         verifyNoMoreInteractions(conferenceRoleService);
@@ -172,18 +174,18 @@ public class ConferenceRoleControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message", is("ConferenceRole updated successfully")))
                 .andExpect(jsonPath("$.conferenceRole.id", is(1)))
-                .andExpect(jsonPath("$.conferenceRole.conferenceRole", is(ROLE)));
+                .andExpect(jsonPath("$.conferenceRole.role", is(ROLE.toString())));
 
         ArgumentCaptor<ConferenceRole> conferenceRoleArgumentCaptor = ArgumentCaptor.forClass(ConferenceRole.class);
         verify(conferenceRoleService, times(1)).update(conferenceRoleArgumentCaptor.capture());
-        verifyNoMoreInteractions(conferenceRoleArgumentCaptor);
+        verifyNoMoreInteractions(conferenceRoleService);
 
         ConferenceRole conferenceRoleArgument = conferenceRoleArgumentCaptor.getValue();
         assertThat(conferenceRoleArgument.getId(), is(1L));
         assertThat(conferenceRoleArgument.getRole(), is(updated.getRole()));
     }
 
-    @Test(expected = JsonMappingException.class)
+    @Test(expected = NoInteractionsWanted.class)
     public void testUpdate_EmptyConferenceRole_ShouldOccurNoInteractionsWanted() throws Exception {
         ConferenceRole conferenceRole = new ConferenceRoleBuilder()
                 .id(1L)
@@ -237,7 +239,7 @@ public class ConferenceRoleControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message", is("ConferenceRole deleted successfully")))
                 .andExpect(jsonPath("$.conferenceRole.id", is(1)))
-                .andExpect(jsonPath("$.conferenceRole.conferenceRole", is(ROLE)));
+                .andExpect(jsonPath("$.conferenceRole.role", is(ROLE.toString())));
 
         verify(conferenceRoleService, times(1)).deleteById(1L);
         verifyNoMoreInteractions(conferenceRoleService);

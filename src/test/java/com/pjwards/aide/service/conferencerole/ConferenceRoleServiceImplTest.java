@@ -52,6 +52,8 @@ public class ConferenceRoleServiceImplTest {
                 .conferenceRole(ROLE)
                 .build();
 
+        conferenceRoleService.add(conferenceRole);
+
         ArgumentCaptor<ConferenceRole> conferenceRoleArgumentCaptor = ArgumentCaptor.forClass(ConferenceRole.class);
         verify(conferenceRoleRepositoryMock, times(1)).save(conferenceRoleArgumentCaptor.capture());
         verifyNoMoreInteractions(conferenceRoleRepositoryMock);

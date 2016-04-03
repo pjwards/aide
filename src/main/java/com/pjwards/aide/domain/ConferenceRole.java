@@ -18,26 +18,23 @@ public class ConferenceRole {
     @Enumerated(EnumType.STRING)
     private Role conferenceRole;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID_FRK")
     )
-    @JsonBackReference
     private Set<User> userSet;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "CONFERENCE_CONFERENCE_ROLE",
             joinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK")
     )
-    @JsonBackReference
     private Set<Conference> conferenceSet;
 
     public Long getId() {
         return id;
     }
-
 
     public Role getRole() {
         return conferenceRole;

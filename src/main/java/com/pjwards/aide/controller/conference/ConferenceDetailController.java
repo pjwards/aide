@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/conference")
+@RequestMapping("/conferences")
 public class ConferenceDetailController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
