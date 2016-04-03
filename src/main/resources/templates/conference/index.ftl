@@ -1,12 +1,3 @@
-<#--
- * First Editor : Donghyun Seo (egaoneko@naver.com)
- * Last Editor  :
- * Date         : 6/13/15
- * Description  :
- * Copyright ⓒ 2013-2015 Donghyun Seo All rights reserved.
- * version      :
- -->
-
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
     <title>${myApp.name} :: main</title>
@@ -18,7 +9,6 @@
     </@layout.put>
 
     <@layout.put block="contents">
-    <h1>Hello, world</h1>
     </@layout.put>
 
     <@layout.put block="footer" type="replace">
