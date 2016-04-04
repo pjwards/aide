@@ -40,6 +40,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 public class ConferenceControllerTest {
 
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceControllerTest.class);
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";

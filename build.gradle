@@ -21,7 +21,6 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath 'net.eikehirsch.react:gradle-react-plugin:0.3.1'
     }
 }
 
@@ -75,9 +74,4 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.11'
-}
-
-task myJsx( type: JSXTask ) {
-    sourcesDir = 'src/main/resources/static/react/src'
-    destDir = 'src/main/resources/static/react/build'
 }

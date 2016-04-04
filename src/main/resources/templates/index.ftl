@@ -1,3 +1,6 @@
+<#import "/spring.ftl" as spring/>
+<#-- @ftlvariable name="rc" type="javax.servlet.http.HttpServletRequest" -->
+
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
     <title>${myApp.name} :: main</title>
@@ -9,7 +12,10 @@
     </@layout.put>
 
     <@layout.put block="contents">
-    <h1>Hello, world</h1>
+    Language : <a href="?lang=en_US">English</a>|<a href="?lang=ko_KR">Korea</a>
+    <h3><@spring.message "hello.test"/>, world</h3>
+    Current Locale: ${rc.locale}
+
     </@layout.put>
 
     <@layout.put block="footer" type="replace">
