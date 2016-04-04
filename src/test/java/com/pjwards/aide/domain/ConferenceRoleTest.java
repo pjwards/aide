@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class ConferenceRoleTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceRoleTest.class);
-    private static final Role CONFERENCE_ROLE = Role.ADMIN;
+    private static final Role CONFERENCE_ROLE = Role.USER;
 
     private ConferenceRole conferenceRole;
 
@@ -26,7 +26,7 @@ public class ConferenceRoleTest {
     @Test
     public void testBuildWithMandatoryInformation() {
         assertThat(conferenceRole.getId(), nullValue());
-        assertThat(conferenceRole.getRole(), is(CONFERENCE_ROLE));
+        assertThat(conferenceRole.getRole(), is(Role.ADMIN));
         assertThat(conferenceRole.getUserSet(), nullValue());
         assertThat(conferenceRole.getConferenceSet(), nullValue());
     }

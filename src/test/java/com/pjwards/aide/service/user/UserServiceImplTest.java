@@ -9,9 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,17 +24,15 @@ public class UserServiceImplTest {
     private static final String EMAIL = "a@a.com";
     private static final String PASSWORD = "4194105091094";
     private static final String COMPANY = "google";
-    private static final String DAY = "2016-04-01";
-    private static final String NEXT_DAY = "2016-04-02";
+    private static final Date DAY = new Date();
+    private static final Date NEXT_DAY = new Date();
     private static final Role ROLE = Role.ADMIN;
     private static final String UPDATE_NAME = "seodong";
     private static final String UPDATE_EMAIL = "a@b.com";
     private static final String UPDATE_PASS_WOARD = "1234567";
     private static final String UPDATE_COMPANY = "facebook";
-    private static final String UPDATE_LAST_DAY = "2016-04-03";
+    private static final Date UPDATE_LAST_DAY = new Date();
     private static final Role UPDATE_ROLE = Role.USER;
-
-    private DateFormat formatter;
 
     private UserRepository userRepositoryMock;
     private UserService userService;
@@ -60,7 +57,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testAdd_NewUser_ShouldSaveUser() throws ParseException{
+    public void testAdd_NewUser_ShouldSaveUser() {
         User user = new UserBuilder()
                 .name(NAME)
                 .email(EMAIL)
@@ -84,13 +81,13 @@ public class UserServiceImplTest {
         assertThat(model.getEmail(), is(EMAIL));
         assertThat(model.getPassword(), is(PASSWORD));
         assertThat(model.getCompany(), is(COMPANY));
-        assertThat(model.getCreatedDate(), is(formatter.parse(DAY)));
-        assertThat(model.getLastDate(), is(formatter.parse(NEXT_DAY)));
+        assertThat(model.getCreatedDate(), is(DAY));
+        assertThat(model.getLastDate(), is(NEXT_DAY));
         assertThat(model.getRole(), is(ROLE));
     }
 
     @Test
-    public void testFindById_UserFound_ShouldReturnFoundUser() throws UserNotFoundException, ParseException{
+    public void testFindById_UserFound_ShouldReturnFoundUser() throws UserNotFoundException{
         User model = new UserBuilder()
                 .id(ID)
                 .name(NAME)
@@ -123,7 +120,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testUpdate_UserFound_ShouldUpdateUser() throws UserNotFoundException, ParseException{
+    public void testUpdate_UserFound_ShouldUpdateUser() throws UserNotFoundException{
         User updated = new UserBuilder()
                 .id(ID)
                 .name(UPDATE_NAME)
@@ -166,7 +163,7 @@ public class UserServiceImplTest {
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void testUpdate_UserNotFound_ShouldThrowException() throws UserNotFoundException, ParseException{
+    public void testUpdate_UserNotFound_ShouldThrowException() throws UserNotFoundException{
         User updated = new UserBuilder()
                 .id(ID)
                 .name(UPDATE_NAME)
@@ -187,7 +184,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testDeleteById_UserFound_ShouldDeleteUserAndReturnIt() throws UserNotFoundException, ParseException{
+    public void testDeleteById_UserFound_ShouldDeleteUserAndReturnIt() throws UserNotFoundException{
         User model = new UserBuilder()
                 .id(ID)
                 .name(NAME)

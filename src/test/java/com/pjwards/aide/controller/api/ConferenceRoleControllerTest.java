@@ -1,11 +1,9 @@
 package com.pjwards.aide.controller.api;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.pjwards.aide.config.ApplicationConfig;
 import com.pjwards.aide.domain.ConferenceRole;
 import com.pjwards.aide.domain.builder.ConferenceRoleBuilder;
 import com.pjwards.aide.domain.enums.Role;
-import com.pjwards.aide.exception.ConferenceNotFoundException;
 import com.pjwards.aide.exception.ConferenceRoleNotFoundException;
 import com.pjwards.aide.service.conferencerole.ConferenceRoleService;
 import com.pjwards.aide.util.TestUtil;
@@ -32,7 +30,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -106,6 +103,7 @@ public class ConferenceRoleControllerTest {
 
         ArgumentCaptor<ConferenceRole> conferenceRoleArgumentCaptor = ArgumentCaptor.forClass(ConferenceRole.class);
         verify(conferenceRoleService, times(1)).add(conferenceRoleArgumentCaptor.capture());
+        System.out.println(conferenceRoleArgumentCaptor.getAllValues());
         verifyNoMoreInteractions(conferenceRoleService);
 
         ConferenceRole conferenceRoleArgument = conferenceRoleArgumentCaptor.getValue();
@@ -210,7 +208,7 @@ public class ConferenceRoleControllerTest {
 
         when(conferenceRoleService.update(any(ConferenceRole.class))).thenThrow(new ConferenceRoleNotFoundException(""));
 
-        mockMvc.perform(put("/api/conference-roles/{id}", 3L)
+        mockMvc.perform(put("/api/conference-roles/{id}", 1L)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(updated))
         )
@@ -221,7 +219,7 @@ public class ConferenceRoleControllerTest {
         verifyNoMoreInteractions(conferenceRoleService);
 
         ConferenceRole conferenceRoleArgument = conferenceRoleArgumentCaptor.getValue();
-        assertThat(conferenceRoleArgument.getId(), is(3L));
+        assertThat(conferenceRoleArgument.getId(), is(1L));
         assertThat(conferenceRoleArgument.getRole(), is(updated.getRole()));
     }
 

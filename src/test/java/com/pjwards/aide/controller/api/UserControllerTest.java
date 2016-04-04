@@ -24,12 +24,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
+import static java.lang.Math.abs;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -46,12 +48,11 @@ public class UserControllerTest {
     private static final String EMAIL = "a@a.com";
     private static final String PASSWORD = "4194105091094";
     private static final String COMPANY = "google";
-    private static final String DAY = "2016-04-01";
-    private static final String NEXT_DAY = "2016-04-02";
+    private static final Date DAY = new Date();
+    private static final Date NEXT_DAY = new Date();
     private static final Role ROLE = Role.ADMIN;
 
     private MockMvc mockMvc;
-    private DateFormat formatter;
 
     @Autowired
     private UserService userService;
@@ -74,7 +75,7 @@ public class UserControllerTest {
                 .password("12345")
                 .company("facebook")
                 .createdDate(DAY)
-                .lastDate("2016-04-03")
+                .lastDate(DAY)
                 .role(Role.USER)
                 .build();
 
@@ -100,17 +101,17 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].email", is("a@b.com")))
                 .andExpect(jsonPath("$[0].password", is("12345")))
                 .andExpect(jsonPath("$[0].company", is("facebook")))
-                .andExpect(jsonPath("$[0].createdDate", is(formatter.parse(DAY))))
-                .andExpect(jsonPath("$[0].lastDate", is(formatter.parse("2016-04-03"))))
-                .andExpect(jsonPath("$[0].role", is(Role.USER)))
+                .andExpect(jsonPath("$[0].createdDate", is(TestUtil.convertUTCDateToGMTString(DAY))))
+                .andExpect(jsonPath("$[0].lastDate", is(TestUtil.convertUTCDateToGMTString(DAY))))
+                .andExpect(jsonPath("$[0].role", is(Role.USER.toString())))
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].name", is(NAME)))
                 .andExpect(jsonPath("$[1].email", is(EMAIL)))
                 .andExpect(jsonPath("$[1].password", is(PASSWORD)))
                 .andExpect(jsonPath("$[1].company", is(COMPANY)))
-                .andExpect(jsonPath("$[1].createdDate", is(formatter.parse(DAY))))
-                .andExpect(jsonPath("$[1].lastDate", is(formatter.parse(NEXT_DAY))))
-                .andExpect(jsonPath("$[1].role", is(ROLE)));
+                .andExpect(jsonPath("$[1].createdDate", is(TestUtil.convertUTCDateToGMTString(DAY))))
+                .andExpect(jsonPath("$[1].lastDate", is(TestUtil.convertUTCDateToGMTString(NEXT_DAY))))
+                .andExpect(jsonPath("$[1].role", is(ROLE.toString())));
 
         verify(userService, times(1)).findAll();
         verifyNoMoreInteractions(userService);
@@ -143,9 +144,9 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.user.email", is(EMAIL)))
                 .andExpect(jsonPath("$.user.password", is(PASSWORD)))
                 .andExpect(jsonPath("$.user.company", is(COMPANY)))
-                .andExpect(jsonPath("$.user.createdDate", is(formatter.parse(DAY))))
-                .andExpect(jsonPath("$.user.lastDate", is(formatter.parse(NEXT_DAY))))
-                .andExpect(jsonPath("$.user.role", is(ROLE)));
+                .andExpect(jsonPath("$.user.createdDate", is(TestUtil.convertUTCDateToGMTString(DAY))))
+                .andExpect(jsonPath("$.user.lastDate", is(TestUtil.convertUTCDateToGMTString(NEXT_DAY))))
+                .andExpect(jsonPath("$.user.role", is(ROLE.toString())));
 
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
         verify(userService, times(1)).add(userArgumentCaptor.capture());
@@ -157,8 +158,10 @@ public class UserControllerTest {
         assertThat(userArgument.getEmail(), is(EMAIL));
         assertThat(userArgument.getPassword(), is(PASSWORD));
         assertThat(userArgument.getCompany(), is(COMPANY));
-        assertThat(userArgument.getCreatedDate(), is(formatter.parse(DAY)));
-        assertThat(userArgument.getLastDate(), is(formatter.parse(NEXT_DAY)));
+        assertTrue("Day dates aren't close enough to each other!",
+                abs(userArgument.getCreatedDate().getTime() - DAY.getTime()) < 1000);
+        assertTrue("Next day dates aren't close enough to each other!",
+                abs(userArgument.getLastDate().getTime() - NEXT_DAY.getTime()) < 1000);
         assertThat(userArgument.getRole(), is(ROLE));
     }
 
@@ -224,9 +227,9 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.email", is(EMAIL)))
                 .andExpect(jsonPath("$.password", is(PASSWORD)))
                 .andExpect(jsonPath("$.company", is(COMPANY)))
-                .andExpect(jsonPath("$.createdDate", is(formatter.parse(DAY))))
-                .andExpect(jsonPath("$.lastDate", is(formatter.parse(NEXT_DAY))))
-                .andExpect(jsonPath("$.role", is(ROLE)));
+                .andExpect(jsonPath("$.createdDate", is(TestUtil.convertUTCDateToGMTString(DAY))))
+                .andExpect(jsonPath("$.lastDate", is(TestUtil.convertUTCDateToGMTString(NEXT_DAY))))
+                .andExpect(jsonPath("$.role", is(ROLE.toString())));
 
         verify(userService, times(1)).findById(1L);
         verifyNoMoreInteractions(userService);
@@ -270,9 +273,9 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.user.email", is(EMAIL)))
                 .andExpect(jsonPath("$.user.password", is(PASSWORD)))
                 .andExpect(jsonPath("$.user.company", is(COMPANY)))
-                .andExpect(jsonPath("$.user.createdDate", is(formatter.parse(DAY))))
-                .andExpect(jsonPath("$.user.lastDate", is(formatter.parse(NEXT_DAY))))
-                .andExpect(jsonPath("$.user.role", is(ROLE)));
+                .andExpect(jsonPath("$.user.createdDate", is(TestUtil.convertUTCDateToGMTString(DAY))))
+                .andExpect(jsonPath("$.user.lastDate", is(TestUtil.convertUTCDateToGMTString(NEXT_DAY))))
+                .andExpect(jsonPath("$.user.role", is(ROLE.toString())));
 
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
         verify(userService, times(1)).update(userArgumentCaptor.capture());
@@ -284,8 +287,10 @@ public class UserControllerTest {
         assertThat(userArgument.getEmail(), is(EMAIL));
         assertThat(userArgument.getPassword(), is(PASSWORD));
         assertThat(userArgument.getCompany(), is(COMPANY));
-        assertThat(userArgument.getCreatedDate(), is(formatter.parse(DAY)));
-        assertThat(userArgument.getLastDate(), is(formatter.parse(NEXT_DAY)));
+        assertTrue("Day dates aren't close enough to each other!",
+                abs(userArgument.getCreatedDate().getTime() - DAY.getTime()) < 1000);
+        assertTrue("Next day dates aren't close enough to each other!",
+                abs(userArgument.getLastDate().getTime() - NEXT_DAY.getTime()) < 1000);
         assertThat(userArgument.getRole(), is(ROLE));
     }
 
@@ -361,8 +366,10 @@ public class UserControllerTest {
         assertThat(userArgument.getEmail(), is(EMAIL));
         assertThat(userArgument.getPassword(), is(PASSWORD));
         assertThat(userArgument.getCompany(), is(COMPANY));
-        assertThat(userArgument.getCreatedDate(), is(formatter.parse(DAY)));
-        assertThat(userArgument.getLastDate(), is(formatter.parse(NEXT_DAY)));
+        assertTrue("Day dates aren't close enough to each other!",
+                abs(userArgument.getCreatedDate().getTime() - DAY.getTime()) < 1000);
+        assertTrue("Next day dates aren't close enough to each other!",
+                abs(userArgument.getLastDate().getTime() - NEXT_DAY.getTime()) < 1000);
         assertThat(userArgument.getRole(), is(ROLE));
     }
 
@@ -390,9 +397,9 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.user.email", is(EMAIL)))
                 .andExpect(jsonPath("$.user.password", is(PASSWORD)))
                 .andExpect(jsonPath("$.user.company", is(COMPANY)))
-                .andExpect(jsonPath("$.user.createdDate", is(formatter.parse(DAY))))
-                .andExpect(jsonPath("$.user.lastDate", is(formatter.parse(NEXT_DAY))))
-                .andExpect(jsonPath("$.user.role", is(ROLE)));
+                .andExpect(jsonPath("$.user.createdDate", is(TestUtil.convertUTCDateToGMTString(DAY))))
+                .andExpect(jsonPath("$.user.lastDate", is(TestUtil.convertUTCDateToGMTString(NEXT_DAY))))
+                .andExpect(jsonPath("$.user.role", is(ROLE.toString())));
 
         verify(userService, times(1)).deleteById(1L);
         verifyNoMoreInteractions(userService);

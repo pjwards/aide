@@ -6,12 +6,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
-import java.text.ParseException;
+import java.util.Date;
 
+import static java.lang.Math.abs;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class UserTest {
 
@@ -20,12 +21,11 @@ public class UserTest {
     private static final String EMAIL = "a@a.com";
     private static final String PASSWORD = "4194105091094";
     private static final String COMPANY = "google";
-    private static final String DAY = "2016-04-01";
-    private static final String NEXT_DAY = "2016-04-02";
-    private static final Role ROLE = Role.ADMIN;
+    private static final Date DAY = new Date();
+    private static final Date NEXT_DAY = new Date();
+    private static final Role ROLE = Role.USER;
 
     private User user;
-    private DateFormat formatter;
 
     @Before
     public void setup() {
@@ -34,30 +34,30 @@ public class UserTest {
 
     @Test
     public void testBuildWithMandatoryInformation() throws Exception{
-
         assertThat(user.getId(), nullValue());
         assertThat(user.getName(), is(NAME));
         assertThat(user.getEmail(), is(EMAIL));
         assertThat(user.getPassword(), is(PASSWORD));
         assertThat(user.getCompany(), is(COMPANY));
-        assertThat(user.getCreatedDate(), is(formatter.parse(DAY)));
-        assertThat(user.getLastDate(), is(formatter.parse(NEXT_DAY)));
+        assertTrue("Day dates aren't close enough to each other!",
+                abs(user.getCreatedDate().getTime() - DAY.getTime()) < 1000);
+        assertTrue("Next day dates aren't close enough to each other!",
+                abs(user.getLastDate().getTime() - NEXT_DAY.getTime()) < 1000);
         assertThat(user.getRole(), is(ROLE));
         assertThat(user.getConferenceRoleSet(), nullValue());
     }
 
     @Test
-    public void testUpdate() throws ParseException{
-
+    public void testUpdate() {
         String UPDATE_NAME = "seodong";
         String UPDATE_EMAIL = "a@b.com";
         String UPDATE_PASS_WOARD = "1234567";
         String UPDATE_COMPANY = "facebook";
-        String UPDATE_LAST_DAY = "2016-04-03";
+        Date UPDATE_LAST_DAY = new Date();
         Role UPDATE_ROLE = Role.USER;
 
         User updatedUser = new User.Builder(UPDATE_NAME,UPDATE_EMAIL,UPDATE_PASS_WOARD).company(UPDATE_COMPANY)
-                .lastDate(formatter.parse(UPDATE_LAST_DAY)).role(UPDATE_ROLE).build();
+                .lastDate(UPDATE_LAST_DAY).role(UPDATE_ROLE).build();
         user.update(updatedUser);
 
         assertThat(user.getId(), nullValue());
@@ -65,7 +65,7 @@ public class UserTest {
         assertThat(user.getEmail(), is(UPDATE_EMAIL));
         assertThat(user.getPassword(), is(UPDATE_PASS_WOARD));
         assertThat(user.getCompany(), is(UPDATE_COMPANY));
-        assertThat(user.getLastDate(), is(formatter.parse(UPDATE_LAST_DAY)));
+        assertThat(user.getLastDate(), is(UPDATE_LAST_DAY));
         assertThat(user.getRole(), is(UPDATE_ROLE));
         assertThat(user.getConferenceRoleSet(), nullValue());
     }
