@@ -3,10 +3,8 @@ package com.pjwards.aide.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pjwards.aide.domain.enums.Role;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.time.DateUtils;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -84,10 +82,6 @@ public class User {
     public Role getRole() { return role; }
 
     public Set<ConferenceRole> getConferenceRoleSet(){ return conferenceRoleSet; }
-
-    public Date truncateDate(Date date) {
-        return DateUtils.truncate(date, Calendar.DATE);
-    }
 
     public User(){
 
