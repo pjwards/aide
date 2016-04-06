@@ -51,6 +51,9 @@ public class User {
     )
     private Set<ConferenceRole> conferenceRoleSet;
 
+    @OneToOne
+    private Assets assets;
+
     public Long getId() {
         return id;
     }
@@ -82,6 +85,10 @@ public class User {
     public Role getRole() { return role; }
 
     public Set<ConferenceRole> getConferenceRoleSet(){ return conferenceRoleSet; }
+
+    public Assets getAssets() {
+        return assets;
+    }
 
     public User(){
 
@@ -152,6 +159,11 @@ public class User {
 
         public Builder role(Role role){
             built.role = role;
+            return this;
+        }
+
+        public Builder assets(Assets assets){
+            built.assets = assets;
             return this;
         }
 
