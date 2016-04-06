@@ -15,7 +15,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class UserTest {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(UserTest.class);
     private static final String NAME = "jisung";
     private static final String EMAIL = "a@a.com";
@@ -45,6 +44,7 @@ public class UserTest {
                 abs(user.getLastDate().getTime() - NEXT_DAY.getTime()) < 1000);
         assertThat(user.getRole(), is(ROLE));
         assertThat(user.getConferenceRoleSet(), nullValue());
+        assertThat(user.getAssets(), nullValue());
     }
 
     @Test
@@ -68,5 +68,6 @@ public class UserTest {
         assertThat(user.getLastDate(), is(UPDATE_LAST_DAY));
         assertThat(user.getRole(), is(UPDATE_ROLE));
         assertThat(user.getConferenceRoleSet(), nullValue());
+        assertThat(user.getAssets(), nullValue());
     }
 }

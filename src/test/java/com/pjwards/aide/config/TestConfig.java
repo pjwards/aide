@@ -1,10 +1,12 @@
 package com.pjwards.aide.config;
 
+import com.pjwards.aide.service.Assets.AssetsService;
 import com.pjwards.aide.service.conference.ConferenceService;
 import com.pjwards.aide.service.conferencerole.ConferenceRoleService;
 import com.pjwards.aide.service.program.ProgramService;
 import com.pjwards.aide.service.programdate.ProgramDateService;
 import com.pjwards.aide.service.room.RoomService;
+import com.pjwards.aide.service.sponsor.SponsorService;
 import com.pjwards.aide.service.user.UserService;
 import com.sun.deploy.config.DefaultConfig;
 import org.mockito.Mockito;
@@ -42,5 +44,15 @@ public class TestConfig extends DefaultConfig {
     @Bean
     public ConferenceRoleService conferenceRoleService() {
         return Mockito.mock(ConferenceRoleService.class);
+    }
+
+    @Bean
+    public SponsorService sponsorService() {
+        return Mockito.mock(SponsorService.class);
+    }
+
+    @Bean
+    public AssetsService assetsService() {
+        return Mockito.mock(AssetsService.class);
     }
 }

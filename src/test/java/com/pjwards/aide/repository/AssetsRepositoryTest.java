@@ -2,9 +2,8 @@ package com.pjwards.aide.repository;
 
 import com.pjwards.aide.config.ApplicationConfig;
 import com.pjwards.aide.domain.Assets;
-import com.pjwards.aide.domain.ConferenceRole;
+import com.pjwards.aide.domain.Sponsor;
 import com.pjwards.aide.domain.User;
-import com.pjwards.aide.domain.enums.Role;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -16,56 +15,51 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @ContextConfiguration(classes = {ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
-public class UserRepositoryTest {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserRepositoryTest.class);
+public class AssetsRepositoryTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssetsRepositoryTest.class);
     private static final String NAME = "jisung";
     private static final String EMAIL = "a@a.com";
     private static final String PASSWORD = "4194105091094";
+    private static final String SLUG = "peter";
     private static final String FILENAME = "a.ppt";
     private static final String REAL_PATH = "file/filename";
     private static final Long FILE_SIZE = 20L;
     private static final Integer DOWNLOAD_COUNT = 122;
 
-    private User user;
+    private Assets assets;
+
+    @Autowired
+    private AssetsRepository assetsRepository;
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private ConferenceRoleRepository conferenceRoleRepository;
-
-    @Autowired
-    private AssetsRepository assetsRepository;
+    private SponsorRepository sponsorRepository;
 
     @Test
     public void testSaveWithMandatory() {
-        user = new User.Builder(NAME, EMAIL, PASSWORD).build();
-        userRepository.save(user);
+        assets = new Assets.Builder(FILENAME, REAL_PATH, FILE_SIZE, DOWNLOAD_COUNT).build();
+        assetsRepository.save(assets);
     }
 
     @Test
     public void testSaveWithAll() {
-        ConferenceRole conferenceRole = new ConferenceRole.Builder(Role.ADMIN).build();
-        conferenceRoleRepository.save(conferenceRole);
-        Assets assets = new Assets.Builder(FILENAME, REAL_PATH, FILE_SIZE, DOWNLOAD_COUNT).build();
-        assetsRepository.save(assets);
-
-        user = new User.Builder(NAME, EMAIL, PASSWORD).conferenceRole(new HashSet<ConferenceRole>(){{
-            add(conferenceRole);
-        }}).assets(assets).build();
-
+        User user = new User.Builder(NAME, EMAIL, PASSWORD).build();
         userRepository.save(user);
+        Sponsor sponsor = new Sponsor.Builder(SLUG, NAME).build();
+        sponsorRepository.save(sponsor);
+
+        assets = new Assets.Builder(FILENAME, REAL_PATH, FILE_SIZE, DOWNLOAD_COUNT).user(user).sponsor(sponsor).build();
+        assetsRepository.save(assets);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     public void testSaveException() {
-        user = new User();
-        userRepository.save(user);
+        assets = new Assets();
+        assetsRepository.save(assets);
     }
 }

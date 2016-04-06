@@ -40,6 +40,7 @@ public class ConferenceRoleServiceImpl implements ConferenceRoleService{
         LOGGER.debug("Create a conferenceRole with Info: {}", added);
 
         added = conferenceRoleRepository.save(added);
+
         LOGGER.debug("Successfully created");
 
         return added;
