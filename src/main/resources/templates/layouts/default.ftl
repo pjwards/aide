@@ -36,7 +36,7 @@
 <#--<meta name="theme-color" content="#ffffff">-->
 </@layout.block>
 </head>
-<body>
+<body  id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 <@layout.block name="header">
 </@layout.block>
 
