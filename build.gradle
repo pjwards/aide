@@ -64,6 +64,12 @@ dependencies {
     // Apache Commons
     compile "commons-lang:commons-lang:${apacheCommonsVersion}"
 
+    // Json
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    // Joda Time
+    compile 'joda-time:joda-time:2.9.3'
+
     // Test
     compile "com.jayway.jsonpath:json-path:${jsonPathVersion}"
 
