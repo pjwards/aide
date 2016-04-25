@@ -63,7 +63,7 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">${conference.name}</h1>
-                        <p class="intro-text">${conference.description}</p>
+                        <p class="intro-text">${conference.slogan}</p>
                         <a href="#about" class="btn btn-circle page-scroll">
                             <i class="fa fa-angle-double-down animated"></i>
                         </a>
@@ -77,15 +77,7 @@
     <section id="about" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>About Grayscale</h2>
-                <p>Grayscale is a free Bootstrap 3 theme created by Start Bootstrap. It can be yours right now, simply
-                    download the template on <a href="http://startbootstrap.com/template-overviews/grayscale/">the
-                        preview page</a>. The theme is open source, and you can use it for any purpose, personal or
-                    commercial.</p>
-                <p>This theme features stock photos by <a href="http://gratisography.com/">Gratisography</a> along with
-                    a custom Google Maps skin courtesy of <a href="http://snazzymaps.com/">Snazzy Maps</a>.</p>
-                <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy
-                    customization.</p>
+            ${conference.description}
             </div>
         </div>
     </section>
@@ -95,10 +87,9 @@
         <div class="download-section">
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Download Grayscale</h2>
-                    <p>You can download Grayscale for free on the preview page at Start Bootstrap.</p>
-                    <a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visit
-                        Download Page</a>
+                    <a href="#schedule" class="btn btn-default btn-lg">
+                        SCHEDULE
+                    </a>
                 </div>
             </div>
         </div>
@@ -108,9 +99,7 @@
     <section id="contact" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Contact Start Bootstrap</h2>
-                <p>Feel free to email us to provide some feedback on our templates, give us suggestions for new
-                    templates and themes, or to just say hello!</p>
+                <h2>Contact</h2>
                 <p><a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a>
                 </p>
                 <ul class="list-inline banner-social-buttons">
@@ -138,13 +127,6 @@
     <@layout.put block="footer" type="replace">
         <@layout.extends name="layouts/footer.ftl">
         </@layout.extends>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>Copyright &copy; Your Website 2014</p>
-        </div>
-    </footer>
     </@layout.put>
 
     <@layout.put block="script">
@@ -153,9 +135,18 @@
 
     <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
     <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4PT3dSdoItwtIzCSe6E0FepFqYJM8U7Q"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="/lib/grayscale/js/grayscale.js"></script>
+    <script src="/lib/grayscale/js/map.js"></script>
+    <script>
+        var locationUrl = "${conference.locationUrl}";
+        // When the window has finished loading create our google map below
+        google.maps.event.addDomListener(window, 'load', init.bind(null, ${conference.lat} , ${conference.lan} , locationUrl));
+        google.maps.event.addDomListener(window, 'resize', function () {
+            map.setCenter(new google.maps.LatLng( ${conference.lat}, ${conference.lan}));
+        });
+    </script>
     </@layout.put>
 </@layout.extends>

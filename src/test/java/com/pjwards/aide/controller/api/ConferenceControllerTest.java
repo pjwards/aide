@@ -40,9 +40,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 public class ConferenceControllerTest {
 
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceControllerTest.class);
     private static final String NAME = "name";
+    private static final String SLOGAN = "slogan";
     private static final String DESCRIPTION = "description";
 
     private MockMvc mockMvc;
@@ -65,11 +65,13 @@ public class ConferenceControllerTest {
         Conference first = new ConferenceBuilder()
                 .id(1L)
                 .name("name1")
+                .slogan("slogan1")
                 .description("description1")
                 .build();
         Conference second = new ConferenceBuilder()
                 .id(2L)
                 .name("name2")
+                .slogan("slogan2")
                 .description("description2")
                 .build();
 
@@ -81,9 +83,11 @@ public class ConferenceControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("name1")))
+                .andExpect(jsonPath("$[0].slogan", is("slogan1")))
                 .andExpect(jsonPath("$[0].description", is("description1")))
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].name", is("name2")))
+                .andExpect(jsonPath("$[1].slogan", is("slogan2")))
                 .andExpect(jsonPath("$[1].description", is("description2")));
 
         verify(conferenceServiceMock, times(1)).findAll();
@@ -95,6 +99,7 @@ public class ConferenceControllerTest {
         Conference added = new ConferenceBuilder()
                 .id(1L)
                 .name(NAME)
+                .slogan(SLOGAN)
                 .description(DESCRIPTION)
                 .build();
 
@@ -109,6 +114,7 @@ public class ConferenceControllerTest {
                 .andExpect(jsonPath("$.message", is("Conference created successfully")))
                 .andExpect(jsonPath("$.conference.id", is(1)))
                 .andExpect(jsonPath("$.conference.name", is(NAME)))
+                .andExpect(jsonPath("$.conference.slogan", is(SLOGAN)))
                 .andExpect(jsonPath("$.conference.description", is(DESCRIPTION)));
 
         ArgumentCaptor<Conference> conferenceArgumentCaptor = ArgumentCaptor.forClass(Conference.class);
@@ -118,6 +124,7 @@ public class ConferenceControllerTest {
         Conference conferenceArgument = conferenceArgumentCaptor.getValue();
         assertThat(conferenceArgument.getId(), is(1L));
         assertThat(conferenceArgument.getName(), is(NAME));
+        assertThat(conferenceArgument.getSlogan(), is(SLOGAN));
         assertThat(conferenceArgument.getDescription(), is(DESCRIPTION));
     }
 
@@ -136,11 +143,17 @@ public class ConferenceControllerTest {
     }
 
     @Test(expected = NoInteractionsWanted.class)
-    public void testCreate_NameAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
+    public void testCreate_StringAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
         String name = TestUtil.createStringWithLength(Conference.MAX_LENGTH_NAME + 1);
+        String slogan = TestUtil.createStringWithLength(Conference.MAX_LENGTH_SLOGAN + 1);
+        String location = TestUtil.createStringWithLength(Conference.MAX_LENGTH_LOCATION + 1);
+        String locationUrl = TestUtil.createStringWithLength(Conference.MAX_LENGTH_LOCATION_URL + 1);
+
         Conference conference = new ConferenceBuilder()
                 .name(name)
+                .slogan(slogan)
                 .description(DESCRIPTION)
+                .location(location, locationUrl)
                 .build();
 
         mockMvc.perform(post("/api/conferences")
@@ -158,6 +171,7 @@ public class ConferenceControllerTest {
         Conference found = new ConferenceBuilder()
                 .id(1L)
                 .name(NAME)
+                .slogan(SLOGAN)
                 .description(DESCRIPTION)
                 .build();
 
@@ -168,6 +182,7 @@ public class ConferenceControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is(NAME)))
+                .andExpect(jsonPath("$.slogan", is(SLOGAN)))
                 .andExpect(jsonPath("$.description", is(DESCRIPTION)));
 
         verify(conferenceServiceMock, times(1)).findById(1L);
@@ -190,6 +205,7 @@ public class ConferenceControllerTest {
         Conference updated = new ConferenceBuilder()
                 .id(1L)
                 .name(NAME)
+                .slogan(SLOGAN)
                 .description(DESCRIPTION)
                 .build();
 
@@ -204,6 +220,7 @@ public class ConferenceControllerTest {
                 .andExpect(jsonPath("$.message", is("Conference updated successfully")))
                 .andExpect(jsonPath("$.conference.id", is(1)))
                 .andExpect(jsonPath("$.conference.name", is(NAME)))
+                .andExpect(jsonPath("$.conference.slogan", is(SLOGAN)))
                 .andExpect(jsonPath("$.conference.description", is(DESCRIPTION)));
 
         ArgumentCaptor<Conference> conferenceArgumentCaptor = ArgumentCaptor.forClass(Conference.class);
@@ -213,6 +230,7 @@ public class ConferenceControllerTest {
         Conference conferenceArgument = conferenceArgumentCaptor.getValue();
         assertThat(conferenceArgument.getId(), is(1L));
         assertThat(conferenceArgument.getName(), is(NAME));
+        assertThat(conferenceArgument.getSlogan(), is(SLOGAN));
         assertThat(conferenceArgument.getDescription(), is(DESCRIPTION));
     }
 
@@ -233,12 +251,18 @@ public class ConferenceControllerTest {
     }
 
     @Test(expected = NoInteractionsWanted.class)
-    public void testUpdate_NameAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
+    public void testUpdate_StringAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
         String name = TestUtil.createStringWithLength(Conference.MAX_LENGTH_NAME + 1);
+        String slogan = TestUtil.createStringWithLength(Conference.MAX_LENGTH_SLOGAN + 1);
+        String location = TestUtil.createStringWithLength(Conference.MAX_LENGTH_LOCATION + 1);
+        String locationUrl = TestUtil.createStringWithLength(Conference.MAX_LENGTH_LOCATION_URL + 1);
+
         Conference conference = new ConferenceBuilder()
                 .id(1L)
                 .name(name)
+                .slogan(slogan)
                 .description(DESCRIPTION)
+                .location(location, locationUrl)
                 .build();
 
         mockMvc.perform(put("/api/conferences/{id}", 1L)
@@ -256,6 +280,7 @@ public class ConferenceControllerTest {
         Conference updated = new ConferenceBuilder()
                 .id(3L)
                 .name(NAME)
+                .slogan(SLOGAN)
                 .description(DESCRIPTION)
                 .build();
 
@@ -274,6 +299,7 @@ public class ConferenceControllerTest {
         Conference conferenceArgument = conferenceArgumentCaptor.getValue();
         assertThat(conferenceArgument.getId(), is(3L));
         assertThat(conferenceArgument.getName(), is(NAME));
+        assertThat(conferenceArgument.getSlogan(), is(SLOGAN));
         assertThat(conferenceArgument.getDescription(), is(DESCRIPTION));
     }
 
@@ -282,6 +308,7 @@ public class ConferenceControllerTest {
         Conference deleted = new ConferenceBuilder()
                 .id(1L)
                 .name(NAME)
+                .slogan(SLOGAN)
                 .description(DESCRIPTION)
                 .build();
 
@@ -293,6 +320,7 @@ public class ConferenceControllerTest {
                 .andExpect(jsonPath("$.message", is("Conference deleted successfully")))
                 .andExpect(jsonPath("$.conference.id", is(1)))
                 .andExpect(jsonPath("$.conference.name", is(NAME)))
+                .andExpect(jsonPath("$.conference.slogan", is(SLOGAN)))
                 .andExpect(jsonPath("$.conference.description", is(DESCRIPTION)));
 
         verify(conferenceServiceMock, times(1)).deleteById(1L);

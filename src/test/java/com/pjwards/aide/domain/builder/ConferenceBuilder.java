@@ -17,12 +17,23 @@ public class ConferenceBuilder {
     }
 
     public ConferenceBuilder name(String name) {
-        model.update(name, model.getDescription());
+        model.setName(name);
+        return this;
+    }
+
+    public ConferenceBuilder slogan(String slogan) {
+        model.setSlogan(slogan);
         return this;
     }
 
     public ConferenceBuilder description(String description) {
-        model.update(model.getName(), description);
+        model.setDescription(description);
+        return this;
+    }
+
+    public ConferenceBuilder location(String location, String locationUrl) {
+        model.setLocation(location);
+        model.setLocationUrl(locationUrl);
         return this;
     }
 

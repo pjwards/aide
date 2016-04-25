@@ -5,7 +5,7 @@ import com.pjwards.aide.config.ApplicationConfig;
 import com.pjwards.aide.domain.Assets;
 import com.pjwards.aide.domain.builder.AssetsBuilder;
 import com.pjwards.aide.exception.AssetsNotFoundException;
-import com.pjwards.aide.service.Assets.AssetsService;
+import com.pjwards.aide.service.assets.AssetsService;
 import com.pjwards.aide.util.TestUtil;
 import org.junit.Before;
 import org.junit.Test;

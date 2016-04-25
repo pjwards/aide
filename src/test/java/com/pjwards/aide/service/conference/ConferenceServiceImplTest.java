@@ -20,8 +20,10 @@ public class ConferenceServiceImplTest {
 
     private static final Long ID = 1L;
     private static final String NAME = "name";
+    private static final String SLOGAN = "slogan";
     private static final String DESCRIPTION = "description";
     private static final String UPDATED_NAME = "updated name";
+    private static final String UPDATED_SLOGAN = "updated slogan";
     private static final String UPDATED_DESCRIPTION = "updated description";
 
     private ConferenceRepository conferenceRepositoryMock;
@@ -50,6 +52,7 @@ public class ConferenceServiceImplTest {
     public void testAdd_NewConference_ShouldSaveConference() {
         Conference conference = new ConferenceBuilder()
                 .name(NAME)
+                .slogan(SLOGAN)
                 .description(DESCRIPTION)
                 .build();
 
@@ -63,6 +66,7 @@ public class ConferenceServiceImplTest {
 
         assertNull(model.getId());
         assertThat(model.getName(), is(conference.getName()));
+        assertThat(model.getSlogan(), is(conference.getSlogan()));
         assertThat(model.getDescription(), is(conference.getDescription()));
     }
 
@@ -71,6 +75,7 @@ public class ConferenceServiceImplTest {
         Conference model = new ConferenceBuilder()
                 .id(ID)
                 .name(NAME)
+                .slogan(SLOGAN)
                 .description(DESCRIPTION)
                 .build();
 
@@ -99,11 +104,13 @@ public class ConferenceServiceImplTest {
         Conference updated = new ConferenceBuilder()
                 .id(ID)
                 .name(UPDATED_NAME)
+                .slogan(UPDATED_SLOGAN)
                 .description(UPDATED_DESCRIPTION)
                 .build();
         Conference model = new ConferenceBuilder()
                 .id(ID)
                 .name(NAME)
+                .slogan(SLOGAN)
                 .description(DESCRIPTION)
                 .build();
 
@@ -117,6 +124,7 @@ public class ConferenceServiceImplTest {
 
         assertThat(model.getId(), is(updated.getId()));
         assertThat(model.getName(), is(updated.getName()));
+        assertThat(model.getSlogan(), is(updated.getSlogan()));
         assertThat(model.getDescription(), is(updated.getDescription()));
     }
 
@@ -125,6 +133,7 @@ public class ConferenceServiceImplTest {
         Conference updated = new ConferenceBuilder()
                 .id(ID)
                 .name(UPDATED_NAME)
+                .slogan(UPDATED_SLOGAN)
                 .description(UPDATED_DESCRIPTION)
                 .build();
 
@@ -141,6 +150,7 @@ public class ConferenceServiceImplTest {
         Conference model = new ConferenceBuilder()
                 .id(ID)
                 .name(NAME)
+                .slogan(SLOGAN)
                 .description(DESCRIPTION)
                 .build();
 

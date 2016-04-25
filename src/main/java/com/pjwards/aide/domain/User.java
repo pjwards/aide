@@ -54,6 +54,22 @@ public class User {
     @OneToOne
     private Assets assets;
 
+    @ManyToMany(
+            targetEntity = Room.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "managerSet"
+    )
+    private Set<Room> roomSet;
+
+    @ManyToMany(
+            targetEntity = Program.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "speakerSet"
+    )
+    private Set<Program> programSet;
+
     public Long getId() {
         return id;
     }
@@ -88,6 +104,14 @@ public class User {
 
     public Assets getAssets() {
         return assets;
+    }
+
+    public Set<Room> getRoomSet() {
+        return roomSet;
+    }
+
+    public Set<Program> getProgramSet() {
+        return programSet;
     }
 
     public User(){

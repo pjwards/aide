@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.mockito.exceptions.verification.NoInteractionsWanted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class ProgramDateControllerTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProgramDateControllerTest.class);
+    private static final String NAME = "name";
     private static final String DAY = "2016-01-01";
 
     private MockMvc mockMvc;
@@ -62,10 +64,12 @@ public class ProgramDateControllerTest {
     public void testGetAll_ProgramDatesFound_ShoudReturnFoundProgramDate() throws Exception {
         ProgramDate first = new ProgramDateBuilder()
                 .id(1L)
+                .name("name1")
                 .day("2016-01-01")
                 .build();
         ProgramDate second = new ProgramDateBuilder()
                 .id(2L)
+                .name("name2")
                 .day("2016-01-02")
                 .build();
 
@@ -76,8 +80,10 @@ public class ProgramDateControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].name", is("name1")))
                 .andExpect(jsonPath("$[0].day", is(TestUtil.convertUTCDateToGMTString(first.getDay()))))
                 .andExpect(jsonPath("$[1].id", is(2)))
+                .andExpect(jsonPath("$[1].name", is("name2")))
                 .andExpect(jsonPath("$[1].day", is(TestUtil.convertUTCDateToGMTString(second.getDay()))));
 
         verify(programDateServiceMock, times(1)).findAll();
@@ -88,6 +94,7 @@ public class ProgramDateControllerTest {
     public void testCreate_NewProgramDate_ShouldAddProgramDateReturnAddedProgramDate() throws Exception {
         ProgramDate added = new ProgramDateBuilder()
                 .id(1L)
+                .name(NAME)
                 .day(DAY)
                 .build();
 
@@ -101,6 +108,7 @@ public class ProgramDateControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message", is("Program date created successfully")))
                 .andExpect(jsonPath("$.programDate.id", is(1)))
+                .andExpect(jsonPath("$.programDate.name", is(NAME)))
                 .andExpect(jsonPath("$.programDate.day", is(TestUtil.convertUTCDateToGMTString(added.getDay()))));
 
         ArgumentCaptor<ProgramDate> programDateArgumentCaptor = ArgumentCaptor.forClass(ProgramDate.class);
@@ -109,6 +117,7 @@ public class ProgramDateControllerTest {
 
         ProgramDate programDateArgument = programDateArgumentCaptor.getValue();
         assertThat(programDateArgument.getId(), is(1L));
+        assertThat(programDateArgument.getName(), is(added.getName()));
         assertThat(programDateArgument.getDay(), is(added.getDay()));
     }
 
@@ -126,10 +135,30 @@ public class ProgramDateControllerTest {
         verifyZeroInteractions(programDateServiceMock);
     }
 
+    @Test(expected = NoInteractionsWanted.class)
+    public void testCreate_StringAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
+        String name = TestUtil.createStringWithLength(ProgramDate.MAX_LENGTH_NAME + 1);
+
+        ProgramDate programDate = new ProgramDateBuilder()
+                .name(name)
+                .day(DAY)
+                .build();
+
+        mockMvc.perform(post("/api/program-dates")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(programDate))
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
+
+        verifyZeroInteractions(programDateServiceMock);
+    }
+
     @Test
     public void testGetDetails_ProgramDateFound_ShouldReturnFoundProgramDate() throws Exception {
         ProgramDate found = new ProgramDateBuilder()
                 .id(1L)
+                .name(NAME)
                 .day(DAY)
                 .build();
         ;
@@ -140,6 +169,7 @@ public class ProgramDateControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.name", is(NAME)))
                 .andExpect(jsonPath("$.day", is(TestUtil.convertUTCDateToGMTString(found.getDay()))));
 
         verify(programDateServiceMock, times(1)).findById(1L);
@@ -161,6 +191,7 @@ public class ProgramDateControllerTest {
     public void testUpdate_ProgramDateFound_ShouldUpdateProgramDateAndReturnIt() throws Exception {
         ProgramDate updated = new ProgramDateBuilder()
                 .id(1L)
+                .name(NAME)
                 .day(DAY)
                 .build();
 
@@ -174,6 +205,7 @@ public class ProgramDateControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message", is("Program date updated successfully")))
                 .andExpect(jsonPath("$.programDate.id", is(1)))
+                .andExpect(jsonPath("$.programDate.name", is(NAME)))
                 .andExpect(jsonPath("$.programDate.day", is(TestUtil.convertUTCDateToGMTString(updated.getDay()))));
 
         ArgumentCaptor<ProgramDate> programDateArgumentCaptor = ArgumentCaptor.forClass(ProgramDate.class);
@@ -182,6 +214,7 @@ public class ProgramDateControllerTest {
 
         ProgramDate programDateArgument = programDateArgumentCaptor.getValue();
         assertThat(programDateArgument.getId(), is(1L));
+        assertThat(programDateArgument.getName(), is(updated.getName()));
         assertThat(programDateArgument.getDay(), is(updated.getDay()));
     }
 
@@ -205,6 +238,7 @@ public class ProgramDateControllerTest {
     public void testUpdate_ProgramDateNotFound_ShouldReturnHttpStatusCode400() throws Exception {
         ProgramDate updated = new ProgramDateBuilder()
                 .id(3L)
+                .name(NAME)
                 .day(DAY)
                 .build();
         when(programDateServiceMock.update(any(ProgramDate.class))).thenThrow(new ProgramDateNotFoundException(""));
@@ -221,13 +255,35 @@ public class ProgramDateControllerTest {
 
         ProgramDate programDateArgument = programDateArgumentCaptor.getValue();
         assertThat(programDateArgument.getId(), is(3L));
+        assertThat(programDateArgument.getName(), is(updated.getName()));
         assertThat(programDateArgument.getDay(), is(updated.getDay()));
+    }
+
+    @Test(expected = NoInteractionsWanted.class)
+    public void testUpdate_StringAreTooLong_ShouldOccurNoInteractionsWanted() throws Exception {
+        String name = TestUtil.createStringWithLength(ProgramDate.MAX_LENGTH_NAME + 1);
+
+        ProgramDate programDate = new ProgramDateBuilder()
+                .id(1L)
+                .name(name)
+                .day(DAY)
+                .build();
+
+        mockMvc.perform(put("/api/program-dates/{id}", 1L)
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(programDate))
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8));
+
+        verifyZeroInteractions(programDateServiceMock);
     }
 
     @Test
     public void testDelete_ProgramDateFound_ShouldDeleteProgramDateAndReturnIt() throws Exception {
         ProgramDate deleted = new ProgramDateBuilder()
                 .id(1L)
+                .name(NAME)
                 .day(DAY)
                 .build();
 
@@ -238,6 +294,7 @@ public class ProgramDateControllerTest {
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.message", is("Program date deleted successfully")))
                 .andExpect(jsonPath("$.programDate.id", is(1)))
+                .andExpect(jsonPath("$.programDate.name", is(NAME)))
                 .andExpect(jsonPath("$.programDate.day", is(TestUtil.convertUTCDateToGMTString(deleted.getDay()))));
 
         verify(programDateServiceMock, times(1)).deleteById(1L);

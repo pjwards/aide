@@ -13,41 +13,31 @@ public class ConferenceTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceTest.class);
     private static final String NAME = "name";
-    private static final  String DESCRIPTION = "description";
+    private static final String SLOGAN = "slogan";
+    private static final String DESCRIPTION = "description";
+    private static final String LOCATION = "location";
+    private static final String LOCATION_URL = "location url";
 
     private Conference conference;
 
     @Before
     public void setup() {
-        conference = new Conference.Builder(NAME, DESCRIPTION).build();
+        conference = new Conference.Builder(NAME, SLOGAN, DESCRIPTION)
+                .location(LOCATION).locationUrl(LOCATION_URL).build();
     }
 
     @Test
     public void testBuildWithMandatoryInformation() {
         assertThat(conference.getId(), nullValue());
         assertThat(conference.getName(), is(NAME));
+        assertThat(conference.getSlogan(), is(SLOGAN));
         assertThat(conference.getDescription(), is(DESCRIPTION));
+        assertThat(conference.getLocation(), is(LOCATION));
+        assertThat(conference.getLocationUrl(), is(LOCATION_URL));
         assertThat(conference.getRooms(), nullValue());
         assertThat(conference.getProgramDateList(), nullValue());
         assertThat(conference.getProgramList(), nullValue());
-    }
-
-    @Test
-    public void testUpdate() {
-        String UPDATED_NAME = "updated name";
-        String UPDATED_DESCRIPTION = "updated description";
-        Conference updatedConference = new Conference.Builder(UPDATED_NAME, UPDATED_DESCRIPTION).build();
-        conference.update(updatedConference);
-
-        assertThat(conference.getId(), nullValue());
-        assertThat(conference.getName(), is(UPDATED_NAME));
-        assertThat(conference.getDescription(), is(UPDATED_DESCRIPTION));
-        assertThat(conference.getRooms(), nullValue());
-        assertThat(conference.getProgramDateList(), nullValue());
-        assertThat(conference.getProgramList(), nullValue());
-
-        conference.update(NAME, DESCRIPTION);
-        assertThat(conference.getName(), is(NAME));
-        assertThat(conference.getDescription(), is(DESCRIPTION));
+        assertThat(conference.getHost(), nullValue());
+        assertThat(conference.getAssetsSet(), nullValue());
     }
 }

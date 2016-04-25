@@ -21,6 +21,7 @@ public class RoomRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomRepositoryTest.class);
     private static final String NAME = "name";
+    private static final String SLOGAN = "slogan";
     private static final String LOCATION = "location";
     private static final String DESCRIPTION = "description";
 
@@ -40,7 +41,7 @@ public class RoomRepositoryTest {
 
     @Test
     public void testSaveWithAll() {
-        Conference conference = new Conference.Builder(NAME, DESCRIPTION).build();
+        Conference conference = new Conference.Builder(NAME, SLOGAN, DESCRIPTION).build();
         conferenceRepository.save(conference);
 
         room = new Room.Builder(NAME, LOCATION, DESCRIPTION).conference(conference).build();

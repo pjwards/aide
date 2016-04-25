@@ -17,17 +17,17 @@ public class RoomBuilder {
     }
 
     public RoomBuilder name(String name) {
-        model.update(name, model.getLocation(), model.getDescription());
+        model.setName(name);
         return this;
     }
 
     public RoomBuilder location(String location) {
-        model.update(model.getName(), location, model.getDescription());
+        model.setLocation(location);
         return this;
     }
 
     public RoomBuilder description(String description) {
-        model.update(model.getName(), model.getLocation(), description);
+        model.setDescription(description);
         return this;
     }
 

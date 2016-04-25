@@ -18,6 +18,11 @@ public class ProgramDateBuilder {
         return this;
     }
 
+    public ProgramDateBuilder name(String name) throws ParseException {
+        model.setName(name);
+        return this;
+    }
+
     public ProgramDateBuilder day(String day) throws ParseException {
         model.setFormattedDay(day);
         return this;

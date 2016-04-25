@@ -1,7 +1,7 @@
 <#assign dateTime = .now>
 
-<#--<footer>-->
-    <#--<p>-->
-        <#--Copyright &copy; ${dateTime?string.yyyy} Donghyun Seo All rights reserved.-->
-    <#--</p>-->
-<#--</footer>-->
+<footer>
+    <div class="container text-center">
+        <p>Copyright &copy; ${dateTime?string.yyyy} pjwards.com rights reserved.</p>
+    </div>
+</footer>

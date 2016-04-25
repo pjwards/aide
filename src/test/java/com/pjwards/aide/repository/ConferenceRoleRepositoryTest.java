@@ -28,8 +28,9 @@ public class ConferenceRoleRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceRoleRepositoryTest.class);
     private static final Role ROLE = Role.ADMIN;
-    private static final String NAME = "jisung";
-    private static final String DESCRPTION = "hello";
+    private static final String NAME = "name";
+    private static final String SLOGAN = "slogan";
+    private static final String DESCRIPTION = "description";
     private static final String EMAIL = "a@a.com";
     private static final String PASSWORD = "4194105091094";
 
@@ -51,16 +52,16 @@ public class ConferenceRoleRepositoryTest {
     }
 
     @Test
-    public void testSaveWithAll() throws ParseException{
-        Conference conference = new Conference.Builder(NAME, DESCRPTION).build();
+    public void testSaveWithAll() throws ParseException {
+        Conference conference = new Conference.Builder(NAME, SLOGAN, DESCRIPTION).build();
         conferenceRepository.save(conference);
 
         User user = new User.Builder(NAME, EMAIL, PASSWORD).build();
         userRepository.save(user);
 
-        conferenceRole = new ConferenceRole.Builder(ROLE).user(new HashSet<User>(){{
+        conferenceRole = new ConferenceRole.Builder(ROLE).user(new HashSet<User>() {{
             add(user);
-        }}).conference(new HashSet<Conference>(){{
+        }}).conference(new HashSet<Conference>() {{
             add(conference);
         }}).build();
 
@@ -68,7 +69,7 @@ public class ConferenceRoleRepositoryTest {
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    public void testSaveException(){
+    public void testSaveException() {
         conferenceRole = new ConferenceRole();
         conferenceRoleRepository.save(conferenceRole);
     }

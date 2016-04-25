@@ -1,14 +1,15 @@
 package com.pjwards.aide.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.pjwards.aide.domain.enums.ProgramType;
 import com.pjwards.aide.exception.WrongInputDateException;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
-import java.sql.Time;
-import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Program {
@@ -27,27 +28,38 @@ public class Program {
     @Column(nullable = false)
     private String description;
 
-    @Temporal(TemporalType.TIME)
-    @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssz")
-    private Date begin;
+    @Column(nullable = false, length = 5)
+    private String begin;
 
-    @Temporal(TemporalType.TIME)
-    @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssz")
-    private Date end;
+    @Column(nullable = false, length = 5)
+    private String end;
 
     @ManyToOne
     @JoinColumn(name = "program_date_id")
+    @JsonBackReference
     private ProgramDate date;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
+    @JsonBackReference
     private Room room;
 
     @ManyToOne
     @JoinColumn(name = "conference_id")
+    @JsonBackReference
     private Conference conference;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "SPEAKER",
+            joinColumns = @JoinColumn(name = "PROGRAM_ID_FRK"),
+            inverseJoinColumns = @JoinColumn(name = "SPEAKER_ID_FRK")
+    )
+    @JsonBackReference
+    private Set<User> speakerSet;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProgramType programType = ProgramType.SESSION;
 
     public Program() {
     }
@@ -60,6 +72,11 @@ public class Program {
         return title;
     }
 
+    public Program setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -69,42 +86,67 @@ public class Program {
         return this;
     }
 
-    public Date getBegin() {
+    public String getBegin() {
         return begin;
     }
 
-    public Date getEnd() {
+    public Program setBegin(String begin) {
+        this.begin = begin;
+        return this;
+    }
+
+    public String getEnd() {
         return end;
     }
 
-    /**
-     * Get begin time
-     *
-     * @return begin time
-     */
-    public Time getBeginTime() {
-        return new Time(this.getBegin().getTime());
-    }
-
-    /**
-     * Get end time
-     *
-     * @return end time
-     */
-    public Time getEndTime() {
-        return new Time(this.getEnd().getTime());
+    public Program setEnd(String end) {
+        this.end = end;
+        return this;
     }
 
     public ProgramDate getDate() {
         return date;
     }
 
+    public Program setDate(ProgramDate date) {
+        this.date = date;
+        return this;
+    }
+
     public Room getRoom() {
         return room;
     }
 
+    public Program setRoom(Room room) {
+        this.room = room;
+        return this;
+    }
+
     public Conference getConference() {
         return conference;
+    }
+
+    public Program setConference(Conference conference) {
+        this.conference = conference;
+        return this;
+    }
+
+    public Set<User> getSpeakerSet() {
+        return speakerSet;
+    }
+
+    public Program setSpeakerSet(Set<User> speakerSet) {
+        this.speakerSet = speakerSet;
+        return this;
+    }
+
+    public ProgramType getProgramType() {
+        return programType;
+    }
+
+    public Program setProgramType(ProgramType programType) {
+        this.programType = programType;
+        return this;
     }
 
     public void update(Program updated) {
@@ -114,24 +156,22 @@ public class Program {
         this.end = updated.end;
     }
 
-    public void update(String title, String description, Date begin, Date end) {
-        this.title = title;
-        this.description = description;
-        this.begin = begin;
-        this.end = end;
-    }
-
     public void dateChecker() throws WrongInputDateException {
         this.dateChecker(this.begin, this.end);
     }
 
-
-    public void dateChecker(Date begin, Date end) throws WrongInputDateException {
+    public void dateChecker(String begin, String end) throws WrongInputDateException {
         if (begin == null) {
             throw new WrongInputDateException("Input wrong date, begin is empty.");
         } else if (end == null) {
             throw new WrongInputDateException("Input wrong date, end is empty.");
-        } else if (begin.getTime() > end.getTime()) {
+        }
+        LocalTime beginTime = new LocalTime(begin);
+        LocalTime endTime = new LocalTime(end);
+
+        Boolean wrongTime = beginTime.isAfter(endTime);
+
+        if (wrongTime) {
             throw new WrongInputDateException(String.format("Input wrong dates begin: %s,end: %s", begin, end));
         }
         LOGGER.debug("Input wrong dates begin: {}, end: {}", begin, end);
@@ -140,12 +180,18 @@ public class Program {
     public static class Builder {
         private Program built;
 
-        public Builder(String title, String description, Date begin, Date end) {
+        public Builder(String title, String description, String begin, String end) {
             built = new Program();
             built.title = title;
             built.description = description;
             built.begin = begin;
             built.end = end;
+        }
+
+        public Builder(String title, String description) {
+            built = new Program();
+            built.title = title;
+            built.description = description;
         }
 
         public Program build() {
@@ -164,6 +210,16 @@ public class Program {
 
         public Builder date(ProgramDate date) {
             built.date = date;
+            return this;
+        }
+
+        public Builder speakerSet(Set<User> speakerSet) {
+            built.speakerSet = speakerSet;
+            return this;
+        }
+
+        public Builder programType(ProgramType programType) {
+            built.programType = programType;
             return this;
         }
     }

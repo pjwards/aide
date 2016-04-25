@@ -22,6 +22,7 @@ import java.text.ParseException;
 public class ProgramDateRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProgramDateRepositoryTest.class);
+    private static final String NAME = "name";
     private static final String DAY = "2016-01-01";
 
     private ProgramDate programDate;
@@ -34,16 +35,16 @@ public class ProgramDateRepositoryTest {
 
     @Test
     public void testSaveWithMandatory() throws ParseException {
-        programDate = new ProgramDate.Builder(DAY).build();
+        programDate = new ProgramDate.Builder(NAME, DAY).build();
         programDateRepository.save(programDate);
     }
 
     @Test
     public void testSaveWithAll() throws ParseException {
-        Conference conference = new Conference.Builder("name", "description").build();
+        Conference conference = new Conference.Builder("name", "slogan", "description").build();
         conferenceRepository.save(conference);
 
-        programDate = new ProgramDate.Builder(DAY).conference(conference).build();
+        programDate = new ProgramDate.Builder(NAME, DAY).conference(conference).build();
         programDateRepository.save(programDate);
     }
 

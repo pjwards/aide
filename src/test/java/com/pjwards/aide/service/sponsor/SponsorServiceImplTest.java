@@ -1,4 +1,4 @@
-package com.pjwards.aide.service.Sponsor;
+package com.pjwards.aide.service.sponsor;
 
 
 import com.pjwards.aide.domain.Sponsor;

@@ -20,7 +20,9 @@ import static org.mockito.Mockito.*;
 public class ProgramDateServiceImplTest {
 
     private static final Long ID = 1L;
+    private static final String NAME = "name";
     private static final String DAY = "2016-01-01";
+    private static final String UPDATED_NAME = "updated name";
     private static final String UPDATED_DAY = "2016-01-02";
 
     private ProgramDateRepository programDateRepositoryMock;
@@ -48,6 +50,7 @@ public class ProgramDateServiceImplTest {
     @Test
     public void testAdd_NewProgramDate_ShouldSaveProgramDate() throws ParseException {
         ProgramDate programDate = new ProgramDateBuilder()
+                .name(NAME)
                 .day(DAY)
                 .build();
 
@@ -60,6 +63,7 @@ public class ProgramDateServiceImplTest {
         ProgramDate model = programDateArgumentCaptor.getValue();
 
         assertNull(model.getId());
+        assertThat(model.getName(), is(programDate.getName()));
         assertThat(model.getDay(), is(programDate.getDay()));
     }
 
@@ -67,6 +71,7 @@ public class ProgramDateServiceImplTest {
     public void testFindById_ProgramDateFound_ShouldReturnFoundProgramDate() throws ProgramDateNotFoundException, ParseException {
         ProgramDate model = new ProgramDateBuilder()
                 .id(ID)
+                .name(NAME)
                 .day(DAY)
                 .build();
 
@@ -94,10 +99,12 @@ public class ProgramDateServiceImplTest {
     public void testUpdate_ProgramDateFound_ShouldUpdateProgramDate() throws ProgramDateNotFoundException, ParseException {
         ProgramDate updated = new ProgramDateBuilder()
                 .id(ID)
+                .name(UPDATED_NAME)
                 .day(UPDATED_DAY)
                 .build();
         ProgramDate model = new ProgramDateBuilder()
                 .id(ID)
+                .name(NAME)
                 .day(DAY)
                 .build();
 
@@ -110,6 +117,7 @@ public class ProgramDateServiceImplTest {
         verifyNoMoreInteractions(programDateRepositoryMock);
 
         assertThat(model.getId(), is(updated.getId()));
+        assertThat(model.getName(), is(updated.getName()));
         assertThat(model.getDay(), is(updated.getDay()));
     }
 
@@ -117,6 +125,7 @@ public class ProgramDateServiceImplTest {
     public void testUpdate_ProgramDateNotFound_ShouldThrowException() throws ProgramDateNotFoundException, ParseException {
         ProgramDate updated = new ProgramDateBuilder()
                 .id(ID)
+                .name(NAME)
                 .day(UPDATED_DAY)
                 .build();
 
@@ -132,6 +141,7 @@ public class ProgramDateServiceImplTest {
     public void testDeleteById_ProgramDateFound_ShouldDeleteProgramDateAndReturnIt() throws ProgramDateNotFoundException, ParseException {
         ProgramDate model = new ProgramDateBuilder()
                 .id(ID)
+                .name(NAME)
                 .day(DAY)
                 .build();
 

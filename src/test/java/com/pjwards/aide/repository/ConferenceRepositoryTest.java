@@ -20,7 +20,8 @@ public class ConferenceRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceRepositoryTest.class);
     private static final String NAME = "name";
-    private static final  String DESCRIPTION = "description";
+    private static final String SLOGAN = "slogan";
+    private static final String DESCRIPTION = "description";
 
     private Conference conference;
 
@@ -29,7 +30,7 @@ public class ConferenceRepositoryTest {
 
     @Test
     public void testSaveWithMandatory() {
-        conference = new Conference.Builder(NAME, DESCRIPTION).build();
+        conference = new Conference.Builder(NAME, SLOGAN, DESCRIPTION).build();
         conferenceRepository.save(conference);
     }
 

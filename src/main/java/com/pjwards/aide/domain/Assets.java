@@ -1,5 +1,6 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -28,6 +29,11 @@ public class Assets {
     @OneToOne
     Sponsor sponsor;
 
+    @ManyToOne
+    @JoinColumn(name = "conference_id")
+    @JsonBackReference
+    private Conference conference;
+
     public Long getId() {
         return id;
     }
@@ -54,6 +60,10 @@ public class Assets {
 
     public Sponsor getSponsor() {
         return sponsor;
+    }
+
+    public Conference getConference() {
+        return conference;
     }
 
     public Assets(){

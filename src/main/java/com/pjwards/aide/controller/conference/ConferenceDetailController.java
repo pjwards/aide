@@ -25,12 +25,24 @@ public class ConferenceDetailController {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public String getDetails(Model model,
                        @PathVariable("id") Long id) throws ConferenceNotFoundException {
-        LOGGER.debug("Getting home page");
+        LOGGER.debug("Getting details page");
 
         Conference conference = conferenceService.findById(id);
         model.addAttribute("conference", conference);
 
         return "conference/index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/schedule")
+    public String getSchedule(Model model,
+                             @PathVariable("id") Long id) throws ConferenceNotFoundException {
+        LOGGER.debug("Getting schedule page");
+
+        Conference conference = conferenceService.findById(id);
+        model.addAttribute("conference", conference);
+        model.addAttribute("dates", conference.getProgramDateList());
+
+        return "conference/schedule";
     }
 
 

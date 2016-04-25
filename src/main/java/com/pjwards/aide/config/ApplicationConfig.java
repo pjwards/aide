@@ -1,8 +1,5 @@
 package com.pjwards.aide.config;
 
-import com.pjwards.aide.domain.Conference;
-import com.pjwards.aide.repository.ConferenceRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -26,14 +23,5 @@ public class ApplicationConfig {
         messageSource.setUseCodeAsDefaultMessage(true);
 
         return messageSource;
-    }
-
-
-    @Bean
-    public CommandLineRunner conferenceDemo(ConferenceRepository repository) {
-        return (args) -> {
-            repository.save(new Conference.Builder("DEVIEW 2015", "DEVIEW 2015가 성황리에 끝났습니다.").build());
-            repository.save(new Conference.Builder("PYCON KOREA 2014", "한국에서 열리는 첫 번째 파이콘").build());
-        };
     }
 }
