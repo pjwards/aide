@@ -88,7 +88,7 @@
             </div>
         </div>
 
-        <#list conference.programDateList as date>
+        <#list conference.programDates as date>
             <div>
                 <div class="lay_w section3">
                     <div class="ttlb_area">
@@ -146,8 +146,6 @@
                                         </dl>
                                     </li>
                                 </#list>
-
-
 
                                 <li class="time_lst">
                                     <dl>
@@ -226,6 +224,8 @@
                                 href="http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=35B8A72DD833B489B8A0D3B32D2F617EC61B&amp;outKey=V1299d502e9b3c47bbc4fcd6e857318eed4cffd85be8521631b9acd6e857318eed4cf&amp;controlBarMovable=true&amp;jsCallable=true&amp;skinName=tvcast_white"
                                 target="_blank"><i class="xi-video-camera"><span class="blind">동영상</span></i></a></div>
                         </li>
+
+
                         </ul>
                     </div>
                 </div>

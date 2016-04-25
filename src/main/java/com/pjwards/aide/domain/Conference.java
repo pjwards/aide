@@ -1,10 +1,9 @@
 package com.pjwards.aide.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -47,22 +46,8 @@ public class Conference {
             cascade = CascadeType.REMOVE,
             fetch = FetchType.EAGER
     )
-    private List<ProgramDate> programDateList;
-
-    @OneToMany(
-            targetEntity = Room.class,
-            mappedBy = "conference",
-            fetch = FetchType.EAGER
-    )
-    private List<Room> rooms;
-
-    @OneToMany(
-            targetEntity = Program.class,
-            mappedBy = "conference",
-            cascade = CascadeType.REMOVE,
-            fetch = FetchType.EAGER
-    )
-    private List<Program> programList;
+    @JsonIgnore
+    private Set<ProgramDate> programDates;
 
     @ManyToMany(
             targetEntity = ConferenceRole.class,
@@ -80,6 +65,7 @@ public class Conference {
             mappedBy = "conference",
             fetch = FetchType.EAGER
     )
+    @JsonIgnore
     private Set<Assets> assetsSet;
 
     public Long getId() {
@@ -149,32 +135,15 @@ public class Conference {
         return this;
     }
 
-    public List<ProgramDate> getProgramDateList() {
-        return programDateList;
+    public Set<ProgramDate> getProgramDates() {
+        return programDates;
     }
 
-    public Conference setProgramDateList(List<ProgramDate> programDateList) {
-        this.programDateList = programDateList;
+    public Conference setProgramDates(Set<ProgramDate> programDates) {
+        this.programDates = programDates;
         return this;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public Conference setRooms(List<Room> rooms) {
-        this.rooms = rooms;
-        return this;
-    }
-
-    public List<Program> getProgramList() {
-        return programList;
-    }
-
-    public Conference setProgramList(List<Program> programList) {
-        this.programList = programList;
-        return this;
-    }
 
     public Set<ConferenceRole> getConferenceRoleSet() {
         return conferenceRoleSet;

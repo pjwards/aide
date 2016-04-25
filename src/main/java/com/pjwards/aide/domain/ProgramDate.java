@@ -2,6 +2,8 @@ package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.time.DateUtils;
 
@@ -36,11 +38,11 @@ public class ProgramDate {
             mappedBy = "date",
             fetch = FetchType.EAGER
     )
+    @JsonIgnore
     private List<Program> programList;
 
     @ManyToOne
     @JoinColumn(name = "conference_id")
-    @JsonBackReference
     private Conference conference;
 
     public ProgramDate() {

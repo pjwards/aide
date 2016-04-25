@@ -30,7 +30,6 @@ public class RoomTest {
         assertThat(room.getName(), is(NAME));
         assertThat(room.getLocation(), is(LOCATION));
         assertThat(room.getDescription(), is(DESCRIPTION));
-        assertThat(room.getConference(), nullValue());
         assertThat(room.getProgramList(), nullValue());
     }
 }

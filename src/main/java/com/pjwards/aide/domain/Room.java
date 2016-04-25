@@ -1,6 +1,8 @@
 package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -32,19 +34,14 @@ public class Room {
             mappedBy = "room",
             fetch = FetchType.EAGER
     )
+    @JsonIgnore
     private List<Program> programList;
-
-    @ManyToOne
-    @JoinColumn(name = "conference_id")
-    @JsonBackReference
-    private Conference conference;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "MANAGER",
             joinColumns = @JoinColumn(name = "ROOM_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "MANAGER_ID_FRK")
     )
-    @JsonBackReference
     private Set<User> managerSet;
 
     public Room() {
@@ -90,15 +87,6 @@ public class Room {
         return this;
     }
 
-    public Conference getConference() {
-        return conference;
-    }
-
-    public Room setConference(Conference conference) {
-        this.conference = conference;
-        return this;
-    }
-
     public Set<User> getManagerSet() {
         return managerSet;
     }
@@ -126,11 +114,6 @@ public class Room {
 
         public Room build() {
             return built;
-        }
-
-        public Builder conference(Conference conference) {
-            built.conference = conference;
-            return this;
         }
     }
 

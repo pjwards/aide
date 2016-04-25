@@ -40,10 +40,14 @@ public class ConferenceDetailController {
 
         Conference conference = conferenceService.findById(id);
         model.addAttribute("conference", conference);
-        model.addAttribute("dates", conference.getProgramDateList());
 
         return "conference/schedule";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/registration")
+    public String getRegistration() {
+        LOGGER.debug("Getting schedule page");
 
+        return "conference/registration";
+    }
 }

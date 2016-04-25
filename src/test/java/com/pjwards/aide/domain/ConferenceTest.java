@@ -34,9 +34,7 @@ public class ConferenceTest {
         assertThat(conference.getDescription(), is(DESCRIPTION));
         assertThat(conference.getLocation(), is(LOCATION));
         assertThat(conference.getLocationUrl(), is(LOCATION_URL));
-        assertThat(conference.getRooms(), nullValue());
-        assertThat(conference.getProgramDateList(), nullValue());
-        assertThat(conference.getProgramList(), nullValue());
+        assertThat(conference.getProgramDates(), nullValue());
         assertThat(conference.getHost(), nullValue());
         assertThat(conference.getAssetsSet(), nullValue());
     }

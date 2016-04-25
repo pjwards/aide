@@ -33,7 +33,6 @@ public class ProgramTest {
         assertThat(program.getId(), nullValue());
         assertThat(program.getTitle(), is(TITLE));
         assertThat(program.getDescription(), is(DESCRIPTION));
-        assertThat(program.getConference(), nullValue());
         assertThat(program.getRoom(), nullValue());
         assertThat(program.getDate(), nullValue());
         assertThat(program.getBegin(), is(BEGIN));

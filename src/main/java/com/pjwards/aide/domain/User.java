@@ -1,6 +1,8 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pjwards.aide.domain.enums.Role;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -60,6 +62,7 @@ public class User {
             cascade = CascadeType.REMOVE,
             mappedBy = "managerSet"
     )
+    @JsonIgnore
     private Set<Room> roomSet;
 
     @ManyToMany(
@@ -68,6 +71,7 @@ public class User {
             cascade = CascadeType.REMOVE,
             mappedBy = "speakerSet"
     )
+    @JsonIgnore
     private Set<Program> programSet;
 
     public Long getId() {

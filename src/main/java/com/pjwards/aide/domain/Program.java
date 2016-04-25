@@ -1,6 +1,7 @@
 package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.ProgramType;
 import com.pjwards.aide.exception.WrongInputDateException;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -36,25 +37,17 @@ public class Program {
 
     @ManyToOne
     @JoinColumn(name = "program_date_id")
-    @JsonBackReference
     private ProgramDate date;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
-    @JsonBackReference
     private Room room;
-
-    @ManyToOne
-    @JoinColumn(name = "conference_id")
-    @JsonBackReference
-    private Conference conference;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "SPEAKER",
             joinColumns = @JoinColumn(name = "PROGRAM_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "SPEAKER_ID_FRK")
     )
-    @JsonBackReference
     private Set<User> speakerSet;
 
     @Column(nullable = false)
@@ -119,15 +112,6 @@ public class Program {
 
     public Program setRoom(Room room) {
         this.room = room;
-        return this;
-    }
-
-    public Conference getConference() {
-        return conference;
-    }
-
-    public Program setConference(Conference conference) {
-        this.conference = conference;
         return this;
     }
 
@@ -196,11 +180,6 @@ public class Program {
 
         public Program build() {
             return built;
-        }
-
-        public Builder conference(Conference conference) {
-            built.conference = conference;
-            return this;
         }
 
         public Builder room(Room room) {

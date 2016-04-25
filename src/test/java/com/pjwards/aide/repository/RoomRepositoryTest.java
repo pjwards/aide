@@ -41,10 +41,7 @@ public class RoomRepositoryTest {
 
     @Test
     public void testSaveWithAll() {
-        Conference conference = new Conference.Builder(NAME, SLOGAN, DESCRIPTION).build();
-        conferenceRepository.save(conference);
-
-        room = new Room.Builder(NAME, LOCATION, DESCRIPTION).conference(conference).build();
+        room = new Room.Builder(NAME, LOCATION, DESCRIPTION).build();
         roomRepository.save(room);
     }
 
