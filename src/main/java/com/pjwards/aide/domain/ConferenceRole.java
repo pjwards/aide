@@ -1,6 +1,5 @@
 package com.pjwards.aide.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pjwards.aide.domain.enums.Role;
 import org.apache.commons.lang.builder.ToStringBuilder;

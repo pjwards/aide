@@ -1,8 +1,6 @@
 package com.pjwards.aide.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -32,10 +30,18 @@ public class Room {
     @OneToMany(
             targetEntity = Program.class,
             mappedBy = "room",
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JsonIgnore
     private List<Program> programList;
+
+    @OneToMany(
+            targetEntity = Session.class,
+            mappedBy = "room",
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    private List<Session> sessionList;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "MANAGER",
@@ -84,6 +90,15 @@ public class Room {
 
     public Room setProgramList(List<Program> programList) {
         this.programList = programList;
+        return this;
+    }
+
+    public List<Session> getSessionList() {
+        return sessionList;
+    }
+
+    public Room setSessionList(List<Session> sessionList) {
+        this.sessionList = sessionList;
         return this;
     }
 

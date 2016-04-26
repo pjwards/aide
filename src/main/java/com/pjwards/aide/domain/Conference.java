@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Conference {
@@ -44,7 +44,7 @@ public class Conference {
             targetEntity = ProgramDate.class,
             mappedBy = "conference",
             cascade = CascadeType.REMOVE,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JsonIgnore
     private Set<ProgramDate> programDates;
@@ -63,7 +63,7 @@ public class Conference {
     @OneToMany(
             targetEntity = Assets.class,
             mappedBy = "conference",
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JsonIgnore
     private Set<Assets> assetsSet;
@@ -135,8 +135,17 @@ public class Conference {
         return this;
     }
 
-    public Set<ProgramDate> getProgramDates() {
-        return programDates;
+    public List<ProgramDate> getProgramDates() {
+        List<ProgramDate> list = new ArrayList<>(programDates);
+        Collections.sort(list, new ProgramDateCompare());
+        return list;
+    }
+
+    class ProgramDateCompare implements Comparator<ProgramDate> {
+        @Override
+        public int compare(ProgramDate arg0, ProgramDate arg1) {
+            return arg0.getDay().compareTo(arg1.getDay());
+        }
     }
 
     public Conference setProgramDates(Set<ProgramDate> programDates) {

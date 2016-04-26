@@ -25,11 +25,12 @@ public class RoomTest {
 
     @Test
     public void testBuildWithMandatoryInformation() {
-
         assertThat(room.getId(), nullValue());
         assertThat(room.getName(), is(NAME));
         assertThat(room.getLocation(), is(LOCATION));
         assertThat(room.getDescription(), is(DESCRIPTION));
         assertThat(room.getProgramList(), nullValue());
+        assertThat(room.getSessionList(), nullValue());
+        assertThat(room.getManagerSet(), nullValue());
     }
 }

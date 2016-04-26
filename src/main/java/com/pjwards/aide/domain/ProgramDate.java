@@ -1,19 +1,16 @@
 package com.pjwards.aide.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.LocalTime;
 
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class ProgramDate {
@@ -36,10 +33,10 @@ public class ProgramDate {
     @OneToMany(
             targetEntity = Program.class,
             mappedBy = "date",
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JsonIgnore
-    private List<Program> programList;
+    private Set<Program> programs;
 
     @ManyToOne
     @JoinColumn(name = "conference_id")
@@ -70,12 +67,34 @@ public class ProgramDate {
         return this;
     }
 
-    public List<Program> getProgramList() {
-        return programList;
+    public List<Program> getPrograms() {
+        List<Program> list = new ArrayList<>(programs);
+        Collections.sort(list, new ProgramCompare());
+        return list;
     }
 
-    public ProgramDate setProgramList(List<Program> programList) {
-        this.programList = programList;
+    class ProgramCompare implements Comparator<Program> {
+        @Override
+        public int compare(Program arg0, Program arg1) {
+            LocalTime begin0 = null;
+            LocalTime begin1 = null;
+
+            if (arg0.getBegin() != null) begin0 = new LocalTime(arg0.getBegin());
+            if (arg1.getBegin() != null) begin1 = new LocalTime(arg1.getBegin());
+
+            if (begin0 == null && begin1 == null) {
+                return 0;
+            } else if (begin0 == null) {
+                return 1;
+            } else if (begin1 == null) {
+                return -1;
+            }
+            return begin0.compareTo(begin1);
+        }
+    }
+
+    public ProgramDate setPrograms(Set<Program> programs) {
+        this.programs = programs;
         return this;
     }
 

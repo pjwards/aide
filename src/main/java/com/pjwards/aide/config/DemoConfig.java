@@ -19,7 +19,8 @@ public class DemoConfig {
                                             UserRepository userRepository,
                                             RoomRepository roomRepository,
                                             ProgramDateRepository programDateRepository,
-                                            ProgramRepository programRepository) {
+                                            ProgramRepository programRepository,
+                                            SessionRepository sessionRepository) {
         return (args) -> {
             Conference conference = conferenceRepository.save(new Conference.Builder("DEVIEW 2015", "DEVIEW 2015가 성황리에 끝났습니다.",
                     "<h2>excellence . sharing . growth</h2>\n" +
@@ -31,50 +32,112 @@ public class DemoConfig {
 
             Set<User> userSet = new HashSet<>();
             userSet.add(userRepository.save(new User.Builder("홍길동", "abcde@abcde.com", "abcdefg").build()));
-            ProgramDate programDate = programDateRepository.save(
-                    new ProgramDate.Builder("Day 1", "2016-01-01").conference(conference).build());
+
             Room room1 = roomRepository.save(new Room.Builder("100호", "100", "100호").build());
             Room room2 = roomRepository.save(new Room.Builder("101호", "101", "101호").build());
             Room room3 = roomRepository.save(new Room.Builder("102호", "102", "102호").build());
 
+            // Day 1
+            ProgramDate programDate1 = programDateRepository.save(
+                    new ProgramDate.Builder("Day 1", "2016-01-01").conference(conference).build());
             programRepository.save(new Program.Builder("참가등록", "참가등록", "08:40", "09:20")
-                    .date(programDate)
+                    .date(programDate1)
                     .room(room1)
                     .speakerSet(userSet)
                     .programType(ProgramType.REGISTER).build());
 
             programRepository.save(new Program.Builder("키노트", "키노트", "09:20", "09:40")
-                    .date(programDate)
+                    .date(programDate1)
                     .room(room1)
                     .speakerSet(userSet)
                     .programType(ProgramType.KEYNOTE).build());
 
-            programRepository.save(new Program.Builder("강좌1", "테스트1", "10:00", "10:50")
-                    .date(programDate)
+            Program program1 = programRepository.save(new Program.Builder("세션1", "테스트", "10:00", "10:50")
+                    .date(programDate1)
+                    .speakerSet(userSet)
+                    .programType(ProgramType.SESSION).build());
+
+            Program program2 = programRepository.save(new Program.Builder("세션2", "테스트", "11:00", "11:50")
+                    .date(programDate1)
+                    .speakerSet(userSet)
+                    .programType(ProgramType.SESSION).build());
+
+            sessionRepository.save(new Session.Builder("강좌1", "테스트1")
+                    .program(program1)
                     .room(room2)
-                    .speakerSet(userSet)
-                    .programType(ProgramType.SESSION).build());
+                    .speakerSet(userSet).build());
 
-            programRepository.save(new Program.Builder("강좌2", "테스트2", "10:00", "10:50")
-                    .date(programDate)
+            sessionRepository.save(new Session.Builder("강좌2", "테스트2")
+                    .program(program1)
+                    .room(room2)
+                    .speakerSet(userSet).build());
+
+            sessionRepository.save(new Session.Builder("강좌3", "테스트3")
+                    .program(program2)
+                    .room(room2)
+                    .speakerSet(userSet).build());
+
+
+            sessionRepository.save(new Session.Builder("강좌4", "테스트4")
+                    .program(program2)
                     .room(room3)
-                    .speakerSet(userSet)
-                    .programType(ProgramType.SESSION).build());
+                    .speakerSet(userSet).build());
 
-            programRepository.save(new Program.Builder("강좌3", "테스트3", "11:00", "11:50")
-                    .date(programDate)
-                    .room(room1)
-                    .speakerSet(userSet)
-                    .programType(ProgramType.SESSION).build());
-
-            programRepository.save(new Program.Builder("강좌4", "테스트4", "11:00", "11:50")
-                    .date(programDate)
-                    .room(room1)
-                    .speakerSet(userSet)
-                    .programType(ProgramType.SESSION).build());
+            // Day 2
+            ProgramDate programDate2 = programDateRepository.save(
+                    new ProgramDate.Builder("Day 2", "2016-01-02").conference(conference).build());
 
             programRepository.save(new Program.Builder("점심시간", "점심시간", "12:00", "12:50")
-                    .date(programDate)
+                    .date(programDate2)
+                    .room(room1)
+                    .speakerSet(userSet)
+                    .programType(ProgramType.LUNCH).build());
+
+
+            programRepository.save(new Program.Builder("참가등록", "참가등록", "08:40", "09:20")
+                    .date(programDate2)
+                    .room(room1)
+                    .speakerSet(userSet)
+                    .programType(ProgramType.REGISTER).build());
+
+            programRepository.save(new Program.Builder("키노트", "키노트", "09:20", "09:40")
+                    .date(programDate1)
+                    .room(room1)
+                    .speakerSet(userSet)
+                    .programType(ProgramType.KEYNOTE).build());
+
+            Program program3 = programRepository.save(new Program.Builder("세션1", "테스트", "10:00", "10:50")
+                    .date(programDate2)
+                    .speakerSet(userSet)
+                    .programType(ProgramType.SESSION).build());
+
+            Program program4 = programRepository.save(new Program.Builder("세션2", "테스트", "11:00", "11:50")
+                    .date(programDate2)
+                    .speakerSet(userSet)
+                    .programType(ProgramType.SESSION).build());
+
+            sessionRepository.save(new Session.Builder("강좌1", "테스트1")
+                    .program(program3)
+                    .room(room2)
+                    .speakerSet(userSet).build());
+
+            sessionRepository.save(new Session.Builder("강좌2", "테스트2")
+                    .program(program4)
+                    .room(room2)
+                    .speakerSet(userSet).build());
+
+            sessionRepository.save(new Session.Builder("강좌3", "테스트3")
+                    .program(program3)
+                    .room(room2)
+                    .speakerSet(userSet).build());
+
+            sessionRepository.save(new Session.Builder("강좌4", "테스트4")
+                    .program(program4)
+                    .room(room3)
+                    .speakerSet(userSet).build());
+
+            programRepository.save(new Program.Builder("점심시간", "점심시간", "12:00", "12:50")
+                    .date(programDate2)
                     .room(room1)
                     .speakerSet(userSet)
                     .programType(ProgramType.LUNCH).build());

@@ -7,6 +7,7 @@ import com.pjwards.aide.service.pass.PassService;
 import com.pjwards.aide.service.program.ProgramService;
 import com.pjwards.aide.service.programdate.ProgramDateService;
 import com.pjwards.aide.service.room.RoomService;
+import com.pjwards.aide.service.session.SessionService;
 import com.pjwards.aide.service.sponsor.SponsorService;
 import com.pjwards.aide.service.user.UserService;
 import com.sun.deploy.config.DefaultConfig;
@@ -60,5 +61,10 @@ public class TestConfig extends DefaultConfig {
     @Bean
     public PassService passService() {
         return Mockito.mock(PassService.class);
+    }
+
+    @Bean
+    public SessionService sessionService() {
+        return Mockito.mock(SessionService.class);
     }
 }

@@ -1,10 +1,7 @@
 package com.pjwards.aide.repository;
 
 import com.pjwards.aide.config.ApplicationConfig;
-import com.pjwards.aide.domain.Conference;
-import com.pjwards.aide.domain.Program;
-import com.pjwards.aide.domain.ProgramDate;
-import com.pjwards.aide.domain.Room;
+import com.pjwards.aide.domain.*;
 import com.pjwards.aide.exception.WrongInputDateException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,22 +19,19 @@ import java.text.ParseException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @ContextConfiguration(classes = {ApplicationConfig.class}, loader = SpringApplicationContextLoader.class)
-public class ProgramRepositoryTest {
+public class SessionRepositoryTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProgramRepositoryTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionRepositoryTest.class);
     private static final String NAME = "name";
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
     private static final String BEGIN = "09:00";
     private static final String END = "10:00";
 
-    private Program program;
+    private Session session;
 
     @Autowired
-    private ProgramRepository programRepository;
-
-    @Autowired
-    private ProgramDateRepository programDateRepository;
+    private SessionRepository sessionRepository;
 
     @Autowired
     private RoomRepository roomRepository;
@@ -45,10 +39,16 @@ public class ProgramRepositoryTest {
     @Autowired
     private ConferenceRepository conferenceRepository;
 
+    @Autowired
+    private ProgramRepository programRepository;
+
+    @Autowired
+    private ProgramDateRepository programDateRepository;
+
     @Test
     public void testSaveWithMandatory() throws WrongInputDateException {
-        program = new Program.Builder(TITLE, DESCRIPTION, BEGIN, END).build();
-        programRepository.save(program);
+        session = new Session.Builder(TITLE, DESCRIPTION).build();
+        sessionRepository.save(session);
     }
 
     @Test
@@ -62,14 +62,18 @@ public class ProgramRepositoryTest {
         Room room = new Room.Builder("room", "101", "description").build();
         roomRepository.save(room);
 
-        program = new Program.Builder(TITLE, DESCRIPTION, BEGIN, END)
+        Program program = new Program.Builder(TITLE, DESCRIPTION, BEGIN, END)
                 .room(room).date(programDate).build();
         programRepository.save(program);
+
+        session = new Session.Builder(TITLE, DESCRIPTION)
+                .room(room).program(program).build();
+        sessionRepository.save(session);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     public void testSave_EmptyRoom_ShouldOccurNoInteractionsWanted() {
-        program = new Program();
-        programRepository.save(program);
+        session = new Session();
+        sessionRepository.save(session);
     }
 }

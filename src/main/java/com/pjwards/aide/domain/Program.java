@@ -1,7 +1,6 @@
 package com.pjwards.aide.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pjwards.aide.domain.enums.ProgramType;
 import com.pjwards.aide.exception.WrongInputDateException;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -10,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,6 +17,8 @@ public class Program {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
     public static final int MAX_LENGTH_TITLE = 100;
+    public static final int MAX_LENGTH_SLIDE_URL = 255;
+    public static final int MAX_LENGTH_VIDEO_URL = 255;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,6 +37,12 @@ public class Program {
     @Column(nullable = false, length = 5)
     private String end;
 
+    @Column(length = MAX_LENGTH_SLIDE_URL)
+    private String slideUrl;
+
+    @Column(length = MAX_LENGTH_VIDEO_URL)
+    private String videoUrl;
+
     @ManyToOne
     @JoinColumn(name = "program_date_id")
     private ProgramDate date;
@@ -44,7 +52,7 @@ public class Program {
     private Room room;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "SPEAKER",
+    @JoinTable(name = "SPEAKER_PROGRAM",
             joinColumns = @JoinColumn(name = "PROGRAM_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "SPEAKER_ID_FRK")
     )
@@ -53,6 +61,14 @@ public class Program {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProgramType programType = ProgramType.SESSION;
+
+    @OneToMany(
+            targetEntity = Session.class,
+            mappedBy = "program",
+            fetch = FetchType.EAGER
+    )
+    @JsonIgnore
+    private Set<Session> sessions;
 
     public Program() {
     }
@@ -97,6 +113,24 @@ public class Program {
         return this;
     }
 
+    public String getSlideUrl() {
+        return slideUrl;
+    }
+
+    public Program setSlideUrl(String slideUrl) {
+        this.slideUrl = slideUrl;
+        return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public Program setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+        return this;
+    }
+
     public ProgramDate getDate() {
         return date;
     }
@@ -121,6 +155,15 @@ public class Program {
 
     public Program setSpeakerSet(Set<User> speakerSet) {
         this.speakerSet = speakerSet;
+        return this;
+    }
+
+    public Set<Session> getSessions() {
+        return sessions;
+    }
+
+    public Program setSessions(Set<Session> sessions) {
+        this.sessions = sessions;
         return this;
     }
 
@@ -199,6 +242,16 @@ public class Program {
 
         public Builder programType(ProgramType programType) {
             built.programType = programType;
+            return this;
+        }
+
+        public Builder slideUrl(String slideUrl) {
+            built.slideUrl = slideUrl;
+            return this;
+        }
+
+        public Builder videoUrl(String slideUrl) {
+            built.slideUrl = slideUrl;
             return this;
         }
     }

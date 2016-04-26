@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
-import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.nullValue;
@@ -37,6 +36,7 @@ public class ProgramTest {
         assertThat(program.getDate(), nullValue());
         assertThat(program.getBegin(), is(BEGIN));
         assertThat(program.getEnd(), is(END));
+        assertThat(program.getSessions(), nullValue());
     }
 
     @Test(expected = WrongInputDateException.class)

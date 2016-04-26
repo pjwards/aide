@@ -1,7 +1,6 @@
 package com.pjwards.aide.repository;
 
 import com.pjwards.aide.config.ApplicationConfig;
-import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Room;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,5 @@
 package com.pjwards.aide.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pjwards.aide.domain.enums.Role;
@@ -74,6 +73,15 @@ public class User {
     @JsonIgnore
     private Set<Program> programSet;
 
+    @ManyToMany(
+            targetEntity = Session.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "speakerSet"
+    )
+    @JsonIgnore
+    private Set<Session> sessionSet;
+
     public Long getId() {
         return id;
     }
@@ -116,6 +124,10 @@ public class User {
 
     public Set<Program> getProgramSet() {
         return programSet;
+    }
+
+    public Set<Session> getSessionSet() {
+        return sessionSet;
     }
 
     public User(){

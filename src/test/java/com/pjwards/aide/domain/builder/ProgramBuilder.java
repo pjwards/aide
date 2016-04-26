@@ -3,8 +3,6 @@ package com.pjwards.aide.domain.builder;
 import com.pjwards.aide.domain.Program;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.Date;
-
 public class ProgramBuilder {
 
     private Program model;

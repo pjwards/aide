@@ -1,6 +1,5 @@
 package com.pjwards.aide.controller.api;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.pjwards.aide.config.ApplicationConfig;
 import com.pjwards.aide.config.TestConfig;
 import com.pjwards.aide.domain.Program;
@@ -26,13 +25,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
-import java.util.Date;
 
-import static java.lang.Math.abs;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

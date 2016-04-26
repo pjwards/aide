@@ -35,7 +35,7 @@ public class ProgramDateTest {
     public void testBuildWithMandatoryInformation() {
         assertThat(programDate.getId(), nullValue());
         assertThat(formatter.format(programDate.getDay()), is(DAY));
-        assertThat(programDate.getProgramList(), nullValue());
+        assertThat(programDate.getPrograms(), nullValue());
     }
 
     @Test
