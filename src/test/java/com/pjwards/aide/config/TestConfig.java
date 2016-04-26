@@ -3,6 +3,7 @@ package com.pjwards.aide.config;
 import com.pjwards.aide.service.assets.AssetsService;
 import com.pjwards.aide.service.conference.ConferenceService;
 import com.pjwards.aide.service.conferencerole.ConferenceRoleService;
+import com.pjwards.aide.service.contact.ContactService;
 import com.pjwards.aide.service.pass.PassService;
 import com.pjwards.aide.service.program.ProgramService;
 import com.pjwards.aide.service.programdate.ProgramDateService;
@@ -66,5 +67,10 @@ public class TestConfig extends DefaultConfig {
     @Bean
     public SessionService sessionService() {
         return Mockito.mock(SessionService.class);
+    }
+
+    @Bean
+    public ContactService contactService() {
+        return Mockito.mock(ContactService.class);
     }
 }

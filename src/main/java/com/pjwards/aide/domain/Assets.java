@@ -1,7 +1,5 @@
 package com.pjwards.aide.domain;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import javax.persistence.*;
 
 @Entity
@@ -120,9 +118,8 @@ public class Assets {
         }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
-
+    }*/
 }

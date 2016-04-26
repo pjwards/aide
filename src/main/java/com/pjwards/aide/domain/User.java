@@ -3,7 +3,6 @@ package com.pjwards.aide.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pjwards.aide.domain.enums.Role;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -212,8 +211,8 @@ public class User {
         }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
+    }*/
 }

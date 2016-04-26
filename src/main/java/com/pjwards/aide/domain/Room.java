@@ -1,7 +1,6 @@
 package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -132,8 +131,8 @@ public class Room {
         }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
+    }*/
 }

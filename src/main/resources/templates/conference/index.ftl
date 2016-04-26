@@ -2,7 +2,7 @@
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${myApp.name} :: main</title>
+    <title>${conference.name} :: main</title>
 
     <!-- Custom CSS -->
     <link href="/lib/grayscale/css/grayscale.css" rel="stylesheet">
@@ -29,8 +29,8 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i> <span class="light">AIDE</span> Project
+                <a class="navbar-brand page-scroll" href="${conference.id}">
+                    <i class="fa fa-play-circle"></i> <span class="light">${conference.name}</span>
                 </a>
             </div>
 
@@ -42,10 +42,10 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#">SCHEDULE</a>
+                        <a class="page-scroll" href="${conference.id}/schedule">SCHEDULE</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#">REGISTER</a>
+                        <a class="page-scroll" href="${conference.id}/register">REGISTER</a>
                     </li>
                 </ul>
             </div>
@@ -64,6 +64,22 @@
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">${conference.name}</h1>
                         <p class="intro-text">${conference.slogan}</p>
+
+                        <#if conference.location??>
+                        <p>
+                            <#if conference.location??>
+                                ${conference.location}
+                            </#if>
+
+                            <#if conference.locationUrl??>
+                                &nbsp;
+                                <a href="${conference.locationUrl}" target="_blank">
+                                    <img src="/lib/grayscale/img/map-marker.png" width="18" height="27" alt="location"/>
+                                </a>
+                            </#if>
+                        </p>
+                        </#if>
+
                         <a href="#about" class="btn btn-circle page-scroll">
                             <i class="fa fa-angle-double-down animated"></i>
                         </a>
@@ -80,48 +96,48 @@
             ${conference.description}
             </div>
         </div>
-    </section>
 
-    <!-- Download Section -->
-    <section id="download" class="content-section text-center">
-        <div class="download-section">
-            <div class="container">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <a href="#schedule" class="btn btn-default btn-lg">
-                        SCHEDULE
-                    </a>
-                </div>
+        <br/>
+        <br/>
+
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <a href="${conference.id}/schedule" class="btn btn-default btn-lg">
+                    SCHEDULE
+                </a>
             </div>
         </div>
     </section>
 
+    <#if conference.contacts??>
     <!-- Contact Section -->
     <section id="contact" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>Contact</h2>
-                <p><a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a>
-                </p>
+
                 <ul class="list-inline banner-social-buttons">
-                    <li>
-                        <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i
-                                class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i
-                                class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-                    </li>
-                    <li>
-                        <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i
-                                class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
-                    </li>
+                    <#list conference.contacts as contact>
+                        <li>
+                            <a href="<#if contact.type == "EMAIL">mailto:</#if>${contact.url}"
+                               class="btn btn-circle"><i
+                                    class="fa fa-${contact.type.attribute}"></i></a>
+                        </li>
+                    </#list>
                 </ul>
+
             </div>
         </div>
     </section>
+    </#if>
 
-    <!-- Map Section -->
-    <div id="map"></div>
+
+    <#if conference.lan?? && conference.lat??>
+        <!-- Map Section -->
+        <div id="map"></div>
+    </#if>
+
+
     </@layout.put>
 
     <@layout.put block="footer" type="replace">
@@ -132,6 +148,7 @@
     <@layout.put block="script">
     <!-- Plugin JavaScript -->
     <script src="/bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+    <script src="/bower_components/sharrre/jquery.sharrre.min.js"></script>
 
     <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
     <script type="text/javascript"
@@ -140,13 +157,16 @@
     <!-- Custom Theme JavaScript -->
     <script src="/lib/grayscale/js/grayscale.js"></script>
     <script src="/lib/grayscale/js/map.js"></script>
-    <script>
-        var locationUrl = "${conference.locationUrl}";
-        // When the window has finished loading create our google map below
-        google.maps.event.addDomListener(window, 'load', init.bind(null, ${conference.lat} , ${conference.lan} , locationUrl));
-        google.maps.event.addDomListener(window, 'resize', function () {
-            map.setCenter(new google.maps.LatLng( ${conference.lat}, ${conference.lan}));
-        });
-    </script>
+
+    <#if conference.lan?? && conference.lat??>
+        <script>
+            var locationUrl = "${conference.locationUrl}";
+            // When the window has finished loading create our google map below
+            google.maps.event.addDomListener(window, 'load', init.bind(null, ${conference.lat} , ${conference.lan} , locationUrl));
+            google.maps.event.addDomListener(window, 'resize', function () {
+                map.setCenter(new google.maps.LatLng( ${conference.lat}, ${conference.lan}));
+            });
+        </script>
+    </#if>
     </@layout.put>
 </@layout.extends>

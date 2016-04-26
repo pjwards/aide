@@ -46,8 +46,8 @@ public class ConferenceDetailController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/registration")
     public String getRegistration() {
-        LOGGER.debug("Getting schedule page");
+        LOGGER.debug("Getting register page");
 
-        return "conference/registration";
+        return "conference/register";
     }
 }

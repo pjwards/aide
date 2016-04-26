@@ -1,6 +1,7 @@
 package com.pjwards.aide.config;
 
 import com.pjwards.aide.domain.*;
+import com.pjwards.aide.domain.enums.ContactType;
 import com.pjwards.aide.domain.enums.ProgramType;
 import com.pjwards.aide.repository.*;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +21,8 @@ public class DemoConfig {
                                             RoomRepository roomRepository,
                                             ProgramDateRepository programDateRepository,
                                             ProgramRepository programRepository,
-                                            SessionRepository sessionRepository) {
+                                            SessionRepository sessionRepository,
+                                            ContactRepository contactRepository) {
         return (args) -> {
             Conference conference = conferenceRepository.save(new Conference.Builder("DEVIEW 2015", "DEVIEW 2015가 성황리에 끝났습니다.",
                     "<h2>excellence . sharing . growth</h2>\n" +
@@ -32,6 +34,11 @@ public class DemoConfig {
 
             Set<User> userSet = new HashSet<>();
             userSet.add(userRepository.save(new User.Builder("홍길동", "abcde@abcde.com", "abcdefg").build()));
+
+            Set<Contact> contacts = new HashSet<>();
+            contacts.add(contactRepository.save(new Contact.Builder(ContactType.EMAIL, "abcde@abcde.com").conference(conference).build()));
+            contacts.add(contactRepository.save(new Contact.Builder(ContactType.FACEBOOK, "http://www.facebook.com").conference(conference).build()));
+            contacts.add(contactRepository.save(new Contact.Builder(ContactType.TWITTER, "www.twitter.com").conference(conference).build()));
 
             Room room1 = roomRepository.save(new Room.Builder("100호", "100", "100호").build());
             Room room2 = roomRepository.save(new Room.Builder("101호", "101", "101호").build());
@@ -47,6 +54,7 @@ public class DemoConfig {
                     .programType(ProgramType.REGISTER).build());
 
             programRepository.save(new Program.Builder("키노트", "키노트", "09:20", "09:40")
+                    .videoUrl("www.google.com")
                     .date(programDate1)
                     .room(room1)
                     .speakerSet(userSet)
@@ -63,16 +71,20 @@ public class DemoConfig {
                     .programType(ProgramType.SESSION).build());
 
             sessionRepository.save(new Session.Builder("강좌1", "테스트1")
+                    .videoUrl("www.google.com")
+                    .slideUrl("www.google.com")
                     .program(program1)
                     .room(room2)
                     .speakerSet(userSet).build());
 
             sessionRepository.save(new Session.Builder("강좌2", "테스트2")
+                    .videoUrl("www.google.com")
                     .program(program1)
                     .room(room2)
                     .speakerSet(userSet).build());
 
             sessionRepository.save(new Session.Builder("강좌3", "테스트3")
+                    .slideUrl("www.google.com")
                     .program(program2)
                     .room(room2)
                     .speakerSet(userSet).build());
@@ -83,16 +95,15 @@ public class DemoConfig {
                     .room(room3)
                     .speakerSet(userSet).build());
 
-            // Day 2
-            ProgramDate programDate2 = programDateRepository.save(
-                    new ProgramDate.Builder("Day 2", "2016-01-02").conference(conference).build());
-
             programRepository.save(new Program.Builder("점심시간", "점심시간", "12:00", "12:50")
-                    .date(programDate2)
+                    .date(programDate1)
                     .room(room1)
                     .speakerSet(userSet)
                     .programType(ProgramType.LUNCH).build());
 
+            // Day 2
+            ProgramDate programDate2 = programDateRepository.save(
+                    new ProgramDate.Builder("Day 2", "2016-01-02").conference(conference).build());
 
             programRepository.save(new Program.Builder("참가등록", "참가등록", "08:40", "09:20")
                     .date(programDate2)
@@ -101,7 +112,7 @@ public class DemoConfig {
                     .programType(ProgramType.REGISTER).build());
 
             programRepository.save(new Program.Builder("키노트", "키노트", "09:20", "09:40")
-                    .date(programDate1)
+                    .date(programDate2)
                     .room(room1)
                     .speakerSet(userSet)
                     .programType(ProgramType.KEYNOTE).build());

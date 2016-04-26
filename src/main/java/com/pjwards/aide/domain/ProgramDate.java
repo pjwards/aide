@@ -2,7 +2,6 @@ package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.LocalTime;
 
@@ -17,6 +16,7 @@ public class ProgramDate {
 
     public static final int MAX_LENGTH_NAME = 10;
     public static final String DAY_FORMAT = "yyyy-MM-dd";
+    public static final String DAY_SCHEDULE_FORMAT = "M.d EEE";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -68,6 +68,7 @@ public class ProgramDate {
     }
 
     public List<Program> getPrograms() {
+        if (programs == null) return null;
         List<Program> list = new ArrayList<>(programs);
         Collections.sort(list, new ProgramCompare());
         return list;
@@ -76,19 +77,8 @@ public class ProgramDate {
     class ProgramCompare implements Comparator<Program> {
         @Override
         public int compare(Program arg0, Program arg1) {
-            LocalTime begin0 = null;
-            LocalTime begin1 = null;
-
-            if (arg0.getBegin() != null) begin0 = new LocalTime(arg0.getBegin());
-            if (arg1.getBegin() != null) begin1 = new LocalTime(arg1.getBegin());
-
-            if (begin0 == null && begin1 == null) {
-                return 0;
-            } else if (begin0 == null) {
-                return 1;
-            } else if (begin1 == null) {
-                return -1;
-            }
+            LocalTime begin0 = new LocalTime(arg0.getBegin());
+            LocalTime begin1 = new LocalTime(arg1.getBegin());
             return begin0.compareTo(begin1);
         }
     }
@@ -114,6 +104,15 @@ public class ProgramDate {
      */
     public String getFormattedDay() {
         return this.getFormattedDay(DAY_FORMAT);
+    }
+
+    /**
+     * Get formatted schedule Day
+     *
+     * @return formatted schedule day
+     */
+    public String getFormattedScheduleDay() {
+        return this.getFormattedDay(DAY_SCHEDULE_FORMAT);
     }
 
     /**
@@ -192,8 +191,8 @@ public class ProgramDate {
         }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
+    }*/
 }

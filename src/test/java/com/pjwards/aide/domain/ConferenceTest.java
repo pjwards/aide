@@ -37,5 +37,6 @@ public class ConferenceTest {
         assertThat(conference.getProgramDates(), nullValue());
         assertThat(conference.getHost(), nullValue());
         assertThat(conference.getAssetsSet(), nullValue());
+        assertThat(conference.getContacts(), nullValue());
     }
 }

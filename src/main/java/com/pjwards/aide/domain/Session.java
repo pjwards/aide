@@ -1,6 +1,5 @@
 package com.pjwards.aide.domain;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -155,14 +154,14 @@ public class Session {
             return this;
         }
 
-        public Builder videoUrl(String slideUrl) {
-            built.slideUrl = slideUrl;
+        public Builder videoUrl(String videoUrl) {
+            built.videoUrl = videoUrl;
             return this;
         }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
+    }*/
 }

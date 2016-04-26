@@ -3,14 +3,12 @@ package com.pjwards.aide.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pjwards.aide.domain.enums.ProgramType;
 import com.pjwards.aide.exception.WrongInputDateException;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Program {
@@ -158,8 +156,18 @@ public class Program {
         return this;
     }
 
-    public Set<Session> getSessions() {
-        return sessions;
+    public List<Session> getSessions() {
+        if (sessions == null) return null;
+        List<Session> list = new ArrayList<>(sessions);
+        Collections.sort(list, new SessionCompare());
+        return list;
+    }
+
+    class SessionCompare implements Comparator<Session> {
+        @Override
+        public int compare(Session arg0, Session arg1) {
+            return arg0.getId().compareTo(arg1.getId());
+        }
     }
 
     public Program setSessions(Set<Session> sessions) {
@@ -215,12 +223,6 @@ public class Program {
             built.end = end;
         }
 
-        public Builder(String title, String description) {
-            built = new Program();
-            built.title = title;
-            built.description = description;
-        }
-
         public Program build() {
             return built;
         }
@@ -250,14 +252,14 @@ public class Program {
             return this;
         }
 
-        public Builder videoUrl(String slideUrl) {
-            built.slideUrl = slideUrl;
+        public Builder videoUrl(String videoUrl) {
+            built.videoUrl = videoUrl;
             return this;
         }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
+    }*/
 }

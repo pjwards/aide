@@ -1,7 +1,6 @@
 package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.*;
@@ -67,6 +66,14 @@ public class Conference {
     )
     @JsonIgnore
     private Set<Assets> assetsSet;
+
+    @OneToMany(
+            targetEntity = Contact.class,
+            mappedBy = "conference",
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    private Set<Contact> contacts;
 
     public Long getId() {
         return id;
@@ -136,6 +143,7 @@ public class Conference {
     }
 
     public List<ProgramDate> getProgramDates() {
+        if (programDates == null) return null;
         List<ProgramDate> list = new ArrayList<>(programDates);
         Collections.sort(list, new ProgramDateCompare());
         return list;
@@ -178,6 +186,15 @@ public class Conference {
 
     public Conference setAssetsSet(Set<Assets> assetsSet) {
         this.assetsSet = assetsSet;
+        return this;
+    }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public Conference setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
         return this;
     }
 
@@ -231,13 +248,18 @@ public class Conference {
             return this;
         }
 
+        public Builder contacts(Set<Contact> contacts) {
+            built.contacts = contacts;
+            return this;
+        }
+
         public Conference build() {
             return built;
         }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
+    }*/
 }
