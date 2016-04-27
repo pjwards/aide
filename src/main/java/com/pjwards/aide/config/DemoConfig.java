@@ -32,6 +32,8 @@ public class DemoConfig {
                             "\n").location("COEX Grand Ballroom, SEOUL").locationUrl("https://www.google.co.kr/maps/place/%EC%BD%94%EC%97%91%EC%8A%A4+%EC%BB%A8%EB%B2%A4%EC%85%98%EC%84%BC%ED%84%B0+%EA%B7%B8%EB%9E%9C%EB%93%9C%EB%B3%BC%EB%A3%B8/@37.5081321,127.0336615,14z/data=!4m5!1m2!2m1!1scoex!3m1!1s0x357ca46bcb9e129f:0xd6bf8dde518b69a4")
                     .latlan(37.513204, 127.058638).build());
 
+            conferenceRepository.save(new Conference.Builder("PYCON KOREA 2014", "한국에서 열리는 첫 번째 파이콘", "한국에서 열리는 첫 번째 파이콘").build());
+
             Set<User> userSet = new HashSet<>();
             userSet.add(userRepository.save(new User.Builder("홍길동", "abcde@abcde.com", "abcdefg").build()));
 

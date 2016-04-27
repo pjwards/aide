@@ -109,7 +109,7 @@
         </div>
     </section>
 
-    <#if conference.contacts??>
+    <#if conference.contacts?has_content>
     <!-- Contact Section -->
     <section id="contact" class="container content-section text-center">
         <div class="row">
@@ -132,7 +132,7 @@
     </#if>
 
 
-    <#if conference.lan?? && conference.lat??>
+    <#if conference.lan!=0.0 || conference.lat!=0.0>
         <!-- Map Section -->
         <div id="map"></div>
     </#if>
@@ -158,9 +158,9 @@
     <script src="/lib/grayscale/js/grayscale.js"></script>
     <script src="/lib/grayscale/js/map.js"></script>
 
-    <#if conference.lan?? && conference.lat??>
+    <#if conference.lan!=0.0 || conference.lat!=0.0>
         <script>
-            var locationUrl = "${conference.locationUrl}";
+            var locationUrl = "<#if conference.locationUrl?? >${conference.locationUrl}<#else>https://www.google.co.kr/maps/</#if>";
             // When the window has finished loading create our google map below
             google.maps.event.addDomListener(window, 'load', init.bind(null, ${conference.lat} , ${conference.lan} , locationUrl));
             google.maps.event.addDomListener(window, 'resize', function () {

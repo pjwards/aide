@@ -44,9 +44,13 @@ public class ConferenceDetailController {
         return "conference/schedule";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/registration")
-    public String getRegistration() {
-        LOGGER.debug("Getting register page");
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/register")
+    public String getRegistration(Model model,
+                                  @PathVariable("id") Long id) throws ConferenceNotFoundException {
+        LOGGER.debug("Getting schedule page");
+
+        Conference conference = conferenceService.findById(id);
+        model.addAttribute("conference", conference);
 
         return "conference/register";
     }
