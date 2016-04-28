@@ -3,7 +3,7 @@ package com.pjwards.aide.controller.api;
 
 import com.pjwards.aide.domain.Assets;
 import com.pjwards.aide.exception.AssetsNotFoundException;
-import com.pjwards.aide.service.Assets.AssetsService;
+import com.pjwards.aide.service.assets.AssetsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

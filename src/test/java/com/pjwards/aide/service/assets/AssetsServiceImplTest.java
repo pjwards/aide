@@ -1,4 +1,4 @@
-package com.pjwards.aide.service.Assets;
+package com.pjwards.aide.service.assets;
 
 
 import com.pjwards.aide.domain.Assets;
@@ -16,7 +16,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class AssetsServiceImplTest {
     private static final Long ID = 1L;

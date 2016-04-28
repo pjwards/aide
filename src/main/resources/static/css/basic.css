@@ -1,0 +1,8 @@
+@font-face {
+    font-family: nbg;
+    font-style: normal;
+    font-weight: 400;
+    src: local('Nanum Barun Gothic Light'), local('Nanum Barun Gothic-Light'), local('NanumBarunGothicLight');
+    src: url(../font/NanumBarunGothicWebLight.eot);
+    src: url(../font/NanumBarunGothicWebLightd41d.eot?#iefix) format('embedded-opentype'), local('※'), url(../font/NanumBarunGothicWebLight.woff) format('woff')
+}

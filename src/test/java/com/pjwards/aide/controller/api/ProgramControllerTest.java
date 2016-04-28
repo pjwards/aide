@@ -1,6 +1,5 @@
 package com.pjwards.aide.controller.api;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.pjwards.aide.config.ApplicationConfig;
 import com.pjwards.aide.config.TestConfig;
 import com.pjwards.aide.domain.Program;
@@ -26,13 +25,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
-import java.util.Date;
 
-import static java.lang.Math.abs;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -47,9 +43,8 @@ public class ProgramControllerTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProgramControllerTest.class);
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
-    private static final long TWO_HOUR = 2 * 60 * 60 * 1000;
-    private static final Date BEGIN = new Date(System.currentTimeMillis());
-    private static final Date END = new Date(System.currentTimeMillis() + TWO_HOUR);
+    private static final String BEGIN = "09:00";
+    private static final String END = "10:00";
 
     private MockMvc mockMvc;
 
@@ -68,24 +63,19 @@ public class ProgramControllerTest {
 
     @Test
     public void testGetAll_ProgramsFound_ShoudReturnFoundProgram() throws Exception {
-        Date BEGIN_1 = new Date(System.currentTimeMillis());
-        Date END_1 = new Date(System.currentTimeMillis() + TWO_HOUR);
-        Date BEGIN_2 = new Date(System.currentTimeMillis() + TWO_HOUR);
-        Date END_2 = new Date(System.currentTimeMillis() + TWO_HOUR * 2);
-
         Program first = new ProgramBuilder()
                 .id(1L)
                 .title("title1")
                 .description("description1")
-                .begin(BEGIN_1)
-                .end(END_1)
+                .begin("09:00")
+                .end("10:00")
                 .build();
         Program second = new ProgramBuilder()
                 .id(2L)
                 .title("title2")
                 .description("description2")
-                .begin(BEGIN_2)
-                .end(END_2)
+                .begin("10:00")
+                .end("11:00")
                 .build();
 
         when(programServiceMock.findAll()).thenReturn(Arrays.asList(first, second));
@@ -97,13 +87,13 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].title", is("title1")))
                 .andExpect(jsonPath("$[0].description", is("description1")))
-                .andExpect(jsonPath("$[0].begin", is(TestUtil.convertUTCDateToGMTString(BEGIN_1))))
-                .andExpect(jsonPath("$[0].end", is(TestUtil.convertUTCDateToGMTString(END_1))))
+                .andExpect(jsonPath("$[0].begin", is("09:00")))
+                .andExpect(jsonPath("$[0].end", is("10:00")))
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].title", is("title2")))
                 .andExpect(jsonPath("$[1].description", is("description2")))
-                .andExpect(jsonPath("$[1].begin", is(TestUtil.convertUTCDateToGMTString(BEGIN_2))))
-                .andExpect(jsonPath("$[1].end", is(TestUtil.convertUTCDateToGMTString(END_2))));
+                .andExpect(jsonPath("$[1].begin", is("10:00")))
+                .andExpect(jsonPath("$[1].end", is("11:00")));
 
         verify(programServiceMock, times(1)).findAll();
         verifyNoMoreInteractions(programServiceMock);
@@ -131,8 +121,8 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$.program.id", is(1)))
                 .andExpect(jsonPath("$.program.title", is(TITLE)))
                 .andExpect(jsonPath("$.program.description", is(DESCRIPTION)))
-                .andExpect(jsonPath("$.program.begin", is(TestUtil.convertUTCDateToGMTString(BEGIN))))
-                .andExpect(jsonPath("$.program.end", is(TestUtil.convertUTCDateToGMTString(END))));
+                .andExpect(jsonPath("$.program.begin", is(BEGIN)))
+                .andExpect(jsonPath("$.program.end", is(END)));
 
         ArgumentCaptor<Program> programArgumentCaptor = ArgumentCaptor.forClass(Program.class);
         verify(programServiceMock, times(1)).add(programArgumentCaptor.capture());
@@ -142,13 +132,11 @@ public class ProgramControllerTest {
         assertThat(programArgument.getId(), is(1L));
         assertThat(programArgument.getTitle(), is(TITLE));
         assertThat(programArgument.getDescription(), is(DESCRIPTION));
-        assertTrue("Begin dates aren't close enough to each other!",
-                abs(programArgument.getBegin().getTime() - BEGIN.getTime()) < 1000);
-        assertTrue("End dates aren't close enough to each other!",
-                abs(programArgument.getEnd().getTime() - END.getTime()) < 1000);
+        assertThat(programArgument.getBegin(), is(BEGIN));
+        assertThat(programArgument.getEnd(), is(END));
     }
 
-    @Test(expected = JsonMappingException.class)
+    @Test(expected = NoInteractionsWanted.class)
     public void testCreate_EmptyProgram_ShouldOccurNoInteractionsWanted() throws Exception {
         Program program = new Program();
 
@@ -200,8 +188,8 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is(TITLE)))
                 .andExpect(jsonPath("$.description", is(DESCRIPTION)))
-                .andExpect(jsonPath("$.begin", is(TestUtil.convertUTCDateToGMTString(BEGIN))))
-                .andExpect(jsonPath("$.end", is(TestUtil.convertUTCDateToGMTString(END))));
+                .andExpect(jsonPath("$.begin", is(BEGIN)))
+                .andExpect(jsonPath("$.end", is(END)));
 
         verify(programServiceMock, times(1)).findById(1L);
         verifyNoMoreInteractions(programServiceMock);
@@ -240,8 +228,8 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$.program.id", is(1)))
                 .andExpect(jsonPath("$.program.title", is(TITLE)))
                 .andExpect(jsonPath("$.program.description", is(DESCRIPTION)))
-                .andExpect(jsonPath("$.program.begin", is(TestUtil.convertUTCDateToGMTString(BEGIN))))
-                .andExpect(jsonPath("$.program.end", is(TestUtil.convertUTCDateToGMTString(END))));
+                .andExpect(jsonPath("$.program.begin", is(BEGIN)))
+                .andExpect(jsonPath("$.program.end", is(END)));
 
         ArgumentCaptor<Program> programArgumentCaptor = ArgumentCaptor.forClass(Program.class);
         verify(programServiceMock, times(1)).update(programArgumentCaptor.capture());
@@ -251,13 +239,11 @@ public class ProgramControllerTest {
         assertThat(programArgument.getId(), is(1L));
         assertThat(programArgument.getTitle(), is(TITLE));
         assertThat(programArgument.getDescription(), is(DESCRIPTION));
-        assertTrue("Begin dates aren't close enough to each other!",
-                abs(programArgument.getBegin().getTime() - BEGIN.getTime()) < 1000);
-        assertTrue("End dates aren't close enough to each other!",
-                abs(programArgument.getEnd().getTime() - END.getTime()) < 1000);
+        assertThat(programArgument.getBegin(), is(BEGIN));
+        assertThat(programArgument.getEnd(), is(END));
     }
 
-    @Test(expected = JsonMappingException.class)
+    @Test(expected = NoInteractionsWanted.class)
     public void testUpdate_EmptyProgram_ShouldOccurNoInteractionsWanted() throws Exception {
         Program program = new ProgramBuilder()
                 .id(1L)
@@ -320,10 +306,8 @@ public class ProgramControllerTest {
         assertThat(programArgument.getId(), is(3L));
         assertThat(programArgument.getTitle(), is(TITLE));
         assertThat(programArgument.getDescription(), is(DESCRIPTION));
-        assertTrue("Begin dates aren't close enough to each other!",
-                abs(programArgument.getBegin().getTime() - BEGIN.getTime()) < 1000);
-        assertTrue("End dates aren't close enough to each other!",
-                abs(programArgument.getEnd().getTime() - END.getTime()) < 1000);
+        assertThat(programArgument.getBegin(), is(BEGIN));
+        assertThat(programArgument.getEnd(), is(END));
     }
 
     @Test
@@ -345,8 +329,8 @@ public class ProgramControllerTest {
                 .andExpect(jsonPath("$.program.id", is(1)))
                 .andExpect(jsonPath("$.program.title", is(TITLE)))
                 .andExpect(jsonPath("$.program.description", is(DESCRIPTION)))
-                .andExpect(jsonPath("$.program.begin", is(TestUtil.convertUTCDateToGMTString(BEGIN))))
-                .andExpect(jsonPath("$.program.end", is(TestUtil.convertUTCDateToGMTString(END))));
+                .andExpect(jsonPath("$.program.begin", is(BEGIN)))
+                .andExpect(jsonPath("$.program.end", is(END)));
 
         verify(programServiceMock, times(1)).deleteById(1L);
         verifyNoMoreInteractions(programServiceMock);

@@ -3,8 +3,6 @@ package com.pjwards.aide.domain.builder;
 import com.pjwards.aide.domain.Program;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.Date;
-
 public class ProgramBuilder {
 
     private Program model;
@@ -19,22 +17,22 @@ public class ProgramBuilder {
     }
 
     public ProgramBuilder title(String title) {
-        model.update(title, model.getDescription(), model.getBegin(), model.getEnd());
+        model.setTitle(title);
         return this;
     }
 
     public ProgramBuilder description(String description) {
-        model.update(model.getTitle(), description, model.getBegin(), model.getEnd());
+        model.setDescription(description);
         return this;
     }
 
-    public ProgramBuilder begin(Date begin) {
-        model.update(model.getTitle(), model.getDescription(), begin, model.getEnd());
+    public ProgramBuilder begin(String begin) {
+        model.setBegin(begin);
         return this;
     }
 
-    public ProgramBuilder end(Date end) {
-        model.update(model.getTitle(), model.getDescription(), model.getBegin(), end);
+    public ProgramBuilder end(String end) {
+        model.setEnd(end);
         return this;
     }
 

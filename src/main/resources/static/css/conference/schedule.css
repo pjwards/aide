@@ -1,0 +1,439 @@
+@charset "utf-8";
+.lay_w {
+    min-width: 320px
+}
+
+a, body, button, dd, div, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, input, legend, li, ol, p, select, table, td, textear, th, ul {
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: none
+}
+
+img {
+    vertical-align: top
+}
+
+ol, ul {
+    list-style: none
+}
+
+.blind, legend {
+    visibility: hidden;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0
+}
+
+.lay_w {
+    max-width: 1200px;
+    margin: 0 auto
+}
+
+.xi-naver {
+    font-size: 23px;
+    color: #1ec800
+}
+
+.xi-github {
+    font-size: 20px;
+    color: #333
+}
+
+.xi-twitter {
+    font-size: 20px;
+    color: #00acee
+}
+
+.xi-envelope, .xi-home {
+    font-size: 18px;
+    color: #000
+}
+
+.xi-facebook {
+    font-size: 20px;
+    color: #425daa
+}
+
+.xi-community, .xi-devices, .xi-restaurants {
+    font-size: 18px;
+    color: #999
+}
+
+.xi-check-circleout {
+    font-size: 24px;
+    color: #333
+}
+
+.xi-linkedin {
+    font-size: 20px;
+    color: #0077b5
+}
+
+.track_check.off .xi-check-circleout {
+    font-size: 24px;
+    color: #a0a0a0
+}
+
+.scd_tit {
+    margin-bottom: 8px;
+    font-size: 22px;
+    font-weight: 400
+}
+
+.section3 .ttlb_bx .time_lst, .section3 .ttlb_bx .time_lst:first-child {
+    border-top: solid 1px #e4e4e4
+}
+
+.section3 .ttlb_area {
+    padding-top: 44px
+}
+
+.ms_wrap .ttlb_area {
+    padding-top: 0
+}
+
+.section3 .scd_tit, .section3 .ttlb_bx {
+    padding: 0 50px
+}
+
+.section3 .scd_tit .ttlb_date {
+    float: right
+}
+
+.section3 .ttlb_bx .ttlb_lst_area {
+    border-bottom: solid 1px #e4e4e4
+}
+
+.section3 .ttlb_bx .time_lst {
+    overflow: hidden
+}
+
+.section3 .ttlb_bx .time_lst .time {
+    float: left;
+    width: 16%;
+    padding-top: 21px;
+    font-size: 15px;
+    color: #555
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst {
+    float: left;
+    position: relative;
+    width: 84%
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct {
+    position: relative;
+    padding: 18px 112px 17px 18px;
+    border-top: solid 1px #f1f1f1;
+    color: #404040
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct:first-child {
+    border-top: 0
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct[style^="display: list-item"] {
+    margin-top: -1px
+}
+
+.section3 .ttlb_bx .time_lst:first-child .lecture_lst .lecture_ct {
+    padding-bottom: 17px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct:hover {
+    background-color: #f1fcf9
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.data_on:hover, .section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.keynote:hover {
+    background-color: #fff
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_links {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.sum_up .lecture_links {
+    bottom: auto;
+    height: 60px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_info {
+    max-width: 650px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_info .tit {
+    display: inline-block;
+    font-size: 19px;
+    color: #000;
+    vertical-align: middle
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_info .tit .name {
+    display: none;
+    font-size: 14px;
+    color: #404040;
+    vertical-align: middle
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_info .tit .blong_to {
+    display: none;
+    font-size: 14px;
+    color: #919191;
+    vertical-align: middle
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.keynote .lecture_info .tit .blong_to, .section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.keynote .lecture_info .tit .name {
+    display: inline
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.data_on .lecture_info .tit {
+    font-size: 16px;
+    color: #555
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .ico_track {
+    position: absolute;
+    top: 17px;
+    right: 10px;
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+    text-align: center;
+    line-height: 29px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .ico_track .tx {
+    color: #404040;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .ico_track img.non_change {
+    display: block
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .ico_track img.ch_checked, .section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .ico_track.checked img.non_change {
+    display: none
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .ico_track.checked .tx {
+    color: #fff
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .ico_track.checked img.ch_checked {
+    display: block
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .ico_track.off, .section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .track_check {
+    display: none
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .ico_track img {
+    width: 100%
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .data {
+    position: absolute;
+    top: 20px;
+    right: 13px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .data a:last-child {
+    margin-left: 8px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .xi-slideshare {
+    font-size: 19px;
+    color: #31c89c
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .xi-video-camera {
+    font-size: 20px;
+    color: #31c89c
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico_lst {
+    overflow: hidden;
+    position: absolute;
+    top: 23px;
+    right: 77px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico_lst li {
+    float: left;
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin-left: 5px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico_lst li:frist-child {
+    margin-left: 0
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico1 {
+    background-color: #7ee9ca
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico2 {
+    background-color: #f48d9e
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico3 {
+    background-color: #f7c99d
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico4 {
+    background-color: #8ac6e9
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico5 {
+    background-color: #999
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico6 {
+    background-color: #8eaf20
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico7 {
+    background-color: #ac6f79
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico8 {
+    background-color: #644882
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico9 {
+    background-color: #496785
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico10 {
+    background-color: #f691b1
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.sum_up, .section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.sum_up:hover {
+    background-color: #fafafa
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .spk_info {
+    display: none
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.sum_up .spk_info {
+    display: block;
+    overflow: hidden;
+    margin-top: 26px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .pic {
+    position: relative;
+    float: left;
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .pic .msk {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .pic .msk img {
+    -webkit-user-drag: none
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info dl {
+    float: left;
+    width: 73%;
+    margin-top: 6px;
+    font-size: 14px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .name {
+    display: inline-block;
+    font-size: 14px;
+    color: #404040;
+    vertical-align: middle
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .blong_to {
+    display: inline-block;
+    font-size: 14px;
+    color: #919191;
+    vertical-align: middle
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .etc_info {
+    display: block;
+    font-size: 14px;
+    line-height: 25px;
+    color: #919191;
+    vertical-align: middle
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .etc_info:last-child {
+    margin-top: 3px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .etc_info a {
+    vertical-align: middle
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .txt_area {
+    position: relative;
+    display: none;
+    max-width: 650px;
+    margin: 18px 0 0;
+    font-size: 17px;
+    line-height: 25px;
+    color: #404040
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.sum_up .txt_area {
+    display: block
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .sns_links {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .sns_links .xi-envelope, .section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .spk_info .sns_links .xi-home {
+    margin-right: 4px
+}
+
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct.sum_up .track_check {
+    position: absolute;
+    display: block;
+    bottom: 20px;
+    right: 20px
+}
+
+.section3 .ttlb_bx.progress .time_lst .lecture_lst .lecture_ct .data a:last-child {
+    margin-right: 32px
+}
+
+.section3 .ttlb_bx.end .time_lst .lecture_lst .lecture_ct .data a:last-child {
+    margin-right: 0
+}

@@ -1,0 +1,1354 @@
+{
+  "categoryList": [
+    {
+      "id": 21,
+      "name": "웹"
+    },
+    {
+      "id": 22,
+      "name": "모바일"
+    },
+    {
+      "id": 23,
+      "name": "웹스케일 컴퓨팅"
+    },
+    {
+      "id": 24,
+      "name": "빅데이터"
+    },
+    {
+      "id": 25,
+      "name": "선행기술"
+    },
+    {
+      "id": 26,
+      "name": "테크 스타트업"
+    },
+    {
+      "id": 27,
+      "name": "오픈소스"
+    },
+    {
+      "id": 28,
+      "name": "개발자 문화"
+    },
+    {
+      "id": 29,
+      "name": "로봇"
+    },
+    {
+      "id": 30,
+      "name": "검색"
+    }
+  ],
+  "dayList": [
+    {
+      "id": 1,
+      "name": "DAY 1",
+      "date": "9.14 Mon",
+      "programList": [
+        {
+          "id": 29,
+          "name": "참가등록",
+          "startTime": "08:40",
+          "endTime": "09:20",
+          "feature": "REGISTER",
+          "sessionList": []
+        },
+        {
+          "id": 30,
+          "name": "키노트",
+          "startTime": "09:20",
+          "endTime": "09:40",
+          "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=161A4D6E7C3D2FC586BB5508428F425CE66C&outKey=V12223fad06938b8f00b25b948eb16f4259538cdf26e9552b30e45b948eb16f425953&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+          "slideUrl": "",
+          "feature": "KEYNOTE",
+          "sessionList": [],
+          "speakerList": [
+            {
+              "id": 142,
+              "name": "송창현",
+              "belong": "NAVER CTO",
+              "introduction": "",
+              "contact": "",
+              "profileImageUrl": null,
+              "contactType": null
+            }
+          ]
+        },
+        {
+          "id": 31,
+          "name": "세션 1",
+          "startTime": "10:00",
+          "endTime": "10:50",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 115,
+              "name": "네이버 효과툰은 어떻게 만들어졌나?",
+              "content": "\"고고고\", \"악의는없다\", \"소름\"에 적용된 새로운 네이버 효과툰의 아키텍쳐와 동작원리에 대해 소개합니다. 효과툰 장르의 정의, 스크롤에 따른 모션, 비개발자인 작가가 쓰는 저작도구 등에 대한 고민과 그 결과물의 속사정을 모두 공개합니다. 프로젝트의 A-Z를 고민하는 하이브리드 개발자에게 도움이 되길 바랍니다. <br>\r\n본 세션에서는 스크롤 툰에서의 효과에 대해 효과의 종류와 구현 방법에 대해 고민한 내용을 공유하고, 효과툰 뷰어와 페이지, 레이어 구조에 대해 설명합니다. ",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=35B8A72DD833B489B8A0D3B32D2F617EC61B&outKey=V1299d502e9b3c47bbc4fcd6e857318eed4cffd85be8521631b9acd6e857318eed4cf&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/111-52720751 ",
+              "categoryCodeList": [
+                21,
+                28
+              ],
+              "speakerList": [
+                {
+                  "id": 150,
+                  "name": "김효",
+                  "belong": "NAVER LABS",
+                  "introduction": "클러스터 파일시스템, NoSQL, 웹브라우저 엔진 개발자였던 네이버 웹기술 프로덕트 매니저",
+                  "contact": "mailto:h.kim@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/150.jpg?20160226152249",
+                  "contactType": "EMAIL"
+                },
+                {
+                  "id": 160,
+                  "name": "이현철",
+                  "belong": "NAVER",
+                  "introduction": "컴퓨터 그래픽스&음악, 웹브라우저 엔진 개발을 했고, 현재는 네이버 웹UI 개발을 하고 있습니다",
+                  "contact": "mailto:andrew.lee@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/160.jpg",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 95,
+              "name": "실전 스위프트 프로그래밍",
+              "content": "애플이 스위프트를 소개한지도 1년이 넘었고 2.0을 발표한지도 몇 달이 되어 갑니다. 작년부터 지금까지 실제로 서비스 중인 앱에 스위프트를 도입하고, 완전히 새로운 앱을 처음부터 스위프트로 만들고, 익스텐션과 와치 앱도 스위프트를 사용하여 만들면서 경험한 언어의 주요 기능과 이것이 미치는 코드의 변화를 공유하려 합니다. 스위프트를 가볍게 소개해주는 세션은 아니지만 iOS 개발자가 매일 작성하는 뷰/모델/셀/뷰컨트롤러단의 코드를 예로 들어 좋은 습관과 안 좋았던 습관, 어느정도 옵셔널을 써야하는 가에 대한 고민, 코드를 좋게 만들기 위해 적용해 나갈 수 있는 기능들에 대한 소개와 모나드에 대한 이해와 적용 그리고 부분적으로 스위프트 2.0에서 달라지는 예외처리나 패턴매칭과 같은 기능도 다루려고 합니다. ",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=37D53C61BDF8D729D7574B37063FA7B92941&outKey=V12481938ae0b05a7c293e300a9b7110b6dd1d79dfd85a4fe0a9fe300a9b7110b6dd1&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": " http://www.slideshare.net/deview/112-52720795/1 ",
+              "categoryCodeList": [
+                22
+              ],
+              "speakerList": [
+                {
+                  "id": 140,
+                  "name": "김영후",
+                  "belong": "Fancy",
+                  "introduction": "Fancy에서 iOS 엔지니어로 일하고 있습니다",
+                  "contact": "https://twitter.com/0hoo",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/140.jpg?20160226164549",
+                  "contactType": "TWITTER"
+                }
+              ]
+            },
+            {
+              "id": 119,
+              "name": "Developing Android Libraries: Lessons from Realm",
+              "content": "In this talk I will try to show you what building Realm for Java taught us. <br> You will learn about the the best practices my team and I came up while building Realm. We will discuss API design, CI techniques and performance considerations trying to provide you with the right tools for the job.\r\n<br><br>\r\n이 세션에서는 모바일 데이터베이스인 Realm Android 라이브러리를 Java로 개발하면서 경험한 내용을 공유하려고 합니다. <br>\r\n개발을 하다보면 코드 재사용을 위한 라이브러리 개발이 필요하게 됩니다. Android 라이브러리를 개발하면서 겪게되는 문제점과 해결방안을 이야기합니다. 또한 사용성과 성능을 함께 고려하면서 Realm 개발팀이 어떻게 API를 디자인하고 CI를 구성했는지, 개발하면서 찾아낸 best practice에 대해 설명할 예정입니다.\r\n<br>\r\n<br>\r\n* 본 세션은 동시 통역이 제공됩니다.",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=C34708B675D09AE7B992021DC9E8493B2099&outKey=V1240d33516b4119e727c0a6dd4ad13278429df6fe794f09d7dab0a6dd4ad13278429&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/113-lessons-from-realm",
+              "categoryCodeList": [
+                22
+              ],
+              "speakerList": [
+                {
+                  "id": 155,
+                  "name": "Emanuele Zattin",
+                  "belong": "Realm",
+                  "introduction": "Worked for Nokia for 5 years, growing expertise in development for embedded devices and tooling.\r\nWorked for Realm for the last two years, working on the Android version of Realm, the build systems and the continuous integration setup.",
+                  "contact": "mailto:ez@realm.io",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/155.jpg?20160226154241",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 114,
+              "name": "DRC-HUBO: Technical Review",
+              "content": "- Robot Platform: HUBO<br>\r\n- Real-time OS & Framework<br>\r\n- Control Strategy<br>\r\n- DRC Finals<br>",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=E1CA0FB7704F72D3E7E83E983EBC0574F90F&outKey=V124714345bd7096a3121a6403e5e5e19177c02832706c1b7b3e1a6403e5e5e19177c&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/114drc-hubo-technical-review",
+              "categoryCodeList": [
+                25,
+                29
+              ],
+              "speakerList": [
+                {
+                  "id": 149,
+                  "name": "이정호",
+                  "belong": "주식회사 레인보우 대표이사",
+                  "introduction": "로봇 공학을 전공했으며, 현재 휴머노이드 로봇 플랫폼인 'HUBO'를 개발/생산하는 주식회사 레인보우의 대표이사로 재직하고 있습니다.",
+                  "contact": "mailto:jungho77@rainbow.re.kr",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/149.jpg?20160226152537",
+                  "contactType": "EMAIL"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 32,
+          "name": "세션 2",
+          "startTime": "11:00",
+          "endTime": "11:50",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 89,
+              "name": "네이버 효과툰 구현 이야기",
+              "content": "효과툰 에디터를 왜 Nodewebkit과 Angular.js 조합으로 만들었고, 뷰어를 IE8부터 iOS8까지 다양한 웹 환경에서 보여주기 위해 경험한 문제들과 그 해결법을 공유합니다. 이 발표로 비슷한 업무를 할 예정이신 분들의 삽질 시간이 조금이나마 줄었으면 좋겠습니다.",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=85BF6C4F6A1186EEE33959498E28E4722CA9&outKey=V125e7143a366eb9fdf89dba242c2c296791c8129df1248264a28dba242c2c296791c&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/121-52734801",
+              "categoryCodeList": [
+                21
+              ],
+              "speakerList": [
+                {
+                  "id": 129,
+                  "name": "임대현",
+                  "belong": "NAVER LABS",
+                  "introduction": "와이프와 아들을 무척 사랑하는 개발자",
+                  "contact": "mailto:hi.iamdenny@gmail.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/129.jpg?20160226164017",
+                  "contactType": "EMAIL"
+                },
+                {
+                  "id": 143,
+                  "name": "김지한",
+                  "belong": "NAVER",
+                  "introduction": "필요한 곳에 즐거운 경험을 주기 위해 고민하고 공부하는 웹 UI 개발자",
+                  "contact": "mailto:kim.jihan@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/143.jpg",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 61,
+              "name": "LINE on Apple Watch",
+              "content": "LINE에서 Apple Watch에 어떻게 대응하였는지에 대해서 얘기합니다. Apple Watch와 Apple Watch용 서비스 개발 방법 소개를 시작으로 LINE 메신저를 웨어러블 디바이스와 접목하기 위해 했던 다양한 고민과 기술적인 난관 및 그 해결 경험을 공유할 예정입니다. Apple Watch 또는 웨어러블 디바이스에 관심이 많은 분들에게 좋은 사례가 되길 희망합니다.",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=9E158509B2DD92F557167EF4CF5EDA151A95&outKey=V12850b925433c90f827c65b65b63fc02169b99d99d8050de358765b65b63fc02169b&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/122-line-on-apple-watch",
+              "categoryCodeList": [
+                22
+              ],
+              "speakerList": [
+                {
+                  "id": 135,
+                  "name": "강윤식",
+                  "belong": "라인플러스",
+                  "introduction": "Apple 제품을 많이 좋아하는 LINE iOS 클라이언트 개발자입니다.",
+                  "contact": "mailto:razahel@naver.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/135.jpg?20160226160724",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 76,
+              "name": "Quality without QA",
+              "content": "At Atlassian, each QA supports 30 developers. Their role is not to manually check developer output, but instead to teach developers how to write quality, robust code during the development process. The secret is to bake quality assurance into every step of the workflow, rather than leaving testing to the end.<br> \r\nIn this session, I'll cover several techniques to shift your team towards developer-centric QA: <br>\r\n- cross-disciplinary \"feature kick-offs\" <br>\r\n- applying peer review, continuous integration and deployment to Git feature branching workflows<br>\r\n- moving from manual testing to dogfooding and \"blitz testing\"<br>\r\n- retraining QA engineers as quality \"agents\" who educate, monitor and report, rather than manually test\r\n<br>\r\n<br>\r\n* 본 세션은 동시 통역이 제공됩니다.",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=730B154A2701906CF689F6CFF91B91F7AAEC&outKey=V121357686154e463de9a7622373fa885aea76ee0440cea5b23fd7622373fa885aea7&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/123-quality-without-qa",
+              "categoryCodeList": [
+                28
+              ],
+              "speakerList": [
+                {
+                  "id": 118,
+                  "name": "Timothy Pettersen",
+                  "belong": "Atlassian",
+                  "introduction": "Tim is a veteran Java developer at Atlassian. After seven years working on JIRA, Stash and other developer tools out of Atlassian's Australian office he made the move to San Francisco. Today, Tim's official job title is Developer Provocateur.<br>\r\nTim thinks that all software, but particularly developer tools, should be built with extensibility in mind. He splits his days between building tools and platform APIs for Atlassian's developer ecosystem and blogging or speaking about developer tools, API design and building hackable products.",
+                  "contact": "https://twitter.com/kannonboy",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/118.jpg?20160218211520",
+                  "contactType": "TWITTER"
+                }
+              ]
+            },
+            {
+              "id": 116,
+              "name": "MIT Cheetah 로봇의 탄생",
+              "content": "MIT Cheetah는 시속 22km로 1시간 동안 달릴 수 있는 빠르고 효율 좋은 로봇입니다. <br>\r\n본 세션에서는 MIT Cheetah의 흥미 진진한 개발 과정과 에피소드를 소개합니다. 다루게 될 내용은 자기 무게의 3배의 힘을 낼 수 있는 로봇 다리의 개발, 다자유도 로봇 제어를 위한 FPGA와 Dual-core CPU 기반의 Real-Time 병렬 프로세싱 기술, 효율적으로 달리는 로봇 개발을 위한 시스템 구성 원리 등입니다.",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=1ED842C2A6CC90337573D96732A009E527A9&outKey=V129573823a6372723912e6e2906b89eec07280fa445a81cdec23e6e2906b89eec072&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/124-mit-cheetah",
+              "categoryCodeList": [
+                25,
+                29
+              ],
+              "speakerList": [
+                {
+                  "id": 151,
+                  "name": "석상옥",
+                  "belong": "NAVER LABS",
+                  "introduction": "MIT Biomimetic Robotics Lab에서 Meshworm과 MIT Cheetah 개발, NI 출신 LabVIEW 매니아",
+                  "contact": "",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/151.jpg?20160226152636",
+                  "contactType": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 33,
+          "name": "세션 3",
+          "startTime": "12:00",
+          "endTime": "12:50",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 121,
+              "name": "Packetbeat 과 Elasticsearch 를 이용한 실시간 모니터링",
+              "content": "가용 상태의 어플리케이션을 실시간으로 모니터링 하는 것은 항상 DevOps 담당자들에게 중요한 관심 사항입니다. 정기적인 프로그램 배포 과정도 테스트를 거쳐 성능의 저하를 탐지하고 그 원인을 신속하게 찾아내는 일은 필수적으로 필요합니다. 하지만 시스템 상태를 정확하게 시각화하여 모니터링 하는 것은 쉽지 않은 과정입니다.<br>\r\nPacketbeat 는 서로 다른 네트워크 패킷들을 이용해서 어플리케이션을 모니터링하고 문제를 해결할 수 있도록 돕는 오픈소스 프로젝트 입니다. HTTP, MySQL, PgSQL 또는 레디스 같은 프로그램의 네트워크 데이터를 application layer 프로토콜에서 수집하고 수집된 데이터를 Elasticsearch 와 Kibana 를 이용해서 분석하고 시각화합니다.<br>\r\n이 세션은 Packetbeat 이 어떻게 네트워크 패킷들을 빠른 속도로 수집하고 분해해서 복호화 하는지 내부적인 동작 구조에 대해 이야기 합니다. 또한 Elasticsearch 의 aggregations 을 이용해서 최소한의 구성으로 성능에 대한 핵심적인 지표들을 시각화 하는 방법에 대해서도 이야기 합니다.\r\n<br>\r\n<br>\r\n* 본 세션은 동시 통역이 제공됩니다.",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=A0A5BFD7FAF27BDEB0E2FF1A3199CF0B8398&outKey=V124af6358271f561e3935a3a735d0a8cb030e7950ba4db3f0cd75a3a735d0a8cb030&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/131-packetbeat-elasticsearch",
+              "categoryCodeList": [
+                23,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 157,
+                  "name": "Tudor Golubenco",
+                  "belong": "Elastic",
+                  "introduction": "Tudor Golubenco 는 Packetbeat 의 개발자이자 공동 창업자입니다. Packetbeat 은 엘라스틱에 2015년 인수되어 Tudor는 현재 엘라스틱에서 Beats 프로젝트의 리더를 맡고 있습니다. Packetbeat 을 개발하기 이전에 Tudor 는 VoIP/IMS 네트워크 모니터링 솔루션 업체인 IPTEGO 에서 CTO를 역임 했으며, 그의 팀이 개발한 모니터링 소프트웨어는 Vodafone, Deutsche Telekom, KPN을 비롯한 150개의 통신사에서 사용이 되었습니다. IPTEGO가 인수 합병 된 이후에는 Acme Packet 과 Oracle 에서도 근무를 하였으며 주로 Go, Python, C, Javascript 등을 이용해서 프로그래밍을 즐기고 있습니다.",
+                  "contact": "",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/157.jpg?20160226154707",
+                  "contactType": null
+                }
+              ]
+            },
+            {
+              "id": 113,
+              "name": "Rust 프로그래밍 언어",
+              "content": "새로운 시스템 프로그래밍 언어 Rust를 소개합니다. Rust는 C++처럼 오버헤드 없는 추상화, GC 없는 메모리 관리를 제공합니다. Rust는 C++과 달리 컴파일 시간에 메모리 버그와 동시성 버그를 막아줍니다. 2015년 버전 1.0이 릴리즈 되었습니다.",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=D2298D1325D4C41F2EAC0CE0E8A7CA9BE407&outKey=V123dc322d0028e1b20ea382dc9d3029d458ea22a247bef4ab811382dc9d3029d458e&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/132-rust",
+              "categoryCodeList": [
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 147,
+                  "name": "서상현",
+                  "belong": "NAVER LABS",
+                  "introduction": "프로그래밍 언어의 설계와 구현에 관심이 많습니다. Rust 프로그래밍 언어 컴파일러 개발에 참여했습니다.",
+                  "contact": "https://github.com/sanxiyn",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/147.jpg?20160226152133",
+                  "contactType": "GITHUB"
+                }
+              ]
+            },
+            {
+              "id": 87,
+              "name": "브라우저는 VSync 를 어떻게 활용하고 있을까",
+              "content": "하드웨어 시그널인 VSync(Vertical Synchronization) 와 유저레벨 어플리케이션인 브라우저가 어떤 연관이 있을까요? 그리고 브라우저의 requestAnimationFrame, requestIdleCallback API 는 VSync 와\r\n어떤 관계가 있을까요? <br>\r\n이 세션에서는 이 물음들에 대한 답을 찾아가면서 VSync 가 브라우저에서 무슨 역할을 하는지 이야기 해보려고 합니다.",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=F792526FE76397D3184B4F62CDF762868522&outKey=V1296f68e38f3100212409b4ae236e28da6e2821239000bf3d3bb9b4ae236e28da6e2&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/133-vsync",
+              "categoryCodeList": [
+                21
+              ],
+              "speakerList": [
+                {
+                  "id": 127,
+                  "name": "홍영기",
+                  "belong": "NAVER LABS",
+                  "introduction": "NAVER LABS에서 브라우저 개발에 참여하고 있고, 오픈소스 활동에 관심이 많습니다.",
+                  "contact": "mailto:yk.hong@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/127.jpg?20160226163931",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 67,
+              "name": "Immersive Sound for VR",
+              "content": "현실과 가상의 경계를 허무는 VR의 실현을 위해서는 Immersive Sound 기술 역시 필수입니다! <br>본 세션에서는 Mobile AR/VR 구현을 위해 필요한 Sound Rendering 기술인 Binaural Audio에 대한 이해를 위해 이를 업으로 하는 스타트업에서 쉽게 입문할 수 있는 기초부터 출발하여 최신 기술 동향까지 총정리하였습니다. ",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=65E3EA18316B26AD9A6A64038139B1DA06D8&outKey=V1249be33d74d306e719338fc0ff994a9933a647ac7381516470038fc0ff994a9933a&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/134-immersive-sound-vr",
+              "categoryCodeList": [
+                25,
+                26
+              ],
+              "speakerList": [
+                {
+                  "id": 105,
+                  "name": "오현오",
+                  "belong": "가우디오디오랩 주식회사",
+                  "introduction": "오디오 신호처리 테크 스타트업, Sound for VR, GAUDI의 골목대장입니다. \r\n",
+                  "contact": "mailto:o@gaudion.co",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/105.jpg?20160226162447",
+                  "contactType": "EMAIL"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 34,
+          "name": "점심시간",
+          "startTime": "12:50",
+          "endTime": "14:10",
+          "feature": "LUNCH",
+          "sessionList": []
+        },
+        {
+          "id": 35,
+          "name": "세션 4",
+          "startTime": "14:10",
+          "endTime": "15:00",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 88,
+              "name": "React Everywhere",
+              "content": "최근에 리액트가 새로운 대세가 되어가고 있습니다. 페이스북은 웹 버전 일부, 애드 매니저(iOS, Android), 페이스북 그룹스(iOS), 인스타그램 웹 버전 등을 리액트로 만들었고 Airbnb, BBC, CodeCademy, ebay, Flipboard, Netflix, PayPal, reddit, Twitter, NYTimes, Salesforce, Yahoo등의 업체에서 리액트를 도입하고 있습니다. 한국에서도 리액트에 대한 관심은 늘어나고 있고 주변에서도 리액트에 대해 관심을 가지는 사람이 점차 많아지고 있습니다.\r\n이 세션은 웹, PC (하이브리드), 모바일 (네이티브) 어디에서든 리액트를 쓸 수 있는 것을 목표로 합니다. 편리하게 리액트를 쓸 수 있는 조합 구성을 제시하고 리액트의 동작 원리를 설명함으로서 이 기술을 더 잘 활용할 수 있도록 합니다.",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=BAA1FFA4240788DDA9D4174FC5C8BA8DCF46&outKey=V1289ef936c3d32277873bd84a5ea14d93e0287a8c7a4eda4905fbd84a5ea14d93e02&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/141-react-everywhere",
+              "categoryCodeList": [
+                21
+              ],
+              "speakerList": [
+                {
+                  "id": 139,
+                  "name": "김용욱",
+                  "belong": "필링선데이 CTO",
+                  "introduction": "안드로이드, iOS, 웹을 다루는 풀 스택 엔지니어. GDG Korea Android의 운영자이자 필링선데이의 CTO이다.",
+                  "contact": "https://github.com/dalinaum",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/139.jpg?20160226163959",
+                  "contactType": "GITHUB"
+                }
+              ]
+            },
+            {
+              "id": 64,
+              "name": "How Riot Works",
+              "content": "좋은 소프트웨어 개발 문화를 만들기 위해서는 여러 복합적인 요소가 필요합니다. 단순히 개발 능력이 뛰어난 개발자를 모아 놓는 것 만으로는 충분 하지 않기 때문입니다. 이에 플레이어의 경험을 최우선으로 하는 라이엇게임즈에서는 어떻게 개발 문화를 정의 하고 발전시켜 나가고 있는지를 소개 합니다. 라이엇게임즈의 개발문화는 모두 Riot Manifesto에 기초 하고 있습니다. 각 항목이 개발문화에 어떠한 영향을 미치고 있는지 살펴 보시고 지속적으로 성장하는 개발 문화를 만들어 가기 위한 고민과 도전을 살펴 보실 수 있습니다.<br>\r\n- PLAYER EXPERIENCE FIRST<br>\r\n- CHALLENGE CONVENTION<br>\r\n- FOCUS ON TALENT AND TEAM<br>\r\n- TAKE PLAY SERIOUSLY<br>\r\n- STAY HUNGRY, STAY HUMBLE",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=9E7AD4F304CE21FC874592194B49B923943C&outKey=V1289ad6afc3bed6b3f0e20d7d30b15428276499a6fed5fccc59920d7d30b15428276&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/142-how-riot-works",
+              "categoryCodeList": [
+                28
+              ],
+              "speakerList": [
+                {
+                  "id": 101,
+                  "name": "유석문",
+                  "belong": "Riot Games",
+                  "introduction": "사용자가 행복한 소프트웨어를 만드는 개발자가 되기 위해 노력 중이며 현재는 라이엇게임즈에서 즐겁게 성장 하고 있습니다.",
+                  "contact": "http://kr.linkedin.com/in/sryoo",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/101.jpg?20160226162157",
+                  "contactType": "LINKEDIN"
+                }
+              ]
+            },
+            {
+              "id": 74,
+              "name": "안드로이드 기반의 모바일 혈액진단기 개발 삽질기, 그리고 우리가 쌓은 경험",
+              "content": "BBB는 모바일 혈액진단기 엘리마크(elemark)와 연계 의료정보데이터 플랫폼을 개발하고 있습니다. 이 과정에서 하드웨어 엔지니어와 소프트웨어 엔지니어, UX 디자이너, 마케팅 기획자가 혈액진단기기를 넘어 헬스케어 데이터를 활용해 기기 기능의 200%를 더하는 부가 서비스를 만들어내는 데 집중하고 있습니다. <br>\r\n서로 다른 영역의 개발자들이 어떠한 시행착오를 겪었고, 하나씩 발전시키며 한국을 넘어 US, China를 목표로 나아가는 과정을 공개하고자 합니다. ",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=D6307E7DD7C133C9B40DB9822D7AE024021C&outKey=V12972d2dc2f3944bb347c6c8bcbd22996d1d666fc04637558e36c6c8bcbd22996d1d&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/143-52736062",
+              "categoryCodeList": [
+                26,
+                28
+              ],
+              "speakerList": [
+                {
+                  "id": 115,
+                  "name": "조영운",
+                  "belong": "BBB",
+                  "introduction": "스노우보드를 좋아하는 평범한 개발자입니다.",
+                  "contact": "mailto:young@bbbtech.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/115.jpg?20160226163514",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 78,
+              "name": "Mobile 앱에서 효율적인 storage 접근 방법",
+              "content": "이 세션에서 준비한 내용은 flash solution이 장착되는 mobile 단말기에서의 multi-thread I/O 효과입니다. <br>I/O 성능이 중요한 mobile app에서 multi-thread I/O를 사용하면 전체적으로 수행 시간을 단축하는 효과를 얻을 것으로 기대하고 있습니다. 특정 app에서 multi-thread I/O를 사용한 경우와 사용하지 않은 경우를 비교하여 구체적으로 어떤 효과가 있는 지 살펴볼 예정입니다.<br>\r\n이와 함께 새로운 flash solution에서 제공되는 기능들을 설명하고, 이를 이용하여 더욱 성능을 개선시킬 수 있다는 것을 보여드리겠습니다.",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=4C6816F42EE96D83E62CC3E47A943C2DC666&outKey=V128809c88b3e98f338aa67f2f9897408c13fdd62ecab14e1edd467f2f9897408c13f&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/144mobile-storage",
+              "categoryCodeList": [
+                22
+              ],
+              "speakerList": [
+                {
+                  "id": 104,
+                  "name": "장재영",
+                  "belong": "SK hynix",
+                  "introduction": "host(android 기반)와 device(flash memory)의 구조 분석 업무를 하고 있습니다.",
+                  "contact": "mailto:jeayoung.zhang@sk.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/104.jpg?20160226162324",
+                  "contactType": "EMAIL"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 43,
+          "name": "세션 5",
+          "startTime": "15:10",
+          "endTime": "16:00",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 70,
+              "name": "영상 인식을 통한 오프라인 고객 분석 솔루션과 딥러닝",
+              "content": "ZOYI는 핸드폰에서 발생하는 무선 신호를 이용해 오프라인 고객의 행동을 분석하는 ‘워크인사이트’를 서비스하고 있습니다. 최근에는 영상 인식 기술을 이용해 CCTV 영상을 분석하고 워크인사이트가 제공하기 어려웠던 새로운 가치를 제공하고자 ‘비전인사이트(가칭)’라는 R&D 프로젝트를 진행하고 있습니다. 그러던 중 다음과 같은 질문을 던지게 되었습니다. <br>\r\n첫째, 영상으로부터 방문객의 프로파일 (성별, 나이, 내외국인 등) 을 추론할 수 있지 않을까? 두번째로는 더 나아가 수십, 수백대의 CCTV 영상이 있을 때 사람이 모든 긴급 상황을 모니터링하는 것이 아니라 기계가 사람의 판단을 어느 정도 대신할 수 있지 않을까? 이 두 질문에 대해 딥러닝이 좋은 솔루션이 될 수 있겠다고 생각했고 특히 첫번째 질문에 대해 딥러닝을 적용해보았습니다. <br>\r\n평범한 개발자의 관점에서 딥러닝을 공부하고 실제 애플리케이션을 만들기까지의 과정을 공유하려고 합니다.",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=A2538A1D3BEAEB9CC1917D99D8132BCBB44A&outKey=V1235b3cc8dbe10a6b0040298bd90fa246e42db11058f1f7a889c0298bd90fa246e42&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/151-52736250",
+              "categoryCodeList": [
+                25,
+                26
+              ],
+              "speakerList": [
+                {
+                  "id": 109,
+                  "name": "이수완",
+                  "belong": "ZOYI",
+                  "introduction": "ZOYI에서 소프트웨어 엔지니어로 일하고 있습니다. 전반적인 웹 기술을 좋아하며, 더 스마트한 웹을 만들 수 있는 머신러닝, 딥러닝 기술에 관심이 많습니다. 기술을 통해 사람들에게 가치를 주는 제품을 만드는 것에 흥미를 느낍니다.",
+                  "contact": "http://facebook.com/blaswan",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/109.jpg?20160226162604",
+                  "contactType": "FACEBOOK"
+                }
+              ]
+            },
+            {
+              "id": 112,
+              "name": "웹 브라우저 감옥에서 살아남기",
+              "content": "엔트리는 입문자를 위한 소프트웨어 교육 서비스로서, 순수 HTML5 기술만을 사용하여 구현되었습니다. <br>우리는 엔트리에서 다양한 기능을 제공하기 위해 HTML Canvas, SVG, Websocket 등 여러 웹기술을 총 동원하였습니다. 또한 독자 설계된 JS 기반 비주얼 프로그래밍 언어와 인터프리터, 하드웨어 장치 연결 솔루션 등 다양한  노하우를 공유합니다.",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=A2147063DD15EDEFB7953A4BE634AE2B96B0&outKey=V125936a369c6f44401e51567d64b63eeebc3f17fd8212568ccd71567d64b63eeebc3&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/152-52736153",
+              "categoryCodeList": [
+                21,
+                26
+              ],
+              "speakerList": [
+                {
+                  "id": 146,
+                  "name": "심규민",
+                  "belong": "엔트리 교육연구소 CTO",
+                  "introduction": "엔트리 교육연구소(ex 엔트리 코리아)의 스타트 멤버로 시작하여, 엔트리 서비스의 기반을 설계하고 구현해 왔습니다.",
+                  "contact": "mailto:skm@entrylabs.org",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/146.jpg?20160226154217",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 71,
+              "name": "딥러닝에서 스트림처리까지: 빅데이터 분석 메타 프레임워크 Apache REEF",
+              "content": "REEF는 YARN, Mesos와 같은 자원관리자에서 빅데이터 애플리케이션을 쉽게 개발하고 효율적으로 처리할 수 있도록 하는 메타 프레임워크입니다. REEF는 데이터 처리를 스케줄하고 조정하는 컨트롤 플레인 지원, 자원 컨테이너 및 스테이트 재사용, 분산 시스템 구성 관리, 고성능 이벤트 처리 엔진을 제공합니다. 현재 REEF는 현재 마이크로소프트 Azure Stream Analytics등의 클라우드 서비스의 기반 소프트웨어로 사용되고 있습니다. 그리고 새로운 빅데이터 처리 라이브러리와 빅데이터 처리 엔진이 REEF위에서 연구 개발 되고 있습니다. <br>\r\nREEF는 Java와 C# 언어를 지원합니다. 현재 아파치 인큐베이터 프로젝트로 많은 개발자가 활발히 참여하고 있습니다. 자세한 정보는 http://reef.incubator.apache.org/에 있습니다. <br>\r\n마지막으로 현재 서울대에서 REEF를 사용하여 개발 중인 다양한 빅데이터 분석을 초고속으로 수행하는 단일화된 빅데이터 스택을 소개합니다.  ",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=3E54E23F4993D649DE96112AECBED6C932A1&outKey=V126fdfae3d72b337680659498e28e4722ca9a2c9dc0107a5118559498e28e4722ca9&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/153-apache-reef",
+              "categoryCodeList": [
+                24,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 112,
+                  "name": "전병곤",
+                  "belong": "서울대학교 ",
+                  "introduction": "서울대학교 컴퓨터 공학부 조교수로 빅데이터 플랫폼을 연구/개발하고 있습니다. 그 전에는 UC 버클리에서 박사 학위를 하고 인텔, 야후, 마이크로소프트에서 연구를 수행했습니다.",
+                  "contact": "http://cmslab.snu.ac.kr",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/112.jpg?20160226163035",
+                  "contactType": "HOMEPAGE"
+                }
+              ]
+            },
+            {
+              "id": 72,
+              "name": "데이터 센터의 오픈 소스, Open Compute Project (OCP)",
+              "content": "아두이노(Arduino)와 라즈베리 파이(Raspberry Pi)의 열풍으로 오픈 소스 하드웨어의 영역이 확대되고 있는 요즘, 오픈과 공유와는 완전히 반대되는 가장 보수적인 공간인 데이터센터가 오픈 소스 열풍에 동참하려는 Open Compute Project (OCP) 에 대해 살펴보고자 합니다.<br>\r\n이제 15억 사용자를 눈앞에 두고 있는 페이스북이 자사가 구축한 데이터센터의 모든 기술들을 2011년 4월, OCP 라는 프로젝트를 발동하여 데이터센터를 구축하기 위한 모든 기술들을 오픈 소스로 공유하여 생태계 활성화에 도움이 되고자 하는 OCP 에 대해 알아보고 OCP 표준을 기반으로 네이버랩스와 공동으로 개발 중인 저전력 클라우드 ARM 서버에 대해 살펴보고자 합니다.",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=CD19AF51C24748A6C4A6F9D37289474B4F81&outKey=V129d4bc0c473db6361ecb8cff075814dc1d7ccfefa11eb898c9cb8cff075814dc1d7&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/154-open-compute-project-ocp",
+              "categoryCodeList": [
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 113,
+                  "name": "유명환",
+                  "belong": "엑세스주식회사 연구소장(CTO)",
+                  "introduction": "우분투(Ubuntu)와 오픈 소스 SW & HW 를 사랑하는 개발자입니다.\r\n<br>- 정부통합전산센터 클라우드 기술위원\r\n<br>- 미래부, SW마에스트로 멘토\r\n<br>- 서울창조경제혁신센터 IoT 해커톤 자문위원\r\n<br>- 네이버 D2 Startup Factory 하드웨어 분야 파트너",
+                  "contact": "mailto:funfun.yoo@gmail.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/113.jpg?20160226163102",
+                  "contactType": "EMAIL"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 44,
+          "name": "세션 6",
+          "startTime": "16:10",
+          "endTime": "17:00",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 118,
+              "name": "데이터사이언스팀 빌딩 그리고 시스템 구축",
+              "content": "본 세션에서는 성장하는 스타트업에서 어떻게 데이터과학을 구축할 수 있는 지에 대해 설명합니다. <br>\r\n그 동안 다른 세션에서 흔히 이야기 하는 데이터과학과 데이터 플랫폼이나 머신러닝 소개 등은 생략하고 아래와 같이 서비스에서의 데이터과학 조직 셋팅 후 했어야 했던 과정들을 소개해 봅니다.\r\n<br> <br>\r\n- 새로 시작한 스타트업이 궤도에 오르고 데이터과학이 필요한 시점이 되었을 때, 해야되는 일들<br>\r\n- 데이터과학 조직의 역할과 책임<br>\r\n- 단계별 절차 및 결과 도출<br>\r\n- 빠르게 경영에 필요한 의사결정 데이터 도출, BI, 대쉬보드, 로깅시스템, 검색시스템, 추천시스템, 개인화시스템 등을 4개월안에 뽑아내기<br>",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=5C0988F69361E571397F8D0BBC4127CF5D92&outKey=V124fca32be4eae525ff76e704f39b0892d29fc9c98e8b7f99e456e704f39b0892d29&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/161-52739443",
+              "categoryCodeList": [
+                24,
+                28
+              ],
+              "speakerList": [
+                {
+                  "id": 153,
+                  "name": "강지훈",
+                  "belong": "피키캐스트",
+                  "introduction": "머신러닝과 데이터의 모든 것에 관심이 많은 세 아들의 아빠",
+                  "contact": "https://www.facebook.com/badend2",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/153.jpg?20160226154147",
+                  "contactType": "FACEBOOK"
+                }
+              ]
+            },
+            {
+              "id": 109,
+              "name": "JPA와 모던 자바 데이터 저장 기술",
+              "content": "행동 중심인 객체와 데이터 중심인 관계형 데이터베이스 사이에는 큰 간격이 있습니다. 이 간격을 메우기 위해 자바 개발자들은 무수한 SQL과 매핑 코드를 작성합니다. 단순히 객체를 등록, 수정, 삭제, 조회하려고 SQL을 반복해서 작성하는 것부터 객체와 관계형 데이터베이스 사이의 패러다임 불일치를 해결하는 복잡한 일까지, 개발자들은 중간에서 너무 많은 시간과 코드를 소비하게 됩니다. 자바 진영에서는 오랜 기간 이 숙제를 풀기 위해 많은 노력을 기울여 왔습니다. 그 결과 JPA(Java Persistence API)라는 기술 표준이 탄생했습니다. JPA는 SQL 작성 없이 객체를 데이터베이스에 직접 저장할 수 있게 도와주고, 객체와 관계형 데이터베이스의 차이도 중간에서 해결해줍니다. <br>\r\n이 세션에서는 객체와 관계형 데이터베이스의 패러다임 불일치 문제를 알아보고, JPA를 통해 문제를 어떻게 해결하는지 알아봅니다. 그리고 스프링 프레임워크에서 JPA를 편리하게 사용하도록 도와주는 스프링 데이터 JPA, 타입 안전성을 보장하는 QueryDSL 같은 혁신적인 오픈소스도 알아볼 예정입니다. 마지막으로 실무 경험과 노하우, 성능 최적화 팁 등을 공유하겠습니다.",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=D27B798D516DFB5674A7F9BF709FB4025E42&outKey=V12487e3810f7f167f7ef0da87f37d557eeab09173e9a6baeb6690da87f37d557eeab&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/162-jpa",
+              "categoryCodeList": [
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 141,
+                  "name": "김영한",
+                  "belong": "SK 플래닛",
+                  "introduction": "SK플래닛의 데이터 서비스 개발팀에서 근무하고 있고, \"자바 ORM 표준 JPA 프로그래밍\"을 저술했습니다. 도메인 주도 설계에 관심이 많으며, 끊임없이 공부하고 더 나은 코드를 작성하는 개발자가 되려고 노력 중입니다.",
+                  "contact": "",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/141.jpg?20160226163739",
+                  "contactType": null
+                }
+              ]
+            },
+            {
+              "id": 75,
+              "name": "Accelerated compositing in WebKit: Now and in the future",
+              "content": "GPU Accelerated Compositing이 웹엔진에 적용된지는 여러 해가 지났습니다. 그럼에도 불구하고, 이 기술은 완성된 것이 아니며, 개선되어야 할 부분이 많습니다. <br>\r\n이 세션에서 우리는 현재 구현된 Accelerated Compositing들을 간략히 살펴볼 것입니다. 그리고 현재 WebKitGTK+/EFL에서 사용되는 Coordinated Graphics의 현재 상황과 앞으로의 개발 방향을 이야기할 것입니다. 또한 GPU 가속이 적용되는 WebGL, HTML5 2D Canvas 그리고 HTML5 Video를 compositing할 때 성능향상을 위한 zero-copy platform layer compositing에 대하여 이야기하고자 합니다.",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=9B15FAFCF30227E06766EF00FD6CEA124CD2&outKey=V129183b00013f48a97664f3d181e67d1bf1e81c8e5a5358dc0004f3d181e67d1bf1e&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://blog.ryumiel.net/deview2015/#/",
+              "categoryCodeList": [
+                21,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 116,
+                  "name": "황광윤",
+                  "belong": "Igalia, S. L.",
+                  "introduction": "Open Source Consultancy인 Igalia에서 WebKit/Chromium을 중점적으로 활동하고 있는 황광윤입니다. <br>\r\nWebKit Open Source project에서 accerlated compositing 부분에 참여하고 있으며, 현재는 Threaded\r\nCompositor를 WebKitGTK+의 기본 Compositor로 만들기 위해 노력 중 입니다.",
+                  "contact": "http://blog.ryumiel.net",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/116.jpg?20160226163621",
+                  "contactType": "HOMEPAGE"
+                }
+              ]
+            },
+            {
+              "id": 90,
+              "name": "대규모 분산환경에 최적화된 APM:Pinpoint",
+              "content": "Pinpoint는 대규모 분산환경을 위한 APM(Application Performance Management) 도구입니다.<br>\r\n최근 MSA(MicroService Architecture)와 같은 분산아키텍쳐가 화두가 되고 있습니다. 하지만 분산아키텍쳐를 실제 도입해보면, 추가적인 복잡도로 인해 개발과 운영이 힘들어지는 상황을 겪게 됩니다.<br>\r\nPinpoint는 분산환경의 구성요소를 시각화된 뷰로 제공하여, 성능문제와 장애진단을 쉽고 빠르게 할 수 있도록 도와줍니다.<br>\r\n <br>\r\n이 세션에서는 다음 내용을 다룰 예정입니다.<br> \r\n1. 분산환경이 발생시키는 문제점<br>\r\n2. Pinpoint 소개 그리고 이를 구성하는 2가지 기술<br>\r\n-- CallStack Trace<br>\r\n-- Distributed Transaction Trace<br>\r\n3. Pinpoint를 사용하여 해결한 사례 공유<br> \r\n4. 분산환경의 문제를 쉽게 분할정복(Divide and Conquer) 할 수 있는 RPC TimeLine Pattern 소개<br>",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=8B3E4703564F97B2324684DAAA3C8470A23D&outKey=V126be8b6348f5c4d31ba343b1734c0a7d68ad2e391384e567e39343b1734c0a7d68a&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/164-pinpoint",
+              "categoryCodeList": [
+                23,
+                24,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 138,
+                  "name": "강운덕",
+                  "belong": "NAVER",
+                  "introduction": "Java 백엔드 개발자입니다. 네이버에서 비동기 네트워크 라이브러리, 프레임워크, 트러블슈팅 업무를 담당했습니다. 트러블슈팅의 자동화&고도화를 위해 Pinpoint를 개발하였습니다.",
+                  "contact": "https://github.com/naver/pinpoint",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/138.jpg?20160226164058",
+                  "contactType": "GITHUB"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 45,
+          "name": "BOF",
+          "startTime": "17:15",
+          "endTime": "18:30",
+          "feature": "BOF",
+          "sessionList": []
+        }
+      ],
+      "totalSessionCount": 24
+    },
+    {
+      "id": 2,
+      "name": "DAY 2",
+      "date": "9.15 Tue",
+      "programList": [
+        {
+          "id": 36,
+          "name": "참가등록",
+          "startTime": "09:30",
+          "endTime": "10:00",
+          "feature": "REGISTER",
+          "sessionList": []
+        },
+        {
+          "id": 37,
+          "name": "세션 1",
+          "startTime": "10:00",
+          "endTime": "10:50",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 92,
+              "name": "네이버 검색과 데이터마이닝",
+              "content": "지난 10년간 데이터마이닝이 네이버 검색에서 어떻게 쓰였는지 소개하고, 그 과정에서 얻어진 노하우를 공유합니다. 데이터마이닝을 이용한 최초의 서비스였던 네이버 연관검색어, 실시간검색어 로부터 현재 진행중인 데이터마이닝 프로젝트까지 소개합니다. <br>\r\n실제데이터로 하는 데이터마이닝이 이론으로 하는 데이터마이닝과 어떻게 다른지 이야기하고 좋은 데이터마이너가 되기위해 필요한 것들을 이야기합니다. <br>\r\n<br>\r\n[목차] <br>\r\n1. 네이버 데이터마이닝 프로젝트 <br>\r\n2. 좋은 데이터마이너가 되기위해 필요한 것 <br>\r\n3. 현재 진행중인 실시간 데이터마이닝 프로젝트",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=5204088D462F0EEC970B3EEDE749FF3FC015&outKey=V128b41d67534c81db8453e18cecaae499f656200df82f66b587b3e18cecaae499f65&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/211-52777946",
+              "categoryCodeList": [
+                24,
+                30
+              ],
+              "speakerList": [
+                {
+                  "id": 132,
+                  "name": "최재걸",
+                  "belong": "NAVER",
+                  "introduction": "네이버에서 데이터마이닝 일을 하고있습니다. 좋은 데이터마이너가 되고자 노력중입니다. ",
+                  "contact": "mailto:jkchoi.naver@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/132.jpg?20160226164338",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 63,
+              "name": "Large scale backend service development using Node.js, Docker and AWS",
+              "content": "League of Legends (LoL) is a multiplayer online video game developed and published by Riot Games. \r\n<br><br>\r\nI'd like to share what I learned from my experience developing a backend service application that processes millions of requests (per minute) with the extremely low latency. <br>\r\n<br>\r\nIn this presentation, I'll discuss: <br>\r\n- AWS-based cluster setup for RESTful services <br>\r\n- Writing production level Node.js applications <br>\r\n- Redis use cases, scaling and optimization techniques <br>\r\n- Docker container deploy automation and performance optimization in AWS ECS/EC2 <br>",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=BF1941592A00EF383238F9D37289474B4F81&outKey=V126e0a143d5be34066a6062e833f97b7da2efc68b33bb5e090ca062e833f97b7da2e&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/212-large-scale-backend-service-develpment",
+              "categoryCodeList": [
+                23,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 100,
+                  "name": "Daniel Kang",
+                  "belong": "Riot Games",
+                  "introduction": "I'm a Software Engineer at Riot Games. I write code for the backend service applications.",
+                  "contact": "https://github.com/d5",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/100.jpg?20160226162141",
+                  "contactType": "GITHUB"
+                }
+              ]
+            },
+            {
+              "id": 126,
+              "name": "Building Ethereum",
+              "content": "The Ethereum project has advanced block-chain technology beyond the paradigm of specific use-cases; with Ethereum it is now possible to upload custom rules and have their execution secured by the block-chain. Ethereum can be seen as a \"World Computer\", a shared robust secure computing resource that anyone can use. It includes both execution and storage, with customizable cryptographic permissions possible on both. <br>\r\nThis talk will explore the technology that makes this possible, some of the challenges that had to be overcome and some of the possibilities that Ethereum can power. <br>\r\n<br>\r\nEthereum 프로젝트는 특정 유스케이스의 패러다임을 넘어선 진보된 block-chain 기술을 보유하고 있습니다. Ethereum을 이용해 커스텀된 규칙을 업로드하고 이 block-chain을 이용해 그들의 실행을 안전하게 보호할 수 있습니다. Ethereum은 마치 누구나 사용할 수 있는 탄탄하고 안전한 공유 컴퓨터 자원, 즉 \"세계 컴퓨터\"처럼 보일 것입니다. 이것은 실행 기능과 저장 장치를 포함하며, 양쪽 모두에 대해 암호화된 접근 제어를 제공합니다. <br>\r\n이 세션에서는 이 모든 것을 가능하게 한 기술과 극복해야 했던 어려움들에 대해 이야기하고, Ethereum이 해줄 수 있는 가능성에 대해서 설명합니다. <br>\r\n<br>\r\n* 본 세션은 동시 통역이 제공됩니다.",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=35898A4BF1D77828134E9D6A553FBF3DD2BF&outKey=V12638c873d15475cbff5599466dd70e845832a3f907c8212e1ce599466dd70e84583&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/231-ethereum",
+              "categoryCodeList": [
+                25
+              ],
+              "speakerList": [
+                {
+                  "id": 163,
+                  "name": "Aeron Buchanan",
+                  "belong": "Ethereum",
+                  "introduction": "Dr Aeron Buchanan is a researcher for the Ethereum Project, specializing in mathematical modelling for the optimal functioning of the Ethereum Platform. <br>\r\nHe has a strong academic background, with a career spanning economics research, computer vision, algorithm design and business strategy. He completed a Masters in Engineering and Computing Science and DPhil in Robotics both at Oxford University, and went on to work for Computer Film Company and 2d3, before being part of founding several start-ups in the technology sector.",
+                  "contact": "",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/163.jpg?20160226155851",
+                  "contactType": null
+                }
+              ]
+            },
+            {
+              "id": 123,
+              "name": "Data science with Apache Zeppelin",
+              "content": "Apache Zeppelin은 Spark 및 다른 여러 분석 프레임웍을 지원하는 Notebook 환경입니다. 오픈소스 소프트웨어를 이용해 데이터 분석 시스템을 구축할 때 경험하게 되는 시스템 구성의 복잡성으로 인해, 분석가들은 실제 분석보다는 시스템 구성과 유지 보수에 더 많은 시간을 소비하는 경우가 많습니다. <br>\r\n본 세션에서는 기존에 Hadoop / Hive / Spark / mongodb 등을 사용해 AccessLog 분석하는 시스템에 Zeppelin 을 적용한 사례를 통해 기존시스템의 문제점을 진단하고 Zeppelin 을 통해 개선한 시스템의 구성을 살펴보고자 합니다. <br>\r\n이 과정에서 다중 사용자 지원, 라이브러리 아카이브 구성, 노트북 공유 등 실제 데이터 분석 팀이 마주칠 수 있는 문제의 해결책을 제시합니다. 또한 Zeppelin 의 유연성에 대해 알아보고, 새로운 분석 framework, 시각화 등을 사용자가 직접 추가할 수 있는 방법에 대해 공유하고자 합니다.",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=28A20F4B24B4CDDBCA854304CA058CC3AD52&outKey=V127a17b1f39d72fafb2f528e2fcba8005b174f635702bc16e8de528e2fcba8005b17&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/214-data-science-with-apache-zeppelin",
+              "categoryCodeList": [
+                24,
+                26,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 159,
+                  "name": "이문수",
+                  "belong": "NFLabs",
+                  "introduction": "Creator of Apache Zeppelin. <br>\r\n2013년에 Zeppelin 프로젝트를 시작했고, 현재는 Zeppelin 을 개선하고, Zeppelin 주위의 생태계를 성장시키는데에 초점을 맞추고 있습니다. ",
+                  "contact": "https://github.com/Leemoonsoo/",
+                  "profileImageUrl": null,
+                  "contactType": "GITHUB"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 38,
+          "name": "세션 2",
+          "startTime": "11:00",
+          "endTime": "11:50",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 117,
+              "name": "Docker Orchestration",
+              "content": "Docker Orchestration이란 여러개의 Docker Container로 하나의 서비스를 만들어 주는 것을 의미합니다.<br>\r\n이 발표에서는 Docker Orchestration이 어떤 요소와 구현체가 있는지 소개하고 서비스를 빌드/배포하는 관점에서 Docker Orchestration을 통해 서비스를 쉽게 Dockerize 하기위해 저희가 하고 있는 일들을 소개 합니다.",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=6A22A14266C44FC826565B5545C6D6FA7D1B&outKey=V12599bc3d072339869ac094d0787416655bf68c88a551de614c6094d0787416655bf&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/221-docker-orchestration",
+              "categoryCodeList": [
+                23
+              ],
+              "speakerList": [
+                {
+                  "id": 152,
+                  "name": "이종현",
+                  "belong": "NAVER",
+                  "introduction": "네이버에서 Docker 를 이용한 Continuous Delivery 와 Platform As A Service 체계를 만들려고 합니다.",
+                  "contact": "mailto:albam.c@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/152.jpg?20160226164038",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 94,
+              "name": "대화 시스템 서비스 동향 및 개발 방법 ",
+              "content": "2011년 애플 Siri 서비스 이후, 삼성 s-voice, 구글 나우 같이 대화 기능을 포함하는 스마트폰 앱들이 다수 등장하였습니다. 최근에는 소프트뱅크의 페퍼, 지보사가 개발한 지보, IBM 왓슨을 이용하는 cognitoys 등 대화 기능을 장착한 로봇형 시스템들이 계속 등장하고 있습니다. <br>\r\n 네이버에서는 2012년 링크앱 개발과 함께 대화 기술에 관한 연구를 진행하고 있습니다. <br> \r\n본 발표에서는 네이버에서 대화 기술을 개발하면서 연구/조사했던 내용을 공유합니다. 특히, 대화 시스템 개발에 꼭 필요한 \"대화 관리\" 기술에 관해서 주로 다룹니다. \"대화 관리\"는 사용자와 시스템간의 대화 내용을 관리하고, 이를 기반으로 사용자 질의에 적절하게 답변하는 역할을 하는 기술입니다. ",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=6BB36DE9C2613C1DF7880E798E7B382BB0E8&outKey=V12351390ac5a4d21f8a362ee1b296cddb4ec4e342f84739b011462ee1b296cddb4ec&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/222-52779117",
+              "categoryCodeList": [
+                25
+              ],
+              "speakerList": [
+                {
+                  "id": 134,
+                  "name": "서희철",
+                  "belong": "NAVER",
+                  "introduction": "네이버에서 대화 시스템을 개발하고 있습니다. ",
+                  "contact": "mailto:heecheol.seo@navercorp.com ",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/134.jpg?20160226164355",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 85,
+              "name": "HBase consistent secondary indexing",
+              "content": "HBase에서 데이터는 오직 rowkey기반의 사전식 순서로 정렬되어 이를 통한 조회만이 가능하며, 보조인덱스(secondary index)를 지원하지 않습니다. 이 때문에 rowkey 이외의 기준으로 데이터를 조회하기 위해서는 사용자가 보조인덱스를 직접 만들어 쓰거나, 시중에 나와있는 보조인덱스 시스템들을 사용해야만 합니다. <br>\r\n하지만 이러한 시스템들은 index consistency(data테이블과 index간의 일관성)를 보장하지 않습니다. 일부는 잘못된 데이터를 보정하는 툴을 제공하거나, 제한적으로 지원(eventually consistant)하고 있는데요, 데이터에 대한 신뢰가 중요한 시스템에서는 결과를 확신할 수 없습니다. 이러한 배경에서 index consistency를 보장하는 보조인덱스 시스템 HIM을 개발하게 되었습니다.<br>\r\n이번 발표에서는 hbase에서의 보조 인덱스 구현을 위한 배경 지식과 index consistency를 보장하는 방법에 대해서 설명합니다. 또, Coprocessor와 Custom Filter, Zookeeper 등을 이용한 내부 구조와 성능에 대해 소개하고, HBase의 보조인덱스로서 RDBMS의 것들과 구분되는 사용패턴과 이를 지원하는 기능들에 대해 논하고자 합니다.",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=418C21077EB1D33E966E04CC676647DAE467&outKey=V128f33271536740e439e39e3c5c982f5e4382d3853f4c26a0a6239e3c5c982f5e438&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/223-h-base-consistent-secondary-indexing",
+              "categoryCodeList": [
+                24,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 125,
+                  "name": "김정민",
+                  "belong": "NAVER",
+                  "introduction": "네이버 검색에서 일하면서 자연스레 대용량 데이터 처리에 관심을 갖게 되었습니다. web cralwer와 검색문서 저장소의 개발 운영에 몸 담았었고, 현재는 검색 데이터의 노출 제어 시스템 개발 운영과 검색문서 정제를 담당하고 있습니다.",
+                  "contact": "mailto:eomiks@naver.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/125.jpg?20160226163848",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 125,
+              "name": "기계 번역 모델 기반 질의 교정 시스템",
+              "content": "사용자가 검색할 때 '내이버' 등의  오타를 입력하는 경우가 많으며 검색어로 오타가 입력되는 경우 검색결과가 만족스럽지 않습니다. 이러한 경우 가급적 '네이버'와 같이 교정 추천해 주면 사용자의 검색 만족도가 증가합니다.<br>\r\n네이버는 수년 전부터 자연어처리(NLP) 기술을 이용한 검색어 교정 추천 서비스를 제공하였습니다.\r\n스마트폰 사용이 증가하면서 pc에서 검색할 때보다 오타 입력이 증가하였고, 이에 따라 네이버의 기존 검색어 교정 시스템은 교정 추천 커버리지가 한계에 다다르게 되었으며 보다 좋은 품질의 검색어 교정 추천 시스템의 필요성도 함께 증가하였습니다.<br>\r\n이에 기존의 교정 추천 시스템을 대신 할 검색어 교정 알고리즘과 라이브러리를 새롭게 개발하여 네이버 검색에 적용하게 되어 DEVIEW를 통해 새로운 검색어 교정 시스템을 소개하고자 합니다.<br>",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=890B250F426BE8B47A80F6CFF91B91F7AAEC&outKey=V1246f934f11dd6bdfcf2175e33d8d58ea42cdf34ac4ad2638c23175e33d8d58ea42c&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/242-52779038",
+              "categoryCodeList": [
+                30
+              ],
+              "speakerList": [
+                {
+                  "id": 162,
+                  "name": "김태일",
+                  "belong": "NAVER",
+                  "introduction": "- 전산과에서 자연어처리(NLP)를 전공<br>\r\n- 2003년 네이버 입사 후 자연어처리 업무를 담당<br>\r\n- 현재 네이버 다국어처리연구실 실장<br>\r\n- 현재 담당하고 있는 NLP 업무<br>\r\n    -- 한국어 형태소 분석기 및 품사 태거<br>\r\n    -- 다국어 품사 태거 (일본어, 중국어, ...)<br>\r\n    -- 검색어 교정 시스템 <br>\r\n    -- 네이버 맞춤법 검사기<br>\r\n    -- 동의어 검색, 음차 표기 라이브러리<br>\r\n    -- Opinion Mining 시스템<br>\r\n    -- 자동 요약 시스템<br>\r\n    -- Word Sense Disambiguation (WSD) 및 객체 태깅 시스템 <br>\r\n    -- 기타 NLP 라이브러리 개발",
+                  "contact": "",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/162.jpg?20160226160650",
+                  "contactType": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 39,
+          "name": "세션 3",
+          "startTime": "12:00",
+          "endTime": "12:50",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 124,
+              "name": "The simplicity of cluster apps with the Circuit: Implementing a job scheduler",
+              "content": "The Circuit is a light-weight cluster operating system. It is based on a peer-to-peer network of daemons, connected through a robust, dynamic membership and broadcasting protocol. Every host, member of a circuit, provides a local API that presents a dynamic, unified view and control over the entire cluster. The API is available as a command-line tool, as well as a Go package.\r\n<br> <br>\r\nDuring this talk, I am going to Go over the Circuit abstraction of a cluster as well as the practical side of running and organizing a circuit cluster. We are then going to implement a complete basic cluster job scheduler from scratch, using the Circuit Go API, and demo its usage. <br>\r\nTime permitting, I will give a peek into the power of process recursion at cluster scale.\r\n<br>\r\n<br>\r\n* 본 세션은 동시 통역이 제공됩니다.",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=DD66CE5C6864BCED23D681E760F310062BC7&outKey=V129bfa48eab3452335fb4aaac45aa20d9c9961447479c0a2815c4aaac45aa20d9c99&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/231-the-simplicity-of-cluster-apps-with-circuit",
+              "categoryCodeList": [
+                23
+              ],
+              "speakerList": [
+                {
+                  "id": 161,
+                  "name": "Petar Maymounkov",
+                  "belong": "Google",
+                  "introduction": "Petar Maymounkov is of Bulgarian origin. He obtained a B.S. in Mathematics and Computer Science in 2001 from Harvard University, advised by Michael Mitzenmacher; M.S. in Computer Science in 2003 from the Courant Institute of Mathematics at NYU, advised by David Mazieres; and a Ph.D. in Computer Science from MIT in 2012, advised by Frans Kaashoek and Jonathen Kelner. <br>\r\nSome of Petar's notable works include Kademlia—a DHT algorithm used in virtually all P2P software today, downloaded over two billion times to date; Online Codes—the first public linear-time rateless erasure codes;  the Circuit—a programmable cluster orchestration system; as well as Electric Routing—an algorithm for planet-scale distributed social routing.",
+                  "contact": "",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/161.jpg?20160226155720",
+                  "contactType": null
+                }
+              ]
+            },
+            {
+              "id": 82,
+              "name": "수퍼컴퓨팅과 데이터 어낼리틱스 프레임워크, 그리고 UNIST의 빅데이터 처리 프레임워크",
+              "content": "빅데이터 처리에 대한 관심의 증가로 많은 기업들이 데이터 분석을 위해 클러스터를 도입하고 있습니다. 반면, 수퍼컴퓨터로 대표되는 고성능 클러스터를 사용하던 과학자들은 사이언스 데이터 분석을 위해 빅데이터 어낼리틱스에 점차 관심을 높여가고 있습니다. <br>\r\n본 발표에서는 고성능 컴퓨팅 관점에서 하둡과 HPC 미들웨어를 비교해보며, UNIST에서 개발 중인 고성능 데이터 어낼리틱스 프레임워크를 소개합니다.  ",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=75B19CD0DB40AE8AB91240CC50C2F6644F9E&outKey=V12838593a4379f6af21b24e10033cb9032cf2edc7c3322b9eba224e10033cb9032cf&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/232-52780634",
+              "categoryCodeList": [
+                24
+              ],
+              "speakerList": [
+                {
+                  "id": 117,
+                  "name": "남범석",
+                  "belong": "울산과학기술원 (UNIST)",
+                  "introduction": "미국 메릴랜드 대학에서 박사 학위 후 미국 Oracle에서 근무. 현 UNIST 컴퓨터공학 부교수",
+                  "contact": "http://dicl.unist.ac.kr",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/117.jpg?20160226163714",
+                  "contactType": "HOMEPAGE"
+                }
+              ]
+            },
+            {
+              "id": 69,
+              "name": "Level 2 Network Programming using PacketNgin RTOS",
+              "content": "대부분의 네트워크 프로그래밍은 end-to-end 통신을 전제로 합니다. 개발자에게 네트워크는 데이터를 원격으로 주고 받는 통로일 뿐입니다. 네트워크는 당연히 되어야 하는 것, 당연히 있어야 하는 것이죠. 하지만 여러분이 보내는 패킷이 지구 반대편까지 가기 위해 수 많은 연산 과정을 거쳐야 한다는 것을 아십니까? 심지어 여러분이 보내고 받는 패킷을 중간에 있는 네트워크 장비가 모든 내용을 읽어보고 변형 시키고 있다는 것도 알고 있습니까? 본 세미나에선 학부 네트워크 전공 시간에 배웠을 네트워크의 기본 개념을 훑어보면서 패킷엔진 (PacketNgin)이라는 RTOS를 활용해 네트워크 장비 입장에서 프로그래밍 하는 방법을 배웁니다.",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=5352354831F6CAB38CDDC82F7BDB208959D3&outKey=V125e9103a4707079d942ded0b06bbc892e149c269b1621994a25ded0b06bbc892e14&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/233-level-2-network-programming-using-packet-ngin-rtos",
+              "categoryCodeList": [
+                26,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 136,
+                  "name": "김성민",
+                  "belong": "(주)구름네트웍스 대표",
+                  "introduction": "O/S와 네트워크 기술의 불모지인 대한민국에서 오픈소스로 사업에 도전하는 정신나간 CEO",
+                  "contact": "mailto:semih@gurum.cc",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/136.jpg?20160226162513",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 111,
+              "name": "산업 현장을 위한 증강 현실 기기 DAQRI Helmet 개발기",
+              "content": "DAQRI Helmet은 '마이너리티 리포트'나 '아이언맨'에서 봐 왔던 것처럼 증강 현실을 사용자에게 보여주는 웨어러블 기기이고, 특히 산업 현장 (공장, 건설 현장) 을 타겟으로 개발하고 있습니다. <br>\r\n본 세션에서는 DAQRI Helmet/platform에 소개와 더불어 증강 현실에 관련된 기술들 (Visual-IMU navigation, 2d/3d recognition) 과 과제에 대해 이야기하고, 개발 과정에서 있었던 어려움이나 해결책에 대해 공유하려고 합니다.",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=28D800746109CD63D54AD96732A009E527A9&outKey=V129eff1d06a3157b80ba34a89f530e7c10ece397837cca01f7b734a89f530e7c10ec&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/234-daqri-helmet",
+              "categoryCodeList": [
+                25
+              ],
+              "speakerList": [
+                {
+                  "id": 145,
+                  "name": "김병수",
+                  "belong": "DAQRI",
+                  "introduction": "Byungsoo Kim has been worked for DAQRI Helmet, especially for developing its key technologies including indoor navigation, object recognition, and tracking. Before joining DAQRI, he earned his PhD/MS in computer vision from University of Michigan in 2013. He earned his BS from KAIST in 2008.",
+                  "contact": "mailto:bsookim@umich.edu",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/145.jpg?20160226164636",
+                  "contactType": "EMAIL"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 40,
+          "name": "점심시간",
+          "startTime": "12:50",
+          "endTime": "14:10",
+          "feature": "LUNCH",
+          "sessionList": []
+        },
+        {
+          "id": 41,
+          "name": "세션 4",
+          "startTime": "14:10",
+          "endTime": "15:00",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 91,
+              "name": "Storm과 Elasticsearch를 활용한 로깅 플랫폼의 실시간 알람 시스템 구현",
+              "content": "이 세션에서는 네이버 사내의 로깅 플랫폼에서 새롭게 구현된 실시간 알람 시스템에 대하여 이야기하고자 합니다. 전사 로깅 플랫폼의 특성상 다수의 서버와 모바일 단말로부터 방대한 로그 데이터가 유입됩니다. 실시간 알람 모듈은 이 유입 로그들에 대하여 각 개발자가 자신의 알람 규칙을 정의하고, 그 이벤트가 발생할 경우 실시간으로 알람을 전송하여 즉각 대응이 가능토록 하고자 개발되었습니다. <br>\r\n본 세션에서는 구현에 활용된 오픈소스(Storm, Elasicsearch, Redis, Kafka)들에 대한 소개와 각각을 어떻게 적용하였는지, 그리고 이를 통해 사용자들에게 부가적으로 전달할 수 있었던 가치는 어떤것들이 있었는지를 여러분과 공유하고자 합니다.",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=1AE58AE84FFB2DAD7CCEBE1E45F99EDC45F4&outKey=V1276b04873db4e7a5d7f26fc8a54e6a68531dcbac78bf5c7f96626fc8a54e6a68531&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/241-storm-elasticsearch",
+              "categoryCodeList": [
+                24
+              ],
+              "speakerList": [
+                {
+                  "id": 131,
+                  "name": "이승진",
+                  "belong": "NAVER",
+                  "introduction": "네이버에서 근무하며 전사 로그 플랫폼 개발 및 운영 업무를 수행하고 있습니다. <br>대용량 분산 컴퓨팅과 그에 연관된 오픈소스 프로젝트들에 많은 관심을 가지고 있습니다.",
+                  "contact": "mailto:sweetest.sj@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/131.jpg?20160226164120",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 122,
+              "name": "WIFI를 이용한 실내 장소 인식 하기",
+              "content": "O2O 시대. 다른 사람들이 어느 장소에 있는지 궁금해하는 분들이 많습니다. 이를 알면 사용자들을 더 잘 이해할 수 있고, 보다 좋은 서비스를 제공할 수 있으니까요. 하지만 현재 스마트폰에서 제공해 주는 위치 정보로는 내가 지금 우리집 1층에 있는지 2층에 있는지 구별하기 어렵고, 같은 공간에 있었던 사람도 인식할 길이 없습니다. <br>\r\n본 세션에서는 현존하는 무선 신호 소스 중 가장 많이 설치되어 있는 WIFI를 활용해서 이러한 문제들을 해결해본 실전 경험을 나눠보도록 하겠습니다. ",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=51A8804F714469FB537FC8ACD0C5EFA4308C&outKey=V12802245bb3a2a5c1fe18880c6dfa2b1982a17c897a663f38f098880c6dfa2b1982a&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/242-wifi",
+              "categoryCodeList": [
+                25,
+                26
+              ],
+              "speakerList": [
+                {
+                  "id": 158,
+                  "name": "구자형",
+                  "belong": "로플랫",
+                  "introduction": "세상에서 가장 scalable 하고 저렴한 실내위치 플랫폼을 만들어 가고 있습니다.",
+                  "contact": "mailto:johnkoo@loplat.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/158.jpg?20160226164619",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 68,
+              "name": "Turning data into value",
+              "content": "Practical advice and insights about applying machine learning to real life big data problems: Methods, Examples and Lessons learned",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=01515E53E483198769082EC8B90C7959E792&outKey=V121305785cf407f4a5ea50c2b3b93a31b32d7b6cdd10dfb9e54d50c2b3b93a31b32d&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/243-turning-data-into-value",
+              "categoryCodeList": [
+                24,
+                25,
+                26
+              ],
+              "speakerList": [
+                {
+                  "id": 106,
+                  "name": "Olivier Duchenne",
+                  "belong": "Solidware CTO",
+                  "introduction": "올리비에 듀셴 대표는 빅 데이터 분석 스타트업인 Solidware (www.solidware.io) 에서 머신 러닝 알고리즘 개발 및 IT Integration을 총괄하고 있습니다.",
+                  "contact": "http://solidware.io/?page_id=3518",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/106.jpg?20160226162454",
+                  "contactType": "HOMEPAGE"
+                }
+              ]
+            },
+            {
+              "id": 86,
+              "name": "분산 환경에서의 스트림과 배치 처리 통합 모델",
+              "content": "네이버 검색 서비스를 위한 문서 정제는 많은 데이터에 대한 처리(배치 처리)와 입수된 데이터의 빠른 처리(스트림 처리)가 필요하고,  두 처리 시스템의 조화가 필수적입니다. 대용량 분산 처리를 위해 Hadoop, HBase, Storm, Spark, Kafka 등 많은 오프소스 솔루션이 있지만 모든 문제를 하나의 솔루션만으로 해결할 수는 없습니다. 그리고 처리하는 정제 로직을 솔루션마다 따로 작성한다면 유지보수의 어려움이 있습니다. 본 세션은 이러한 문제를 해결하기 위해서 어떻게 프로그래밍 모델을 추상화했고, 어떻게 배치와 스트림 처리를 통합할 수 있었는지 설명하고자 합니다.<br>\r\n    - 배치 처리 vs 스트림 처리 <br>\r\n    - Domaine Architecture <br>\r\n    - 초기 구축 배치 처리 방법 <br>",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=D45E893EB0B0DA3B2FC26ADFD10800810E81&outKey=V12591113dc086d00bc049050f64e9a0c968acbdb3f856babeb849050f64e9a0c968a&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/244-52781290",
+              "categoryCodeList": [
+                24,
+                30
+              ],
+              "speakerList": [
+                {
+                  "id": 126,
+                  "name": "정재부",
+                  "belong": "NAVER",
+                  "introduction": "현재 네이버에서 다양한 분산 오픈 소스 솔루션들을 이용해서 검색 문서 정제 플랫폼을 만들고 있습니다. Hadoop, HBase 기반의 멀티 테넌트 분산 플랫폼 구축과 Storm, Spark을 이용한 검색 문서 정제 프레임워크 개발에 관심이 많습니다.",
+                  "contact": "mailto:d.a@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/126.jpg?20160226163907",
+                  "contactType": "EMAIL"
+                },
+                {
+                  "id": 148,
+                  "name": "이도경",
+                  "belong": "NAVER",
+                  "introduction": "네이버에서 검색을 위한 문서 정제 플랫폼 개발 및 운영을 하고 있습니다. 대용량 데이터 처리, 실시간 데이터 처리에 많은 관심이 있습니다. 항상 배우고, 만들고, 응용하는 걸 좋아하는 개발자입니다.",
+                  "contact": "mailto:gramo.lee@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/148.jpg",
+                  "contactType": "EMAIL"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 42,
+          "name": "세션 5",
+          "startTime": "15:10",
+          "endTime": "16:00",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 73,
+              "name": "Implementing Deep Learning using cuDNN",
+              "content": "Cuda Library를 활용하여 Deep learning 엔진(VUNO-Net)을 자체 개발한 경험을 바탕으로, 구현 방법 및 어려움 등을 공유하고, 이를 이용한 몇가지 결과를 소개합니다. <br>\r\n <br>\r\n1. Deep Learning Review <br>\r\n2. Implementation on GPU using cuDNN <br>\r\n3. Optimization Issues <br>\r\n4. Introduction to VUNO-Net <br>",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=2DF28734011459F3106E909DE1F3D56A1DE7&outKey=V1241f3305d7058bc7cdb539917a6a68d380916001776ebda6b1b539917a6a68d3809&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/251-implementing-deep-learning-using-cu-dnn",
+              "categoryCodeList": [
+                25,
+                26
+              ],
+              "speakerList": [
+                {
+                  "id": 114,
+                  "name": "이예하",
+                  "belong": "VUNO",
+                  "introduction": "삼성전자 종합기술원에서 Deep learning을 연구하였으며, 자체 Deep Learning engine인 VUNO-Net을 개발하였습니다.",
+                  "contact": "mailto:yeha.lee@vuno.co",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/114.jpg?20160226163120",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 84,
+              "name": "증분 처리 플랫폼 Cana 개발기",
+              "content": "이 세션에서는 네이버 증분 검색 시스템에서 문서 정제를 하는데 사용하고 있는 Cana를 소개하고, 개발 과정에서 겪은 여러 가지 문제와 이를 해결한 경험을 공유합니다. Cana는 데이터 증분 처리 플랫폼으로 HBase에서 Snapshot Isolation 레벨의 트랜잭션을 사용할 수 있도록 하며 Event Notification을 통한 실행 모델을 제공합니다.",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=61367F6C0F7BD5AB2985977D5A4B782B3374&outKey=V127c789993c21e275d01a138c997517b84eed7b674c2e556ba99a138c997517b84ee&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/252-cana",
+              "categoryCodeList": [
+                24,
+                30
+              ],
+              "speakerList": [
+                {
+                  "id": 137,
+                  "name": "김영준",
+                  "belong": "NAVER",
+                  "introduction": "네이버에서 증분 검색 시스템에 사용되는 솔루션을 개발하고 있습니다.",
+                  "contact": "mailto:kim.youngjoon@navercorp.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/137.jpg?20160226163826",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 93,
+              "name": "Enterprise Dataflow with Apache NiFi",
+              "content": "Dataflow is all about connecting systems with different protocols and data formats that are constantly changing. Messaging-based solutions are a popular answer currently, but they don’t address many of the fundamental challenges of enterprise dataflow. <br>\r\nWe will identify the capabilities of Apache NiFi provides for end-to-end dataflow and how it ensures compliance of distributed systems at scale with new lineage techniques and comprehension the information supply chain. \r\n<br>\r\n<br>\r\n* 본 세션은 동시 통역이 제공됩니다.",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=624DE5E13E2B141ADAF8DA2B8AF67AA03195&outKey=V129f07a23003046a6a36216fddaa4e7ce4786f9e870ed3e2393a216fddaa4e7ce478&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/253-apache-ni-fi",
+              "categoryCodeList": [
+                24,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 133,
+                  "name": "Aldrin Piri",
+                  "belong": "Hortonworks",
+                  "introduction": "Engineer and Co-Founder at Onyara, Inc. <br>\r\nPower user of the NIAGARAFILES framework for highly distributed, large scale dataflow and empowering analytics within enterprise settings. Open-sourced in late 2014 NIAGARAFILES is now known as Apache NiFi.  Active member of the Apache NiFi PMC and committer. I enjoy transferring lessons learned from my experience and helping organizations solve their data integration challenges.",
+                  "contact": "https://twitter.com/aldrinpiri",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/133.jpg?20160226145140",
+                  "contactType": "TWITTER"
+                }
+              ]
+            },
+            {
+              "id": 62,
+              "name": "Presto 내부 구조 파헤치기",
+              "content": "소스코드 분석을 통해, 검색으로는 알 수 없는 Presto의 내부 구조를 해부해보는 세션입니다. <br>\r\n주요 Library, ByteCode generation, 숨겨진 Plugin 과 기능들, 새로운 Plugin 작성방법을 다룰 예정입니다.",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=4E9B76630BF40304DD65ACB9DC3074B7360C&outKey=V1284071602382b8b95f1e1170fa295b4ff63a5826109913c748de1170fa295b4ff63&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/245-presto",
+              "categoryCodeList": [
+                24,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 99,
+                  "name": "유동민",
+                  "belong": "TreasureData",
+                  "introduction": "zeromq/jeromq committer, Presto contributor",
+                  "contact": "http://github.com/miniway",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/99.jpg?20160226162130",
+                  "contactType": "GITHUB"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 47,
+          "name": "세션 6",
+          "startTime": "16:10",
+          "endTime": "17:00",
+          "feature": "SESSION",
+          "sessionList": [
+            {
+              "id": 83,
+              "name": "코끼리 냉장고에 집어넣기 - 실시간 추천엔진을 머신 한대에 구겨넣기",
+              "content": "데이터를 다루는 사람들은 다들 추천엔진을 한번 구현해 보려고 합니다. 작은 규모의 Collaboration Filtering이든, Hadoop이나 Spark을 이용한 대규모 분산 처리로든, 그걸 한번 구현해보는 것은 로망중에 하나이죠. 이번에는 좀 좋은 노트북 정도의 머신 한대로, 글로벌 규모의 실시간 추천 엔진을 구현하는 방법을 한번 살펴봅시다. 농담이 아닙니다. 머신 한대로 글로벌 서비스 사이즈이고, 실시간입니다. 어떻게 그것이 가능한지 살펴보도록 합시다. 확률적 자료구조의 아름다움을 맛봅시다.",
+              "trackOrder": 1,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=9CC2F615FB0F8B725D3C231E17F531B10E29&outKey=V1264ae9e3e7bce36e52f04fe9c604946e9857646a7da1c183a2e04fe9c604946e985&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/261-52784785",
+              "categoryCodeList": [
+                24,
+                26
+              ],
+              "speakerList": [
+                {
+                  "id": 119,
+                  "name": "하용호",
+                  "belong": "넘버웍스",
+                  "introduction": "하용호라고 합니다. 데이터를 좋아합니다. 대형 클러스터를 좋아합니다. 분산처리 사랑합니다. 병렬처리 애정합니다. 머신러닝, 패턴인식 꿈에 나옵니다. 발표자료들이 많이 알려지는 바람에 말하는 사람같아 보이지만, 6살때부터 코딩을 해온 공대공대한 사람입니다. TmaxSoft와 KTH를 거쳐 SKTelecom에서 근무했습니다. 얼마 전에 뛰쳐나와 NUMBERWORKS 라는 회사를 만들었습니다. 동료 데이터 과학자들이랑 작당해서 만들었습니다. 데이터와 머신러닝에 기반해 고객사의 매출을 올릴 수 있다면 뭐든지 자동화 해버리는 회사입니다.",
+                  "contact": "mailto:yongho.ha@gmail.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/119.jpg?20160226163802",
+                  "contactType": "EMAIL"
+                }
+              ]
+            },
+            {
+              "id": 80,
+              "name": "Netflix 빅데이터 플랫폼 + Apache Spark 통합 경험기",
+              "content": "넷플릭스 빅데이터 팀은 10 petabytes가 넘는 대규모의 data warehouse를 AWS 클라우드 위에서 운영하고 있습니다. 현재 Hadoop, Hive, Pig, Presto 등의 오픈소스 소프트웨어를 이용해 데이터를 분석/처리하고 있는데, 최근 Apache Spark의 등장으로 기존 하둡 YARN 기반의 플랫폼에 Spark을 통합하는 작업을 작년부터 진행하였습니다. <br>\r\n이 세션에서 저는 넷플릭스 빅데이터 플랫폼에 Spark이 어떻게 연동되는지 설명하고, multi-tanant 환경의 하둡 YARN 클러스터에서 Spark을 운영하면서 겪은 문제점 및 해결책을 공유하고자 합니다. 특히, S3상의 하이브 테이블에 데이터를 저장하고 이를 Spark을 이용해 처리하는 것에 관심있으신 분들은 이 세션을 통해 많은 팁을 배우실 수 있을 것입니다. 또한, MapReduce 기반의 ETL job을 Spark으로 전환할 경우 어느정도 성능이 향상될 수 있는지에 대한 use case도 공유하고자 합니다.",
+              "trackOrder": 2,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=F1E121E710EDAB66D7ACC752D9BD61DC4C8B&outKey=V12411536fe149711f1e1a8f87dd4a791d1d5c32803d2c85b838ca8f87dd4a791d1d5&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/262-netflix",
+              "categoryCodeList": [
+                24,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 110,
+                  "name": "박철수",
+                  "belong": "Netflix",
+                  "introduction": "오픈소스 소프트웨어를 이용해 클라우드 기반의 빅데이터 플랫폼을 개발/운영하고 있습니다.",
+                  "contact": "https://www.linkedin.com/in/cheolsoo",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/110.jpg?20160226162621",
+                  "contactType": "LINKEDIN"
+                }
+              ]
+            },
+            {
+              "id": 65,
+              "name": "S2Graph: A Large scale graph database with HBase",
+              "content": "S2Graph는 사용자의 activity를 실시간으로 수집/조회 할 수 있는 Graph Database입니다. <br>\r\n이름도 생소한 Graph Database를 만든 목적과 S2Graph를 사용하여 기존의 문제들을 해결한 사례들을 공유하도록 하겠습니다. 특히 Facebook의 뉴스 피드나 채팅 서비스, 실시간 콘텐츠 추천 엔진을 S2Graph를 사용하여 쉽고 빠르게 구현하는 방법을 살펴보도록 하겠습니다. <br>\r\n그리고 아무리 기능이 편하고 쉬워도 performance가 나오지 않으면 의미가 없겠죠. S2Graph의 linear scalability를 benchmark를 통해 확인하고, 실제 서비스의 트래픽 상황을 공유 하도록 하겠습니다.",
+              "trackOrder": 3,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=476077CFB274F31E3A3C9017F65C3DC26D30&outKey=V125fb0a32f63f576621e1b6811099841c5e088c1a1d90e05bef21b6811099841c5e0&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/263-s2graph-largescalegraphdatabasewithhbase2",
+              "categoryCodeList": [
+                24,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 102,
+                  "name": "윤도영",
+                  "belong": "다음카카오",
+                  "introduction": "데이터와 분산 시스템에 관심이 많은 개발자",
+                  "contact": "https://www.linkedin.com/pub/do-yung-yoon/6/43a/a32",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/102.jpg?20160226162216",
+                  "contactType": "LINKEDIN"
+                }
+              ]
+            },
+            {
+              "id": 77,
+              "name": "Large-Scale Deep Learning on Spark",
+              "content": "대규모 데이터에 대한 Deep Learning 알고리즘은 통상 GPGPU 프로그래밍으로 구현하고 있습니다. 그러나 구글은 DistBelief와 같은 대규모 분산 시스템에서 Deep Learning을 구동하고 있고, 최근 오픈소스 커뮤니티에서도  Hadoop과 같은 분산 시스템 위에  Large-Scale Deep Learning을 구현하는 시도가 있습니다. \r\n<br><br>\r\n이에 구현 관점에서 Deep Learning 알고리즘을 소개하고, Spark 등을 활용한 분산 아키텍처에서의 Deep Learning 구현 방안을 소개하고자 합니다.",
+              "trackOrder": 4,
+              "videoUrl": "http://serviceapi.rmcnmv.naver.com/flash/outKeyPlayer.nhn?vid=20353647861C3D7B884B2110A47682ED43D4&outKey=V1213d6cc7b142b019ba20c6d1b1808f8cced609ef93f7892af010c6d1b1808f8cced&controlBarMovable=true&jsCallable=true&skinName=tvcast_white",
+              "slideUrl": "http://www.slideshare.net/deview/246-large-scale-deeplearningonspark",
+              "categoryCodeList": [
+                24,
+                25,
+                27
+              ],
+              "speakerList": [
+                {
+                  "id": 98,
+                  "name": "이주열",
+                  "belong": "LG CNS",
+                  "introduction": "LG CNS 정보기술연구원에서 빅데이터 플랫폼과 Machine Learning을 연구, 개발하고 있습니다.",
+                  "contact": "mailto:zenithon@gmail.com",
+                  "profileImageUrl": "http://deview.kr/data/deview/acnr/98.jpg?20160226161943",
+                  "contactType": "EMAIL"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 48,
+          "name": "BOF",
+          "startTime": "17:15",
+          "endTime": "18:30",
+          "feature": "BOF",
+          "sessionList": []
+        }
+      ],
+      "totalSessionCount": 24
+    }
+  ]
+}

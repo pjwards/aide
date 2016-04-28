@@ -25,33 +25,12 @@ public class RoomTest {
 
     @Test
     public void testBuildWithMandatoryInformation() {
-
         assertThat(room.getId(), nullValue());
         assertThat(room.getName(), is(NAME));
         assertThat(room.getLocation(), is(LOCATION));
         assertThat(room.getDescription(), is(DESCRIPTION));
-        assertThat(room.getConference(), nullValue());
         assertThat(room.getProgramList(), nullValue());
-    }
-
-    @Test
-    public void testUpdate() {
-        String UPDATED_NAME = "updated name";
-        String UPDATED_LOCATION = "updated location";
-        String UPDATED_DESCRIPTION = "updated description";
-        Room updatedRoom = new Room.Builder(UPDATED_NAME, UPDATED_LOCATION, UPDATED_DESCRIPTION).build();
-        room.update(updatedRoom);
-
-        assertThat(room.getId(), nullValue());
-        assertThat(room.getName(), is(UPDATED_NAME));
-        assertThat(room.getLocation(), is(UPDATED_LOCATION));
-        assertThat(room.getDescription(), is(UPDATED_DESCRIPTION));
-        assertThat(room.getConference(), nullValue());
-        assertThat(room.getProgramList(), nullValue());
-
-        room.update(NAME, LOCATION, DESCRIPTION);
-        assertThat(room.getName(), is(NAME));
-        assertThat(room.getLocation(), is(LOCATION));
-        assertThat(room.getDescription(), is(DESCRIPTION));
+        assertThat(room.getSessionList(), nullValue());
+        assertThat(room.getManagerSet(), nullValue());
     }
 }

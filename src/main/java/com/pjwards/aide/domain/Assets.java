@@ -1,7 +1,5 @@
 package com.pjwards.aide.domain;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import javax.persistence.*;
 
 @Entity
@@ -27,6 +25,10 @@ public class Assets {
 
     @OneToOne
     Sponsor sponsor;
+
+    @ManyToOne
+    @JoinColumn(name = "conference_id")
+    private Conference conference;
 
     public Long getId() {
         return id;
@@ -54,6 +56,10 @@ public class Assets {
 
     public Sponsor getSponsor() {
         return sponsor;
+    }
+
+    public Conference getConference() {
+        return conference;
     }
 
     public Assets(){
@@ -112,9 +118,8 @@ public class Assets {
         }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
-
+    }*/
 }

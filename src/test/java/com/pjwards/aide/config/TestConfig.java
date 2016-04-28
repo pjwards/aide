@@ -1,11 +1,14 @@
 package com.pjwards.aide.config;
 
-import com.pjwards.aide.service.Assets.AssetsService;
+import com.pjwards.aide.service.assets.AssetsService;
 import com.pjwards.aide.service.conference.ConferenceService;
 import com.pjwards.aide.service.conferencerole.ConferenceRoleService;
+import com.pjwards.aide.service.contact.ContactService;
+import com.pjwards.aide.service.pass.PassService;
 import com.pjwards.aide.service.program.ProgramService;
 import com.pjwards.aide.service.programdate.ProgramDateService;
 import com.pjwards.aide.service.room.RoomService;
+import com.pjwards.aide.service.session.SessionService;
 import com.pjwards.aide.service.sponsor.SponsorService;
 import com.pjwards.aide.service.user.UserService;
 import com.sun.deploy.config.DefaultConfig;
@@ -54,5 +57,20 @@ public class TestConfig extends DefaultConfig {
     @Bean
     public AssetsService assetsService() {
         return Mockito.mock(AssetsService.class);
+    }
+
+    @Bean
+    public PassService passService() {
+        return Mockito.mock(PassService.class);
+    }
+
+    @Bean
+    public SessionService sessionService() {
+        return Mockito.mock(SessionService.class);
+    }
+
+    @Bean
+    public ContactService contactService() {
+        return Mockito.mock(ContactService.class);
     }
 }

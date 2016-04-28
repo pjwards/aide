@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -26,11 +25,11 @@ import java.util.Date;
 public class ProgramRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProgramRepositoryTest.class);
-    private static final long TWO_HOUR = 2 * 60 * 60 * 1000;
+    private static final String NAME = "name";
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
-    private static final Date BEGIN = new Date(System.currentTimeMillis());
-    private static final Date END = new Date(System.currentTimeMillis() + TWO_HOUR);
+    private static final String BEGIN = "09:00";
+    private static final String END = "10:00";
 
     private Program program;
 
@@ -54,17 +53,17 @@ public class ProgramRepositoryTest {
 
     @Test
     public void testSaveWithAll() throws ParseException, WrongInputDateException {
-        Conference conference = new Conference.Builder("name", "description").build();
+        Conference conference = new Conference.Builder("name", "slogan", "description").build();
         conferenceRepository.save(conference);
 
-        ProgramDate programDate = new ProgramDate.Builder("2016-01-01").conference(conference).build();
+        ProgramDate programDate = new ProgramDate.Builder(NAME, "2016-01-01").conference(conference).build();
         programDateRepository.save(programDate);
 
-        Room room = new Room.Builder("room", "101", "description").conference(conference).build();
+        Room room = new Room.Builder("room", "101", "description").build();
         roomRepository.save(room);
 
         program = new Program.Builder(TITLE, DESCRIPTION, BEGIN, END)
-                .conference(conference).room(room).date(programDate).build();
+                .room(room).date(programDate).build();
         programRepository.save(program);
     }
 

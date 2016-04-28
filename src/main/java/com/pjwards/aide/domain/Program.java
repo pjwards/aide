@@ -1,20 +1,22 @@
 package com.pjwards.aide.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pjwards.aide.domain.enums.ProgramType;
 import com.pjwards.aide.exception.WrongInputDateException;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
-import java.sql.Time;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Program {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
     public static final int MAX_LENGTH_TITLE = 100;
+    public static final int MAX_LENGTH_SLIDE_URL = 255;
+    public static final int MAX_LENGTH_VIDEO_URL = 255;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,15 +29,17 @@ public class Program {
     @Column(nullable = false)
     private String description;
 
-    @Temporal(TemporalType.TIME)
-    @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssz")
-    private Date begin;
+    @Column(nullable = false, length = 5)
+    private String begin;
 
-    @Temporal(TemporalType.TIME)
-    @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssz")
-    private Date end;
+    @Column(nullable = false, length = 5)
+    private String end;
+
+    @Column(length = MAX_LENGTH_SLIDE_URL)
+    private String slideUrl;
+
+    @Column(length = MAX_LENGTH_VIDEO_URL)
+    private String videoUrl;
 
     @ManyToOne
     @JoinColumn(name = "program_date_id")
@@ -45,9 +49,24 @@ public class Program {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToOne
-    @JoinColumn(name = "conference_id")
-    private Conference conference;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "SPEAKER_PROGRAM",
+            joinColumns = @JoinColumn(name = "PROGRAM_ID_FRK"),
+            inverseJoinColumns = @JoinColumn(name = "SPEAKER_ID_FRK")
+    )
+    private Set<User> speakerSet;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProgramType programType = ProgramType.SESSION;
+
+    @OneToMany(
+            targetEntity = Session.class,
+            mappedBy = "program",
+            fetch = FetchType.EAGER
+    )
+    @JsonIgnore
+    private Set<Session> sessions;
 
     public Program() {
     }
@@ -60,6 +79,11 @@ public class Program {
         return title;
     }
 
+    public Program setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -69,42 +93,95 @@ public class Program {
         return this;
     }
 
-    public Date getBegin() {
+    public String getBegin() {
         return begin;
     }
 
-    public Date getEnd() {
+    public Program setBegin(String begin) {
+        this.begin = begin;
+        return this;
+    }
+
+    public String getEnd() {
         return end;
     }
 
-    /**
-     * Get begin time
-     *
-     * @return begin time
-     */
-    public Time getBeginTime() {
-        return new Time(this.getBegin().getTime());
+    public Program setEnd(String end) {
+        this.end = end;
+        return this;
     }
 
-    /**
-     * Get end time
-     *
-     * @return end time
-     */
-    public Time getEndTime() {
-        return new Time(this.getEnd().getTime());
+    public String getSlideUrl() {
+        return slideUrl;
+    }
+
+    public Program setSlideUrl(String slideUrl) {
+        this.slideUrl = slideUrl;
+        return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public Program setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+        return this;
     }
 
     public ProgramDate getDate() {
         return date;
     }
 
+    public Program setDate(ProgramDate date) {
+        this.date = date;
+        return this;
+    }
+
     public Room getRoom() {
         return room;
     }
 
-    public Conference getConference() {
-        return conference;
+    public Program setRoom(Room room) {
+        this.room = room;
+        return this;
+    }
+
+    public Set<User> getSpeakerSet() {
+        return speakerSet;
+    }
+
+    public Program setSpeakerSet(Set<User> speakerSet) {
+        this.speakerSet = speakerSet;
+        return this;
+    }
+
+    public List<Session> getSessions() {
+        if (sessions == null) return null;
+        List<Session> list = new ArrayList<>(sessions);
+        Collections.sort(list, new SessionCompare());
+        return list;
+    }
+
+    class SessionCompare implements Comparator<Session> {
+        @Override
+        public int compare(Session arg0, Session arg1) {
+            return arg0.getId().compareTo(arg1.getId());
+        }
+    }
+
+    public Program setSessions(Set<Session> sessions) {
+        this.sessions = sessions;
+        return this;
+    }
+
+    public ProgramType getProgramType() {
+        return programType;
+    }
+
+    public Program setProgramType(ProgramType programType) {
+        this.programType = programType;
+        return this;
     }
 
     public void update(Program updated) {
@@ -114,24 +191,22 @@ public class Program {
         this.end = updated.end;
     }
 
-    public void update(String title, String description, Date begin, Date end) {
-        this.title = title;
-        this.description = description;
-        this.begin = begin;
-        this.end = end;
-    }
-
     public void dateChecker() throws WrongInputDateException {
         this.dateChecker(this.begin, this.end);
     }
 
-
-    public void dateChecker(Date begin, Date end) throws WrongInputDateException {
+    public void dateChecker(String begin, String end) throws WrongInputDateException {
         if (begin == null) {
             throw new WrongInputDateException("Input wrong date, begin is empty.");
         } else if (end == null) {
             throw new WrongInputDateException("Input wrong date, end is empty.");
-        } else if (begin.getTime() > end.getTime()) {
+        }
+        LocalTime beginTime = new LocalTime(begin);
+        LocalTime endTime = new LocalTime(end);
+
+        Boolean wrongTime = beginTime.isAfter(endTime);
+
+        if (wrongTime) {
             throw new WrongInputDateException(String.format("Input wrong dates begin: %s,end: %s", begin, end));
         }
         LOGGER.debug("Input wrong dates begin: {}, end: {}", begin, end);
@@ -140,7 +215,7 @@ public class Program {
     public static class Builder {
         private Program built;
 
-        public Builder(String title, String description, Date begin, Date end) {
+        public Builder(String title, String description, String begin, String end) {
             built = new Program();
             built.title = title;
             built.description = description;
@@ -152,11 +227,6 @@ public class Program {
             return built;
         }
 
-        public Builder conference(Conference conference) {
-            built.conference = conference;
-            return this;
-        }
-
         public Builder room(Room room) {
             built.room = room;
             return this;
@@ -166,10 +236,30 @@ public class Program {
             built.date = date;
             return this;
         }
+
+        public Builder speakerSet(Set<User> speakerSet) {
+            built.speakerSet = speakerSet;
+            return this;
+        }
+
+        public Builder programType(ProgramType programType) {
+            built.programType = programType;
+            return this;
+        }
+
+        public Builder slideUrl(String slideUrl) {
+            built.slideUrl = slideUrl;
+            return this;
+        }
+
+        public Builder videoUrl(String videoUrl) {
+            built.videoUrl = videoUrl;
+            return this;
+        }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
+    }*/
 }

@@ -1,9 +1,10 @@
 package com.pjwards.aide.domain;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Room {
@@ -28,24 +29,31 @@ public class Room {
     @OneToMany(
             targetEntity = Program.class,
             mappedBy = "room",
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
+    @JsonIgnore
     private List<Program> programList;
 
-    @ManyToOne
-    @JoinColumn(name = "conference_id")
-    private Conference conference;
+    @OneToMany(
+            targetEntity = Session.class,
+            mappedBy = "room",
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    private List<Session> sessionList;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "MANAGER",
+            joinColumns = @JoinColumn(name = "ROOM_ID_FRK"),
+            inverseJoinColumns = @JoinColumn(name = "MANAGER_ID_FRK")
+    )
+    private Set<User> managerSet;
 
     public Room() {
     }
 
     public Long getId() {
         return id;
-    }
-
-    public Room setId(Long id) {
-        this.id = id;
-        return this;
     }
 
     public String getName() {
@@ -61,28 +69,51 @@ public class Room {
         return location;
     }
 
+    public Room setLocation(String location) {
+        this.location = location;
+        return this;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public Room setDescription(String description) {
+        this.description = description;
+        return this;
     }
 
     public List<Program> getProgramList() {
         return programList;
     }
 
-    public Conference getConference() {
-        return conference;
+    public Room setProgramList(List<Program> programList) {
+        this.programList = programList;
+        return this;
+    }
+
+    public List<Session> getSessionList() {
+        return sessionList;
+    }
+
+    public Room setSessionList(List<Session> sessionList) {
+        this.sessionList = sessionList;
+        return this;
+    }
+
+    public Set<User> getManagerSet() {
+        return managerSet;
+    }
+
+    public Room setManagerSet(Set<User> managerSet) {
+        this.managerSet = managerSet;
+        return this;
     }
 
     public void update(Room updated) {
         this.name = updated.name;
         this.location = updated.location;
         this.description = updated.description;
-    }
-
-    public void update(String name, String location, String description) {
-        this.name = name;
-        this.location = location;
-        this.description = description;
     }
 
     public static class Builder {
@@ -98,15 +129,10 @@ public class Room {
         public Room build() {
             return built;
         }
-
-        public Builder conference(Conference conference) {
-            built.conference = conference;
-            return this;
-        }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
+    }*/
 }

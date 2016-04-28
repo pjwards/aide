@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,13 +22,12 @@ public class ProgramServiceImplTest {
     private static final Long ID = 1L;
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
-    private static final long TWO_HOUR = 2 * 60 * 60 * 1000;
-    private static final Date BEGIN = new Date(System.currentTimeMillis());
-    private static final Date END = new Date(System.currentTimeMillis() + TWO_HOUR);
+    private static final String BEGIN = "09:00";
+    private static final String END = "10:00";
     private static final String UPDATED_TITLE = "updated title";
     private static final String UPDATED_DESCRIPTION = "updated description";
-    private static final Date UPDATED_BEGIN = new Date(System.currentTimeMillis() + TWO_HOUR);
-    private static final Date UPDATED_END = new Date(System.currentTimeMillis() + TWO_HOUR * 2);
+    private static final String UPDATED_BEGIN = "10:00";
+    private static final String UPDATED_END = "11:00";
 
 
     private ProgramRepository programRepositoryMock;

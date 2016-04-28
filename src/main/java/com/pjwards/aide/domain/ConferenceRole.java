@@ -1,5 +1,6 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pjwards.aide.domain.enums.Role;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -22,6 +23,7 @@ public class ConferenceRole {
             joinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID_FRK")
     )
+    @JsonIgnore
     private Set<User> userSet;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -29,6 +31,7 @@ public class ConferenceRole {
             joinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK")
     )
+    @JsonIgnore
     private Set<Conference> conferenceSet;
 
     public Long getId() {

@@ -1,8 +1,8 @@
 package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pjwards.aide.domain.enums.Role;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -54,6 +54,33 @@ public class User {
     @OneToOne
     private Assets assets;
 
+    @ManyToMany(
+            targetEntity = Room.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "managerSet"
+    )
+    @JsonIgnore
+    private Set<Room> roomSet;
+
+    @ManyToMany(
+            targetEntity = Program.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "speakerSet"
+    )
+    @JsonIgnore
+    private Set<Program> programSet;
+
+    @ManyToMany(
+            targetEntity = Session.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "speakerSet"
+    )
+    @JsonIgnore
+    private Set<Session> sessionSet;
+
     public Long getId() {
         return id;
     }
@@ -88,6 +115,18 @@ public class User {
 
     public Assets getAssets() {
         return assets;
+    }
+
+    public Set<Room> getRoomSet() {
+        return roomSet;
+    }
+
+    public Set<Program> getProgramSet() {
+        return programSet;
+    }
+
+    public Set<Session> getSessionSet() {
+        return sessionSet;
     }
 
     public User(){
@@ -172,8 +211,8 @@ public class User {
         }
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
-    }
+    }*/
 }

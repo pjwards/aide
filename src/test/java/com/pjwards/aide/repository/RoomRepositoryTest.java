@@ -1,7 +1,6 @@
 package com.pjwards.aide.repository;
 
 import com.pjwards.aide.config.ApplicationConfig;
-import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Room;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +20,7 @@ public class RoomRepositoryTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomRepositoryTest.class);
     private static final String NAME = "name";
+    private static final String SLOGAN = "slogan";
     private static final String LOCATION = "location";
     private static final String DESCRIPTION = "description";
 
@@ -40,10 +40,7 @@ public class RoomRepositoryTest {
 
     @Test
     public void testSaveWithAll() {
-        Conference conference = new Conference.Builder(NAME, DESCRIPTION).build();
-        conferenceRepository.save(conference);
-
-        room = new Room.Builder(NAME, LOCATION, DESCRIPTION).conference(conference).build();
+        room = new Room.Builder(NAME, LOCATION, DESCRIPTION).build();
         roomRepository.save(room);
     }
 

@@ -1,12 +1,10 @@
-package com.pjwards.aide.service.Sponsor;
+package com.pjwards.aide.service.sponsor;
 
 
 import com.pjwards.aide.domain.Sponsor;
 import com.pjwards.aide.domain.builder.SponsorBuilder;
 import com.pjwards.aide.exception.SponsorNotFoundException;
 import com.pjwards.aide.repository.SponsorRepository;
-import com.pjwards.aide.service.sponsor.SponsorService;
-import com.pjwards.aide.service.sponsor.SponsorServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -18,7 +16,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class SponsorServiceImplTest {
     private static final Long ID = 1L;

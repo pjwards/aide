@@ -2,7 +2,7 @@
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${myApp.name} :: main</title>
+    <title>${conference.name} :: main</title>
 
     <!-- Custom CSS -->
     <link href="/lib/grayscale/css/grayscale.css" rel="stylesheet">
@@ -29,8 +29,8 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i> <span class="light">AIDE</span> Project
+                <a class="navbar-brand page-scroll" href="${conference.id}">
+                    <i class="fa fa-play-circle"></i> <span class="light">${conference.name}</span>
                 </a>
             </div>
 
@@ -42,10 +42,10 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#">SCHEDULE</a>
+                        <a class="page-scroll" href="${conference.id}/schedule">SCHEDULE</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#">REGISTER</a>
+                        <a class="page-scroll" href="${conference.id}/register">REGISTER</a>
                     </li>
                 </ul>
             </div>
@@ -63,7 +63,23 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">${conference.name}</h1>
-                        <p class="intro-text">${conference.description}</p>
+                        <p class="intro-text">${conference.slogan}</p>
+
+                        <#if conference.location??>
+                        <p>
+                            <#if conference.location??>
+                                ${conference.location}
+                            </#if>
+
+                            <#if conference.locationUrl??>
+                                &nbsp;
+                                <a href="${conference.locationUrl}" target="_blank">
+                                    <img src="/lib/grayscale/img/map-marker.png" width="18" height="27" alt="location"/>
+                                </a>
+                            </#if>
+                        </p>
+                        </#if>
+
                         <a href="#about" class="btn btn-circle page-scroll">
                             <i class="fa fa-angle-double-down animated"></i>
                         </a>
@@ -77,85 +93,80 @@
     <section id="about" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>About Grayscale</h2>
-                <p>Grayscale is a free Bootstrap 3 theme created by Start Bootstrap. It can be yours right now, simply
-                    download the template on <a href="http://startbootstrap.com/template-overviews/grayscale/">the
-                        preview page</a>. The theme is open source, and you can use it for any purpose, personal or
-                    commercial.</p>
-                <p>This theme features stock photos by <a href="http://gratisography.com/">Gratisography</a> along with
-                    a custom Google Maps skin courtesy of <a href="http://snazzymaps.com/">Snazzy Maps</a>.</p>
-                <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy
-                    customization.</p>
+            ${conference.description}
+            </div>
+        </div>
+
+        <br/>
+        <br/>
+
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <a href="${conference.id}/schedule" class="btn btn-default btn-lg">
+                    SCHEDULE
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Download Section -->
-    <section id="download" class="content-section text-center">
-        <div class="download-section">
-            <div class="container">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Download Grayscale</h2>
-                    <p>You can download Grayscale for free on the preview page at Start Bootstrap.</p>
-                    <a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visit
-                        Download Page</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <#if conference.contacts?has_content>
     <!-- Contact Section -->
     <section id="contact" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Contact Start Bootstrap</h2>
-                <p>Feel free to email us to provide some feedback on our templates, give us suggestions for new
-                    templates and themes, or to just say hello!</p>
-                <p><a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a>
-                </p>
+                <h2>Contact</h2>
+
                 <ul class="list-inline banner-social-buttons">
-                    <li>
-                        <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i
-                                class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i
-                                class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-                    </li>
-                    <li>
-                        <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i
-                                class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
-                    </li>
+                    <#list conference.contacts as contact>
+                        <li>
+                            <a href="<#if contact.type == "EMAIL">mailto:</#if>${contact.url}"
+                               class="btn btn-circle"><i
+                                    class="fa fa-${contact.type.attribute}"></i></a>
+                        </li>
+                    </#list>
                 </ul>
+
             </div>
         </div>
     </section>
+    </#if>
 
-    <!-- Map Section -->
-    <div id="map"></div>
+
+    <#if conference.lan!=0.0 || conference.lat!=0.0>
+        <!-- Map Section -->
+        <div id="map"></div>
+    </#if>
+
+
     </@layout.put>
 
     <@layout.put block="footer" type="replace">
         <@layout.extends name="layouts/footer.ftl">
         </@layout.extends>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>Copyright &copy; Your Website 2014</p>
-        </div>
-    </footer>
     </@layout.put>
 
     <@layout.put block="script">
     <!-- Plugin JavaScript -->
     <script src="/bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+    <script src="/bower_components/sharrre/jquery.sharrre.min.js"></script>
 
     <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
     <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4PT3dSdoItwtIzCSe6E0FepFqYJM8U7Q"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="/lib/grayscale/js/grayscale.js"></script>
+    <script src="/lib/grayscale/js/map.js"></script>
+
+    <#if conference.lan!=0.0 || conference.lat!=0.0>
+        <script>
+            var locationUrl = "<#if conference.locationUrl?? >${conference.locationUrl}<#else>https://www.google.co.kr/maps/</#if>";
+            // When the window has finished loading create our google map below
+            google.maps.event.addDomListener(window, 'load', init.bind(null, ${conference.lat} , ${conference.lan} , locationUrl));
+            google.maps.event.addDomListener(window, 'resize', function () {
+                map.setCenter(new google.maps.LatLng( ${conference.lat}, ${conference.lan}));
+            });
+        </script>
+    </#if>
     </@layout.put>
 </@layout.extends>
