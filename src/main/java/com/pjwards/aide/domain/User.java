@@ -31,6 +31,10 @@ public class User {
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssz")
     private Date createdDate;
 
+    @Lob()
+    @Column(nullable = false)
+    private String description;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssz")
@@ -93,6 +97,10 @@ public class User {
         return email;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -129,6 +137,18 @@ public class User {
         return sessionSet;
     }
 
+    public void setAssets(Assets assets) {
+        this.assets = assets;
+    }
+
+    public void setConferenceRoleSet(Set<ConferenceRole> conferenceRoleSet) {
+        this.conferenceRoleSet = conferenceRoleSet;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public User(){
 
     }
@@ -141,6 +161,7 @@ public class User {
         this.lastDate = user.lastDate;
         this.role = user.role;
         this.company = user.company;
+        this.description = user.description;
     }
 
     public void update(User updated) {
@@ -150,10 +171,11 @@ public class User {
         this.password = updated.password;
         this.lastDate = updated.lastDate;
         this.role = updated.role;
+        this.description = updated.description;
     }
 
     public void update(String name, String email, String password, Date createdDate, Date lastDate, String company,
-                       Role role){
+                       Role role, String description){
         this.name = name;
         this.email = email;
         this.password = password;
@@ -161,6 +183,7 @@ public class User {
         this.lastDate = lastDate;
         this.company = company;
         this.role = role;
+        this.description = description;
     }
 
     public static class Builder {
@@ -186,6 +209,11 @@ public class User {
             return this;
         }
 
+        public Builder description(String description){
+            built.description = description;
+            return this;
+        }
+
         public Builder conferenceRole(Set<ConferenceRole> conferenceRoleSet){
             built.conferenceRoleSet = conferenceRoleSet;
             return this;
@@ -196,7 +224,7 @@ public class User {
             return this;
         }
 
-        public Builder role(Role role){
+        public Builder role(Role role) {
             built.role = role;
             return this;
         }

@@ -54,6 +54,10 @@ public class Sponsor {
         return assets;
     }
 
+    public void setAssets(Assets assets) {
+        this.assets = assets;
+    }
+
     public Sponsor(){
 
     }

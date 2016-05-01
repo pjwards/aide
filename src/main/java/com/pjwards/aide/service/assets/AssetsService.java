@@ -1,4 +1,4 @@
-package com.pjwards.aide.service.assets;
+package com.pjwards.aide.service.Assets;
 
 
 import com.pjwards.aide.domain.Assets;
