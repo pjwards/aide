@@ -62,6 +62,14 @@ public class Assets {
         return conference;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setSponsor(Sponsor sponsor) {
+        this.sponsor = sponsor;
+    }
+
     public Assets(){
 
     }
