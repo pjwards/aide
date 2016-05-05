@@ -1,48 +1,25 @@
 package com.pjwards.aide.service.user;
 
-import com.pjwards.aide.domain.Assets;
 import com.pjwards.aide.domain.User;
-import com.pjwards.aide.domain.forms.SignUpForm;
-import com.pjwards.aide.domain.forms.UserUpdatePasswordForm;
 import com.pjwards.aide.exception.UserNotFoundException;
-import com.pjwards.aide.repository.AssetsRepository;
 import com.pjwards.aide.repository.UserRepository;
-import com.pjwards.aide.util.identicon.IdenticonGeneratorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
-@PropertySource("classpath:file.properties")
 public class UserServiceImpl implements UserService{
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Value("${file.identicon.filePath}")
-    private String filePath;
-
-    private final UserRepository userRepository;
-
-    private final AssetsRepository assetsRepository;
-
-    private final IdenticonGeneratorUtil identiconGeneratorUtil;
+    private UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, AssetsRepository assetsRepository,
-                           IdenticonGeneratorUtil identiconGeneratorUtil){
+    public UserServiceImpl(UserRepository userRepository){
         this.userRepository = userRepository;
-        this.assetsRepository = assetsRepository;
-        this.identiconGeneratorUtil = identiconGeneratorUtil;
     }
 
     @Transactional(readOnly = true)
@@ -110,56 +87,4 @@ public class UserServiceImpl implements UserService{
 
         return deleted;
     }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Optional<User> findByEmail(String email) {
-        LOGGER.debug("Getting user by email={}", email.replaceFirst("@.*", "@***"));
-        return userRepository.findOneByEmail(email);
-    }
-
-    @Transactional
-    @Override
-    public User create(SignUpForm form) {
-        LOGGER.debug("Create a user with Info: {}", form);
-
-        User user = new User.Builder(
-                form.getName(),
-                form.getEmail(),
-                new BCryptPasswordEncoder().encode(form.getPassword())
-        ).company(form.getCompany()).description(form.getDescription()).build();
-
-        Map<String, String> fileMap;
-        try {
-            fileMap = identiconGeneratorUtil.generator(form.getEmail());
-        } catch (IOException e) {
-            return userRepository.save(user);
-        }
-
-        File avatar = new File(filePath + fileMap.get("realPath"));
-
-        Assets assets = new Assets.Builder(fileMap.get("fileName"), fileMap.get("realPath"), avatar.length(), 0).build();
-        assets = assetsRepository.save(assets);
-
-        user.setAssets(assets);
-        user=userRepository.save(user);
-
-        assets.setUser(user);
-        assetsRepository.save(assets);
-
-        LOGGER.debug("Successfully created");
-
-        return user;
-    }
-
-    @Transactional(rollbackFor = {UserNotFoundException.class})
-    @Override
-    public User updatePassword(UserUpdatePasswordForm form) {
-        User user = userRepository.getOne(form.getId());
-        user.update(user.getName(), user.getEmail(), new BCryptPasswordEncoder().encode(form.getPassword()),
-                user.getCreatedDate(), user.getLastDate(), user.getCompany(), user.getRole(), user.getDescription());
-        return userRepository.save(user);
-    }
-
-
 }
