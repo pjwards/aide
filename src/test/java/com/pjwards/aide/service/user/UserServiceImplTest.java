@@ -8,12 +8,10 @@ import com.pjwards.aide.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.internal.matchers.Null;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -118,39 +116,6 @@ public class UserServiceImplTest {
         userService.findById(ID);
 
         verify(userRepositoryMock, times(1)).findOne(ID);
-        verifyNoMoreInteractions(userRepositoryMock);
-    }
-
-    @Test
-    public void testFindByEmail_UserFound_ShouldReturnFoundUser() throws UserNotFoundException{
-        User model = new UserBuilder()
-                .id(ID)
-                .name(NAME)
-                .email(EMAIL)
-                .password(PASSWORD)
-                .company(COMPANY)
-                .createdDate(DAY)
-                .lastDate(NEXT_DAY)
-                .role(ROLE)
-                .build();
-
-        when(userRepositoryMock.findOneByEmail(EMAIL)).thenReturn(Optional.of(model));
-
-        Optional<User> actual = userService.findByEmail(EMAIL);
-
-        verify(userRepositoryMock, times(1)).findOneByEmail(EMAIL);
-        verifyNoMoreInteractions(userRepositoryMock);
-
-        assertThat(actual, is(model));
-    }
-
-    @Test(expected = UserNotFoundException.class)
-    public void testFindByEmail_UserNotFound_ShouldThrowException() throws UserNotFoundException{
-        when(userRepositoryMock.findOneByEmail(EMAIL)).thenReturn(null);
-
-        userService.findByEmail(EMAIL);
-
-        verify(userRepositoryMock, times(1)).findOneByEmail(EMAIL);
         verifyNoMoreInteractions(userRepositoryMock);
     }
 
