@@ -49,6 +49,13 @@ public class Room {
     )
     private Set<User> managerSet;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "PARTICIPANT_ROOM",
+            joinColumns = @JoinColumn(name = "ROOM_ID_FRK"),
+            inverseJoinColumns = @JoinColumn(name = "PARTICIPANT_ID_FRK")
+    )
+    private Set<User> participants;
+
     public Room() {
     }
 
@@ -107,6 +114,15 @@ public class Room {
 
     public Room setManagerSet(Set<User> managerSet) {
         this.managerSet = managerSet;
+        return this;
+    }
+
+    public Set<User> getParticipants() {
+        return participants;
+    }
+
+    public Room setParticipants(Set<User> participants) {
+        this.participants = participants;
         return this;
     }
 

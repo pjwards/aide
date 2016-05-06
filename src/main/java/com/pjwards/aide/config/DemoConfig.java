@@ -1,6 +1,7 @@
 package com.pjwards.aide.config;
 
 import com.pjwards.aide.domain.*;
+import com.pjwards.aide.domain.enums.Charge;
 import com.pjwards.aide.domain.enums.ContactType;
 import com.pjwards.aide.domain.enums.ProgramType;
 import com.pjwards.aide.repository.*;
@@ -30,7 +31,7 @@ public class DemoConfig {
                             "다양한 분야에서 탄탄한 실력을 갖춘 국내외 IT기업 엔지니어들의 \n" +
                             "실전경험과 노하우가 담긴 컨텐츠를 공유합니다.\n" +
                             "\n").location("COEX Grand Ballroom, SEOUL").locationUrl("https://www.google.co.kr/maps/place/%EC%BD%94%EC%97%91%EC%8A%A4+%EC%BB%A8%EB%B2%A4%EC%85%98%EC%84%BC%ED%84%B0+%EA%B7%B8%EB%9E%9C%EB%93%9C%EB%B3%BC%EB%A3%B8/@37.5081321,127.0336615,14z/data=!4m5!1m2!2m1!1scoex!3m1!1s0x357ca46bcb9e129f:0xd6bf8dde518b69a4")
-                    .latlan(37.513204, 127.058638).build());
+                    .latlan(37.513204, 127.058638).charge(Charge.CHARGED).price(100000).build());
 
             conferenceRepository.save(new Conference.Builder("PYCON KOREA 2014", "한국에서 열리는 첫 번째 파이콘", "한국에서 열리는 첫 번째 파이콘").build());
 

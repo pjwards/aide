@@ -1,5 +1,6 @@
 package com.pjwards.aide.domain;
 
+import com.pjwards.aide.domain.enums.Status;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -38,5 +39,6 @@ public class ConferenceTest {
         assertThat(conference.getHost(), nullValue());
         assertThat(conference.getAssetsSet(), nullValue());
         assertThat(conference.getContacts(), nullValue());
+        assertThat(conference.getStatus(), is(Status.OPEN));
     }
 }
