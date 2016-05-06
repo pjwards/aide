@@ -85,6 +85,24 @@ public class User {
     @JsonIgnore
     private Set<Session> sessionSet;
 
+    @ManyToMany(
+            targetEntity = Conference.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "participants"
+    )
+    @JsonIgnore
+    private Set<Conference> conferenceSet;
+
+    @ManyToMany(
+            targetEntity = Room.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "participants"
+    )
+    @JsonIgnore
+    private Set<Room> roomParticipantSet;
+
     public Long getId() {
         return id;
     }
@@ -151,6 +169,14 @@ public class User {
 
     public void setLastDate(Date lastDate) {
         this.lastDate = lastDate;
+    }
+
+    public Set<Conference> getConferenceSet() {
+        return conferenceSet;
+    }
+
+    public Set<Room> getRoomParticipantSet() {
+        return roomParticipantSet;
     }
 
     public User(){

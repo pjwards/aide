@@ -20,12 +20,9 @@ public class HomeController {
     private ConferenceService conferenceService;
 
     @RequestMapping("/")
-    public String root(Model model) {
+    public String root() {
         LOGGER.debug("Getting home page");
-
-        List<Conference> conferences = conferenceService.findAll();
-        model.addAttribute("conferences", conferences);
-        return "index";
+        return "redirect:/conferences";
     }
 
     @RequestMapping(value = "/400")

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/conferences")
 public class ConferenceDetailController {
@@ -21,6 +23,21 @@ public class ConferenceDetailController {
 
     @Autowired
     private ConferenceService conferenceService;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String root(Model model) {
+        LOGGER.debug("Getting conference list page");
+
+        List<Conference> conferences = conferenceService.findAll();
+        model.addAttribute("conferences", conferences);
+        return "index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/add")
+    public String add() throws ConferenceNotFoundException {
+        LOGGER.debug("Getting details page");
+        return "conference/add";
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public String getDetails(Model model,
@@ -45,13 +62,24 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/register")
-    public String getRegistration(Model model,
+    public String getRegister(Model model,
                                   @PathVariable("id") Long id) throws ConferenceNotFoundException {
-        LOGGER.debug("Getting schedule page");
+        LOGGER.debug("Getting register page");
 
         Conference conference = conferenceService.findById(id);
         model.addAttribute("conference", conference);
 
         return "conference/register";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/admin")
+    public String getAdmin(Model model,
+                                  @PathVariable("id") Long id) throws ConferenceNotFoundException {
+        LOGGER.debug("Getting admin page");
+
+        Conference conference = conferenceService.findById(id);
+        model.addAttribute("conference", conference);
+
+        return "conference/admin";
     }
 }

@@ -11,7 +11,12 @@
 
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="/css/basic.css"/>
+
+    <!-- Custom Fonts -->
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
@@ -37,7 +42,7 @@
 <#--<meta name="theme-color" content="#ffffff">-->
 </@layout.block>
 </head>
-<body  id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 <@layout.block name="header">
 </@layout.block>
 
