@@ -47,6 +47,10 @@ public class ForgotPassword {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public ForgotPassword(){
 
     }
@@ -67,6 +71,18 @@ public class ForgotPassword {
         this.keyHash = keyHash;
         this.expiredDate = expiredDate;
         this.validEntity = validEntity;
+    }
+
+    public void setExpiredDate(Date expiredDate) {
+        this.expiredDate = expiredDate;
+    }
+
+    public void setValidEntity(ValidEntity validEntity) {
+        this.validEntity = validEntity;
+    }
+
+    public void setKeyHash(String keyHash) {
+        this.keyHash = keyHash;
     }
 
     public static class Builder {

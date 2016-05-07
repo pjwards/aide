@@ -9,14 +9,20 @@ import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.domain.validators.UserUpdatePasswordFormValidator;
 import com.pjwards.aide.repository.UserRepository;
 import com.pjwards.aide.service.user.UserService;
+import com.pjwards.aide.util.Paging;
 import com.pjwards.aide.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/settings")
@@ -52,12 +59,18 @@ public class UserSettingController {
         binder.addValidators(userUpdatePasswordFormValidator);
     }
 
+    @RequestMapping("/password")
+    public ModelAndView handleSettingsPassword() {
+        LOGGER.debug("Getting settings user password form");
+        return new ModelAndView("user/userpasswordupdate", "form", new UserUpdatePasswordForm());
+    }
+
     @RequestMapping(value = "/password", method = RequestMethod.POST)
     public String handleSettingsPassword(@Valid @ModelAttribute("form") UserUpdatePasswordForm form, BindingResult bindingResult) {
         LOGGER.debug("Processing user register form={}, bindingResult={}", form, bindingResult);
         if (bindingResult.hasErrors()) {
             // failed validation
-            return "user/settings";
+            return "user/userpasswordupdate";
         }
 
         userService.updatePassword(form);
@@ -66,6 +79,12 @@ public class UserSettingController {
 
         // ok, redirect
         return "redirect:/";
+    }
+
+    @RequestMapping("/delete")
+    public ModelAndView handleSettingsDelete() {
+        LOGGER.debug("Getting settings user delete");
+        return new ModelAndView("user/userdelete");
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
@@ -77,8 +96,7 @@ public class UserSettingController {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (!passwordEncoder.matches(password, currentUser.getUser().getPassword())) {
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("user/settings");
-            modelAndView.addObject("form", new UserUpdatePasswordForm());
+            modelAndView.setViewName("user/userdelete");
             modelAndView.addObject("deleteError","Passwords do not match");
             return modelAndView;
         }
@@ -94,7 +112,7 @@ public class UserSettingController {
     @RequestMapping("/update")
     public ModelAndView getSettingsUserUpdate() {
         LOGGER.debug("Getting settings user update form");
-        return new ModelAndView("user/settings", "form", new UserUpdatePasswordForm());
+        return new ModelAndView("user/userprofileupdate");
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -105,7 +123,7 @@ public class UserSettingController {
                                             @RequestParam(value = "description", required = false) String description) {
         LOGGER.debug("Getting settings user update, name={}", name);
 
-        ModelAndView modelAndView = new ModelAndView("user/settings", "form", new UserUpdatePasswordForm());
+        ModelAndView modelAndView = new ModelAndView("user/userprofileupdate");
 
         User user = currentUser.getUser();
 
@@ -154,5 +172,33 @@ public class UserSettingController {
         }
 
         return modelAndView;
+    }
+
+    @RequestMapping("/users")
+    public String getUsersPage(Model model,
+                               @RequestParam(value = "p", required = false) Integer requestPage) {
+        LOGGER.debug("Getting users page");
+
+        if(requestPage == null) requestPage = 1;
+
+        int totalCount = (int)userRepository.count();
+
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(0, 10, sort);
+        Page<User> users = userRepository.findAll(pageable);
+        List<User> userList = users.getContent();
+
+        model.addAttribute("userList", userList);
+
+        Paging paging = new Paging().paging(requestPage, 10, totalCount);
+        model.addAttribute("paging", paging);
+
+        if(totalCount == 0) {
+            model.addAttribute("hasUser", false);
+        } else {
+            model.addAttribute("hasUser", true);
+        }
+
+        return "user/userlist";
     }
 }

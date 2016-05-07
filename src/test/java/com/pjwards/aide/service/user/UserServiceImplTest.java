@@ -4,7 +4,9 @@ import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.builder.UserBuilder;
 import com.pjwards.aide.domain.enums.Role;
 import com.pjwards.aide.exception.UserNotFoundException;
+import com.pjwards.aide.repository.AssetsRepository;
 import com.pjwards.aide.repository.UserRepository;
+import com.pjwards.aide.util.identicon.IdenticonGeneratorUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -38,11 +40,13 @@ public class UserServiceImplTest {
 
     private UserRepository userRepositoryMock;
     private UserService userService;
+    private AssetsRepository assetsRepositoryMock;
+    private IdenticonGeneratorUtil identiconGeneratorUtil;
 
     @Before
     public void setup(){
         userRepositoryMock = mock(UserRepository.class);
-        userService = new UserServiceImpl(userRepositoryMock);
+        userService = new UserServiceImpl(userRepositoryMock, assetsRepositoryMock, identiconGeneratorUtil);
     }
 
     @Test
@@ -144,11 +148,11 @@ public class UserServiceImplTest {
         assertThat(actual, is(model));
     }
 
-    @Test(expected = UserNotFoundException.class)
-    public void testFindByEmail_UserNotFound_ShouldThrowException() throws UserNotFoundException{
+    @Test(expected = NullPointerException.class)
+    public void testFindByEmail_UserNotFound_ShouldThrowException() throws NullPointerException{
         when(userRepositoryMock.findOneByEmail(EMAIL)).thenReturn(null);
 
-        userService.findByEmail(EMAIL);
+        userService.findByEmail(null);
 
         verify(userRepositoryMock, times(1)).findOneByEmail(EMAIL);
         verifyNoMoreInteractions(userRepositoryMock);

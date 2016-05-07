@@ -64,13 +64,13 @@ public class SignInController {
     @RequestMapping("/sign_in")
     public ModelAndView getSignInPage(@RequestParam Optional<String> error) {
         LOGGER.debug("Getting login page, error={}", error);
-        return new ModelAndView("login", "error", error);
+        return new ModelAndView("signin/signin", "error", error);
     }
 
     @RequestMapping("/forgot_password/new")
     public String forgotPasswordPage(){
         LOGGER.debug("Forgot password page");
-        return "forgotPasswordNew";
+        return "signin/password_found";
     }
 
     @RequestMapping(value = "/forgot_password/new", method = RequestMethod.POST)
@@ -78,13 +78,13 @@ public class SignInController {
         LOGGER.debug("Forgot password handler, email={}", email);
 
         if(email == null){
-            return  new ModelAndView("forgotPasswordNew", "error", "Email is empty");
+            return  new ModelAndView("signin/password_found", "error", "Email is empty");
         }
 
         String error = validateEmail(email);
 
         if(error != null){
-            return new ModelAndView("forgotPasswordNew", "error", error);
+            return new ModelAndView("signin/password_found", "error", error);
         }
 
         User user = userService.findByEmail(email).get();
@@ -98,7 +98,7 @@ public class SignInController {
 
         mailing.sendForgotPasswordMail(user, forgotPassword.getKeyHash());
 
-        return new ModelAndView("forgotPasswordNew", "message", "Success! Check your email.");
+        return new ModelAndView("signin/password_found", "message", "Success! Check your email.");
     }
 
     private String validateEmail(String email){
@@ -119,14 +119,14 @@ public class SignInController {
         return null;
     }
 
-    @RequestMapping("/forgot_password/reset*//*")
+    @RequestMapping("/forgot_password/reset/**")
     public ModelAndView resetPassword(@RequestParam(value = "k", required = true) String keyHash) {
         LOGGER.debug("Reset password page, keyHash={}", keyHash);
 
         ForgotPassword forgotPassword = forgotPasswordRepository.findOneByKeyHash(keyHash);
         validateForgotPassword(forgotPassword);
 
-        return new ModelAndView("resetPassword", "form", new ForgotPasswordForm());
+        return new ModelAndView("signin/password_reset", "form", new ForgotPasswordForm());
     }
 
     private void validateForgotPassword(ForgotPassword forgotPassword){
@@ -149,7 +149,7 @@ public class SignInController {
         LOGGER.debug("Reset password page, differentTime={}", differentTime);
     }
 
-    @RequestMapping(value = "/forgot_password/reset*//*", method = RequestMethod.POST)
+    @RequestMapping(value = "/forgot_password/reset/**", method = RequestMethod.POST)
     public String handleResetPassword(@Valid @ModelAttribute("form") ForgotPasswordForm form, BindingResult bindingResult,
                                       @RequestParam(value = "k", required = true) String keyHash) {
         LOGGER.debug("Processing reset password form={}, bindingResult={}", form, bindingResult);
@@ -159,7 +159,7 @@ public class SignInController {
 
         if (bindingResult.hasErrors()) {
             // failed validation
-            return "resetPassword";
+            return "signin/password_reset";
         }
 
         forgotPasswordService.resetPassword(form, forgotPassword);

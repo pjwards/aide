@@ -23,10 +23,6 @@ public class SignUpForm {
     @NotEmpty
     private String name = "";
 
-    private String company = "";
-
-    private String description = "";
-
     public String getEmail() {
         return email;
     }
@@ -65,22 +61,6 @@ public class SignUpForm {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override

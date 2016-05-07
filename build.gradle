@@ -48,9 +48,15 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-freemarker:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-velocity:${springBootVersion}"
+    compile 'org.springframework:spring-context-support'
 
     // Freemarker Template Inheritance
     compile 'kr.pe.kwonnam.freemarker:freemarker-template-inheritance:0.4.RELEASE'
+
+    // query DSL
+//    compile "com.mysema.querydsl:querydsl-apt:3.6.0"
+//    compile "com.mysema.querydsl:querydsl-core:3.6.0"
+//    compile "com.mysema.querydsl:querydsl-jpa:3.6.0"
 
     // Spring Security
     compile "org.springframework.security:spring-security-core:${springSecurityVersion}"
@@ -80,3 +86,14 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.11'
 }
+
+//query DSL
+
+//querydsl {
+//    library = "com.mysema.querydsl:querydsl-apt:3.6.0"
+//    querydslSourcesDir = "src/main/java/com/pjwards/aide/"
+//}
+//
+//querydsl {
+//    jpa = true
+//}

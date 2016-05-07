@@ -32,7 +32,7 @@ public class User {
     private Date createdDate;
 
     @Lob()
-    @Column(nullable = false)
+    @Column()
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -147,6 +147,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setLastDate(Date lastDate) {
+        this.lastDate = lastDate;
     }
 
     public User(){
