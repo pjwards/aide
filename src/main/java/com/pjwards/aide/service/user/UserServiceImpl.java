@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService{
                 form.getName(),
                 form.getEmail(),
                 new BCryptPasswordEncoder().encode(form.getPassword())
-        ).company(form.getCompany()).description(form.getDescription()).build();
+        ).company("").description("").build();
 
         Map<String, String> fileMap;
         try {

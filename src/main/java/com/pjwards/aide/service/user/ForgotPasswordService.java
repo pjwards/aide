@@ -6,7 +6,7 @@ import com.pjwards.aide.domain.enums.ValidEntity;
 import com.pjwards.aide.domain.forms.ForgotPasswordForm;
 
 public interface ForgotPasswordService {
-    Iterable<ForgotPassword> findAllByUserANDBYValidEntity(User user, ValidEntity validEntity);
+    //Iterable<ForgotPassword> findAllByUserANDBYValidEntity(User user, ValidEntity validEntity);
 
     ForgotPassword create(User user);
 

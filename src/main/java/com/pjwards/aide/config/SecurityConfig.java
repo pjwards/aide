@@ -16,40 +16,40 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    private UserDetailsService userDetailsService;
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//            .authorizeRequests()
-//                .antMatchers("/", "/home", "/index", "/article/list", "/article/read/**", "/comment/list/**", "/user/register").permitAll()
-//                .antMatchers("/forgot_password/**", "/study/list", "/study/read/**").permitAll()
-//                .antMatchers("/users/**", "/mail/**").hasAuthority("ADMIN")
-//                .antMatchers("/public/**", "/resources/**", "/resources/public/**", "/webjars/**").permitAll()
-//                .antMatchers("/css/**", "/js/**", "/img/**", "/jui/**", "/Material/**", "/startbootstrap-creative/**", "/ckeditor/**").permitAll()
-//                .anyRequest().fullyAuthenticated()
-//                .and()
-//            .formLogin()
-//                .loginPage("/login")
-//                .failureUrl("/login?error")
-//                .usernameParameter("email")
-//                .permitAll()
-//                .and()
-//            .logout()
-//                .logoutUrl("/logout")
-//                .deleteCookies("remember-me")
-//                .logoutSuccessUrl("/")
-//                .permitAll()
-//            .and()
-//            .rememberMe();
-//    }
-//
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .userDetailsService(userDetailsService)
-//                .passwordEncoder(new BCryptPasswordEncoder());
-//    }
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/", "/home", "/index", "/user/sign_up/").permitAll()
+                .antMatchers("/forgot_password/**").permitAll()
+                .antMatchers("/settings/users").hasAuthority("ADMIN")
+                .antMatchers("/public/**", "/resources/**", "/resources/public/**", "/webjars/**").permitAll()
+                .antMatchers("/css/**", "/lib/**", "/img/**", "/bower_components/**", "/font/**", "/data/**", "/mail/**").permitAll()
+                .anyRequest().fullyAuthenticated()
+                .and()
+            .formLogin()
+                .loginPage("/sign_in")
+                .failureUrl("/sign_in?error")
+                .usernameParameter("email")
+                .permitAll()
+                .and()
+            .logout()
+                .logoutUrl("/sign_out")
+                .deleteCookies("remember-me")
+                .logoutSuccessUrl("/")
+                .permitAll()
+            .and()
+            .rememberMe();
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder());
+    }
 
 }

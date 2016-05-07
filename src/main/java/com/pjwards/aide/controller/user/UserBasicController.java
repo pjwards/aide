@@ -45,7 +45,7 @@ public class UserBasicController {
     @RequestMapping("/sign_up")
     public ModelAndView getUserSignUpPage() {
         LOGGER.debug("Getting user sign_up form");
-        return new ModelAndView("user/sign_up", "form", new SignUpForm());
+        return new ModelAndView("signin/signup", "form", new SignUpForm());
     }
 
     @RequestMapping(value = "/sign_up", method = RequestMethod.POST)
@@ -53,7 +53,7 @@ public class UserBasicController {
         LOGGER.debug("Processing user sign_up form={}, bindingResult={}", form, bindingResult);
         if (bindingResult.hasErrors()) {
             // failed validation
-            return "user/sign_up";
+            return "signin/signup";
         }
         try {
             userService.create(form);
@@ -62,7 +62,7 @@ public class UserBasicController {
             // at the same time and form validation has passed for more than one of them.
             LOGGER.warn("Exception occurred when trying to save the user, assuming duplicate email", e);
             bindingResult.reject("email.exists", "Email already exists");
-            return "user/sign_up";
+            return "signin/signup";
         }
         // ok, redirect
         return "redirect:/";
@@ -84,7 +84,7 @@ public class UserBasicController {
         //List < Study > ownStudyList = studyRepository.findAllByUser(user);
         //Set<Study> partStudyList = user.getStudySet();
 
-        ModelAndView modelAndView = new ModelAndView("user/user");
+        ModelAndView modelAndView = new ModelAndView("user/userprofile");
         modelAndView.addObject("user",user);
         //modelAndView.addObject("ownStudyList",ownStudyList);
         //modelAndView.addObject("partStudyList",partStudyList);
