@@ -155,6 +155,14 @@ public class User {
         return sessionSet;
     }
 
+    public Set<Conference> getConferenceSet() {
+        return conferenceSet;
+    }
+
+    public Set<Room> getRoomParticipantSet() {
+        return roomParticipantSet;
+    }
+
     public void setAssets(Assets assets) {
         this.assets = assets;
     }
