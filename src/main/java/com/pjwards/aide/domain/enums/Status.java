@@ -5,19 +5,30 @@ public enum Status {
     CLOSED("CLOSED", "default"),
     PROGRESS("PROGRESS", "danger");
 
-    private String name;
+    private String title;
     private String attribute;
 
-    Status(String name, String attribute) {
-        this.name = name;
+    Status(String title, String attribute) {
+        this.title = title;
         this.attribute = attribute;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public String getAttribute() {
         return attribute;
+    }
+
+    public static boolean contains(String test) {
+
+        for (Status c : Status.values()) {
+            if (c.toString().equals(test)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

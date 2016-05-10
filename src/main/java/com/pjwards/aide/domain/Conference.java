@@ -59,6 +59,7 @@ public class Conference {
     private Set<ConferenceRole> conferenceRoleSet;
 
     @OneToOne
+    @JsonIgnore
     private User host;
 
     @OneToMany(

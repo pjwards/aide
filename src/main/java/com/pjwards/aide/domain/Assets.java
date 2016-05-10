@@ -70,6 +70,11 @@ public class Assets {
         this.sponsor = sponsor;
     }
 
+    public Assets setConference(Conference conference) {
+        this.conference = conference;
+        return this;
+    }
+
     public Assets(){
 
     }
@@ -118,6 +123,11 @@ public class Assets {
 
         public Builder id(Long id) {
             built.id = id;
+            return this;
+        }
+
+        public Builder conference(Conference conference) {
+            built.conference = conference;
             return this;
         }
 

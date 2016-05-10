@@ -35,7 +35,7 @@
                         <h1 class="brand-heading">${conference.name}</h1>
                         <p class="intro-text">${conference.slogan}</p>
 
-                        <#if conference.location??>
+                        <#if conference.location?? && conference.location?length != 0>
                         <p>
                             <#if conference.location??>
                                 ${conference.location}
@@ -101,12 +101,10 @@
     </section>
     </#if>
 
-
     <#if conference.lan!=0.0 || conference.lat!=0.0>
         <!-- Map Section -->
         <div id="map"></div>
     </#if>
-
 
     </@layout.put>
 
@@ -136,6 +134,23 @@
             google.maps.event.addDomListener(window, 'resize', function () {
                 map.setCenter(new google.maps.LatLng( ${conference.lat}, ${conference.lan}));
             });
+        </script>
+    </#if>
+
+    <#if conference.assetsSet?has_content>
+        <script>
+            var images=[<#list conference.assetsSet as assets>'${assets.realPath}' <#sep>,</#list>];
+            var next_image=0;
+
+            $(function() {
+                $('.intro').css("background", "url(" + images[0] + ") no-repeat bottom center scroll");
+            });
+
+            window.setInterval(function() {
+                $('.intro').css("background", "url(" + images[next_image++] + ") no-repeat bottom center scroll");
+                if(next_image>=images.length)
+                    next_image=0;
+            }, 5000);
         </script>
     </#if>
     </@layout.put>

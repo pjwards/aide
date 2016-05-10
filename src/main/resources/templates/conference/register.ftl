@@ -261,5 +261,22 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/lib/creative/js/creative.js"></script>
+
+        <#if conference.assetsSet?has_content>
+            <script>
+                var images=[<#list conference.assetsSet as assets>'${assets.realPath}' <#sep>,</#list>];
+                var next_image=0;
+
+                $(function() {
+                    $('header').css("background", "url(" + images[0] + ") no-repeat bottom center scroll");
+                });
+
+                window.setInterval(function() {
+                    $('header').css("background", "url(" + images[next_image++] + ") no-repeat bottom center scroll");
+                    if(next_image>=images.length)
+                        next_image=0;
+                }, 5000);
+            </script>
+        </#if>
     </@layout.put>
 </@layout.extends>

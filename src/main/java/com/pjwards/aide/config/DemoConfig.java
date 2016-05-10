@@ -4,7 +4,9 @@ import com.pjwards.aide.domain.*;
 import com.pjwards.aide.domain.enums.Charge;
 import com.pjwards.aide.domain.enums.ContactType;
 import com.pjwards.aide.domain.enums.ProgramType;
+import com.pjwards.aide.domain.forms.SignUpForm;
 import com.pjwards.aide.repository.*;
+import com.pjwards.aide.service.user.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,12 +20,12 @@ import java.util.Set;
 public class DemoConfig {
     @Bean
     public CommandLineRunner conferenceDemo(ConferenceRepository conferenceRepository,
-                                            UserRepository userRepository,
                                             RoomRepository roomRepository,
                                             ProgramDateRepository programDateRepository,
                                             ProgramRepository programRepository,
                                             SessionRepository sessionRepository,
-                                            ContactRepository contactRepository) {
+                                            ContactRepository contactRepository,
+                                            UserService userService) {
         return (args) -> {
             Conference conference = conferenceRepository.save(new Conference.Builder("DEVIEW 2015", "DEVIEW 2015가 성황리에 끝났습니다.",
                     "<h2>excellence . sharing . growth</h2>\n" +
@@ -35,8 +37,16 @@ public class DemoConfig {
 
             conferenceRepository.save(new Conference.Builder("PYCON KOREA 2014", "한국에서 열리는 첫 번째 파이콘", "한국에서 열리는 첫 번째 파이콘").build());
 
+            SignUpForm signUpForm = new SignUpForm();
+            signUpForm.setName("홍길동");
+            signUpForm.setEmail("a@a.com");
+            signUpForm.setPassword("1234567");
+            signUpForm.setPasswordRepeated("1234567");
             Set<User> userSet = new HashSet<>();
-            userSet.add(userRepository.save(new User.Builder("홍길동", "abcde@abcde.com", "abcdefg").build()));
+            userSet.add(userService.update(
+                    userService.create(signUpForm)
+                            .setDescription("description")
+                            .setCompany("company")));
 
             Set<Contact> contacts = new HashSet<>();
             contacts.add(contactRepository.save(new Contact.Builder(ContactType.EMAIL, "abcde@abcde.com").conference(conference).build()));

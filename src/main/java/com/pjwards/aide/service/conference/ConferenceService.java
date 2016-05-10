@@ -1,6 +1,7 @@
 package com.pjwards.aide.service.conference;
 
 import com.pjwards.aide.domain.Conference;
+import com.pjwards.aide.domain.forms.ConferenceForm;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
 
 import java.util.List;
@@ -48,4 +49,12 @@ public interface ConferenceService {
      * @throws ConferenceNotFoundException if no conference is found with the given id.
      */
     public Conference deleteById(Long id) throws ConferenceNotFoundException;
+
+    /**
+     * Create conference by created form
+     *
+     * @param form conference created form
+     * @return The created conference.
+     */
+    public Conference create(ConferenceForm form);
 }

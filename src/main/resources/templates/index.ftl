@@ -82,10 +82,10 @@
 
                 <div class="row">
 
-                    <#list conferences as conference>
+                    <#list conferences?reverse as conference>
                         <div class="col-sm-4 col-lg-4 col-md-4">
                             <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
+                                <img src="<#if conference.assetsSet?has_content>${conference.assetsSet?first.realPath}<#else>/lib/grayscale/img/intro-bg.jpg</#if>" style="width: 320px; height: 150px;" alt="">
                                 <div class="caption">
                                     <h4 class="pull-right"><#if conference.charge == "FREE">Free<#else>${conference.price}</#if></h4>
                                     <h4><a href="conferences/${conference.id}">${conference.name}</a>
@@ -93,7 +93,7 @@
                                     <p>${conference.slogan}</p>
                                 </div>
                                 <div class="ratings">
-                                    <span class="label label-${conference.status.attribute}">${conference.status.getName()}</span>
+                                    <span class="label label-${conference.status.attribute}">${conference.status.getTitle()}</span>
                                 </div>
                                 <div class="ratings">
                                     <p class="pull-right">15 reviews</p>

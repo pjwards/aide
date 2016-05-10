@@ -20,4 +20,15 @@ public enum Charge {
     public String getColor() {
         return color;
     }
+
+    public static boolean contains(String test) {
+
+        for (Charge c : Charge.values()) {
+            if (c.toString().equals(test)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

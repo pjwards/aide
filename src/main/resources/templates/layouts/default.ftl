@@ -21,6 +21,9 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
 
+    <!-- Summernote CSS -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/summernote/dist/summernote.css"/>
+
     <!-- Custom CSS -->
 
 <#--<link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicon/apple-icon-57x57.png' %}">-->
@@ -58,6 +61,11 @@
 
 <!-- Bootstrap Core JS -->
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Summernote Core JS -->
+<script src="/bower_components/summernote/dist/summernote.min.js"></script>
+<script src="/bower_components/summernote/lang/summernote-ko-KR.js"></script>
+
 </@layout.block>
 </body>
 </html>

@@ -1,15 +1,26 @@
 package com.pjwards.aide.service.conference;
 
+import com.pjwards.aide.domain.Assets;
 import com.pjwards.aide.domain.Conference;
+import com.pjwards.aide.domain.Contact;
+import com.pjwards.aide.domain.enums.ContactType;
+import com.pjwards.aide.domain.forms.ConferenceForm;
+import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
+import com.pjwards.aide.repository.AssetsRepository;
 import com.pjwards.aide.repository.ConferenceRepository;
+import com.pjwards.aide.repository.ContactRepository;
+import com.pjwards.aide.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ConferenceServiceImpl implements ConferenceService {
@@ -17,10 +28,22 @@ public class ConferenceServiceImpl implements ConferenceService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConferenceServiceImpl.class);
 
     private ConferenceRepository conferenceRepository;
+    private ContactRepository contactRepository;
+    private AssetsRepository assetsRepository;
+    private ImageValidator imageValidator;
+    private Utils utils;
 
     @Autowired
-    public ConferenceServiceImpl(ConferenceRepository conferenceRepository) {
+    public ConferenceServiceImpl(ConferenceRepository conferenceRepository,
+                                 ContactRepository contactRepository,
+                                 AssetsRepository assetsRepository,
+                                 ImageValidator imageValidator,
+                                 Utils utils) {
         this.conferenceRepository = conferenceRepository;
+        this.contactRepository = contactRepository;
+        this.assetsRepository = assetsRepository;
+        this.imageValidator = imageValidator;
+        this.utils = utils;
     }
 
     @Transactional(readOnly = true)
@@ -39,7 +62,7 @@ public class ConferenceServiceImpl implements ConferenceService {
     public Conference add(Conference added) {
         LOGGER.debug("Creating a new conference with information: {}", added);
 
-        added =  conferenceRepository.save(added);
+        added = conferenceRepository.save(added);
         LOGGER.debug("Added a conference with information: {}", added);
 
         return added;
@@ -85,5 +108,71 @@ public class ConferenceServiceImpl implements ConferenceService {
         LOGGER.debug("Deleting conference: {}", deleted);
 
         return deleted;
+    }
+
+    @Transactional
+    @Override
+    public Conference create(ConferenceForm form) {
+        LOGGER.debug("Create a user with Info: {}", form);
+
+        Conference conference = new Conference.Builder(
+                form.getName(),
+                form.getSlogan(),
+                form.getDescription())
+                .status(form.getStatus())
+                .charge(form.getCharge())
+                .price(form.getPrice())
+                .host(form.getHost())
+                .location(form.getLocation())
+                .locationUrl(form.getLocationUrl())
+                .build();
+
+        if (form.getLat() != null && form.getLan() != null) {
+            conference.setLat(form.getLat()).setLan(form.getLan());
+        }
+
+        conference = conferenceRepository.save(conference);
+
+        if (form.getEmail() != null && !form.getEmail().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.EMAIL, form.getEmail())
+                            .conference(conference)
+                            .build());
+        }
+        if (form.getFacebook() != null && !form.getFacebook().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.FACEBOOK, form.getFacebook())
+                            .conference(conference)
+                            .build());
+        }
+        if (form.getTwitter() != null && !form.getTwitter().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.TWITTER, form.getTwitter())
+                            .conference(conference)
+                            .build());
+        }
+        if (form.getGithub() != null && !form.getGithub().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.GITHUB, form.getGithub())
+                            .conference(conference)
+                            .build());
+        }
+        if (form.getGooglePlus() != null && !form.getGooglePlus().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.GOOGLEPLUS, form.getGooglePlus())
+                            .conference(conference)
+                            .build());
+        }
+
+        System.out.println(form.getFiles().size());
+
+        final Conference finalConference = conference;
+        form.getFiles().stream().filter(file -> imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
+            Assets assets = utils.fileSaveHelper(file, form.getHost(), "/img/");
+            assetsRepository.save(assets.setConference(finalConference));
+        });
+
+        LOGGER.debug("Successfully created");
+        return conference;
     }
 }
