@@ -24,41 +24,8 @@
     </@layout.put>
 
     <@layout.put block="header" type="prepend">
-        <@layout.extends name="layouts/index/header.ftl">
+        <@layout.extends name="layouts/header.ftl">
         </@layout.extends>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">${myApp.name}</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
     </@layout.put>
 
     <@layout.put block="contents">
@@ -115,15 +82,18 @@
 
                 <div class="row">
 
-                    <#list conferences as conference>
+                    <#list conferences?reverse as conference>
                         <div class="col-sm-4 col-lg-4 col-md-4">
                             <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
+                                <img src="<#if conference.assetsSet?has_content>${conference.assetsSet?first.realPath}<#else>/lib/grayscale/img/intro-bg.jpg</#if>" style="width: 320px; height: 150px;" alt="">
                                 <div class="caption">
-                                    <h4 class="pull-right">Status<!--TODO !--></h4>
+                                    <h4 class="pull-right"><#if conference.charge == "FREE">Free<#else>${conference.price}</#if></h4>
                                     <h4><a href="conferences/${conference.id}">${conference.name}</a>
                                     </h4>
                                     <p>${conference.slogan}</p>
+                                </div>
+                                <div class="ratings">
+                                    <span class="label label-${conference.status.attribute}">${conference.status.getTitle()}</span>
                                 </div>
                                 <div class="ratings">
                                     <p class="pull-right">15 reviews</p>
@@ -138,13 +108,9 @@
                             </div>
                         </div>
                     </#list>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
     <!-- /.container -->
 

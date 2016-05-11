@@ -35,16 +35,19 @@ public class Utils {
     @Autowired
     private UserRepository userRepository;
 
-    @Value("${file.identicon.realPath}")
-    private String path;
+    @Value("${file.realPath}")
+    private String realPath;
 
-    @Value("${file.identicon.filePath}")
+    @Value("${file.filePath}")
     private String filePath;
+
+    @Value("${file.identicon.realPath}")
+    private String identiconRealPath;
 
     /*
     Make random file name
      */
-    public String fileNameHelper(){
+    public String fileNameHelper() {
         long currentTime = System.currentTimeMillis();
         return Long.toString(currentTime) + "_" + randomString(32);
     }
@@ -52,10 +55,18 @@ public class Utils {
     /*
     File Remove helper
      */
-    public void fileRemoveHelper(String realPath){
-
+    public void fileRemoveHelper(String realPath) {
         File file = new File(filePath + realPath);
         file.delete();
+    }
+
+    /*
+    Directory Checker
+     */
+    public void checkDirectory(String path) {
+        File file = new File(path);
+        if (!file.exists())
+            file.mkdirs();
     }
 
     /*
@@ -98,12 +109,12 @@ public class Utils {
         return new BCryptPasswordEncoder().encode(str + randomString);
     }
 
-    public Assets profileSaveHelper(MultipartFile file, User user){
+    public Assets profileSaveHelper(MultipartFile file, User user) {
         LOGGER.debug("Avatar save helper name={}, validated={}", file.getOriginalFilename(), imageValidator.validate(file.getOriginalFilename()));
 
-        Assets assets = fileSaveHelper(file, user);
+        Assets assets = fileSaveHelper(file, user, identiconRealPath);
 
-        if(assets != null) {
+        if (assets != null) {
             Assets oldAsset = user.getAssets();
             fileRemoveHelper(oldAsset.getRealPath());
             user.setAssets(assets);
@@ -115,28 +126,23 @@ public class Utils {
         return null;
     }
 
-    public Assets fileSaveHelper(MultipartFile file, User user){
-        LOGGER.debug("File save helper name={}, validated={}", file.getOriginalFilename(), imageValidator.validate(file.getOriginalFilename()));
+    public Assets fileSaveHelper(MultipartFile file, User user, String fileType) {
 
-        if (imageValidator.validate(file.getOriginalFilename())) {
-            String realPath = path + fileNameHelper();
+        String path = realPath + fileType + fileNameHelper();
 
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath + realPath)));
-                stream.write(bytes);
-                stream.close();
+        try {
+            byte[] bytes = file.getBytes();
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath + path)));
+            stream.write(bytes);
+            stream.close();
 
-                Assets assets = new Assets.Builder(file.getOriginalFilename(), realPath, new Long(bytes.length), 0)
-                        .user(user).build();
+            Assets assets = new Assets.Builder(file.getOriginalFilename(), path, (long) bytes.length, 0)
+                    .user(user).build();
 
-                assetsRepository.save(assets);
+            assetsRepository.save(assets);
 
-                return assets;
-            } catch (Exception e) {
-                return null;
-            }
-        } else {
+            return assets;
+        } catch (Exception e) {
             return null;
         }
     }

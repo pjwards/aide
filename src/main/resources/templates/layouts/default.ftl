@@ -11,10 +11,18 @@
 
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="/css/basic.css"/>
+
+    <!-- Custom Fonts -->
+    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+
+    <!-- Summernote CSS -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/summernote/dist/summernote.css"/>
 
     <!-- Custom CSS -->
 
@@ -37,7 +45,7 @@
 <#--<meta name="theme-color" content="#ffffff">-->
 </@layout.block>
 </head>
-<body  id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 <@layout.block name="header">
 </@layout.block>
 
@@ -53,6 +61,11 @@
 
 <!-- Bootstrap Core JS -->
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Summernote Core JS -->
+<script src="/bower_components/summernote/dist/summernote.min.js"></script>
+<script src="/bower_components/summernote/lang/summernote-ko-KR.js"></script>
+
 </@layout.block>
 </body>
 </html>

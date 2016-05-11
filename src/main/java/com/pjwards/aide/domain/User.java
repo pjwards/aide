@@ -85,6 +85,24 @@ public class User {
     @JsonIgnore
     private Set<Session> sessionSet;
 
+    @ManyToMany(
+            targetEntity = Conference.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "participants"
+    )
+    @JsonIgnore
+    private Set<Conference> conferenceSet;
+
+    @ManyToMany(
+            targetEntity = Room.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "participants"
+    )
+    @JsonIgnore
+    private Set<Room> roomParticipantSet;
+
     public Long getId() {
         return id;
     }
@@ -93,64 +111,135 @@ public class User {
         return name;
     }
 
+    public User setName(String name) {
+        this.name = name;
+        return this;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public String getDescription() {
-        return description;
+    public User setEmail(String email) {
+        this.email = email;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
     public Date getCreatedDate() {
         return createdDate;
+    }
+
+    public User setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public User setDescription(String description) {
+        this.description = description;
+        return this;
     }
 
     public Date getLastDate() {
         return lastDate;
     }
 
+    public User setLastDate(Date lastDate) {
+        this.lastDate = lastDate;
+        return this;
+    }
+
     public String getCompany() {
         return company;
     }
 
-    public Role getRole() { return role; }
+    public User setCompany(String company) {
+        this.company = company;
+        return this;
+    }
 
-    public Set<ConferenceRole> getConferenceRoleSet(){ return conferenceRoleSet; }
+    public Role getRole() {
+        return role;
+    }
+
+    public User setRole(Role role) {
+        this.role = role;
+        return this;
+    }
+
+    public Set<ConferenceRole> getConferenceRoleSet() {
+        return conferenceRoleSet;
+    }
+
+    public User setConferenceRoleSet(Set<ConferenceRole> conferenceRoleSet) {
+        this.conferenceRoleSet = conferenceRoleSet;
+        return this;
+    }
 
     public Assets getAssets() {
         return assets;
+    }
+
+    public User setAssets(Assets assets) {
+        this.assets = assets;
+        return this;
     }
 
     public Set<Room> getRoomSet() {
         return roomSet;
     }
 
+    public User setRoomSet(Set<Room> roomSet) {
+        this.roomSet = roomSet;
+        return this;
+    }
+
     public Set<Program> getProgramSet() {
         return programSet;
+    }
+
+    public User setProgramSet(Set<Program> programSet) {
+        this.programSet = programSet;
+        return this;
     }
 
     public Set<Session> getSessionSet() {
         return sessionSet;
     }
 
-    public void setAssets(Assets assets) {
-        this.assets = assets;
+    public User setSessionSet(Set<Session> sessionSet) {
+        this.sessionSet = sessionSet;
+        return this;
     }
 
-    public void setConferenceRoleSet(Set<ConferenceRole> conferenceRoleSet) {
-        this.conferenceRoleSet = conferenceRoleSet;
+    public Set<Conference> getConferenceSet() {
+        return conferenceSet;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public User setConferenceSet(Set<Conference> conferenceSet) {
+        this.conferenceSet = conferenceSet;
+        return this;
     }
 
-    public void setLastDate(Date lastDate) {
-        this.lastDate = lastDate;
+    public Set<Room> getRoomParticipantSet() {
+        return roomParticipantSet;
+    }
+
+    public User setRoomParticipantSet(Set<Room> roomParticipantSet) {
+        this.roomParticipantSet = roomParticipantSet;
+        return this;
     }
 
     public User(){

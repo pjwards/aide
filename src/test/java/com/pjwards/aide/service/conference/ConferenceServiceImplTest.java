@@ -2,8 +2,12 @@ package com.pjwards.aide.service.conference;
 
 import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.builder.ConferenceBuilder;
+import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
+import com.pjwards.aide.repository.AssetsRepository;
 import com.pjwards.aide.repository.ConferenceRepository;
+import com.pjwards.aide.repository.ContactRepository;
+import com.pjwards.aide.util.Utils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -27,12 +31,21 @@ public class ConferenceServiceImplTest {
     private static final String UPDATED_DESCRIPTION = "updated description";
 
     private ConferenceRepository conferenceRepositoryMock;
+    private ContactRepository contactRepositoryMock;
+    private AssetsRepository assetsRepositoryMock;
+    private ImageValidator imageValidatorMock;
     private ConferenceService conferenceService;
+    private Utils utilsMock;
 
     @Before
     public void setup() {
         conferenceRepositoryMock = mock(ConferenceRepository.class);
-        conferenceService = new ConferenceServiceImpl(conferenceRepositoryMock);
+        contactRepositoryMock = mock(ContactRepository.class);
+        assetsRepositoryMock = mock(AssetsRepository.class);
+        imageValidatorMock = mock(ImageValidator.class);
+        utilsMock = mock(Utils.class);
+        conferenceService = new ConferenceServiceImpl(conferenceRepositoryMock,
+                contactRepositoryMock, assetsRepositoryMock, imageValidatorMock, utilsMock);
     }
 
     @Test

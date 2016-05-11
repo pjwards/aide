@@ -28,7 +28,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Value("${file.identicon.filePath}")
+    @Value("${file.filePath}")
     private String filePath;
 
     private final UserRepository userRepository;

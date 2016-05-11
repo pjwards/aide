@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import java.io.File;
 import java.util.Locale;
 
 @Configuration
@@ -33,6 +34,11 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
+
+        String extPath = "file:"+ File.separator + "tmp/assets/";
+        registry.addResourceHandler("/assets/**")
+                .addResourceLocations(extPath)
+                .setCachePeriod(0);
     }
 
     @Bean

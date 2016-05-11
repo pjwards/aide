@@ -8,7 +8,6 @@
     <link href="/lib/grayscale/css/grayscale.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
           type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -21,38 +20,9 @@
     <![endif]-->
     </@layout.put>
 
-    <@layout.put block="header" type="replace">
-    <!-- Navigation -->
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand page-scroll" href="${conference.id}">
-                    <i class="fa fa-play-circle"></i> <span class="light">${conference.name}</span>
-                </a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="${conference.id}/schedule">SCHEDULE</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="${conference.id}/register">REGISTER</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+    <@layout.put block="header" type="prepend">
+        <@layout.extends name="conference/layouts/header/details_1.ftl">
+        </@layout.extends>
     </@layout.put>
 
     <@layout.put block="contents">
@@ -65,16 +35,16 @@
                         <h1 class="brand-heading">${conference.name}</h1>
                         <p class="intro-text">${conference.slogan}</p>
 
-                        <#if conference.location??>
+                        <#if conference.location?? && conference.location?length != 0>
                         <p>
                             <#if conference.location??>
                                 ${conference.location}
                             </#if>
 
                             <#if conference.locationUrl??>
-                                &nbsp;
+                                <#--&nbsp;-->
                                 <a href="${conference.locationUrl}" target="_blank">
-                                    <img src="/lib/grayscale/img/map-marker.png" width="18" height="27" alt="location"/>
+                                    <i class="fa fa-street-view" style="font-size: 30px;" aria-hidden="true" alt="location"></i>
                                 </a>
                             </#if>
                         </p>
@@ -131,12 +101,10 @@
     </section>
     </#if>
 
-
     <#if conference.lan!=0.0 || conference.lat!=0.0>
         <!-- Map Section -->
         <div id="map"></div>
     </#if>
-
 
     </@layout.put>
 
@@ -166,6 +134,23 @@
             google.maps.event.addDomListener(window, 'resize', function () {
                 map.setCenter(new google.maps.LatLng( ${conference.lat}, ${conference.lan}));
             });
+        </script>
+    </#if>
+
+    <#if conference.assetsSet?has_content>
+        <script>
+            var images=[<#list conference.assetsSet as assets>'${assets.realPath}' <#sep>,</#list>];
+            var next_image=0;
+
+            $(function() {
+                $('.intro').css("background", "url(" + images[0] + ") no-repeat bottom center scroll");
+            });
+
+            window.setInterval(function() {
+                $('.intro').css("background", "url(" + images[next_image++] + ") no-repeat bottom center scroll");
+                if(next_image>=images.length)
+                    next_image=0;
+            }, 5000);
         </script>
     </#if>
     </@layout.put>

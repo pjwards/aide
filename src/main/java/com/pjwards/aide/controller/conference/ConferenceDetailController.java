@@ -2,16 +2,24 @@ package com.pjwards.aide.controller.conference;
 
 import com.pjwards.aide.controller.HomeController;
 import com.pjwards.aide.domain.Conference;
+import com.pjwards.aide.domain.CurrentUser;
+import com.pjwards.aide.domain.forms.ConferenceForm;
+import com.pjwards.aide.domain.validators.ConferenceFormValidator;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
 import com.pjwards.aide.service.conference.ConferenceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/conferences")
@@ -19,8 +27,56 @@ public class ConferenceDetailController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
-    @Autowired
     private ConferenceService conferenceService;
+    private ConferenceFormValidator conferenceFormValidator;
+
+    @Autowired
+    public ConferenceDetailController(ConferenceService conferenceService, ConferenceFormValidator conferenceFormValidator) {
+        this.conferenceService = conferenceService;
+        this.conferenceFormValidator = conferenceFormValidator;
+    }
+
+    @InitBinder("form")
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(conferenceFormValidator);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String root(Model model) {
+        LOGGER.debug("Getting conference list page");
+
+        List<Conference> conferences = conferenceService.findAll();
+        model.addAttribute("conferences", conferences);
+        return "index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/add")
+    public ModelAndView add() throws ConferenceNotFoundException {
+        LOGGER.debug("Getting details page");
+        return new ModelAndView("conference/add", "form", new ConferenceForm());
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/add")
+    public String handleConferenceForm(@Valid @ModelAttribute("form") ConferenceForm form,
+                                       BindingResult bindingResult,
+                                       @ModelAttribute("currentUser")CurrentUser currentUser) {
+        LOGGER.debug("Processing add conference form={}, bindingResult={}", form, bindingResult);
+
+        form.setHost(currentUser.getUser());
+
+        if (bindingResult.hasErrors()) {
+            // failed validation
+            return "conference/add";
+        }
+        try {
+            conferenceService.create(form);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // ok, redirect
+        return "redirect:/";
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public String getDetails(Model model,
@@ -45,13 +101,25 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/register")
-    public String getRegistration(Model model,
+    public String getRegister(Model model,
                                   @PathVariable("id") Long id) throws ConferenceNotFoundException {
-        LOGGER.debug("Getting schedule page");
+        LOGGER.debug("Getting register page");
 
         Conference conference = conferenceService.findById(id);
         model.addAttribute("conference", conference);
 
         return "conference/register";
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/admin")
+    public String getAdmin(Model model,
+                                  @PathVariable("id") Long id) throws ConferenceNotFoundException {
+        LOGGER.debug("Getting admin page");
+
+        Conference conference = conferenceService.findById(id);
+        model.addAttribute("conference", conference);
+
+        return "conference/admin";
+    }
+
 }

@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
 
     <!-- Custom CSS -->
-    <link href="/lib/sb-admin-2-1.0.8/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/lib/sb-admin/dist/css/sb-admin-2.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -63,7 +63,7 @@
 <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="/lib/sb-admin-2-1.0.8/dist/js/sb-admin-2.js"></script>
+<script src="/lib/sb-admin/dist/js/sb-admin-2.js"></script>
 
 <@layout.block name="script">
 </@layout.block>

@@ -20,8 +20,11 @@ public class IdenticonGeneratorUtil {
     @Autowired
     private Utils utils;
 
-    @Value("${file.identicon.filePath}")
+    @Value("${file.filePath}")
     private String filePath;
+
+    @Value("${file.realPath}")
+    private String realPath;
 
     @Value("${file.identicon.realPath}")
     private String path;
@@ -30,18 +33,19 @@ public class IdenticonGeneratorUtil {
 
         Map<String, String> map = new HashMap<>();
 
-        String realPath = path + utils.fileNameHelper();
+        String identiconRealPath = realPath + path + utils.fileNameHelper();
         String fileName = email + ".png";
 
         HashGeneratorInterface hashGenerator = new MessageDigestHashGenerator("MD5");
 
         BufferedImage identicon = IdenticonGenerator.generate(email, hashGenerator);
 
+        utils.checkDirectory(filePath + realPath + path);
+
         //save identicon to file
-        ImageIO.write(identicon, "PNG", new File(filePath + realPath));
+        ImageIO.write(identicon, "PNG", new File(filePath + identiconRealPath));
 
-
-        map.put("realPath", realPath);
+        map.put("realPath", identiconRealPath);
         map.put("fileName", fileName);
         return map;
     }

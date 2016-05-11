@@ -1,6 +1,8 @@
 package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pjwards.aide.domain.enums.Charge;
+import com.pjwards.aide.domain.enums.Status;
 
 import javax.persistence.*;
 import java.util.*;
@@ -57,6 +59,7 @@ public class Conference {
     private Set<ConferenceRole> conferenceRoleSet;
 
     @OneToOne
+    @JsonIgnore
     private User host;
 
     @OneToMany(
@@ -74,6 +77,24 @@ public class Conference {
     )
     @JsonIgnore
     private Set<Contact> contacts;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.OPEN;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "PARTICIPANT_CONFERENCE",
+            joinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK"),
+            inverseJoinColumns = @JoinColumn(name = "PARTICIPANT_ID_FRK")
+    )
+    private Set<User> participants;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Charge charge = Charge.FREE;
+
+    @Column(nullable = false)
+    private int price = 0;
 
     public Long getId() {
         return id;
@@ -198,6 +219,42 @@ public class Conference {
         return this;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public Conference setStatus(Status status) {
+        this.status = status;
+        return this;
+    }
+
+    public Set<User> getParticipants() {
+        return participants;
+    }
+
+    public Conference setParticipants(Set<User> participants) {
+        this.participants = participants;
+        return this;
+    }
+
+    public Charge getCharge() {
+        return charge;
+    }
+
+    public Conference setCharge(Charge charge) {
+        this.charge = charge;
+        return this;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public Conference setPrice(int price) {
+        this.price = price;
+        return this;
+    }
+
     public Conference() {
     }
 
@@ -210,6 +267,8 @@ public class Conference {
         this.locationUrl = updated.locationUrl;
         this.lat = updated.lat;
         this.lan = updated.lan;
+        this.charge = updated.charge;
+        this.price = updated.price;
     }
 
     public static class Builder {
@@ -250,6 +309,21 @@ public class Conference {
 
         public Builder contacts(Set<Contact> contacts) {
             built.contacts = contacts;
+            return this;
+        }
+
+        public Builder status(Status status) {
+            built.status = status;
+            return this;
+        }
+
+        public Builder charge(Charge charge) {
+            built.charge = charge;
+            return this;
+        }
+
+        public Builder price(int price) {
+            built.price = price;
             return this;
         }
 
