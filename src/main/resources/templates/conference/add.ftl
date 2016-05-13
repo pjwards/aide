@@ -24,6 +24,9 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     </@layout.put>
 
     <@layout.put block="header" type="prepend">
@@ -238,11 +241,11 @@
                                                     </div>
                                                     <div class="panel-body">
                                                         <div class="form-group">
-                                                            <select id="files" disabled multiple class="form-control">
+                                                            <select id="assets" disabled multiple class="form-control">
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="file" name="files" multiple>
+                                                            <input type="file" name="assets" multiple>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -298,24 +301,33 @@
                 minHeight: null,             // set minimum height of editor
                 maxHeight: null,             // set maximum height of editor
                 focus: true,                 // set focus to editable area after initializing summernote
-                onImageUpload: function(files, editor, $editable) {
-                    sendFile(files[0], editor, $editable);
+                callbacks: {
+                    onImageUpload: function(files) {
+                        // upload image to server and create imgNode...
+                        for(var i = 0; i < files.length; i++)
+                            sendFile(files[i]);
+                    }
                 }
             });
 
-            function sendFile(file, editor, welEditable) {
+            function sendFile(file) {
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
                 var data = new FormData();
                 data.append("file", file);
                 $.ajax({
-                    url: "/assets/upload/images",
+                    url: "/upload/images",
                     data: data,
                     cache: false,
                     contentType: false,
                     processData: false,
                     type: 'POST',
+                    beforeSend: function(xhr) {
+                        // here it is
+                        xhr.setRequestHeader(header, token);
+                    },
                     success: function(data) {
-                        alert(data);
-                        editor.insertImage(welEditable, data.assets.realPath);
+                        $('#summernote').summernote('insertImage', data.assets.realPath, data.assets.name);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(textStatus + " " + errorThrown);
@@ -336,10 +348,10 @@
             });
 
             $('input[type="file"]').change(function(){
-                $("#files").empty();
+                $("#assets").empty();
                 for(var i=0; this.files.length; i++) {
                     var file = this.files[i];
-                    $("#files").append('<option>'+file.name+'</option>');
+                    $("#assets").append('<option>'+file.name+'</option>');
                 }
             });
         });

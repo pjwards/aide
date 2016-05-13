@@ -17,11 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ConferenceServiceImpl implements ConferenceService {
@@ -177,10 +174,10 @@ public class ConferenceServiceImpl implements ConferenceService {
                             .build());
         }
 
-        System.out.println(form.getFiles().size());
+        System.out.println(form.getAssets().size());
 
         final Conference finalConference = conference;
-        form.getFiles().stream().filter(file -> imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
+        form.getAssets().stream().filter(file -> imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
             Assets assets = utils.fileSaveHelper(file, form.getHost(), "/img/");
             assetsRepository.save(assets.setConference(finalConference));
         });

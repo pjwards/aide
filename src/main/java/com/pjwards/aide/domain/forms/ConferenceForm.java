@@ -3,11 +3,9 @@ package com.pjwards.aide.domain.forms;
 import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.enums.Charge;
 import com.pjwards.aide.domain.enums.Status;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
 import java.util.List;
 
 public class ConferenceForm {
@@ -47,7 +45,7 @@ public class ConferenceForm {
 
     private String googlePlus = "";
 
-    private List<MultipartFile> files;
+    private List<MultipartFile> assets;
 
     private String disqus = "";
 
@@ -187,12 +185,12 @@ public class ConferenceForm {
         return Charge.values();
     }
 
-    public List<MultipartFile> getFiles() {
-        return files;
+    public List<MultipartFile> getAssets() {
+        return assets;
     }
 
-    public void setFiles(List<MultipartFile> files) {
-        this.files = files;
+    public void setAssets(List<MultipartFile> assets) {
+        this.assets = assets;
     }
 
     public String getDisqus() {
