@@ -1,6 +1,8 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.ProgramType;
 import com.pjwards.aide.exception.WrongInputDateException;
 import org.joda.time.LocalTime;
@@ -38,8 +40,16 @@ public class Program {
     @Column(length = MAX_LENGTH_SLIDE_URL)
     private String slideUrl;
 
+    @Lob()
+    @Column()
+    private String slideEmbed;
+
     @Column(length = MAX_LENGTH_VIDEO_URL)
     private String videoUrl;
+
+    @Lob()
+    @Column()
+    private String videoEmbed;
 
     @ManyToOne
     @JoinColumn(name = "program_date_id")
@@ -49,11 +59,12 @@ public class Program {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "SPEAKER_PROGRAM",
             joinColumns = @JoinColumn(name = "PROGRAM_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "SPEAKER_ID_FRK")
     )
+    @JsonManagedReference
     private Set<User> speakerSet;
 
     @Column(nullable = false)
@@ -65,7 +76,8 @@ public class Program {
             mappedBy = "program",
             fetch = FetchType.EAGER
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Session> sessions;
 
     public Program() {
@@ -112,7 +124,8 @@ public class Program {
     }
 
     public String getSlideUrl() {
-        return slideUrl;
+        if (slideUrl == null || slideUrl.startsWith("http://") || slideUrl.startsWith("https://")) return slideUrl;
+        return "http://" + slideUrl;
     }
 
     public Program setSlideUrl(String slideUrl) {
@@ -121,7 +134,8 @@ public class Program {
     }
 
     public String getVideoUrl() {
-        return videoUrl;
+        if (videoUrl == null || videoUrl.startsWith("http://") || videoUrl.startsWith("https://")) return videoUrl;
+        return "http://" + videoUrl;
     }
 
     public Program setVideoUrl(String videoUrl) {
@@ -182,6 +196,22 @@ public class Program {
     public Program setProgramType(ProgramType programType) {
         this.programType = programType;
         return this;
+    }
+
+    public String getSlideEmbed() {
+        return slideEmbed;
+    }
+
+    public void setSlideEmbed(String slideEmbed) {
+        this.slideEmbed = slideEmbed;
+    }
+
+    public String getVideoEmbed() {
+        return videoEmbed;
+    }
+
+    public void setVideoEmbed(String videoEmbed) {
+        this.videoEmbed = videoEmbed;
     }
 
     public void update(Program updated) {
@@ -254,6 +284,16 @@ public class Program {
 
         public Builder videoUrl(String videoUrl) {
             built.videoUrl = videoUrl;
+            return this;
+        }
+
+        public Builder slideEmbed(String slideEmbed) {
+            built.slideEmbed = slideEmbed;
+            return this;
+        }
+
+        public Builder videoEmbed(String videoEmbed) {
+            built.videoEmbed = videoEmbed;
             return this;
         }
     }

@@ -4,6 +4,7 @@ import com.pjwards.aide.domain.Assets;
 import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Contact;
 import com.pjwards.aide.domain.enums.ContactType;
+import com.pjwards.aide.domain.enums.Status;
 import com.pjwards.aide.domain.forms.ConferenceForm;
 import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
@@ -52,6 +53,17 @@ public class ConferenceServiceImpl implements ConferenceService {
         LOGGER.debug("Finding all conferences.");
 
         List<Conference> conferences = conferenceRepository.findAll();
+        LOGGER.debug("Found {} conferences.", conferences.size());
+
+        return conferences;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Conference> findAllByStatus(Status status) {
+        LOGGER.debug("Finding all conferences by status.");
+
+        List<Conference> conferences = conferenceRepository.findAllByStatus(status);
         LOGGER.debug("Found {} conferences.", conferences.size());
 
         return conferences;
@@ -125,6 +137,7 @@ public class ConferenceServiceImpl implements ConferenceService {
                 .host(form.getHost())
                 .location(form.getLocation())
                 .locationUrl(form.getLocationUrl())
+                .disqus(form.getDisqus())
                 .build();
 
         if (form.getLat() != null && form.getLan() != null) {

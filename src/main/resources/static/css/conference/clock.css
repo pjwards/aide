@@ -1,0 +1,60 @@
+/* 모바일 (가로 320px 미만) 용 스타일 */
+@media only screen and (min-width: 320px) {
+    /* 320px 이상 */
+    .clock{
+        zoom: 0.5;
+        -moz-transform: scale(0.5)
+    }
+}
+@media only screen and (min-width: 420px) {
+    /* 420px 이상 */
+    .clock{
+        zoom: 1.0;
+        -moz-transform: scale(1.0)
+    }
+}
+@media only screen and (min-width: 550px) {
+    /* 550px 이상 */
+    .clock{
+        zoom: 1.2;
+        -moz-transform: scale(1.2)
+    }
+}
+
+@media only screen and (min-width: 780px) {
+    /* 780px 이상 */
+    .clock{
+        zoom: 1.2;
+        -moz-transform: scale(1.2)
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    /* 1024px 이상 */
+    .clock{
+        zoom: 2.0;
+        -moz-transform: scale(2.0)
+    }
+}
+@media only screen and (min-width: 1382px) {
+    /* 1382px 이상 */
+    .clock{
+        zoom: 2.5;
+        -moz-transform: scale(2.5)
+    }
+}
+@media only screen
+and (min-width : 1824px) {
+    /* 1500px 이상 */
+    .clock{
+        zoom: 3.0;
+        -moz-transform: scale(3.0)
+    }
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+    /* iPhone4+ 레티나 디스플레이 */
+    .clock{
+        zoom: 0.5;
+        -moz-transform: scale(0.5)
+    }
+}

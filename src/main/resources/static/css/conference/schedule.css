@@ -265,6 +265,11 @@ ol, ul {
     color: #31c89c
 }
 
+.section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .fa-comments-o {
+    font-size: 20px;
+    color: #31c89c
+}
+
 .section3 .ttlb_bx .time_lst .lecture_lst .lecture_ct .filter_ico_lst {
     overflow: hidden;
     position: absolute;

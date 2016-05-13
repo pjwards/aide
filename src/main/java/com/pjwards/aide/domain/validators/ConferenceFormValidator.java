@@ -56,13 +56,14 @@ public class ConferenceFormValidator implements Validator {
         validateGooglePlusUrl(errors, form);
         validatePrice(errors, form);
         validateFiles(errors, form);
+        validateDisqus(errors, form);
     }
 
     private void validateName(Errors errors, ConferenceForm form) {
         if (form.getName() == null || form.getName().equals("")) {
             errors.reject("name.empty", "Name is empty");
         } else if (form.getName().length() > Conference.MAX_LENGTH_NAME) {
-            errors.reject("name.empty", "Name is too large");
+            errors.reject("name.large", "Name is too large");
         }
     }
 
@@ -70,7 +71,7 @@ public class ConferenceFormValidator implements Validator {
         if (form.getSlogan() == null || form.getSlogan().equals("")) {
             errors.reject("slogan.empty", "Slogan is empty");
         } else if (form.getSlogan().length() > Conference.MAX_LENGTH_SLOGAN) {
-            errors.reject("slogan.empty", "Slogan is too large");
+            errors.reject("slogan.large", "Slogan is too large");
         }
     }
 
@@ -83,7 +84,7 @@ public class ConferenceFormValidator implements Validator {
     private void validateLocation(Errors errors, ConferenceForm form) {
         if (form.getLocation() != null && !form.getLocation().equals("")
                 && form.getLocation().length() > Conference.MAX_LENGTH_LOCATION) {
-            errors.reject("location.empty", "Location is too large");
+            errors.reject("location.large", "Location is too large");
         }
     }
 
@@ -92,7 +93,7 @@ public class ConferenceFormValidator implements Validator {
                 && !urlValidator.isValid(form.getLocationUrl())) {
             errors.reject("locationUrl.no_validate", "Location Url does not validate");
         } else if (form.getLocationUrl().length() > Conference.MAX_LENGTH_LOCATION_URL) {
-            errors.reject("locationUrl.empty", "Location Url is too large");
+            errors.reject("locationUrl.large", "Location Url is too large");
         }
     }
 
@@ -101,7 +102,7 @@ public class ConferenceFormValidator implements Validator {
                 && !emailValidator.validate(form.getEmail())) {
             errors.reject("email.no_validate", "Email does not validate");
         } else if (form.getEmail().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("email.empty", "Email is too large");
+            errors.reject("email.large", "Email is too large");
         }
     }
 
@@ -110,7 +111,7 @@ public class ConferenceFormValidator implements Validator {
                 && (!urlValidator.isValid(form.getFacebook()) || !form.getFacebook().contains("facebook"))) {
             errors.reject("facebook.no_validate", "Facebook does not validate");
         } else if (form.getFacebook().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("facebook.empty", "Facebook is too large");
+            errors.reject("facebook.large", "Facebook is too large");
         }
     }
 
@@ -119,7 +120,7 @@ public class ConferenceFormValidator implements Validator {
                 && (!urlValidator.isValid(form.getTwitter()) || !form.getTwitter().contains("twitter"))) {
             errors.reject("twitter.no_validate", "Twitter does not validate");
         } else if (form.getTwitter().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("twitter.empty", "Twitter is too large");
+            errors.reject("twitter.large", "Twitter is too large");
         }
     }
 
@@ -128,7 +129,7 @@ public class ConferenceFormValidator implements Validator {
                 && (!urlValidator.isValid(form.getGithub()) || !form.getGithub().contains("github"))) {
             errors.reject("github.no_validate", "Github does not validate");
         } else if (form.getGithub().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("github.empty", "Github is too large");
+            errors.reject("github.large", "Github is too large");
         }
     }
 
@@ -137,7 +138,7 @@ public class ConferenceFormValidator implements Validator {
                 && (!urlValidator.isValid(form.getGooglePlus()) || !form.getGooglePlus().contains("google"))) {
             errors.reject("google.no_validate", "Google Plus does not validate");
         } else if (form.getGooglePlus().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("google.empty", "Google Plus is too large");
+            errors.reject("google.large", "Google Plus is too large");
         }
     }
 
@@ -153,5 +154,11 @@ public class ConferenceFormValidator implements Validator {
                 errors.reject("files.no_validate", "Files do not validate: " + file.getOriginalFilename());
             }
         });
+    }
+
+    private void validateDisqus(Errors errors, ConferenceForm form) {
+        if (form.getDisqus().length() > Conference.MAX_LENGTH_DISQUS) {
+            errors.reject("disqus.large", "Disqus is too large");
+        }
     }
 }

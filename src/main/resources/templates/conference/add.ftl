@@ -52,6 +52,7 @@
                     <#if error?contains("Github")><#global errorGithub=true></#if>
                     <#if error?contains("Google")><#global errorGoogle=true></#if>
                     <#if error?contains("price")><#global errorPrice=true></#if>
+                    <#if error?contains("disqus")><#global errorDisqus=true></#if>
                 </#list>
             </div>
         </#if>
@@ -244,6 +245,24 @@
                                                             <input type="file" name="files" multiple>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.panel-body -->
+                                        </div>
+                                        <!-- /.collapse -->
+                                    </div>
+                                    <!-- /.panel -->
+
+                                    <div class="panel panel-warning">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Disqus Information</a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseFive" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div class="form-group <#if errorDisqus??>has-error</#if>">
+                                                    <input class="form-control" name="disqus" placeholder="Disqus Site" value="${form.disqus}">
                                                 </div>
                                             </div>
                                             <!-- /.panel-body -->

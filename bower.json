@@ -22,7 +22,8 @@
     "datatables": ">= 1.10.10",
     "datatables-plugins": ">= 1.0.1",
     "datatables-responsive": ">= 1.0.7",
-    "summernote": ">= 0.8.1"
+    "summernote": ">= 0.8.1",
+    "FlipClock": ">= 0.7.7"
   },
   "version": "0.1.0",
   "homepage": "https://github.com/pjwards/aide",

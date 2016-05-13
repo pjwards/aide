@@ -1,5 +1,6 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pjwards.aide.domain.enums.Role;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,20 +19,22 @@ public class ConferenceRole {
     @Enumerated(EnumType.STRING)
     private Role conferenceRole;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID_FRK")
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<User> userSet;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "CONFERENCE_CONFERENCE_ROLE",
             joinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK")
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Conference> conferenceSet;
 
     public Long getId() {
@@ -90,8 +93,8 @@ public class ConferenceRole {
         }
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+//    @Override
+//    public String toString() {
+//        return ToStringBuilder.reflectionToString(this);
+//    }
 }

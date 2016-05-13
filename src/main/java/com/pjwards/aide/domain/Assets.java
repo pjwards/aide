@@ -1,5 +1,7 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,13 +23,16 @@ public class Assets {
     private Integer downloadCount;
 
     @OneToOne
+    @JsonManagedReference
     User user;
 
     @OneToOne
+    @JsonManagedReference
     Sponsor sponsor;
 
     @ManyToOne
     @JoinColumn(name = "conference_id")
+    @JsonManagedReference
     private Conference conference;
 
     public Long getId() {

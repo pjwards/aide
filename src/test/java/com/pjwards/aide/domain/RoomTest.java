@@ -29,8 +29,8 @@ public class RoomTest {
         assertThat(room.getName(), is(NAME));
         assertThat(room.getLocation(), is(LOCATION));
         assertThat(room.getDescription(), is(DESCRIPTION));
-        assertThat(room.getProgramList(), nullValue());
-        assertThat(room.getSessionList(), nullValue());
+        assertThat(room.getPrograms(), nullValue());
+        assertThat(room.getSessions(), nullValue());
         assertThat(room.getManagerSet(), nullValue());
     }
 }

@@ -1,7 +1,9 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.LocalTime;
 
@@ -33,13 +35,15 @@ public class ProgramDate {
     @OneToMany(
             targetEntity = Program.class,
             mappedBy = "date",
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Program> programs;
 
     @ManyToOne
     @JoinColumn(name = "conference_id")
+    @JsonManagedReference
     private Conference conference;
 
     public ProgramDate() {

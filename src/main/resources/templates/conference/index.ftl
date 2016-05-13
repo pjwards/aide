@@ -21,7 +21,7 @@
     </@layout.put>
 
     <@layout.put block="header" type="prepend">
-        <@layout.extends name="conference/layouts/header/details_1.ftl">
+        <@layout.extends name="layouts/header/details_1.ftl">
         </@layout.extends>
     </@layout.put>
 

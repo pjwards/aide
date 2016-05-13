@@ -1,5 +1,6 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,22 +29,33 @@ public class Session {
     @Column(length = MAX_LENGTH_SLIDE_URL)
     private String slideUrl;
 
+    @Lob()
+    @Column()
+    private String slideEmbed;
+
     @Column(length = MAX_LENGTH_VIDEO_URL)
     private String videoUrl;
 
+    @Lob()
+    @Column()
+    private String videoEmbed;
+
     @ManyToOne
     @JoinColumn(name = "program_id")
+    @JsonManagedReference
     private Program program;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
+    @JsonManagedReference
     private Room room;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "SPEAKER_SESSION",
             joinColumns = @JoinColumn(name = "SESSION_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "SPEAKER_ID_FRK")
     )
+    @JsonManagedReference
     private Set<User> speakerSet;
 
     public Session() {
@@ -72,7 +84,8 @@ public class Session {
     }
 
     public String getSlideUrl() {
-        return slideUrl;
+        if (slideUrl == null || slideUrl.startsWith("http://") || slideUrl.startsWith("https://")) return slideUrl;
+        return "http://" + slideUrl;
     }
 
     public Session setSlideUrl(String slideUrl) {
@@ -81,7 +94,8 @@ public class Session {
     }
 
     public String getVideoUrl() {
-        return videoUrl;
+        if (videoUrl == null || videoUrl.startsWith("http://") || videoUrl.startsWith("https://")) return videoUrl;
+        return "http://" + videoUrl;
     }
 
     public Session setVideoUrl(String videoUrl) {
@@ -114,6 +128,22 @@ public class Session {
     public Session setSpeakerSet(Set<User> speakerSet) {
         this.speakerSet = speakerSet;
         return this;
+    }
+
+    public String getSlideEmbed() {
+        return slideEmbed;
+    }
+
+    public void setSlideEmbed(String slideEmbed) {
+        this.slideEmbed = slideEmbed;
+    }
+
+    public String getVideoEmbed() {
+        return videoEmbed;
+    }
+
+    public void setVideoEmbed(String videoEmbed) {
+        this.videoEmbed = videoEmbed;
     }
 
     public void update(Session updated) {
@@ -156,6 +186,16 @@ public class Session {
 
         public Builder videoUrl(String videoUrl) {
             built.videoUrl = videoUrl;
+            return this;
+        }
+
+        public Builder slideEmbed(String slideEmbed) {
+            built.slideEmbed = slideEmbed;
+            return this;
+        }
+
+        public Builder videoEmbed(String videoEmbed) {
+            built.videoEmbed = videoEmbed;
             return this;
         }
     }

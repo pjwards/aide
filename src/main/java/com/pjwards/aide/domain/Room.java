@@ -1,10 +1,12 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.joda.time.LocalTime;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Room {
@@ -29,32 +31,41 @@ public class Room {
     @OneToMany(
             targetEntity = Program.class,
             mappedBy = "room",
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
-    @JsonIgnore
-    private List<Program> programList;
+//    @JsonIgnore
+    @JsonBackReference
+    private Set<Program> programs;
 
     @OneToMany(
             targetEntity = Session.class,
             mappedBy = "room",
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
-    @JsonIgnore
-    private List<Session> sessionList;
+//    @JsonIgnore
+    @JsonBackReference
+    private Set<Session> sessions;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "MANAGER",
             joinColumns = @JoinColumn(name = "ROOM_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "MANAGER_ID_FRK")
     )
+    @JsonManagedReference
     private Set<User> managerSet;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "PARTICIPANT_ROOM",
             joinColumns = @JoinColumn(name = "ROOM_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "PARTICIPANT_ID_FRK")
     )
+    @JsonManagedReference
     private Set<User> participants;
+
+    @ManyToOne
+    @JoinColumn(name = "conference_id")
+    @JsonManagedReference
+    private Conference conference;
 
     public Room() {
     }
@@ -90,21 +101,80 @@ public class Room {
         return this;
     }
 
-    public List<Program> getProgramList() {
-        return programList;
+    public List<Program> getPrograms() {
+        if (programs == null) return null;
+        List<Program> list = new ArrayList<>(programs);
+        Collections.sort(list, new ProgramCompare());
+        return list;
     }
 
-    public Room setProgramList(List<Program> programList) {
-        this.programList = programList;
+    public List<Program> getPrograms(long conferenceId) {
+        if (programs == null) return null;
+        List<Program> list = new ArrayList<>();
+
+        for (Program program : programs) {
+            if (program.getDate().getConference().getId().equals(conferenceId)) {
+                list.add(program);
+            }
+        }
+
+        Collections.sort(list, new ProgramCompare());
+        return list;
+    }
+
+    class ProgramCompare implements Comparator<Program> {
+        @Override
+        public int compare(Program arg0, Program arg1) {
+            if (arg0.getDate().getDay().equals(arg1.getDate().getDay())) {
+                LocalTime begin0 = new LocalTime(arg0.getBegin());
+                LocalTime begin1 = new LocalTime(arg1.getBegin());
+                return begin0.compareTo(begin1);
+            }
+            return arg0.getDate().getDay().compareTo(arg1.getDate().getDay());
+        }
+    }
+
+    public Room setPrograms(Set<Program> programs) {
+        this.programs = programs;
         return this;
+
     }
 
-    public List<Session> getSessionList() {
-        return sessionList;
+    public List<Session> getSessions() {
+        if (sessions == null) return null;
+        List<Session> list = new ArrayList<>(sessions);
+        Collections.sort(list, new SessionCompare());
+        return list;
     }
 
-    public Room setSessionList(List<Session> sessionList) {
-        this.sessionList = sessionList;
+    public List<Session> getSessions(long conferenceId) {
+        if (sessions == null) return null;
+        List<Session> list = new ArrayList<>();
+
+        for (Session session : sessions) {
+            if (session.getProgram().getDate().getConference().getId().equals(conferenceId)) {
+                list.add(session);
+            }
+        }
+
+        Collections.sort(list, new SessionCompare());
+        return list;
+    }
+
+    class SessionCompare implements Comparator<Session> {
+        @Override
+        public int compare(Session arg0, Session arg1) {
+            if (arg0.getProgram().getDate().getDay().equals(arg1.getProgram().getDate().getDay())) {
+                LocalTime begin0 = new LocalTime(arg0.getProgram().getBegin());
+                LocalTime begin1 = new LocalTime(arg1.getProgram().getBegin());
+                return begin0.compareTo(begin1);
+            }
+            return arg0.getProgram().getDate().getDay().compareTo(arg1.getProgram().getDate().getDay());
+        }
+    }
+
+    public Room setSessions(Set<Session> sessions) {
+        this.sessions = sessions;
         return this;
     }
 
@@ -126,6 +196,14 @@ public class Room {
         return this;
     }
 
+    public Conference getConference() {
+        return conference;
+    }
+
+    public void setConference(Conference conference) {
+        this.conference = conference;
+    }
+
     public void update(Room updated) {
         this.name = updated.name;
         this.location = updated.location;
@@ -140,6 +218,11 @@ public class Room {
             built.name = name;
             built.location = location;
             built.description = description;
+        }
+
+        public Builder conference(Conference conference) {
+            built.conference = conference;
+            return this;
         }
 
         public Room build() {

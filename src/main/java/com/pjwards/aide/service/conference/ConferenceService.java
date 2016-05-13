@@ -1,6 +1,7 @@
 package com.pjwards.aide.service.conference;
 
 import com.pjwards.aide.domain.Conference;
+import com.pjwards.aide.domain.enums.Status;
 import com.pjwards.aide.domain.forms.ConferenceForm;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
 
@@ -14,6 +15,13 @@ public interface ConferenceService {
      * @return The list of conferences
      */
     public List<Conference> findAll();
+
+    /**
+     * Returns a list of conferences by status.
+     *
+     * @return The list of conferences
+     */
+    public List<Conference> findAllByStatus(Status status);
 
     /**
      * Adds a new conference.
