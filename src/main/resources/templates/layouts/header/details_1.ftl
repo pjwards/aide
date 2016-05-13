@@ -1,3 +1,5 @@
+<#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
+
 <!-- Navigation -->
 <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
     <div class="container">

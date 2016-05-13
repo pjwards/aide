@@ -1,5 +1,6 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.ContactType;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Contact {
 
     @ManyToOne
     @JoinColumn(name = "conference_id")
+    @JsonManagedReference
     private Conference conference;
 
     public Long getId() {
@@ -37,8 +39,8 @@ public class Contact {
     }
 
     public String getUrl() {
-        if(type == ContactType.EMAIL) return url;
-        if(url.startsWith("http://") || url.startsWith("https://")) return url;
+        if (type == ContactType.EMAIL) return url;
+        if (url == null || url.startsWith("http://") || url.startsWith("https://")) return url;
         return "http://" + url;
     }
 

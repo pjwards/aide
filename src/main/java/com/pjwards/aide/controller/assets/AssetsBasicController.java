@@ -35,20 +35,20 @@ public class AssetsBasicController {
     private AssetsService assetsService;
 
     @RequestMapping(value = "/upload/images", method = RequestMethod.POST)
-    public Map<String, Object> upload(@ModelAttribute("currentUser")CurrentUser currentUser,
-                                                  @RequestParam(value = "file") MultipartFile file) {
+    public Map<String, Object> upload(@ModelAttribute("currentUser") CurrentUser currentUser,
+                                      @RequestParam(value = "file") MultipartFile file) {
         LOGGER.debug("Upload images.");
         User user = currentUser.getUser();
 
         Map<String, Object> response = new LinkedHashMap<>();
 
         LOGGER.debug("File name={}, validated={}", file.getOriginalFilename(), imageValidator.validate(file.getOriginalFilename()));
-        if(!imageValidator.validate(file.getOriginalFilename())){
+        if (!imageValidator.validate(file.getOriginalFilename())) {
             response.put("message", "The image upload was failed");
         } else {
             Assets assets = utils.fileSaveHelper(file, user, "/img/");
 
-            if(assets != null){
+            if (assets != null) {
                 response.put("message", "The image uploaded successfully");
                 response.put("assets", assetsService.add(assets));
             }

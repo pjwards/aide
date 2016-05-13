@@ -1,3 +1,5 @@
+<#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
+
 <!-- Navigation -->
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -17,13 +19,13 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="page-scroll" href="admin">ADMIN</a>
+                    <a class="page-scroll" href="/conferences/${conference.id}/admin">ADMIN</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="schedule">SCHEDULE</a>
+                    <a class="page-scroll" href="/conferences/${conference.id}/schedule">SCHEDULE</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="register">REGISTER</a>
+                    <a class="page-scroll" href="/conferences/${conference.id}/register">REGISTER</a>
                 </li>
             </ul>
         </div>

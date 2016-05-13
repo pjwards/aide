@@ -49,6 +49,8 @@ public class ConferenceForm {
 
     private List<MultipartFile> files;
 
+    private String disqus = "";
+
     public String getName() {
         return name;
     }
@@ -191,5 +193,13 @@ public class ConferenceForm {
 
     public void setFiles(List<MultipartFile> files) {
         this.files = files;
+    }
+
+    public String getDisqus() {
+        return disqus;
+    }
+
+    public void setDisqus(String disqus) {
+        this.disqus = disqus;
     }
 }

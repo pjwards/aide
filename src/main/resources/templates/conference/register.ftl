@@ -26,7 +26,7 @@
     </@layout.put>
 
     <@layout.put block="header" type="replace">
-        <@layout.extends name="conference/layouts/header/details_2.ftl">
+        <@layout.extends name="layouts/header/details_2.ftl">
         </@layout.extends>
     </@layout.put>
 

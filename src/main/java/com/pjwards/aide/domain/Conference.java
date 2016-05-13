@@ -1,6 +1,7 @@
 package com.pjwards.aide.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.Charge;
 import com.pjwards.aide.domain.enums.Status;
 
@@ -14,6 +15,7 @@ public class Conference {
     public static final int MAX_LENGTH_SLOGAN = 100;
     public static final int MAX_LENGTH_LOCATION = 100;
     public static final int MAX_LENGTH_LOCATION_URL = 255;
+    public static final int MAX_LENGTH_DISQUS = 255;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,48 +47,54 @@ public class Conference {
             targetEntity = ProgramDate.class,
             mappedBy = "conference",
             cascade = CascadeType.REMOVE,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<ProgramDate> programDates;
 
     @ManyToMany(
             targetEntity = ConferenceRole.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
             mappedBy = "conferenceSet"
     )
+    @JsonManagedReference
     private Set<ConferenceRole> conferenceRoleSet;
 
-    @OneToOne
-    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "host_id")
+    @JsonManagedReference
     private User host;
 
     @OneToMany(
             targetEntity = Assets.class,
             mappedBy = "conference",
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Assets> assetsSet;
 
     @OneToMany(
             targetEntity = Contact.class,
             mappedBy = "conference",
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Contact> contacts;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status = Status.OPEN;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "PARTICIPANT_CONFERENCE",
             joinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "PARTICIPANT_ID_FRK")
     )
+    @JsonManagedReference
     private Set<User> participants;
 
     @Column(nullable = false)
@@ -95,6 +103,20 @@ public class Conference {
 
     @Column(nullable = false)
     private int price = 0;
+
+    @Lob()
+    @Column(length = MAX_LENGTH_DISQUS)
+    private String disqus;
+
+    @OneToMany(
+            targetEntity = Room.class,
+            mappedBy = "conference",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.EAGER
+    )
+//    @JsonIgnore
+    @JsonBackReference
+    private Set<Room> rooms;
 
     public Long getId() {
         return id;
@@ -137,7 +159,9 @@ public class Conference {
     }
 
     public String getLocationUrl() {
-        return locationUrl;
+        if (locationUrl == null || locationUrl.startsWith("http://") || locationUrl.startsWith("https://"))
+            return locationUrl;
+        return "http://" + locationUrl;
     }
 
     public Conference setLocationUrl(String locationUrl) {
@@ -181,7 +205,6 @@ public class Conference {
         this.programDates = programDates;
         return this;
     }
-
 
     public Set<ConferenceRole> getConferenceRoleSet() {
         return conferenceRoleSet;
@@ -255,6 +278,32 @@ public class Conference {
         return this;
     }
 
+    public String getDisqus() {
+        return disqus;
+    }
+
+    public void setDisqus(String disqus) {
+        this.disqus = disqus;
+    }
+
+    public List<Room> getRooms() {
+        if (rooms == null) return null;
+        List<Room> list = new ArrayList<>(rooms);
+        Collections.sort(list, new RoomCompare());
+        return list;
+    }
+
+    class RoomCompare implements Comparator<Room> {
+        @Override
+        public int compare(Room arg0, Room arg1) {
+            return arg0.getName().compareTo(arg1.getName());
+        }
+    }
+
+    public void setRooms(Set<Room> rooms) {
+        this.rooms = rooms;
+    }
+
     public Conference() {
     }
 
@@ -324,6 +373,11 @@ public class Conference {
 
         public Builder price(int price) {
             built.price = price;
+            return this;
+        }
+
+        public Builder disqus(String disqus) {
+            built.disqus = disqus;
             return this;
         }
 

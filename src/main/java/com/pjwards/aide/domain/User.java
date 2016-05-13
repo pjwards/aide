@@ -1,7 +1,9 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.Role;
 
 import javax.persistence.*;
@@ -49,59 +51,76 @@ public class User {
 
     @ManyToMany(
             targetEntity = ConferenceRole.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
             mappedBy = "userSet"
     )
+    @JsonManagedReference
     private Set<ConferenceRole> conferenceRoleSet;
 
     @OneToOne
+    @JsonBackReference
     private Assets assets;
 
     @ManyToMany(
             targetEntity = Room.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
             mappedBy = "managerSet"
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Room> roomSet;
 
     @ManyToMany(
             targetEntity = Program.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
             mappedBy = "speakerSet"
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Program> programSet;
 
     @ManyToMany(
             targetEntity = Session.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
             mappedBy = "speakerSet"
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Session> sessionSet;
 
     @ManyToMany(
             targetEntity = Conference.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
             mappedBy = "participants"
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Conference> conferenceSet;
 
     @ManyToMany(
             targetEntity = Room.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
             mappedBy = "participants"
     )
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference
     private Set<Room> roomParticipantSet;
+
+    @OneToMany(
+            targetEntity = Conference.class,
+            mappedBy = "host",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.EAGER
+    )
+//    @JsonIgnore
+    @JsonBackReference
+    private Set<Conference> conferenceHostSet;
 
     public Long getId() {
         return id;
@@ -240,6 +259,14 @@ public class User {
     public User setRoomParticipantSet(Set<Room> roomParticipantSet) {
         this.roomParticipantSet = roomParticipantSet;
         return this;
+    }
+
+    public Set<Conference> getConferenceHostSet() {
+        return conferenceHostSet;
+    }
+
+    public void setConferenceHostSet(Set<Conference> conferenceHostSet) {
+        this.conferenceHostSet = conferenceHostSet;
     }
 
     public User(){

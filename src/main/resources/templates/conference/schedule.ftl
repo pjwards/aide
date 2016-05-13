@@ -28,7 +28,7 @@
     </@layout.put>
 
     <@layout.put block="header" type="replace">
-        <@layout.extends name="conference/layouts/header/details_2.ftl">
+        <@layout.extends name="layouts/header/details_2.ftl">
         </@layout.extends>
     </@layout.put>
 
@@ -96,13 +96,15 @@
                                                         <a href="mailto:${speaker.email}" class="social" target="_blank"><i class="xi-envelope"><span class="blind">이메일</span></i></a>
                                                     </dd>
                                                     <dd class="etc_info">${speaker.description}</dd>
-                                                <#-- TODO -->
                                                 </dl>
                                                 </div>
                                                 </#list>
 
                                                 <#if session.videoUrl?? || session.slideUrl??>
                                                     <div class="data">
+                                                        <a href="/sessions/${session.id}" target="_blank">
+                                                            <i class="fa fa-comments-o" aria-hidden="true"><span class="blind">상세페이지</span></i>
+                                                        </a>
                                                         <#if session.videoUrl??>
                                                             <a href="${session.videoUrl}" target="_blank">
                                                                 <i class="xi-slideshare"><span class="blind">프리젠테이션</span></i>
@@ -134,7 +136,7 @@
                                                     <span class="msk">
                                                         <img src="/data/img/conference/spk_msk.png" width="50" height="50" alt="">
                                                     </span>
-                                                    <img src="" width="50" height="50" alt=""
+                                                    <img src="<#if speaker.assets??>${speaker.assets.realPath}</#if>" width="50" height="50" alt="speaker picture"
                                                          onerror="if (this.src != '/data/img/conference/no_picture.jpg') this.src = '/data/img/conference/no_picture.jpg'">
                                                 </span>
 
@@ -146,7 +148,7 @@
                                                 <dd class="sns_links">
                                                     <a href="mailto:${speaker.email}" class="social" target="_blank"><i class="xi-envelope"><span class="blind">이메일</span></i></a>
                                                 </dd>
-                                            <#--<dd class="etc_info">${speaker.profile}</dd>-->
+                                            <dd class="etc_info">${speaker.description}</dd>
                                             <#-- TODO -->
                                             </dl>
                                             </div>
@@ -154,6 +156,9 @@
 
                                             <#if program.videoUrl?? || program.slideUrl??>
                                                 <div class="data">
+                                                    <a href="/programs/${program.id}" target="_blank">
+                                                        <i class="fa fa-comments-o" aria-hidden="true"><span class="blind">상세페이지</span></i>
+                                                    </a>
                                                     <#if program.videoUrl??>
                                                     <a href="${program.videoUrl}" target="_blank">
                                                         <i class="xi-slideshare"><span class="blind">프리젠테이션</span></i>

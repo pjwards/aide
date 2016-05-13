@@ -1,6 +1,7 @@
 package com.pjwards.aide.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class Sponsor {
     private String description;
 
     @OneToOne
+    @JsonBackReference
     private Assets assets;
 
     public Long getId() {
