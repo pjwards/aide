@@ -22,6 +22,7 @@
     "datatables": ">= 1.10.10",
     "datatables-plugins": ">= 1.0.1",
     "datatables-responsive": ">= 1.0.7",
+    "jquery-backstretch": ">= 2.0.4",
     "summernote": ">= 0.8.1",
     "jquery-ui": ">= 1.11.4",
     "FlipClock": ">= 0.7.7"
@@ -50,5 +51,8 @@
     "src/main/resources/static/bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "resolutions": {
+    "jquery": ">= 2.2.0"
+  }
 }
