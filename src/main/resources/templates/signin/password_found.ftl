@@ -11,16 +11,6 @@
         <h3>Password reset</h3>
 
         <p>Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one.</p>
-
-        <#if error??>
-            <p style="color: #de615e;">Your input has some errors. Please try again.</p>
-            <p style="color: #de615e;">${error}</p>
-        </#if>
-
-        <#if message??>
-            <p style="color: #de615e;">Your input has some errors. Please try again.</p>
-            <p style="color: #de615e;">${message}</p>
-        </#if>
     </@layout.put>
 
     <@layout.put block="content-head-right" type="replace">
@@ -28,6 +18,21 @@
     </@layout.put>
 
     <@layout.put block="contents" type="replace">
+        <section>
+            <#if error??>
+                <div class="alert alert-dismissable alert-danger text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${error}</p>
+                </div>
+            </#if>
+
+            <#if message??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${message}</p>
+                </div>
+            </#if>
+        </section>
         <form role="form" method="post" action="" class="login-form">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 

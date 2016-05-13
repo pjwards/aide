@@ -4,20 +4,16 @@ package com.pjwards.aide.controller.user;
 import com.pjwards.aide.domain.Assets;
 import com.pjwards.aide.domain.CurrentUser;
 import com.pjwards.aide.domain.User;
+import com.pjwards.aide.domain.enums.Role;
 import com.pjwards.aide.domain.forms.UserUpdatePasswordForm;
 import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.domain.validators.UserUpdatePasswordFormValidator;
 import com.pjwards.aide.repository.UserRepository;
 import com.pjwards.aide.service.user.UserService;
-import com.pjwards.aide.util.Paging;
 import com.pjwards.aide.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/settings")
@@ -101,9 +99,7 @@ public class UserSettingController {
             return modelAndView;
         }
 
-
         userRepository.delete(currentUser.getId());
-
         SecurityContextHolder.clearContext();
 
         return new ModelAndView("redirect:/");
@@ -130,7 +126,7 @@ public class UserSettingController {
         /*
         Set name
          */
-        if(name != null && !name.equals("")){
+        if(name != null && !name.equals("") ){
             user.update(name, user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(),
                     user.getCompany(), user.getRole(), user.getDescription());
             userRepository.save(user);
@@ -174,24 +170,24 @@ public class UserSettingController {
         return modelAndView;
     }
 
-    @RequestMapping("/users")
-    public String getUsersPage(Model model,
-                               @RequestParam(value = "p", required = false) Integer requestPage) {
+    @RequestMapping(value = "/users")
+    public String getUsersPage(Model model) { //@RequestParam(value = "p", required = false) Integer requestPage
         LOGGER.debug("Getting users page");
 
-        if(requestPage == null) requestPage = 1;
+//        if(requestPage == null) requestPage = 1;
 
         int totalCount = (int)userRepository.count();
+//
+//        Sort sort = new Sort(Sort.Direction.DESC, "id");
+//        Pageable pageable = new PageRequest(0, 10, sort);
+//        Page<User> users = userRepository.findAll(pageable);
+//        List<User> userList = users.getContent();
 
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(0, 10, sort);
-        Page<User> users = userRepository.findAll(pageable);
-        List<User> userList = users.getContent();
-
+        List<User> userList = userRepository.findAll();
         model.addAttribute("userList", userList);
 
-        Paging paging = new Paging().paging(requestPage, 10, totalCount);
-        model.addAttribute("paging", paging);
+//        Paging paging = new Paging().paging(requestPage, 10, totalCount);
+//        model.addAttribute("paging", paging);
 
         if(totalCount == 0) {
             model.addAttribute("hasUser", false);
@@ -200,5 +196,32 @@ public class UserSettingController {
         }
 
         return "user/userlist";
+    }
+
+    @RequestMapping(value = "/edit_role", method = RequestMethod.POST)
+    public @ResponseBody Map<String, Object> ajaxEditRole(@RequestBody Map<String, String> json) {
+        LOGGER.debug("Ajax edit role user_email={}, role={}", json);
+
+        Map<String, Object> response = new LinkedHashMap<>();
+
+        User user = userRepository.findOneByEmail(json.get("j_username")).get();
+
+        if(user == null){
+            response.put("message", "400");
+            return response;
+        }
+
+        String role = json.get("j_role");
+
+        Role roles = Role.USER;
+        if(role.equals("Admin")){
+            roles = Role.ADMIN;
+        }
+
+        user.update(user.getName(), user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(), user.getCompany(), roles, user.getDescription());
+        userRepository.save(user);
+
+        response.put("message", "200");
+        return response;
     }
 }

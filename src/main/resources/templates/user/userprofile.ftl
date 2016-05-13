@@ -18,10 +18,10 @@
     <@layout.put block="contents" type="replace">
         <div class="row">
             <div class="col-lg-12">
+                <span>
+                    <img id="avatar" src="<#if user.assets??>${user.assets.realPath}<#else>/basic/img/user.png</#if>" alt="picture" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                </span>
                 <form role="form">
-                    <div class="form-group">
-                        <img class="circle" src="<#if user.assets??>${user.assets.realPath}<#else>/basic/img/user.png</#if>" alt="icon">
-                    </div>
                     <div class="form-group">
                         <label>Name</label>
                         <p class="form-control-static">${user.name}</p>
@@ -31,12 +31,12 @@
                         <p class="form-control-static">${user.email}</p>
                     </div>
                     <div class="form-group">
-                        <label>Company</label>
-                        <p class="form-control-static">${user.company}</p>
-                    </div>
-                    <div class="form-group">
                         <label>Sign up Date</label>
                         <p class="form-control-static">${user.createdDate?string("yyyy-MM-dd HH:mm")}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Company</label>
+                        <p class="form-control-static">${user.company}</p>
                     </div>
                     <div class="form-group">
                         <label>Description</label>

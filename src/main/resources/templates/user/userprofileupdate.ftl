@@ -9,6 +9,9 @@
 <@layout.extends name="user/userbase.ftl">
     <@layout.put block="head" type="prepend">
     <title>Aide :: Profile Edit</title>
+
+    <!-- Summernote CSS -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/summernote/dist/summernote.css"/>
     </@layout.put>
 
     <@layout.put block="header" type="replace">
@@ -65,21 +68,20 @@
                 </div>
                 <div class="form-group">
                     <label>Company</label>
-                    <input class="form-control" type="text" name="company" id="company" placeholder="Company" value="${currentUser.company}">
+                    <input class="form-control" type="text" name="company" id="company" placeholder="" value="${currentUser.company}">
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea class="form-control" rows="3" name="description" id="description">${currentUser.description}</textarea>
+                    <textarea class="form-control" id="summernote" name="description" placeholder=""><#if currentUser.description?? && currentUser.description != "">${currentUser.description}<#else></#if></textarea>
                 </div>
                 <div class="form-group">
                     <label>Thumbnail</label>
+                    <img id="avatar" src="<#if currentUser.assets??>${currentUser.assets.realPath}<#else>/basic/img/user.png</#if>" alt="picture" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                     <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
                     <input type="file" name="file" id="inputFile" multiple="">
                 </div>
-
                 <button type="submit" class="btn btn-info">Update Profile</button>
             </form>
-            <img id="avatar" src="<#if currentUser.assets??>/static/${currentUser.assets.realPath}<#else>/img/user.png</#if>" alt="picture" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         </div>
         <!-- /.col-lg-12-->
     </div>
@@ -91,6 +93,39 @@
 
     <@layout.put block="script" type="replace">
     <script type="text/javascript">
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                height: 300,                 // set editor height
+                minHeight: null,             // set minimum height of editor
+                maxHeight: null,             // set maximum height of editor
+                focus: true,                 // set focus to editable area after initializing summernote
+                onImageUpload: function(files, editor, $editable) {
+                    sendFile(files[0], editor, $editable);
+                }
+            });
+
+            function sendFile(file, editor, welEditable) {
+                var data = new FormData();
+                data.append("file", file);
+                $.ajax({
+                    url: "/assets/upload/images",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data) {
+                        alert(data);
+                        editor.insertImage(welEditable, data.assets.realPath);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus + " " + errorThrown);
+                    }
+
+                })
+            }
+        });
+
         $("input[name='file']").on("change", function(){
             // Get a reference to the fileList
             var files = !!this.files ? this.files : [];
@@ -109,6 +144,10 @@
             }
         });
     </script>
+
+    <!-- Summernote Core JS -->
+    <script src="/bower_components/summernote/dist/summernote.min.js"></script>
+    <script src="/bower_components/summernote/lang/summernote-ko-KR.js"></script>
     </@layout.put>
 
 </@layout.extends>

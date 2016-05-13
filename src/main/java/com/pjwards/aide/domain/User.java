@@ -58,7 +58,9 @@ public class User {
     @JsonManagedReference
     private Set<ConferenceRole> conferenceRoleSet;
 
-    @OneToOne
+    @OneToOne(
+            cascade = CascadeType.REMOVE
+    )
     @JsonBackReference
     private Assets assets;
 

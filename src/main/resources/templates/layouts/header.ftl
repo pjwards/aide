@@ -32,17 +32,15 @@
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li><p class="text-muted text-center">Signed in as ${currentUser.name}</p></li>
-                            <li class="divider"></li>
-                            <li><a href="/user/${currentUser.id?c}">Profile</a></li>
                             <#if currentUser.role == "ADMIN">
                                 <li class="divider"></li>
                                 <li class="dropdown-header">Administrator</li>
-                                <li><a href="/users">User List</a></li>
+                                <li><a href="/settings/users">User List</a></li>
                             </#if>
 
                             <li class="divider"></li>
                             <li class="dropdown-header">Account</li>
-                            <li><a href="/settings/admin">Settings</a></li>
+                            <li><a href="/user/${currentUser.id?c}">Profile</a></li>
                             <li>
                                 <a href="javascript:void(0)" onclick="document.getElementById('logout').submit();">Sign Out</a>
 

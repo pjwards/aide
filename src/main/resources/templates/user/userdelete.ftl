@@ -34,7 +34,7 @@
                     <label>Password</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                 </div>
-                <button type="submit" class="btn btn-info">Submit Button</button>
+                <button type="submit" class="btn btn-danger">Delete Account</button>
             </form>
         </div>
         <!-- /.col-lg-12 -->
