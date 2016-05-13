@@ -26,6 +26,9 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/home", "/index", "/user/sign_up/").permitAll()
                 .antMatchers("/forgot_password/**").permitAll()
                 .antMatchers("/conferences/add").hasAuthority("USER")
+                .antMatchers("/conferences/add").hasAuthority("ADMIN")
+                .antMatchers("/upload/**").hasAuthority("USER")
+                .antMatchers("/upload/**").hasAuthority("ADMIN")
                 .antMatchers("/conferences/**", "/programs/**", "/sessions/**", "/api/**").permitAll()
                 .antMatchers("/settings/users").hasAuthority("ADMIN")
                 .antMatchers("/public/**", "/resources/**", "/resources/public/**", "/assets/**").permitAll()
@@ -53,5 +56,4 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
-
 }

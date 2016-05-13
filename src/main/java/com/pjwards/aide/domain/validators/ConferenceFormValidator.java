@@ -3,7 +3,6 @@ package com.pjwards.aide.domain.validators;
 import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Contact;
 import com.pjwards.aide.domain.forms.ConferenceForm;
-import com.pjwards.aide.service.conference.ConferenceService;
 import org.apache.commons.validator.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class ConferenceFormValidator implements Validator {
@@ -55,7 +53,7 @@ public class ConferenceFormValidator implements Validator {
         validateGithubUrl(errors, form);
         validateGooglePlusUrl(errors, form);
         validatePrice(errors, form);
-        validateFiles(errors, form);
+        validateAssets(errors, form);
         validateDisqus(errors, form);
     }
 
@@ -148,8 +146,8 @@ public class ConferenceFormValidator implements Validator {
         }
     }
 
-    private void validateFiles(Errors errors, ConferenceForm form) {
-        form.getFiles().stream().filter(file -> !imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
+    private void validateAssets(Errors errors, ConferenceForm form) {
+        form.getAssets().stream().filter(file -> !imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
             if(!file.getOriginalFilename().equals("")) {
                 errors.reject("files.no_validate", "Files do not validate: " + file.getOriginalFilename());
             }

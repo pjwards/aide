@@ -2,11 +2,11 @@ package com.pjwards.aide.service.user;
 
 
 //import com.mysema.query.BooleanBuilder;
+
 import com.pjwards.aide.domain.ForgotPassword;
 import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.enums.ValidEntity;
 import com.pjwards.aide.domain.forms.ForgotPasswordForm;
-//import com.pjwards.aide.querydsl.QForgotPassword;
 import com.pjwards.aide.repository.ForgotPasswordRepository;
 import com.pjwards.aide.repository.UserRepository;
 import com.pjwards.aide.util.Utils;
@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+
+//import com.pjwards.aide.querydsl.QForgotPassword;
 
 @Service
 public class ForgotPasswordServiceImpl implements ForgotPasswordService{

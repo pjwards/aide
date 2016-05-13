@@ -10,17 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/assets")
 public class AssetsBasicController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AssetsBasicController.class);
@@ -34,8 +30,8 @@ public class AssetsBasicController {
     @Autowired
     private AssetsService assetsService;
 
-    @RequestMapping(value = "/upload/images", method = RequestMethod.POST)
-    public Map<String, Object> upload(@ModelAttribute("currentUser") CurrentUser currentUser,
+    @RequestMapping(method = RequestMethod.POST, value = "/upload/images")
+    public @ResponseBody Map<String, Object> upload(@ModelAttribute("currentUser") CurrentUser currentUser,
                                       @RequestParam(value = "file") MultipartFile file) {
         LOGGER.debug("Upload images.");
         User user = currentUser.getUser();

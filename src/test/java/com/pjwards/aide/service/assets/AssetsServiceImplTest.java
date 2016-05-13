@@ -5,8 +5,6 @@ import com.pjwards.aide.domain.Assets;
 import com.pjwards.aide.domain.builder.AssetsBuilder;
 import com.pjwards.aide.exception.AssetsNotFoundException;
 import com.pjwards.aide.repository.AssetsRepository;
-import com.pjwards.aide.service.assets.AssetsService;
-import com.pjwards.aide.service.assets.AssetsServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -18,7 +16,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class AssetsServiceImplTest {
     private static final Long ID = 1L;
