@@ -64,7 +64,7 @@ dependencies {
     compile "org.springframework.security:spring-security-config:${springSecurityVersion}"
 
     // Mail
-    compile 'javax.mail:javax.mail-api:1.5.5'
+    compile 'com.sun.mail:javax.mail:1.5.5'
     compile 'org.subethamail:subethasmtp-wiser:1.2'
 
     // Apache Commons

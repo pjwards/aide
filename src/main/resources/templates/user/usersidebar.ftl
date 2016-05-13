@@ -1,10 +1,16 @@
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
+<#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <@layout.block name="nav-header">
+        <@layout.extends name="user/userheader.ftl">
+        </@layout.extends>
+    </@layout.block>
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
+                <li class="divider"></li>
                 <#--<li class="sidebar-search">-->
                     <#--<div class="input-group custom-search-form">-->
                         <#--<input type="text" class="form-control" placeholder="Search...">-->
