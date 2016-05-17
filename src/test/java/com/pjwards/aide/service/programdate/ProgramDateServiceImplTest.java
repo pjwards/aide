@@ -3,6 +3,7 @@ package com.pjwards.aide.service.programdate;
 import com.pjwards.aide.domain.ProgramDate;
 import com.pjwards.aide.domain.builder.ProgramDateBuilder;
 import com.pjwards.aide.exception.ProgramDateNotFoundException;
+import com.pjwards.aide.repository.ConferenceRepository;
 import com.pjwards.aide.repository.ProgramDateRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,12 +27,14 @@ public class ProgramDateServiceImplTest {
     private static final String UPDATED_DAY = "2016-01-02";
 
     private ProgramDateRepository programDateRepositoryMock;
+    private ConferenceRepository conferenceRepositoryMock;
     private ProgramDateService programDateService;
 
     @Before
     public void setup() {
         programDateRepositoryMock = mock(ProgramDateRepository.class);
-        programDateService = new ProgramDateServiceImpl(programDateRepositoryMock);
+        conferenceRepositoryMock = mock(ConferenceRepository.class);
+        programDateService = new ProgramDateServiceImpl(programDateRepositoryMock, conferenceRepositoryMock);
     }
 
     @Test

@@ -2,16 +2,16 @@
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${conference.name} :: main</title>
-
-    <!-- MetisMenu CSS -->
-    <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <title>${conference.name} :: Admin</title>
 
     <!-- Timeline CSS -->
     <link href="/lib/sb-admin/dist/css/timeline.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="/lib/sb-admin/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
     <link href="/bower_components/morris.js/morris.css" rel="stylesheet">

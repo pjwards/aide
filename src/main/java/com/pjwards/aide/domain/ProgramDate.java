@@ -18,6 +18,7 @@ public class ProgramDate {
     public static final int MAX_LENGTH_NAME = 10;
     public static final String DAY_FORMAT = "yyyy-MM-dd";
     public static final String DAY_SCHEDULE_FORMAT = "M.d EEE";
+    public static final String DAY_JSON_PATTERN = "yyyy-MM-dd'T'HH:mm:ssz";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +29,7 @@ public class ProgramDate {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssz")
+    @JsonFormat(pattern = DAY_JSON_PATTERN)
     private Date day;
 
     @OneToMany(

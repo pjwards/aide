@@ -65,4 +65,13 @@ public interface ConferenceService {
      * @return The created conference.
      */
     public Conference create(ConferenceForm form);
+
+    /**
+     * Update conference by updated form
+     *
+     * @param form conference updated form
+     * @param id conference id
+     * @return The updated conference.
+     */
+    public Conference update(ConferenceForm form, Long id) throws ConferenceNotFoundException;
 }

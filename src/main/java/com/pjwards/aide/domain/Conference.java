@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.Charge;
 import com.pjwards.aide.domain.enums.Status;
+import com.pjwards.aide.domain.forms.ConferenceForm;
 
 import javax.persistence.*;
 import java.util.*;
@@ -159,7 +160,7 @@ public class Conference {
     }
 
     public String getLocationUrl() {
-        if (locationUrl == null || locationUrl.startsWith("http://") || locationUrl.startsWith("https://"))
+        if (locationUrl == null || locationUrl.equals("") || locationUrl.startsWith("http://") || locationUrl.startsWith("https://"))
             return locationUrl;
         return "http://" + locationUrl;
     }
@@ -318,6 +319,19 @@ public class Conference {
         this.lan = updated.lan;
         this.charge = updated.charge;
         this.price = updated.price;
+    }
+
+    public void update(ConferenceForm form) {
+        this.name = form.getName();
+        this.slogan = form.getSlogan();
+        this.description = form.getDescription();
+        this.status = form.getStatus();
+        this.charge = form.getCharge();
+        this.price = form.getPrice();
+        this.host = form.getHost();
+        this.location = form.getLocation();
+        this.locationUrl = form.getLocationUrl();
+        this.disqus = form.getDisqus();
     }
 
     public static class Builder {

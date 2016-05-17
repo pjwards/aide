@@ -7,6 +7,7 @@ import com.pjwards.aide.exception.ConferenceNotFoundException;
 import com.pjwards.aide.repository.AssetsRepository;
 import com.pjwards.aide.repository.ConferenceRepository;
 import com.pjwards.aide.repository.ContactRepository;
+import com.pjwards.aide.repository.UserRepository;
 import com.pjwards.aide.util.Utils;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +34,7 @@ public class ConferenceServiceImplTest {
     private ConferenceRepository conferenceRepositoryMock;
     private ContactRepository contactRepositoryMock;
     private AssetsRepository assetsRepositoryMock;
+    private UserRepository userRepositoryMock;
     private ImageValidator imageValidatorMock;
     private ConferenceService conferenceService;
     private Utils utilsMock;
@@ -43,9 +45,10 @@ public class ConferenceServiceImplTest {
         contactRepositoryMock = mock(ContactRepository.class);
         assetsRepositoryMock = mock(AssetsRepository.class);
         imageValidatorMock = mock(ImageValidator.class);
+        userRepositoryMock = mock(UserRepository.class);
         utilsMock = mock(Utils.class);
         conferenceService = new ConferenceServiceImpl(conferenceRepositoryMock,
-                contactRepositoryMock, assetsRepositoryMock, imageValidatorMock, utilsMock);
+                contactRepositoryMock, assetsRepositoryMock, userRepositoryMock, imageValidatorMock, utilsMock);
     }
 
     @Test
