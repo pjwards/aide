@@ -12,6 +12,9 @@
 
     <!-- Summernote CSS -->
     <link rel="stylesheet" type="text/css" href="/bower_components/summernote/dist/summernote.css"/>
+
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     </@layout.put>
 
     <@layout.put block="header" type="replace">
@@ -99,24 +102,33 @@
                 minHeight: null,             // set minimum height of editor
                 maxHeight: null,             // set maximum height of editor
                 focus: true,                 // set focus to editable area after initializing summernote
-                onImageUpload: function(files, editor, $editable) {
-                    sendFile(files[0], editor, $editable);
+                callbacks: {
+                    onImageUpload: function(files) {
+                        // upload image to server and create imgNode...
+                        for(var i = 0; i < files.length; i++)
+                            sendFile(files[i]);
+                    }
                 }
             });
 
-            function sendFile(file, editor, welEditable) {
+            function sendFile(file) {
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
                 var data = new FormData();
                 data.append("file", file);
                 $.ajax({
-                    url: "/assets/upload/images",
+                    url: "/upload/images",
                     data: data,
                     cache: false,
                     contentType: false,
                     processData: false,
                     type: 'POST',
+                    beforeSend: function(xhr) {
+                        // here it is
+                        xhr.setRequestHeader(header, token);
+                    },
                     success: function(data) {
-                        alert(data);
-                        editor.insertImage(welEditable, data.assets.realPath);
+                        $('#summernote').summernote('insertImage', data.assets.realPath, data.assets.name);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(textStatus + " " + errorThrown);
@@ -126,22 +138,14 @@
             }
         });
 
-        $("input[name='file']").on("change", function(){
-            // Get a reference to the fileList
-            var files = !!this.files ? this.files : [];
-            // If no files were selected, or no FileReader support, return
-            if ( !files.length || !window.FileReader ) return;
-            // Only proceed if the selected file is an image
-            if ( /^image/.test( files[0].type ) ) {
-                // Create a new instance of the FileReader
-                var reader = new FileReader();
-                // Read the local file as a DataURL
-                reader.readAsDataURL( files[0] );
-                // When loaded, set image data as background of page
-                reader.onloadend = function(){
-                    $("#avatar").attr("src", this.result);
+        $(function (){
+            $('input[type="file"]').change(function(){
+                $("#assets").empty();
+                for(var i=0; this.files.length; i++) {
+                    var file = this.files[i];
+                    $("#assets").append('<option>'+file.name+'</option>');
                 }
-            }
+            });
         });
     </script>
 

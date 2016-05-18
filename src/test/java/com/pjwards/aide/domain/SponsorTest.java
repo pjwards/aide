@@ -16,12 +16,13 @@ public class SponsorTest {
     private static final String NAME = "jisung";
     private static final String URL = "www.google.com";
     private static final String DESCRIPTION = "hellomynameisjisungjeon";
+    private static final int RANK = 1;
 
     private Sponsor sponsor;
 
     @Before
     public void setup() {
-        sponsor = new Sponsor.Builder(SLUG, NAME).url(URL).description(DESCRIPTION).build();
+        sponsor = new Sponsor.Builder(SLUG, NAME, RANK).url(URL).description(DESCRIPTION).build();
     }
 
     @Test
@@ -30,6 +31,7 @@ public class SponsorTest {
         assertThat(sponsor.getName(), is(NAME));
         assertThat(sponsor.getSlug(), is(SLUG));
         assertThat(sponsor.getUrl(), is(URL));
+        assertThat(sponsor.getRank(), is(RANK));
         assertThat(sponsor.getDescription(), is(DESCRIPTION));
         assertThat(sponsor.getAssets(), nullValue());
     }
@@ -40,14 +42,16 @@ public class SponsorTest {
         String UPDATE_SLUG = "sam";
         String UPDATE_URL= "www.facebook.com";
         String UPDATE_DESCRIPTION = "hellomynameisseodong";
+        int UPDATE_RANK = 2;
 
-        Sponsor updatedSponsor = new Sponsor.Builder(UPDATE_SLUG, UPDATE_NAME).url(UPDATE_URL).description(UPDATE_DESCRIPTION).build();
+        Sponsor updatedSponsor = new Sponsor.Builder(UPDATE_SLUG, UPDATE_NAME, UPDATE_RANK).url(UPDATE_URL).description(UPDATE_DESCRIPTION).build();
         sponsor.update(updatedSponsor);
 
         assertThat(sponsor.getId(), nullValue());
         assertThat(sponsor.getName(), is(UPDATE_NAME));
         assertThat(sponsor.getSlug(), is(UPDATE_SLUG));
         assertThat(sponsor.getUrl(), is(UPDATE_URL));
+        assertThat(sponsor.getRank(), is(UPDATE_RANK));
         assertThat(sponsor.getDescription(), is(UPDATE_DESCRIPTION));
         assertThat(sponsor.getAssets(), nullValue());
     }

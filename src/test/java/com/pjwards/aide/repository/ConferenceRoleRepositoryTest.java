@@ -59,11 +59,7 @@ public class ConferenceRoleRepositoryTest {
         User user = new User.Builder(NAME, EMAIL, PASSWORD).build();
         userRepository.save(user);
 
-        conferenceRole = new ConferenceRole.Builder(ROLE).user(new HashSet<User>() {{
-            add(user);
-        }}).conference(new HashSet<Conference>() {{
-            add(conference);
-        }}).build();
+        conferenceRole = new ConferenceRole.Builder(ROLE).user(user).conference(conference).build();
 
         conferenceRoleRepository.save(conferenceRole);
     }

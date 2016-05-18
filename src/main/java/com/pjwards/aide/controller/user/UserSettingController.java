@@ -200,7 +200,7 @@ public class UserSettingController {
 
     @RequestMapping(value = "/edit_role", method = RequestMethod.POST)
     public @ResponseBody Map<String, Object> ajaxEditRole(@RequestBody Map<String, String> json) {
-        LOGGER.debug("Ajax edit role user_email={}, role={}", json);
+        LOGGER.debug("Ajax edit role content={}", json);
 
         Map<String, Object> response = new LinkedHashMap<>();
 

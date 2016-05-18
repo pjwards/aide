@@ -2,6 +2,7 @@ package com.pjwards.aide.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -24,13 +25,27 @@ public class Sponsor {
     @Column(length = MAX_LENGTH_URL)
     private String url;
 
+    @Column(nullable = false)
+    private int rank;
+
     @Lob()
     @Column()
     private String description;
 
-    @OneToOne
+    @OneToOne(
+            cascade = CascadeType.REMOVE
+    )
     @JsonBackReference
     private Assets assets;
+
+    @ManyToOne
+    @JoinColumn(name = "conference_id")
+    @JsonManagedReference
+    private Conference conference;
+
+    public int getRank() {
+        return rank;
+    }
 
     public Long getId() {
         return id;
@@ -60,6 +75,18 @@ public class Sponsor {
         this.assets = assets;
     }
 
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public Conference getConference() {
+        return conference;
+    }
+
+    public void setConference(Conference conference) {
+        this.conference = conference;
+    }
+
     public Sponsor(){
 
     }
@@ -69,6 +96,7 @@ public class Sponsor {
         this.name = sponsor.name;
         this.url = sponsor.url;
         this.description = sponsor.description;
+        this.rank = sponsor.rank;
     }
 
     public void update(Sponsor updated){
@@ -76,22 +104,25 @@ public class Sponsor {
         this.name = updated.name;
         this.url = updated.url;
         this.description = updated.description;
+        this.rank = updated.rank;
     }
 
-    public void update(String slug, String name, String url, String description){
+    public void update(String slug, String name, String url, String description, int rank){
         this.slug = slug;
         this.name = name;
         this.url = url;
         this.description = description;
+        this.rank = rank;
     }
 
     public static class Builder {
         private Sponsor built;
 
-        public Builder(String slug, String name) {
+        public Builder(String slug, String name, int rank) {
             built = new Sponsor();
             built.name = name;
             built.slug = slug;
+            built.rank = rank;
         }
 
         public Builder description(String description) {
@@ -114,13 +145,18 @@ public class Sponsor {
             return this;
         }
 
+        public Builder conferences(Conference conference){
+            built.conference = conference;
+            return this;
+        }
+
         public Sponsor build() {
             return built;
         }
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+//    @Override
+//    public String toString() {
+//        return ToStringBuilder.reflectionToString(this);
+//    }
 }

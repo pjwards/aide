@@ -16,10 +16,6 @@
     <!-- Morris Charts CSS -->
     <link href="/bower_components/morris.js/morris.css" rel="stylesheet">
 
-    <!-- Flip Clock CSS -->
-    <link href="/bower_components/FlipClock/compiled/flipclock.css" rel="stylesheet">
-    <link href="/css/conference/clock.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
           type="text/css">
