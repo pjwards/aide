@@ -2,6 +2,7 @@ package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.Role;
 
@@ -25,6 +26,7 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,7 +62,7 @@ public class User {
     @OneToOne(
             cascade = CascadeType.REMOVE
     )
-    @JsonBackReference
+    @JsonManagedReference
     private Assets assets;
 
     @ManyToMany(
@@ -122,6 +124,16 @@ public class User {
 //    @JsonIgnore
     @JsonBackReference
     private Set<Conference> conferenceHostSet;
+
+    @OneToMany(
+            targetEntity = Message.class,
+            mappedBy = "sender",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.EAGER
+    )
+//    @JsonIgnore
+    @JsonBackReference
+    private Set<Message> sendMessages;
 
     public Long getId() {
         return id;
@@ -266,8 +278,18 @@ public class User {
         return conferenceHostSet;
     }
 
-    public void setConferenceHostSet(Set<Conference> conferenceHostSet) {
+    public User setConferenceHostSet(Set<Conference> conferenceHostSet) {
         this.conferenceHostSet = conferenceHostSet;
+        return this;
+    }
+
+    public Set<Message> getSendMessages() {
+        return sendMessages;
+    }
+
+    public User setSendMessages(Set<Message> sendMessages) {
+        this.sendMessages = sendMessages;
+        return this;
     }
 
     public User(){

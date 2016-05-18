@@ -40,7 +40,7 @@ public class Contact {
 
     public String getUrl() {
         if (type == ContactType.EMAIL) return url;
-        if (url == null || url.startsWith("http://") || url.startsWith("https://")) return url;
+        if (url == null || url.equals("") || url.startsWith("http://") || url.startsWith("https://")) return url;
         return "http://" + url;
     }
 

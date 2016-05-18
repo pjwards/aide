@@ -1,8 +1,13 @@
 package com.pjwards.aide.service.room;
 
+import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Room;
+import com.pjwards.aide.domain.User;
+import com.pjwards.aide.domain.forms.RoomForm;
 import com.pjwards.aide.exception.RoomNotFoundException;
+import com.pjwards.aide.repository.ConferenceRepository;
 import com.pjwards.aide.repository.RoomRepository;
+import com.pjwards.aide.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +15,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-public class RoomServiceImpl implements RoomService{
+public class RoomServiceImpl implements RoomService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomServiceImpl.class);
 
     private RoomRepository roomRepository;
+    private ConferenceRepository conferenceRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public RoomServiceImpl(RoomRepository roomRepository) {
+    public RoomServiceImpl(RoomRepository roomRepository,
+                           ConferenceRepository conferenceRepository,
+                           UserRepository userRepository) {
         this.roomRepository = roomRepository;
+        this.conferenceRepository = conferenceRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional(readOnly = true)
@@ -39,7 +52,7 @@ public class RoomServiceImpl implements RoomService{
     public Room add(Room added) {
         LOGGER.debug("Creating a new room with information: {}", added);
 
-        added =  roomRepository.save(added);
+        added = roomRepository.save(added);
         LOGGER.debug("Added a room with information: {}", added);
 
         return added;
@@ -85,5 +98,51 @@ public class RoomServiceImpl implements RoomService{
         LOGGER.debug("Deleting room: {}", deleted);
 
         return deleted;
+    }
+
+    @Transactional
+    @Override
+    public Room create(RoomForm form) {
+        LOGGER.debug("Create a user with Info: {}", form);
+
+        Conference conference = conferenceRepository.findOne(form.getConferenceId());
+
+        Room room = new Room.Builder(
+                form.getName(),
+                form.getLocation(),
+                form.getDescription()).conference(conference).build();
+
+        if (form.getManagers() != null) {
+            Set<User> managers = form.getManagers().stream().map(id -> userRepository.findOne(id)).collect(Collectors.toSet());
+            room.setManagerSet(managers);
+        }
+
+        roomRepository.save(room);
+
+        LOGGER.debug("Successfully created");
+        return room;
+    }
+
+    @Transactional
+    @Override
+    public Room update(RoomForm form, Long id) throws RoomNotFoundException {
+        LOGGER.debug("Create a user with Info: {}", form);
+
+        Room room = findById(id);
+
+        room
+                .setName(form.getName())
+                .setLocation(form.getLocation())
+                .setDescription(form.getDescription());
+
+        if (form.getManagers() != null) {
+            Set<User> managers = form.getManagers().stream().map(userId -> userRepository.findOne(userId)).collect(Collectors.toSet());
+            room.setManagerSet(managers);
+        }
+
+        roomRepository.save(room);
+
+        LOGGER.debug("Successfully updated");
+        return room;
     }
 }

@@ -2,7 +2,7 @@
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${conference.name} :: Programs</title>
+    <title>${conference.name} :: Rooms</title>
 
     <!-- MetisMenu CSS -->
     <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
@@ -46,10 +46,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Programs
+                        Rooms
 
                         <div class="btn-group pull-right">
-                            <a href="/conferences/${conference.id}/admin/programs/add" class="btn btn-primary btn">
+                            <a href="/conferences/${conference.id}/admin/rooms/add" class="btn btn-primary btn">
                                 Add
                             </a>
                         </div>
@@ -66,63 +66,31 @@
                                 <table class="table table-hover" id="dataTables">
                                     <thead>
                                     <tr>
-                                        <th style="width: 30%">Title</th>
-                                        <th style="width: 10%">Begin</th>
-                                        <th style="width: 10%">End</th>
-                                        <th style="width: 20%">Day</th>
-                                        <th style="width: 10%">Room</th>
-                                        <th style="width: 10%">Speakers</th>
-                                        <th style="width: 5%">Slide</th>
-                                        <th style="width: 5%">Video</th>
+                                        <th style="width: 30%">Name</th>
+                                        <th style="width: 30%">Location</th>
+                                        <th style="width: 20%">Managers</th>
+                                        <th style="width: 10%">Programs</th>
+                                        <th style="width: 10%">Sessions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <#list conference.programDates as date>
-                                        <#list date.programs as program>
-                                            <tr id="${program.id}">
-                                                <td>${program.title}</td>
-                                                <td>${program.begin}</td>
-                                                <td>${program.end}</td>
+                                    <#list conference.rooms as room>
+                                        <tr id="${room.id}">
+                                            <td>${room.name}</td>
+                                            <td>${room.location}</td>
+                                            <#if room.managerSet?has_content>
                                                 <td>
-                                                    <#if program.date??>
-                                                        ${program.date.formattedScheduleDay}
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
+                                                    <#list room.managerSet as manager>
+                                                        ${manager.name}
+                                                        <#sep>,
+                                                    </#list>
                                                 </td>
-                                                <td>
-                                                    <#if program.room??>
-                                                        ${program.room.name}
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
-                                                </td>
-                                                <td>
-                                                    <#if program.speakerSet?has_content>
-                                                            <#list program.speakerSet as speaker>
-                                                            ${speaker.name}
-                                                                <#sep>,
-                                                            </#list>
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
-                                                </td>
-                                                <td>
-                                                    <#if program.slideUrl?? && program.slideUrl?length != 0>
-                                                        Exist
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
-                                                </td>
-                                                <td>
-                                                    <#if program.videoUrl?? && program.videoUrl?length != 0>
-                                                        Exist
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
-                                                </td>
-                                            </tr>
-                                        </#list>
+                                            <#else>
+                                                <td>Empty</td>
+                                            </#if>
+                                            <td>${room.programs?size}</td>
+                                            <td>${room.sessions?size}</td>
+                                        </tr>
                                     </#list>
                                     </tbody>
                                 </table>
@@ -167,8 +135,8 @@
             });
 
             $('#dataTables tbody').on( 'click', 'tr', function () {
-                var program_id = $(this).attr('id');
-                location.href = '/conferences/${conference.id}/admin/programs/' + program_id;
+                var room_id = $(this).attr('id');
+                location.href = '/conferences/${conference.id}/admin/rooms/' + room_id;
             } );
         });
     </script>

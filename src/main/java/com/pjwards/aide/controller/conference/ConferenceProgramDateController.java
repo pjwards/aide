@@ -4,7 +4,6 @@ import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.CurrentUser;
 import com.pjwards.aide.domain.ProgramDate;
 import com.pjwards.aide.domain.forms.ProgramDateForm;
-import com.pjwards.aide.domain.validators.ConferenceFormValidator;
 import com.pjwards.aide.domain.validators.ProgramDateFormValidator;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
 import com.pjwards.aide.exception.ProgramDateNotFoundException;
@@ -73,7 +72,7 @@ public class ConferenceProgramDateController {
                                            Model model,
                                            @PathVariable("conference-id") Long conferenceId,
                                            @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
-        LOGGER.debug("Processing add conference form={}, bindingResult={}", form, bindingResult);
+        LOGGER.debug("Processing add program date form={}, bindingResult={}", form, bindingResult);
 
         if (bindingResult.hasErrors()) {
             // failed validation
@@ -112,7 +111,7 @@ public class ConferenceProgramDateController {
                                               @PathVariable("conference-id") Long conferenceId,
                                               @PathVariable("id") Long id,
                                               @ModelAttribute("currentUser") CurrentUser currentUser) throws ProgramDateNotFoundException, ConferenceNotFoundException {
-        LOGGER.debug("Processing update conference form={}, bindingResult={}", form, bindingResult);
+        LOGGER.debug("Processing update program date form={}, bindingResult={}", form, bindingResult);
 
         if (bindingResult.hasErrors()) {
             // failed validation

@@ -21,7 +21,6 @@
                     <li><a href="/sign_in"><i class="fa fa-sign-in fa-fw"></i>Sign in</a></li>
                 <#else>
                 <li>
-
                     <a href="/conferences/add"><i class="fa fa-plus" aria-hidden="true"></i></a>
                 </li>
                     <!-- /.dropdown -->
