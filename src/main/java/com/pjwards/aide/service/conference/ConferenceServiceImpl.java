@@ -3,6 +3,7 @@ package com.pjwards.aide.service.conference;
 import com.pjwards.aide.domain.Assets;
 import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Contact;
+import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.enums.ContactType;
 import com.pjwards.aide.domain.enums.Status;
 import com.pjwards.aide.domain.forms.ConferenceForm;
@@ -11,6 +12,7 @@ import com.pjwards.aide.exception.ConferenceNotFoundException;
 import com.pjwards.aide.repository.AssetsRepository;
 import com.pjwards.aide.repository.ConferenceRepository;
 import com.pjwards.aide.repository.ContactRepository;
+import com.pjwards.aide.repository.UserRepository;
 import com.pjwards.aide.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ConferenceServiceImpl implements ConferenceService {
@@ -28,6 +32,7 @@ public class ConferenceServiceImpl implements ConferenceService {
     private ConferenceRepository conferenceRepository;
     private ContactRepository contactRepository;
     private AssetsRepository assetsRepository;
+    private UserRepository userRepository;
     private ImageValidator imageValidator;
     private Utils utils;
 
@@ -35,11 +40,13 @@ public class ConferenceServiceImpl implements ConferenceService {
     public ConferenceServiceImpl(ConferenceRepository conferenceRepository,
                                  ContactRepository contactRepository,
                                  AssetsRepository assetsRepository,
+                                 UserRepository userRepository,
                                  ImageValidator imageValidator,
                                  Utils utils) {
         this.conferenceRepository = conferenceRepository;
         this.contactRepository = contactRepository;
         this.assetsRepository = assetsRepository;
+        this.userRepository = userRepository;
         this.imageValidator = imageValidator;
         this.utils = utils;
     }
@@ -141,7 +148,15 @@ public class ConferenceServiceImpl implements ConferenceService {
             conference.setLat(form.getLat()).setLan(form.getLan());
         }
 
+        Set<User> participants = new HashSet<>();
+        participants.add(form.getHost());
+        conference.setParticipants(participants);
+
         conference = conferenceRepository.save(conference);
+
+        Set<Conference> conferences = form.getHost().getConferenceHostSet();
+        conferences.add(conference);
+        userRepository.save(form.getHost().setConferenceSet(conferences));
 
         if (form.getEmail() != null && !form.getEmail().equals("")) {
             contactRepository.save(
@@ -174,8 +189,6 @@ public class ConferenceServiceImpl implements ConferenceService {
                             .build());
         }
 
-        System.out.println(form.getAssets().size());
-
         final Conference finalConference = conference;
         form.getAssets().stream().filter(file -> imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
             Assets assets = utils.fileSaveHelper(file, form.getHost(), "/img/");
@@ -183,6 +196,75 @@ public class ConferenceServiceImpl implements ConferenceService {
         });
 
         LOGGER.debug("Successfully created");
+        return conference;
+    }
+
+    @Transactional
+    @Override
+    public Conference update(ConferenceForm form, Long id) throws ConferenceNotFoundException {
+        LOGGER.debug("Create a user with Info: {}", form);
+
+        Conference conference = findById(id);
+
+        conference.update(form);
+
+        if (form.getLat() != null && form.getLan() != null) {
+            conference.setLat(form.getLat()).setLan(form.getLan());
+        }
+
+        conference = conferenceRepository.save(conference);
+
+//        Set<Conference> conferences = form.getHost().getConferenceHostSet();
+//        conferences.add(conference);
+//        userRepository.save(form.getHost().setConferenceSet(conferences));
+
+        for (Contact contact : conference.getContacts()) {
+            contactRepository.delete(contact);
+        }
+
+        if (form.getEmail() != null && !form.getEmail().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.EMAIL, form.getEmail())
+                            .conference(conference)
+                            .build());
+        }
+        if (form.getFacebook() != null && !form.getFacebook().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.FACEBOOK, form.getFacebook())
+                            .conference(conference)
+                            .build());
+        }
+        if (form.getTwitter() != null && !form.getTwitter().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.TWITTER, form.getTwitter())
+                            .conference(conference)
+                            .build());
+        }
+        if (form.getGithub() != null && !form.getGithub().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.GITHUB, form.getGithub())
+                            .conference(conference)
+                            .build());
+        }
+        if (form.getGooglePlus() != null && !form.getGooglePlus().equals("")) {
+            contactRepository.save(
+                    new Contact.Builder(ContactType.GOOGLEPLUS, form.getGooglePlus())
+                            .conference(conference)
+                            .build());
+        }
+
+        if (form.getAssets() != null) {
+            for (Assets assets : conference.getAssetsSet()) {
+                assetsRepository.delete(assets);
+            }
+        }
+        final Conference finalConference = conference;
+        form.getAssets().stream().filter(file -> imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
+            Assets assets = utils.fileSaveHelper(file, form.getHost(), "/img/");
+            assetsRepository.save(assets.setConference(finalConference));
+        });
+
+        LOGGER.debug("Successfully updated");
         return conference;
     }
 }

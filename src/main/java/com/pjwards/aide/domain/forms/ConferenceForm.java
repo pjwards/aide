@@ -1,12 +1,19 @@
 package com.pjwards.aide.domain.forms;
 
+import com.pjwards.aide.domain.Assets;
+import com.pjwards.aide.domain.Conference;
+import com.pjwards.aide.domain.Contact;
 import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.enums.Charge;
+import com.pjwards.aide.domain.enums.ContactType;
 import com.pjwards.aide.domain.enums.Status;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
+
+import static com.pjwards.aide.domain.enums.ContactType.*;
 
 public class ConferenceForm {
 
@@ -48,6 +55,49 @@ public class ConferenceForm {
     private List<MultipartFile> assets;
 
     private String disqus = "";
+
+    private Set<Assets> oldAssets;
+
+    public ConferenceForm() {
+    }
+
+    public ConferenceForm(Conference conference) {
+        this.name = conference.getName();
+        this.slogan = conference.getSlogan();
+        this.description = conference.getDescription();
+        this.status = conference.getStatus();
+        this.charge = conference.getCharge();
+        this.price = conference.getPrice();
+        this.host = conference.getHost();
+        this.location = conference.getLocation() != null ? conference.getLocation() : "";
+        this.locationUrl = conference.getLocationUrl() != null ? conference.getLocationUrl() : "";
+        this.lat = conference.getLat();
+        this.lan = conference.getLan();
+        this.disqus = conference.getDisqus() != null ? conference.getDisqus() : "";
+        this.oldAssets = conference.getAssetsSet();
+
+        for (Contact contact : conference.getContacts()) {
+            switch (contact.getType()) {
+                case EMAIL:
+                    this.email = contact.getUrl();
+                    break;
+                case FACEBOOK:
+                    this.facebook = contact.getUrl();
+                    break;
+                case TWITTER:
+                    this.twitter = contact.getUrl();
+                    break;
+                case GITHUB:
+                    this.github = contact.getUrl();
+                    break;
+                case GOOGLEPLUS:
+                    this.googlePlus = contact.getUrl();
+                    break;
+            }
+        }
+
+
+    }
 
     public String getName() {
         return name;
@@ -199,5 +249,13 @@ public class ConferenceForm {
 
     public void setDisqus(String disqus) {
         this.disqus = disqus;
+    }
+
+    public Set<Assets> getOldAssets() {
+        return oldAssets;
+    }
+
+    public void setOldAssets(Set<Assets> oldAssets) {
+        this.oldAssets = oldAssets;
     }
 }

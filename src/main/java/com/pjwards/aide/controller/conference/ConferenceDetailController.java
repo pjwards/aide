@@ -53,14 +53,14 @@ public class ConferenceDetailController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/add")
     public ModelAndView add() throws ConferenceNotFoundException {
-        LOGGER.debug("Getting details page");
+        LOGGER.debug("Getting adding page");
         return new ModelAndView("conference/add", "form", new ConferenceForm());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/add")
-    public String handleConferenceForm(@Valid @ModelAttribute("form") ConferenceForm form,
-                                       BindingResult bindingResult,
-                                       @ModelAttribute("currentUser") CurrentUser currentUser) {
+    public String handleAddConferenceForm(@Valid @ModelAttribute("form") ConferenceForm form,
+                                          BindingResult bindingResult,
+                                          @ModelAttribute("currentUser") CurrentUser currentUser) {
         LOGGER.debug("Processing add conference form={}, bindingResult={}", form, bindingResult);
 
         form.setHost(currentUser.getUser());
@@ -123,4 +123,47 @@ public class ConferenceDetailController {
         return "conference/admin";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/admin/update")
+    public ModelAndView update(Model model,
+                               @PathVariable("id") Long id) throws ConferenceNotFoundException {
+        LOGGER.debug("Getting update page");
+
+        Conference conference = conferenceService.findById(id);
+        model.addAttribute("conference", conference);
+        return new ModelAndView("conference/update", "form", new ConferenceForm(conference));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{id}/admin/update")
+    public String handleUpdateConferenceForm(@Valid @ModelAttribute("form") ConferenceForm form,
+                                             BindingResult bindingResult,
+                                             Model model,
+                                             @PathVariable("id") Long id,
+                                             @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
+        LOGGER.debug("Processing update conference form={}, bindingResult={}", form, bindingResult);
+
+        form.setHost(currentUser.getUser());
+
+        if (bindingResult.hasErrors()) {
+            // failed validation
+            Conference conference = conferenceService.findById(id);
+            model.addAttribute("conference", conference);
+
+            return "conference/update";
+        }
+        try {
+            conferenceService.update(form, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // ok, redirect
+        return "redirect:/conferences/" + id + "/admin";
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}/admin/delete")
+    public String delete(@PathVariable("id") Long id) throws ConferenceNotFoundException {
+        LOGGER.debug("Deleting conference : {}", id);
+        conferenceService.deleteById(id);
+        return "redirect:/";
+    }
 }

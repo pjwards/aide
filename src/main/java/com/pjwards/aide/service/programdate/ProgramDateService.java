@@ -1,8 +1,10 @@
 package com.pjwards.aide.service.programdate;
 
 import com.pjwards.aide.domain.ProgramDate;
+import com.pjwards.aide.domain.forms.ProgramDateForm;
 import com.pjwards.aide.exception.ProgramDateNotFoundException;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface ProgramDateService {
@@ -48,4 +50,21 @@ public interface ProgramDateService {
      * @throws ProgramDateNotFoundException if no programDate is found with the given id.
      */
     public ProgramDate deleteById(Long id) throws ProgramDateNotFoundException;
+
+    /**
+     * Create programDate by created form
+     *
+     * @param form programDate created form
+     * @return The created programDate.
+     */
+    public ProgramDate create(ProgramDateForm form) throws ParseException;
+
+    /**
+     * Update programDate by updated form
+     *
+     * @param form programDate updated form
+     * @param id programDate id
+     * @return The updated programDate.
+     */
+    public ProgramDate update(ProgramDateForm form, Long id) throws ProgramDateNotFoundException, ParseException;
 }

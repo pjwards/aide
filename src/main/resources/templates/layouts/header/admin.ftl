@@ -240,25 +240,25 @@
                         <!-- /input-group -->
                     </li>
                     <li>
-                        <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <a href="/conferences/${conference.id}/admin"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Days<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="flot.html">Flot Charts</a>
-                            </li>
-                            <li>
-                                <a href="morris.html">Morris.js Charts</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
+                        <a href="/conferences/${conference.id}/admin/days"><i class="fa fa-calendar fa-fw"></i> Days</a>
                     </li>
                     <li>
-                        <a href="tables.html"><i class="fa fa-table fa-fw"></i> Programs</a>
+                        <a href="/conferences/${conference.id}/admin/rooms"><i class="fa fa-building fa-fw"></i> Rooms</a>
                     </li>
                     <li>
-                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Users</a>
+                        <a href="/conferences/${conference.id}/admin/programs"><i class="fa fa-table fa-fw"></i> Programs</a>
+                    </li>
+                    <li>
+                        <a href="/conferences/${conference.id}/admin/sessions"><i class="fa fa-edit fa-fw"></i> Sessions</a>
+                    </li>
+                    <li>
+                        <a href="/conferences/${conference.id}/admin/update"><i class="fa fa-group fa-fw"></i> Conference</a>
+                    </li>
+                    <li>
+                        <a href="forms.html"><i class="fa fa-user fa-fw"></i> Users</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Functions<span class="fa arrow"></span></a>

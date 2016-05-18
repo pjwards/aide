@@ -2,6 +2,6 @@
 
 <footer>
     <div class="container text-center">
-        <p>Copyright &copy; ${dateTime?string.yyyy} pjwards.com rights reserved.</p>
+        <p>Copyright &copy; ${dateTime?string.yyyy} <a href="/">pjwards.com</a> rights reserved.</p>
     </div>
 </footer>
