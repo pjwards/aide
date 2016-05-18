@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/conferences")
@@ -166,4 +168,50 @@ public class ConferenceDetailController {
         conferenceService.deleteById(id);
         return "redirect:/";
     }
+//    @RequestMapping(value = "/list")
+//    public String getSponsorsPage(Model model) {
+//        LOGGER.debug("Getting sponsors page");
+//
+//        int totalCount = (int)sponsorRepository.count();
+//
+//        List<Sponsor> sponsorList = sponsorRepository.findAll();
+//        model.addAttribute("sponsorList", sponsorList);
+//
+//        if(totalCount == 0) {
+//            model.addAttribute("hasSponsor", false);
+//        } else {
+//            model.addAttribute("hasSponsor", true);
+//        }
+//
+//        return "conference/sponsor/sponsorlist";
+//    }
+
+//    @RequestMapping(value = "/{id}/edit_role", method = RequestMethod.POST)
+//    public @ResponseBody
+//    Map<String, Object> ajaxEditRoleSponsor(@PathVariable("id") Long id, @RequestBody Map<String, String> json) {
+//        LOGGER.debug("Ajax edit role content={}", json);
+//
+//        Map<String, Object> response = new LinkedHashMap<>();
+//
+//        Sponsor sponsor = sponsorRepository.findOne(id);
+//
+//        if(sponsor == null){
+//            response.put("message", "400");
+//            return response;
+//        }
+//
+//        String role = json.get("j_role");
+//
+//        Role roles = Role.USER;
+//        if(role.equals("Admin")){
+//            roles = Role.ADMIN;
+//        }
+//
+//        user.update(user.getName(), user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(), user.getCompany(), roles, user.getDescription());
+//        userRepository.save(user);
+//
+//        response.put("message", "200");
+//        return response;
+//    }
+
 }

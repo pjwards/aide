@@ -48,11 +48,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(
+    @OneToMany(
             targetEntity = ConferenceRole.class,
             fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
-            mappedBy = "userSet"
+            mappedBy = "user"
     )
     @JsonManagedReference
     private Set<ConferenceRole> conferenceRoleSet;

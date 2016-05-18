@@ -1,6 +1,7 @@
 package com.pjwards.aide.util;
 
 import com.pjwards.aide.domain.Assets;
+import com.pjwards.aide.domain.Sponsor;
 import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.repository.AssetsRepository;
@@ -138,6 +139,27 @@ public class Utils {
 
             Assets assets = new Assets.Builder(file.getOriginalFilename(), path, (long) bytes.length, 0)
                     .user(user).build();
+
+            assetsRepository.save(assets);
+
+            return assets;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Assets fileSaveHelperSponsor(MultipartFile file, Sponsor sponsor, String fileType) {
+
+        String path = realPath + fileType + fileNameHelper();
+
+        try {
+            byte[] bytes = file.getBytes();
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath + path)));
+            stream.write(bytes);
+            stream.close();
+
+            Assets assets = new Assets.Builder(file.getOriginalFilename(), path, (long) bytes.length, 0)
+                    .sponsor(sponsor).build();
 
             assetsRepository.save(assets);
 

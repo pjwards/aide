@@ -1,5 +1,6 @@
 <#-- @ftlvariable name="userList" type="java.util.List<net.study.domain.User>" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
+<#-- @ftlvariable name="hasUser" type="java.lang.Boolean" -->
 
 <@layout.extends name="user/userbase.ftl">
     <@layout.put block="head" type="prepend">

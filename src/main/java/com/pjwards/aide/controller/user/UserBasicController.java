@@ -75,13 +75,9 @@ public class UserBasicController {
             LOGGER.warn("User not found", e);
             return new ModelAndView("redirect:/");
         }
-        //List < Study > ownStudyList = studyRepository.findAllByUser(user);
-        //Set<Study> partStudyList = user.getStudySet();
 
         ModelAndView modelAndView = new ModelAndView("user/userprofile");
         modelAndView.addObject("user",user);
-        //modelAndView.addObject("ownStudyList",ownStudyList);
-        //modelAndView.addObject("partStudyList",partStudyList);
 
         return modelAndView;
     }

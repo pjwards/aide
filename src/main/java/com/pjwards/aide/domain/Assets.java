@@ -71,8 +71,9 @@ public class Assets {
         this.user = user;
     }
 
-    public void setSponsor(Sponsor sponsor) {
+    public Assets setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
+        return this;
     }
 
     public Assets setConference(Conference conference) {

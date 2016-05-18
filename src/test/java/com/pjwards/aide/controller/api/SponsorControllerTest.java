@@ -47,7 +47,7 @@ public class SponsorControllerTest {
 
     private MockMvc mockMvc;
 
-    @Qualifier("sponsorService")
+//    @Qualifier("sponsorService")
     @Autowired
     private SponsorService sponsorServiceMock;
 

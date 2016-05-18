@@ -284,6 +284,18 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    <li>
+                        <a href="#"><i class="fa fa-group fa-fw"></i> Sponsor<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/conferences/${conference.id}/admin/sponsor/list">Sponsor Manager</a>
+                            </li>
+                            <li>
+                                <a href="/conferences/${conference.id}/admin/sponsor/add">Sponsor Add</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

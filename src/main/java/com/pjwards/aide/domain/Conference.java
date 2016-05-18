@@ -54,11 +54,11 @@ public class Conference {
     @JsonBackReference
     private Set<ProgramDate> programDates;
 
-    @ManyToMany(
+    @OneToMany(
             targetEntity = ConferenceRole.class,
             fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
-            mappedBy = "conferenceSet"
+            mappedBy = "conference"
     )
     @JsonManagedReference
     private Set<ConferenceRole> conferenceRoleSet;
@@ -85,6 +85,15 @@ public class Conference {
 //    @JsonIgnore
     @JsonBackReference
     private Set<Contact> contacts;
+
+    @OneToMany(
+            targetEntity = Sponsor.class,
+            mappedBy = "conference",
+            fetch = FetchType.EAGER
+    )
+//    @JsonIgnore
+    @JsonBackReference
+    private Set<Sponsor> sponsors;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -214,6 +223,14 @@ public class Conference {
     public Conference setConferenceRoleSet(Set<ConferenceRole> conferenceRoleSet) {
         this.conferenceRoleSet = conferenceRoleSet;
         return this;
+    }
+
+    public Set<Sponsor> getSponsors() {
+        return sponsors;
+    }
+
+    public void setSponsors(Set<Sponsor> sponsors) {
+        this.sponsors = sponsors;
     }
 
     public User getHost() {
@@ -392,6 +409,11 @@ public class Conference {
 
         public Builder disqus(String disqus) {
             built.disqus = disqus;
+            return this;
+        }
+
+        public Builder sponsor(Set<Sponsor> sponsors){
+            built.sponsors = sponsors;
             return this;
         }
 

@@ -17,23 +17,13 @@ public class ConferenceRole {
     @Enumerated(EnumType.STRING)
     private Role conferenceRole;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "USER_ROLE",
-            joinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID_FRK")
-    )
-//    @JsonIgnore
-    @JsonBackReference
-    private Set<User> userSet;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "CONFERENCE_CONFERENCE_ROLE",
-            joinColumns = @JoinColumn(name = "CONFERENCE_ROLE_ID_FRK"),
-            inverseJoinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK")
-    )
-//    @JsonIgnore
-    @JsonBackReference
-    private Set<Conference> conferenceSet;
+    @ManyToOne
+    @JoinColumn(name = "conference_id")
+    private Conference conference;
 
     public Long getId() {
         return id;
@@ -43,12 +33,20 @@ public class ConferenceRole {
         return conferenceRole;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
+    public User getUser() {
+        return user;
     }
 
-    public Set<Conference> getConferenceSet() {
-        return conferenceSet;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Conference getConference() {
+        return conference;
+    }
+
+    public void setConference(Conference conference) {
+        this.conference = conference;
     }
 
     public ConferenceRole(){
@@ -76,13 +74,13 @@ public class ConferenceRole {
             return this;
         }
 
-        public Builder user(Set<User> userSet){
-            built.userSet = userSet;
+        public Builder user(User user){
+            built.user = user;
             return this;
         }
 
-        public Builder conference(Set<Conference> conferenceSet){
-            built.conferenceSet = conferenceSet;
+        public Builder conference(Conference conference){
+            built.conference = conference;
             return this;
         }
 

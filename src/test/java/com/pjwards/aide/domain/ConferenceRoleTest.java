@@ -26,8 +26,8 @@ public class ConferenceRoleTest {
     public void testBuildWithMandatoryInformation() {
         assertThat(conferenceRole.getId(), nullValue());
         assertThat(conferenceRole.getRole(), is(Role.ADMIN));
-        assertThat(conferenceRole.getUserSet(), nullValue());
-        assertThat(conferenceRole.getConferenceSet(), nullValue());
+        assertThat(conferenceRole.getUser(), nullValue());
+        assertThat(conferenceRole.getConference(), nullValue());
     }
 
     @Test
@@ -37,8 +37,8 @@ public class ConferenceRoleTest {
 
         assertThat(conferenceRole.getId(), nullValue());
         assertThat(conferenceRole.getRole(), is(CONFERENCE_ROLE));
-        assertThat(conferenceRole.getUserSet(), nullValue());
-        assertThat(conferenceRole.getConferenceSet(), nullValue());
+        assertThat(conferenceRole.getUser(), nullValue());
+        assertThat(conferenceRole.getConference(), nullValue());
     }
 
 }
