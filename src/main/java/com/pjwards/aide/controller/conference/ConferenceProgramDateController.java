@@ -33,7 +33,8 @@ public class ConferenceProgramDateController {
     @Autowired
     public ConferenceProgramDateController(ConferenceService conferenceService,
                                            ProgramDateService programDateService,
-                                           ProgramDateFormValidator programDateFormValidator) {
+                                           ProgramDateFormValidator programDateFormValidator
+                                           ) {
         this.conferenceService = conferenceService;
         this.programDateService = programDateService;
         this.programDateFormValidator = programDateFormValidator;
@@ -41,8 +42,8 @@ public class ConferenceProgramDateController {
 
     @InitBinder("form")
     public void initBinder(WebDataBinder binder) {
-        binder.addValidators(programDateFormValidator);
-    }
+        binder.addValidators();
+    }//programDateFormValidator
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/days")
     public String getDays(Model model,
@@ -101,7 +102,7 @@ public class ConferenceProgramDateController {
         ProgramDate programDate = programDateService.findById(id);
         model.addAttribute("programDate", programDate);
 
-        return new ModelAndView("programdate/update", "form", new ProgramDateForm(programDate));
+        return new ModelAndView("programdate/update");//, "form", new ProgramDateForm(programDate
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{conference-id}/admin/days/{id}")
