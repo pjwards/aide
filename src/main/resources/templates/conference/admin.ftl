@@ -15,6 +15,10 @@
     <!-- Custom CSS -->
     <link href="/lib/sb-admin/dist/css/sb-admin-2.css" rel="stylesheet">
 
+    <!-- Flip Clock CSS -->
+    <link href="/bower_components/FlipClock/compiled/flipclock.css" rel="stylesheet">
+    <link href="/css/conference/clock.css" rel="stylesheet">
+
     <!-- MetisMenu CSS -->
     <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 

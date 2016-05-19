@@ -21,9 +21,9 @@
     </@layout.put>
 
     <@layout.put block="contents" type="replace">
-        <section>
-            <@spring.bind "form" />
+        <@spring.bind "form" />
             <#if spring.status.error>
+            <section>
                 <div class="alert alert-dismissable alert-danger text-center">
                     <button type="button" class="close" data-dismiss="alert">×</button>
                     <#list spring.status.errorMessages as error>
@@ -35,8 +35,8 @@
                         <#if error?contains("Passwords") || error?contains("PasswordRepeated")><#global errorPasswordRepeated=true></#if>
                     </#list>
                 </div>
+            </section>
             </#if>
-        </section>
 
         <form role="form" method="post" action="" class="login-form">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

@@ -41,25 +41,36 @@
 
     <@layout.put block="contents">
         <@spring.bind "form" />
-    <section>
         <#if spring.status.error>
-            <div class="alert alert-dismissable alert-danger text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <#list spring.status.errorMessages as error>
-                    <p>${error}</p>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-dismissable alert-danger text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <#list spring.status.errorMessages as error>
+                        <p>${error}</p>
 
-                    <#if error?contains("Name")><#global errorName=true></#if>
-                    <#if error?contains("Slug")><#global errorSlug=true></#if>
-                    <#if error?contains("Url")><#global errorUrl=true></#if>
-                    <#if error?contains("Files")><#global errorFiles=true></#if>
-                    <#if error?contains("Rank")><#global errorRank=true></#if>
-                </#list>
+                        <#if error?contains("Name")><#global errorName=true></#if>
+                        <#if error?contains("Slug")><#global errorSlug=true></#if>
+                        <#if error?contains("Url")><#global errorUrl=true></#if>
+                        <#if error?contains("Files")><#global errorFiles=true></#if>
+                        <#if error?contains("Rank")><#global errorRank=true></#if>
+                    </#list>
+                </div>
             </div>
+        </div>
         </#if>
-    </section>
 
     <div id="wrapper">
         <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        Sponsor Register
+                    </h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <form role="form" action="" method="post" enctype="multipart/form-data">

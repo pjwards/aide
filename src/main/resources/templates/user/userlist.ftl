@@ -12,6 +12,12 @@
     <!-- jquery-ui css -->
     <link rel="stylesheet" href="/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
 
+    <!-- DataTables CSS -->
+    <link href="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="/bower_components/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
+
     </@layout.put>
 
     <@layout.put block="header" type="replace">
@@ -28,44 +34,34 @@
     <div id="dialog-confirm" title="Change Role">
         <p>Which role would you change?</p>
     </div>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    User List
-                </div>
-                <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <table class="table table-hover" id="dataTables">
                             <thead>
                             <tr>
-                                <th>Email</th>
-                                <th>Name</th>
-                                <th>Created Date</th>
-                                <th>Last Access Date</th>
-                                <th>Role</th>
+                                <th style="width: 30%">Email</th>
+                                <th style="width: 10%">Name</th>
+                                <th style="width: 10%">Created Date</th>
+                                <th style="width: 20%">Last Access Date</th>
+                                <th style="width: 10%">Role</th>
                             </tr>
                             </thead>
-
                             <tbody>
-                            <#if hasUser == false>
-                                <tr>
-                                    <td colspan="5">
-                                        Can not found users.
-                                    </td>
-                                </tr>
-                            <#else>
                                 <#list userList as list>
-                                <tr>
+                                <tr id="${list.id}">
                                     <td>${list.email}</td>
                                     <td>${list.name}</td>
                                     <td>${list.createdDate?string("yyyy-MM-dd HH:mm")}</td>
                                     <td>${list.lastDate?string("yyyy-MM-dd HH:mm")}</td>
-                                    <td><a href="#" id="change" class="btn btn-info change_role" role="button" val="${list.email}">${list.role}</a></td>
+                                    <td>
+                                        <a href="#" id="change" class="btn btn-info change_role" role="button" val="${list.email}">${list.role}</a>
+                                    </td>
                                 </tr>
                                 </#list>
-                            </#if>
                             </tbody>
                         </table>
                     </div>
@@ -87,7 +83,22 @@
     <!---jQuery-ui-->
     <script src="/bower_components/jquery-ui/jquery-ui.js"></script>
 
+    <!-- DataTables JavaScript -->
+    <script src="/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
     <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTables').DataTable({
+                responsive: true
+            });
+
+            <#--$('#dataTables tbody').on( 'click', 'tr', function () {-->
+                <#--var list_id = $(this).attr('id');-->
+                <#--location.href = "/conferences/${conference.id}/admin/sponsor/"+list_id+"/update";-->
+            <#--} );-->
+        });
+
         $(".change_role").click(function(){
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
