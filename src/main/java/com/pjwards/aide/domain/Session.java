@@ -84,7 +84,7 @@ public class Session {
     }
 
     public String getSlideUrl() {
-        if (slideUrl == null || slideUrl.startsWith("http://") || slideUrl.startsWith("https://")) return slideUrl;
+        if (slideUrl == null || slideUrl.equals("") || slideUrl.startsWith("http://") || slideUrl.startsWith("https://")) return slideUrl;
         return "http://" + slideUrl;
     }
 
@@ -94,7 +94,7 @@ public class Session {
     }
 
     public String getVideoUrl() {
-        if (videoUrl == null || videoUrl.startsWith("http://") || videoUrl.startsWith("https://")) return videoUrl;
+        if (videoUrl == null || videoUrl.equals("") || videoUrl.startsWith("http://") || videoUrl.startsWith("https://")) return videoUrl;
         return "http://" + videoUrl;
     }
 
@@ -134,16 +134,18 @@ public class Session {
         return slideEmbed;
     }
 
-    public void setSlideEmbed(String slideEmbed) {
+    public Session setSlideEmbed(String slideEmbed) {
         this.slideEmbed = slideEmbed;
+        return this;
     }
 
     public String getVideoEmbed() {
         return videoEmbed;
     }
 
-    public void setVideoEmbed(String videoEmbed) {
+    public Session setVideoEmbed(String videoEmbed) {
         this.videoEmbed = videoEmbed;
+        return this;
     }
 
     public void update(Session updated) {

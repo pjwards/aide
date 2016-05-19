@@ -29,7 +29,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/conferences/add").hasAuthority("ADMIN")
                 .antMatchers("/upload/**").hasAuthority("USER")
                 .antMatchers("/upload/**").hasAuthority("ADMIN")
-                .antMatchers("/conferences/**", "/programs/**", "/sessions/**", "/api/**").permitAll()
+                .antMatchers("/conferences/**", "/programs/**", "/sessions/**", "/api/**", "/messages/**").permitAll()
                 .antMatchers("/settings/users").hasAuthority("ADMIN")
                 .antMatchers("/public/**", "/resources/**", "/resources/public/**", "/assets/**").permitAll()
                 .antMatchers("/css/**", "/lib/**", "/img/**", "/bower_components/**", "/font/**", "/data/**", "/mail/**").permitAll()

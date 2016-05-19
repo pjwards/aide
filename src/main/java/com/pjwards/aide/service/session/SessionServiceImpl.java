@@ -1,9 +1,14 @@
 package com.pjwards.aide.service.session;
 
 import com.pjwards.aide.domain.Session;
+import com.pjwards.aide.domain.User;
+import com.pjwards.aide.domain.forms.SessionForm;
 import com.pjwards.aide.exception.SessionNotFoundException;
 import com.pjwards.aide.exception.WrongInputDateException;
+import com.pjwards.aide.repository.ProgramRepository;
+import com.pjwards.aide.repository.RoomRepository;
 import com.pjwards.aide.repository.SessionRepository;
+import com.pjwards.aide.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SessionServiceImpl implements SessionService {
@@ -18,10 +25,19 @@ public class SessionServiceImpl implements SessionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionServiceImpl.class);
 
     private SessionRepository sessionRepository;
+    private ProgramRepository programRepository;
+    private RoomRepository roomRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public SessionServiceImpl(SessionRepository sessionRepository) {
+    public SessionServiceImpl(SessionRepository sessionRepository,
+                              ProgramRepository programRepository,
+                              RoomRepository roomRepository,
+                              UserRepository userRepository) {
         this.sessionRepository = sessionRepository;
+        this.programRepository = programRepository;
+        this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional(readOnly = true)
@@ -40,7 +56,7 @@ public class SessionServiceImpl implements SessionService {
     public Session add(Session added) throws WrongInputDateException {
         LOGGER.debug("Creating a new session with information: {}", added);
 
-        added =  sessionRepository.save(added);
+        added = sessionRepository.save(added);
         LOGGER.debug("Added a session with information: {}", added);
 
         return added;
@@ -86,5 +102,72 @@ public class SessionServiceImpl implements SessionService {
         LOGGER.debug("Deleting session: {}", deleted);
 
         return deleted;
+    }
+
+    @Transactional
+    @Override
+    public Session create(SessionForm form) {
+        LOGGER.debug("Create a user with Info: {}", form);
+
+        Session session = new Session.Builder(
+                form.getTitle(),
+                form.getDescription())
+                .slideUrl(form.getSlideUrl())
+                .slideEmbed(form.getSlideEmbed())
+                .videoUrl(form.getVideoUrl())
+                .videoEmbed(form.getVideoEmbed())
+                .build();
+
+        if (form.getProgramId() != null) {
+            session.setProgram(programRepository.findOne(form.getProgramId()));
+        }
+
+        if (form.getRoomId() != null) {
+            session.setRoom(roomRepository.findOne(form.getRoomId()));
+        }
+
+        if (form.getSpeakers() != null) {
+            Set<User> speakers = form.getSpeakers().stream().map(userId -> userRepository.findOne(userId)).collect(Collectors.toSet());
+            session.setSpeakerSet(speakers);
+        }
+
+        sessionRepository.save(session);
+
+        LOGGER.debug("Successfully created");
+        return session;
+    }
+
+    @Transactional
+    @Override
+    public Session update(SessionForm form, Long id) throws SessionNotFoundException {
+        LOGGER.debug("Create a user with Info: {}", form);
+
+        Session session = findById(id);
+
+        session
+                .setTitle(form.getTitle())
+                .setDescription(form.getDescription())
+                .setSlideUrl(form.getSlideUrl())
+                .setSlideEmbed(form.getSlideEmbed())
+                .setVideoUrl(form.getVideoUrl())
+                .setVideoEmbed(form.getVideoEmbed());
+
+        if (form.getProgramId() != null) {
+            session.setProgram(programRepository.findOne(form.getProgramId()));
+        }
+
+        if (form.getRoomId() != null) {
+            session.setRoom(roomRepository.findOne(form.getRoomId()));
+        }
+
+        if (form.getSpeakers() != null) {
+            Set<User> speakers = form.getSpeakers().stream().map(userId -> userRepository.findOne(userId)).collect(Collectors.toSet());
+            session.setSpeakerSet(speakers);
+        }
+
+        sessionRepository.save(session);
+
+        LOGGER.debug("Successfully updated");
+        return session;
     }
 }

@@ -1,6 +1,7 @@
 package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.joda.time.LocalTime;
 
@@ -12,6 +13,7 @@ public class Room {
 
     public static final int MAX_LENGTH_NAME = 50;
     public static final int MAX_LENGTH_LOCATION = 100;
+    public static final String DAY_JSON_PATTERN = "yyyy-MM-dd'T'HH:mm:ssz";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -65,6 +67,21 @@ public class Room {
     @JoinColumn(name = "conference_id")
     @JsonManagedReference
     private Conference conference;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column()
+    @JsonFormat(pattern = DAY_JSON_PATTERN)
+    private Date timer;
+
+    @OneToMany(
+            targetEntity = Message.class,
+            mappedBy = "room",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.EAGER
+    )
+//    @JsonIgnore
+    @JsonBackReference
+    private Set<Message> receiveMessages;
 
     public Room() {
     }
@@ -199,8 +216,27 @@ public class Room {
         return conference;
     }
 
-    public void setConference(Conference conference) {
+    public Room setConference(Conference conference) {
         this.conference = conference;
+        return this;
+    }
+
+    public Date getTimer() {
+        return timer;
+    }
+
+    public Room setTimer(Date timer) {
+        this.timer = timer;
+        return this;
+    }
+
+    public Set<Message> getReceiveMessages() {
+        return receiveMessages;
+    }
+
+    public Room setReceiveMessages(Set<Message> receiveMessages) {
+        this.receiveMessages = receiveMessages;
+        return this;
     }
 
     public void update(Room updated) {

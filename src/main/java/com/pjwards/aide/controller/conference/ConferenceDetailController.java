@@ -2,6 +2,7 @@ package com.pjwards.aide.controller.conference;
 
 import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.CurrentUser;
+import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.enums.Status;
 import com.pjwards.aide.domain.forms.ConferenceForm;
 import com.pjwards.aide.domain.validators.ConferenceFormValidator;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/conferences")
@@ -112,6 +114,23 @@ public class ConferenceDetailController {
         model.addAttribute("conference", conference);
 
         return "conference/register";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{id}/register")
+    public String getRegister(Model model,
+                              @PathVariable("id") Long id,
+                              @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
+        LOGGER.debug("Getting register page");
+
+        Conference conference = conferenceService.findById(id);
+
+        Set<User> paticipants = conference.getParticipants();
+        paticipants.add(currentUser.getUser());
+        conference.setParticipants(paticipants);
+        conferenceService.update(conference);
+        model.addAttribute("conference", conference);
+
+        return "redirect:/conferences/" + id;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/admin")

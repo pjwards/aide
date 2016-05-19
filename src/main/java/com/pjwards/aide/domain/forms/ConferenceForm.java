@@ -5,15 +5,12 @@ import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Contact;
 import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.enums.Charge;
-import com.pjwards.aide.domain.enums.ContactType;
 import com.pjwards.aide.domain.enums.Status;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
-
-import static com.pjwards.aide.domain.enums.ContactType.*;
 
 public class ConferenceForm {
 

@@ -336,6 +336,7 @@ public class Conference {
         this.lan = updated.lan;
         this.charge = updated.charge;
         this.price = updated.price;
+        this.participants = updated.participants;
     }
 
     public void update(ConferenceForm form) {

@@ -4,7 +4,10 @@ import com.pjwards.aide.domain.Session;
 import com.pjwards.aide.domain.builder.SessionBuilder;
 import com.pjwards.aide.exception.SessionNotFoundException;
 import com.pjwards.aide.exception.WrongInputDateException;
+import com.pjwards.aide.repository.ProgramRepository;
+import com.pjwards.aide.repository.RoomRepository;
 import com.pjwards.aide.repository.SessionRepository;
+import com.pjwards.aide.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -27,12 +30,19 @@ public class SessionServiceImplTest {
 
 
     private SessionRepository sessionRepositoryMock;
+    private ProgramRepository programRepositoryMock;
+    private RoomRepository roomRepositoryMock;
+    private UserRepository userRepositoryMock;
     private SessionService sessionService;
 
     @Before
     public void setup() {
         sessionRepositoryMock = mock(SessionRepository.class);
-        sessionService = new SessionServiceImpl(sessionRepositoryMock);
+        programRepositoryMock = mock(ProgramRepository.class);
+        roomRepositoryMock = mock(RoomRepository.class);
+        userRepositoryMock = mock(UserRepository.class);
+        sessionService = new SessionServiceImpl(sessionRepositoryMock, programRepositoryMock,
+                roomRepositoryMock, userRepositoryMock);
     }
 
     @Test

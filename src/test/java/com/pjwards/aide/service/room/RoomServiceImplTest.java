@@ -3,7 +3,9 @@ package com.pjwards.aide.service.room;
 import com.pjwards.aide.domain.Room;
 import com.pjwards.aide.domain.builder.RoomBuilder;
 import com.pjwards.aide.exception.RoomNotFoundException;
+import com.pjwards.aide.repository.ConferenceRepository;
 import com.pjwards.aide.repository.RoomRepository;
+import com.pjwards.aide.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -27,12 +29,16 @@ public class RoomServiceImplTest {
     private static final String UPDATED_DESCRIPTION = "updated description";
 
     private RoomRepository roomRepositoryMock;
+    private ConferenceRepository conferenceRepositoryMock;
+    private UserRepository userRepositoryMock;
     private RoomService roomService;
 
     @Before
     public void setup() {
         roomRepositoryMock = mock(RoomRepository.class);
-        roomService = new RoomServiceImpl(roomRepositoryMock);
+        conferenceRepositoryMock = mock(ConferenceRepository.class);
+        userRepositoryMock = mock(UserRepository.class);
+        roomService = new RoomServiceImpl(roomRepositoryMock, conferenceRepositoryMock, userRepositoryMock);
     }
 
     @Test

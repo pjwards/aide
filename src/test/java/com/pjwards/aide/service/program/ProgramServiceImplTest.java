@@ -4,7 +4,10 @@ import com.pjwards.aide.domain.Program;
 import com.pjwards.aide.domain.builder.ProgramBuilder;
 import com.pjwards.aide.exception.ProgramNotFoundException;
 import com.pjwards.aide.exception.WrongInputDateException;
+import com.pjwards.aide.repository.ProgramDateRepository;
 import com.pjwards.aide.repository.ProgramRepository;
+import com.pjwards.aide.repository.RoomRepository;
+import com.pjwards.aide.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -31,12 +34,19 @@ public class ProgramServiceImplTest {
 
 
     private ProgramRepository programRepositoryMock;
+    private ProgramDateRepository programDateRepositoryMock;
+    private RoomRepository roomRepositoryMock;
+    private UserRepository userRepositoryMock;
     private ProgramService programService;
 
     @Before
     public void setup() {
         programRepositoryMock = mock(ProgramRepository.class);
-        programService = new ProgramServiceImpl(programRepositoryMock);
+        programDateRepositoryMock = mock(ProgramDateRepository.class);
+        roomRepositoryMock = mock(RoomRepository.class);
+        userRepositoryMock = mock(UserRepository.class);
+        programService = new ProgramServiceImpl(programRepositoryMock, programDateRepositoryMock,
+                roomRepositoryMock, userRepositoryMock);
     }
 
     @Test

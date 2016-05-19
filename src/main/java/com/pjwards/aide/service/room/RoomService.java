@@ -1,6 +1,7 @@
 package com.pjwards.aide.service.room;
 
 import com.pjwards.aide.domain.Room;
+import com.pjwards.aide.domain.forms.RoomForm;
 import com.pjwards.aide.exception.RoomNotFoundException;
 
 import java.util.List;
@@ -48,4 +49,21 @@ public interface RoomService {
      * @throws RoomNotFoundException if no room is found with the given id.
      */
     public Room deleteById(Long id) throws RoomNotFoundException;
+
+    /**
+     * Create room by created form
+     *
+     * @param form room created form
+     * @return The created room.
+     */
+    public Room create(RoomForm form);
+
+    /**
+     * Update room by updated form
+     *
+     * @param form room updated form
+     * @param id room id
+     * @return The updated room.
+     */
+    public Room update(RoomForm form, Long id) throws RoomNotFoundException;
 }

@@ -1,6 +1,7 @@
 package com.pjwards.aide.service.session;
 
 import com.pjwards.aide.domain.Session;
+import com.pjwards.aide.domain.forms.SessionForm;
 import com.pjwards.aide.exception.SessionNotFoundException;
 import com.pjwards.aide.exception.WrongInputDateException;
 
@@ -49,5 +50,22 @@ public interface SessionService {
      * @throws SessionNotFoundException if no session is found with the given id.
      */
     public Session deleteById(Long id) throws SessionNotFoundException;
+
+    /**
+     * Create session by created form
+     *
+     * @param form session created form
+     * @return The created session.
+     */
+    public Session create(SessionForm form);
+
+    /**
+     * Update session by updated form
+     *
+     * @param form session updated form
+     * @param id session id
+     * @return The updated session.
+     */
+    public Session update(SessionForm form, Long id) throws SessionNotFoundException;
 }
 

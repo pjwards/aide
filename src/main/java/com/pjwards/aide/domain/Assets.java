@@ -1,5 +1,6 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class Assets {
     private Integer downloadCount;
 
     @OneToOne
-    @JsonManagedReference
+    @JsonBackReference
     User user;
 
     @OneToOne

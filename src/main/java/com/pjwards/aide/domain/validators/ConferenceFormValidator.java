@@ -87,56 +87,62 @@ public class ConferenceFormValidator implements Validator {
     }
 
     private void validateLocationUrl(Errors errors, ConferenceForm form) {
-        if (form.getLocationUrl() != null && !form.getLocationUrl().equals("")
-                && !urlValidator.isValid(form.getLocationUrl())) {
-            errors.reject("locationUrl.no_validate", "Location Url does not validate");
-        } else if (form.getLocationUrl().length() > Conference.MAX_LENGTH_LOCATION_URL) {
-            errors.reject("locationUrl.large", "Location Url is too large");
+        if (form.getLocationUrl() != null && !form.getLocationUrl().equals("")) {
+            if (!urlValidator.isValid(form.getLocationUrl())) {
+                errors.reject("locationUrl.no_validate", "Location Url does not validate");
+            } else if (form.getLocationUrl().length() > Conference.MAX_LENGTH_LOCATION_URL) {
+                errors.reject("locationUrl.large", "Location Url is too large");
+            }
         }
     }
 
     private void validateEmailAddress(Errors errors, ConferenceForm form) {
-        if (form.getEmail() != null && !form.getEmail().equals("")
-                && !emailValidator.validate(form.getEmail())) {
-            errors.reject("email.no_validate", "Email does not validate");
-        } else if (form.getEmail().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("email.large", "Email is too large");
+        if (form.getEmail() != null && !form.getEmail().equals("")) {
+            if (!emailValidator.validate(form.getEmail())) {
+                errors.reject("email.no_validate", "Email does not validate");
+            } else if (form.getEmail().length() > Contact.MAX_LENGTH_URL) {
+                errors.reject("email.large", "Email is too large");
+            }
         }
     }
 
     private void validateFacebookUrl(Errors errors, ConferenceForm form) {
-        if (form.getFacebook() != null && !form.getFacebook().equals("")
-                && (!urlValidator.isValid(form.getFacebook()) || !form.getFacebook().contains("facebook"))) {
-            errors.reject("facebook.no_validate", "Facebook does not validate");
-        } else if (form.getFacebook().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("facebook.large", "Facebook is too large");
+        if (form.getFacebook() != null && !form.getFacebook().equals("")) {
+            if ((!urlValidator.isValid(form.getFacebook()) || !form.getFacebook().contains("facebook"))) {
+                errors.reject("facebook.no_validate", "Facebook does not validate");
+            } else if (form.getFacebook().length() > Contact.MAX_LENGTH_URL) {
+                errors.reject("facebook.large", "Facebook is too large");
+            }
         }
     }
 
     private void validateTwitterUrl(Errors errors, ConferenceForm form) {
-        if (form.getTwitter() != null && !form.getTwitter().equals("")
-                && (!urlValidator.isValid(form.getTwitter()) || !form.getTwitter().contains("twitter"))) {
-            errors.reject("twitter.no_validate", "Twitter does not validate");
-        } else if (form.getTwitter().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("twitter.large", "Twitter is too large");
+        if (form.getTwitter() != null && !form.getTwitter().equals("")) {
+            if ((!urlValidator.isValid(form.getTwitter()) || !form.getTwitter().contains("twitter"))) {
+                errors.reject("twitter.no_validate", "Twitter does not validate");
+            } else if (form.getTwitter().length() > Contact.MAX_LENGTH_URL) {
+                errors.reject("twitter.large", "Twitter is too large");
+            }
         }
     }
 
     private void validateGithubUrl(Errors errors, ConferenceForm form) {
-        if (form.getGithub() != null && !form.getGithub().equals("")
-                && (!urlValidator.isValid(form.getGithub()) || !form.getGithub().contains("github"))) {
-            errors.reject("github.no_validate", "Github does not validate");
-        } else if (form.getGithub().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("github.large", "Github is too large");
+        if (form.getGithub() != null && !form.getGithub().equals("")) {
+            if ((!urlValidator.isValid(form.getGithub()) || !form.getGithub().contains("github"))) {
+                errors.reject("github.no_validate", "Github does not validate");
+            } else if (form.getGithub().length() > Contact.MAX_LENGTH_URL) {
+                errors.reject("github.large", "Github is too large");
+            }
         }
     }
 
     private void validateGooglePlusUrl(Errors errors, ConferenceForm form) {
-        if (form.getGooglePlus() != null && !form.getGooglePlus().equals("")
-                && (!urlValidator.isValid(form.getGooglePlus()) || !form.getGooglePlus().contains("google"))) {
-            errors.reject("google.no_validate", "Google Plus does not validate");
-        } else if (form.getGooglePlus().length() > Contact.MAX_LENGTH_URL) {
-            errors.reject("google.large", "Google Plus is too large");
+        if (form.getGooglePlus() != null && !form.getGooglePlus().equals("")) {
+            if ((!urlValidator.isValid(form.getGooglePlus()) || !form.getGooglePlus().contains("google"))) {
+                errors.reject("google.no_validate", "Google Plus does not validate");
+            } else if (form.getGooglePlus().length() > Contact.MAX_LENGTH_URL) {
+                errors.reject("google.large", "Google Plus is too large");
+            }
         }
     }
 
@@ -148,7 +154,7 @@ public class ConferenceFormValidator implements Validator {
 
     private void validateAssets(Errors errors, ConferenceForm form) {
         form.getAssets().stream().filter(file -> !imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
-            if(!file.getOriginalFilename().equals("")) {
+            if (!file.getOriginalFilename().equals("")) {
                 errors.reject("files.no_validate", "Files do not validate: " + file.getOriginalFilename());
             }
         });

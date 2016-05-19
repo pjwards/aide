@@ -26,6 +26,7 @@ public class DemoConfig {
                                             ProgramRepository programRepository,
                                             SessionRepository sessionRepository,
                                             ContactRepository contactRepository,
+                                            MessageRepository messageRepository,
                                             UserService userService) {
         return (args) -> {
             SignUpForm signUpForm = new SignUpForm();
@@ -69,6 +70,11 @@ public class DemoConfig {
             Room room1 = roomRepository.save(new Room.Builder("100호", "100", "100호").conference(conference).build());
             Room room2 = roomRepository.save(new Room.Builder("101호", "101", "101호").conference(conference).build());
             Room room3 = roomRepository.save(new Room.Builder("102호", "102", "102호").conference(conference).build());
+
+            messageRepository.save(new Message.Builder("Test message 1", user, room1).build());
+            messageRepository.save(new Message.Builder("Test message 2", user, room1).build());
+            messageRepository.save(new Message.Builder("Test message 3", user, room1).build());
+            messageRepository.save(new Message.Builder("Test message 4", user, room1).build());
 
             // Day 1
             ProgramDate programDate1 = programDateRepository.save(

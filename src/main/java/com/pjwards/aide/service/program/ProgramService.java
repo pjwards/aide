@@ -1,6 +1,7 @@
 package com.pjwards.aide.service.program;
 
 import com.pjwards.aide.domain.Program;
+import com.pjwards.aide.domain.forms.ProgramForm;
 import com.pjwards.aide.exception.ProgramNotFoundException;
 import com.pjwards.aide.exception.WrongInputDateException;
 
@@ -49,5 +50,22 @@ public interface ProgramService {
      * @throws ProgramNotFoundException if no program is found with the given id.
      */
     public Program deleteById(Long id) throws ProgramNotFoundException;
+
+    /**
+     * Create program by created form
+     *
+     * @param form program created form
+     * @return The created program.
+     */
+    public Program create(ProgramForm form);
+
+    /**
+     * Update program by updated form
+     *
+     * @param form program updated form
+     * @param id program id
+     * @return The updated program.
+     */
+    public Program update(ProgramForm form, Long id) throws ProgramNotFoundException;
 }
 

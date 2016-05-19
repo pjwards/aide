@@ -2,7 +2,7 @@
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${conference.name} :: Programs</title>
+    <title>${conference.name} :: Sessions</title>
 
     <!-- MetisMenu CSS -->
     <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
@@ -46,10 +46,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Programs
+                        Sessions
 
                         <div class="btn-group pull-right">
-                            <a href="/conferences/${conference.id}/admin/programs/add" class="btn btn-primary btn">
+                            <a href="/conferences/${conference.id}/admin/sessions/add" class="btn btn-primary btn">
                                 Add
                             </a>
                         </div>
@@ -79,49 +79,51 @@
                                     <tbody>
                                     <#list conference.programDates as date>
                                         <#list date.programs as program>
-                                            <tr id="${program.id}">
-                                                <td>${program.title}</td>
-                                                <td>${program.begin}</td>
-                                                <td>${program.end}</td>
-                                                <td>
-                                                    <#if program.date??>
+                                            <#list program.sessions as session>
+                                                <tr id="${session.id}">
+                                                    <td>${session.title}</td>
+                                                    <td>${program.begin}</td>
+                                                    <td>${program.end}</td>
+                                                    <td>
+                                                        <#if program.date??>
                                                         ${program.date.formattedScheduleDay}
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
-                                                </td>
-                                                <td>
-                                                    <#if program.room??>
-                                                        ${program.room.name}
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
-                                                </td>
-                                                <td>
-                                                    <#if program.speakerSet?has_content>
-                                                            <#list program.speakerSet as speaker>
+                                                        <#else>
+                                                            Empty
+                                                        </#if>
+                                                    </td>
+                                                    <td>
+                                                        <#if session.room??>
+                                                        ${session.room.name}
+                                                        <#else>
+                                                            Empty
+                                                        </#if>
+                                                    </td>
+                                                    <td>
+                                                        <#if session.speakerSet?has_content>
+                                                            <#list session.speakerSet as speaker>
                                                             ${speaker.name}
                                                                 <#sep>,
                                                             </#list>
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
-                                                </td>
-                                                <td>
-                                                    <#if program.slideUrl?? && program.slideUrl?length != 0>
-                                                        Exist
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
-                                                </td>
-                                                <td>
-                                                    <#if program.videoUrl?? && program.videoUrl?length != 0>
-                                                        Exist
-                                                    <#else>
-                                                        Empty
-                                                    </#if>
-                                                </td>
-                                            </tr>
+                                                        <#else>
+                                                            Empty
+                                                        </#if>
+                                                    </td>
+                                                    <td>
+                                                        <#if session.slideUrl?? && session.slideUrl?length != 0>
+                                                            Exist
+                                                        <#else>
+                                                            Empty
+                                                        </#if>
+                                                    </td>
+                                                    <td>
+                                                        <#if session.videoUrl?? && session.videoUrl?length != 0>
+                                                            Exist
+                                                        <#else>
+                                                            Empty
+                                                        </#if>
+                                                    </td>
+                                                </tr>
+                                            </#list>
                                         </#list>
                                     </#list>
                                     </tbody>
@@ -167,8 +169,8 @@
             });
 
             $('#dataTables tbody').on( 'click', 'tr', function () {
-                var program_id = $(this).attr('id');
-                location.href = '/conferences/${conference.id}/admin/programs/' + program_id;
+                var session_id = $(this).attr('id');
+                location.href = '/conferences/${conference.id}/admin/sessions/' + session_id;
             } );
         });
     </script>
