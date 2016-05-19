@@ -5,7 +5,7 @@
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${conference.name} :: Sponosr list</title>
+    <title>${conference.name} :: Sponsor list</title>
 
     <!-- MetisMenu CSS -->
     <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
@@ -15,6 +15,12 @@
 
     <!-- Custom CSS -->
     <link href="/lib/sb-admin/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="/bower_components/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
@@ -41,44 +47,52 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            User List
+                    <h1 class="page-header">
+                        Sponsor Manage Page
+
+                        <div class="btn-group pull-right">
+                            <a href="/conferences/${conference.id}/admin/sponsor/add" class="btn btn-primary btn">
+                                Register
+                            </a>
                         </div>
-                        <!-- /.panel-heading -->
+                    </h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table class="table table-hover" id="dataTables">
                                     <thead>
                                     <tr>
-                                        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></th>
-                                        <th>Name</th>
-                                        <th>Slug</th>
-                                        <th>Rank</th>
-                                        <th>Url</th>
-                                        <th>Delete</th>
+                                        <th style="width: 30%"></th>
+                                        <th style="width: 10%">Name</th>
+                                        <th style="width: 10%">Slug</th>
+                                        <th style="width: 20%">Rank</th>
+                                        <th style="width: 10%">Url</th>
+                                        <th style="width: 10%">Delete</th>
                                     </tr>
                                     </thead>
-
                                     <tbody>
-                                        <#if hasSponsor == false>
-                                        <tr>
-                                            <td colspan="5">
-                                                Can not found sponsors.
-                                            </td>
-                                        </tr>
-                                        <#else>
-                                            <#list sponsorList as list>
-                                            <tr>
+                                        <#list sponsorList as list>
+                                            <tr id="${list.id}">
                                                 <td><img id="avatar" src="<#if list.assets??>${list.assets.realPath}<#else>/basic/img/user.png</#if>" alt="picture"></td>
-                                                <td><a href="/conferences/${conference.id}/admin/sponsor/${list.id}/update" id="update">${list.name}</a></td>
+                                                <td>${list.name}</td>
                                                 <td>${list.slug}</td>
                                                 <td>${list.rank}</td>
-                                                <td>${list.url}</td>
+                                                <td>
+                                                    <#if list.url??>
+                                                    ${list.url}
+                                                    <#else>
+                                                        Empty
+                                                    </#if>
+                                                </td>
                                                 <td><button type="button" class="btn btn-danger" onclick="sendDelete(${list.id})">Delete</button></td>
                                             </tr>
-                                            </#list>
-                                        </#if>
+                                        </#list>
                                     </tbody>
                                 </table>
                             </div>
@@ -110,7 +124,22 @@
     <!-- Custom Theme JavaScript -->
     <script src="/lib/sb-admin/dist/js/sb-admin-2.js"></script>
 
+    <!-- DataTables JavaScript -->
+    <script src="/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
     <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTables').DataTable({
+                responsive: true
+            });
+
+            $('#dataTables tbody').on( 'click', 'tr', function () {
+                var list_id = $(this).attr('id');
+                location.href = "/conferences/${conference.id}/admin/sponsor/"+list_id+"/update";
+            } );
+        });
+
         function sendDelete(param) {
             if(!confirm('Do you want to delete this?'))
                 return;
@@ -134,6 +163,7 @@
             });
             setTimeout(function(){ location.reload(); }, 1000);
         }
+    </script>
     </script>
     </@layout.put>
 

@@ -45,7 +45,8 @@
     </@layout.put>
 
     <@layout.put block="contents">
-    <section>
+    <div class="row">
+        <div class="col-lg-12">
         <#if nameError??>
             <div class="alert alert-dismissable alert-danger text-center">
                 <button type="button" class="close" data-dismiss="alert">×</button>
@@ -100,10 +101,20 @@
                 <p>${descriptionSuccess}</p>
             </div>
         </#if>
-    </section>
+        </div>
+    </div>
 
     <div id="wrapper">
         <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        Sponsor Update
+                    </h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <form role="form" action="" method="post" enctype="multipart/form-data">

@@ -33,6 +33,7 @@
                 </div>
             </#if>
         </section>
+
         <form role="form" method="post" action="" class="login-form">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 

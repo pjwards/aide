@@ -20,21 +20,24 @@
     </@layout.put>
 
     <@layout.put block="contents" type="replace">
-    <section>
         <@spring.bind "form" />
         <#if spring.status.error>
-            <div class="alert alert-dismissable alert-danger text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <#list spring.status.errorMessages as error>
-                    <p>${error}</p>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-dismissable alert-danger text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <#list spring.status.errorMessages as error>
+                        <p>${error}</p>
 
-                    <#if error?contains("Old")><#global errorOldPassword=true></#if>
-                    <#if error?contains("Passwords") || error?contains("Password")><#global errorPassword=true></#if>
-                    <#if error?contains("Passwords") || error?contains("PasswordRepeated")><#global errorPasswordRepeated=true></#if>
-                </#list>
+                        <#if error?contains("Old")><#global errorOldPassword=true></#if>
+                        <#if error?contains("Passwords") || error?contains("Password")><#global errorPassword=true></#if>
+                        <#if error?contains("Passwords") || error?contains("PasswordRepeated")><#global errorPasswordRepeated=true></#if>
+                    </#list>
+                </div>
             </div>
+        </div>
         </#if>
-    </section>
+
     <div class="row">
         <div class="col-lg-12">
             <form role="form" action="" method="post">
