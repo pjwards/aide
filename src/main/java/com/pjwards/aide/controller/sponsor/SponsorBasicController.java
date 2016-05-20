@@ -2,6 +2,7 @@ package com.pjwards.aide.controller.sponsor;
 
 import com.pjwards.aide.domain.Assets;
 import com.pjwards.aide.domain.Conference;
+import com.pjwards.aide.domain.CurrentUser;
 import com.pjwards.aide.domain.Sponsor;
 import com.pjwards.aide.domain.forms.SponsorAddForm;
 import com.pjwards.aide.domain.validators.ImageValidator;
@@ -72,10 +73,19 @@ public class SponsorBasicController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/add")
-    public ModelAndView add(Model model, @PathVariable("conference_id") Long conferenceId) throws SponsorNotFoundException {
+    public ModelAndView add(Model model, @PathVariable("conference_id") Long conferenceId,
+                            @ModelAttribute("currentUser") CurrentUser currentUser) throws SponsorNotFoundException {
         LOGGER.debug("Getting details page");
 
         Conference conference = conferenceRepository.findOne(conferenceId);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
 
         model.addAttribute("conference", conference);
         return new ModelAndView("conference/sponsor/sponsoradd", "form", new SponsorAddForm());
@@ -84,12 +94,21 @@ public class SponsorBasicController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/add")
     public String handleSponsorForm(Model model, @Valid @ModelAttribute("form") SponsorAddForm form,
-                                       BindingResult bindingResult, @PathVariable("conference_id") Long conferenceId) {
+                                    @ModelAttribute("currentUser") CurrentUser currentUser,
+                                    BindingResult bindingResult, @PathVariable("conference_id") Long conferenceId) {
         LOGGER.debug("Processing add sponsor form={}, bindingResult={}", form, bindingResult);
 
         Conference conference = conferenceRepository.findOne(conferenceId);
 
         form.setConference(conference);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
 
         if (bindingResult.hasErrors()) {
             // failed validation
@@ -103,29 +122,42 @@ public class SponsorBasicController {
         }
 
         // ok, redirect
-        return "redirect:/conferences/"+ conferenceId +"/admin";
+        return "redirect:/conferences/" + conferenceId + "/admin";
     }
 
     @RequestMapping("/{sponsor_id}/update")
-    public ModelAndView getSettingsSponsorUpdate(Model model, @PathVariable("sponsor_id") Long sponsorId, @PathVariable("conference_id") Long conferenceId) throws SponsorNotFoundException{
+    public ModelAndView getSettingsSponsorUpdate(Model model,
+                                                 @ModelAttribute("currentUser") CurrentUser currentUser,
+                                                 @PathVariable("sponsor_id") Long sponsorId,
+                                                 @PathVariable("conference_id") Long conferenceId) throws SponsorNotFoundException {
         LOGGER.debug("Getting settings Sponsor update form");
         Sponsor sponsor = sponsorRepository.findOne(sponsorId);
         Conference conference = conferenceRepository.findOne(conferenceId);
         model.addAttribute("conference", conference);
         model.addAttribute("sponsor", sponsor);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
+
         return new ModelAndView("conference/sponsor/sponsorupdate");
     }
 
     @RequestMapping(value = "/{sponsor_id}/update", method = RequestMethod.POST)
     public ModelAndView updateSettingsSponsor(@PathVariable("sponsor_id") Long sponsorId,
-                                              @RequestParam(value = "file",required = false) MultipartFile file,
+                                              @RequestParam(value = "file", required = false) MultipartFile file,
                                               @RequestParam(value = "name", required = false) String name,
                                               @RequestParam(value = "slug", required = false) String slug,
                                               @RequestParam(value = "rank", required = false) int rank,
                                               @RequestParam(value = "url", required = false) String url,
                                               @RequestParam(value = "description", required = false) String description,
                                               @PathVariable("conference_id") Long conferenceId,
-                                              Model model) throws SponsorNotFoundException{
+                                              @ModelAttribute("currentUser") CurrentUser currentUser,
+                                              Model model) throws SponsorNotFoundException {
         LOGGER.debug("Getting settings Sponsor update, name={}", name);
 
         ModelAndView modelAndView = new ModelAndView("conference/sponsor/sponsorupdate");
@@ -137,10 +169,18 @@ public class SponsorBasicController {
         Conference conference = conferenceRepository.findOne(conferenceId);
         model.addAttribute("conference", conference);
 
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
+
         /*
         Set name
          */
-        if(name != null && !name.equals("") ){
+        if (name != null && !name.equals("")) {
             sponsor.update(sponsor.getSlug(), name, sponsor.getUrl(), sponsor.getDescription(), sponsor.getRank());
 
             sponsorRepository.save(sponsor);
@@ -152,7 +192,7 @@ public class SponsorBasicController {
         /*
         Set sponsor image
          */
-        if(file != null && imageValidator.validate(file.getOriginalFilename())) {
+        if (file != null && imageValidator.validate(file.getOriginalFilename())) {
             LOGGER.debug("File name={}, validated={}", file.getOriginalFilename(), imageValidator.validate(file.getOriginalFilename()));
             Assets assets = utils.fileSaveHelperSponsor(file, sponsor, "/img/");
             if (assets != null) {
@@ -168,7 +208,7 @@ public class SponsorBasicController {
         /*
          Set slug
          */
-        if(slug != null && !slug.equals("") ){
+        if (slug != null && !slug.equals("")) {
             sponsor.update(slug, sponsor.getName(), sponsor.getUrl(), sponsor.getDescription(), sponsor.getRank());
 
             sponsorRepository.save(sponsor);
@@ -180,7 +220,7 @@ public class SponsorBasicController {
         /*
          Set rank
          */
-        if(rank >= 0 && rank <= 100){
+        if (rank >= 0 && rank <= 100) {
             sponsor.update(sponsor.getSlug(), sponsor.getName(), sponsor.getUrl(), sponsor.getDescription(), rank);
 
             sponsorRepository.save(sponsor);
@@ -192,7 +232,7 @@ public class SponsorBasicController {
         /*
         Set url
          */
-        if(url != null && !url.equals("") && !urlValidator.isValid(url)){
+        if (url != null && !url.equals("") && !urlValidator.isValid(url)) {
             sponsor.update(sponsor.getSlug(), sponsor.getName(), url, sponsor.getDescription(), sponsor.getRank());
 
             sponsorRepository.save(sponsor);
@@ -202,7 +242,7 @@ public class SponsorBasicController {
         /*
         Set description
          */
-        if(description!= null && !description.equals("")){
+        if (description != null && !description.equals("")) {
             sponsor.update(sponsor.getSlug(), sponsor.getName(), sponsor.getUrl(), description, sponsor.getRank());
 
             sponsorRepository.save(sponsor);
@@ -213,10 +253,20 @@ public class SponsorBasicController {
     }
 
     @RequestMapping(value = "/list")
-    public String getSponsorsPage(Model model, @PathVariable("conference_id") Long conferenceId) {
+    public String getSponsorsPage(Model model,
+                                  @ModelAttribute("currentUser") CurrentUser currentUser,
+                                  @PathVariable("conference_id") Long conferenceId) {
         LOGGER.debug("Getting sponsors page");
 
         Conference conference = conferenceRepository.findOne(conferenceId);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
 
         int totalCount = sponsorRepository.countWhereConference(conferenceId);
 
@@ -224,7 +274,7 @@ public class SponsorBasicController {
         model.addAttribute("sponsorList", sponsorList);
         model.addAttribute("conference", conference);
 
-        if(totalCount == 0) {
+        if (totalCount == 0) {
             model.addAttribute("hasSponsor", false);
         } else {
             model.addAttribute("hasSponsor", true);
@@ -233,12 +283,24 @@ public class SponsorBasicController {
         return "conference/sponsor/sponsorlist";
     }
 
-    @RequestMapping(value = "/{sponsor_id}/delete" , method = RequestMethod.DELETE)
-    public String deleteSponsor(@PathVariable("sponsor_id") Long id, @PathVariable("conference_id") Long conferenceId) {
+    @RequestMapping(value = "/{sponsor_id}/delete", method = RequestMethod.DELETE)
+    public String deleteSponsor(@PathVariable("sponsor_id") Long id,
+                                @ModelAttribute("currentUser") CurrentUser currentUser,
+                                @PathVariable("conference_id") Long conferenceId) {
         LOGGER.debug("Sponsor id={}", id);
+
+        Conference conference = conferenceRepository.findOne(conferenceId);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
 
         sponsorRepository.delete(id);
 
-        return "redirect:/conferences/"+conferenceId+"/admin/sponsor/list";
+        return "redirect:/conferences/" + conferenceId + "/admin/sponsor/list";
     }
 }

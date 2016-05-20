@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -62,8 +63,11 @@ public class SignInController {
 
 
     @RequestMapping("/sign_in")
-    public ModelAndView getSignInPage(@RequestParam Optional<String> error) {
+    public ModelAndView getSignInPage(HttpServletRequest request,
+                                      @RequestParam Optional<String> error) {
         LOGGER.debug("Getting login page, error={}", error);
+        String referrer = request.getHeader("Referer");
+        request.getSession().setAttribute("prevPage", referrer);
         return new ModelAndView("signin/signin", "error", error);
     }
 

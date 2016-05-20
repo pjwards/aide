@@ -58,26 +58,10 @@
                         <a href="/conferences/${conference.id}/admin"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="/conferences/${conference.id}/admin/days"><i class="fa fa-calendar fa-fw"></i> Days</a>
-                    </li>
-                    <li>
-                        <a href="/conferences/${conference.id}/admin/rooms"><i class="fa fa-building fa-fw"></i> Rooms</a>
-                    </li>
-                    <li>
                         <a href="/conferences/${conference.id}/admin/programs"><i class="fa fa-table fa-fw"></i> Programs</a>
                     </li>
                     <li>
                         <a href="/conferences/${conference.id}/admin/sessions"><i class="fa fa-edit fa-fw"></i> Sessions</a>
-                    </li>
-                    <li>
-                        <a href="/conferences/${conference.id}/admin/sponsor/list"><i class="fa fa-money fa-fw"></i> Sponsors</a>
-                    </li>
-                    <li>
-                        <a href="/conferences/${conference.id}/admin/update"><i class="fa fa-group fa-fw"></i> Conference</a>
-                    </li>
-
-                    <li>
-                        <a href="forms.html"><i class="fa fa-user fa-fw"></i> Users</a>
                     </li>
                 </ul>
             </div>

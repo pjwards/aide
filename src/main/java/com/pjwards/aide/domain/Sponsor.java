@@ -60,7 +60,8 @@ public class Sponsor {
     }
 
     public String getUrl() {
-        return url;
+        if (url == null || url.equals("") || url.startsWith("http://") || url.startsWith("https://")) return url;
+        return "http://" + url;
     }
 
     public String getDescription() {

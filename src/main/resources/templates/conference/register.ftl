@@ -58,7 +58,23 @@
                                             <form role="form" action="" method="post" enctype="multipart/form-data">
                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                                                <button type="submit" class="btn btn-default">Register</button>
+                                                <#if !currentUser??>
+                                                    <a href="/sign_in" class="btn btn-primary">Sign in</a>
+                                                <#else>
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="name" placeholder="Name *" value="${currentUser.name}" disabled>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="email" placeholder="Email *" value="${currentUser.user.email}" disabled>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="company" placeholder="Company" value="<#if currentUser.company??>${currentUser.company}</#if>">
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-default">Register</button>
+                                                </#if>
                                             </form>
                                         </div>
                                     </div>

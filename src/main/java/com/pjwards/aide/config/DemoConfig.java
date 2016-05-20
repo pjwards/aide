@@ -48,9 +48,19 @@ public class DemoConfig {
                             .setDescription("description")
                             .setCompany("company"));
 
+            signUpForm.setName("홍길동3");
+            signUpForm.setEmail("a3@a.com");
+            signUpForm.setPassword("1234567");
+            signUpForm.setPasswordRepeated("1234567");
+            User user3 = userService.update(
+                    userService.create(signUpForm)
+                            .setDescription("description")
+                            .setCompany("company"));
+
             Set<User> userSet = new HashSet<>();
             userSet.add(user);
             userSet.add(user2);
+            userSet.add(user3);
 
             Conference conference = conferenceRepository.save(new Conference.Builder("DEVIEW 2015", "DEVIEW 2015가 성황리에 끝났습니다.",
                     "<h2>excellence . sharing . growth</h2>\n" +
@@ -67,7 +77,12 @@ public class DemoConfig {
             contacts.add(contactRepository.save(new Contact.Builder(ContactType.FACEBOOK, "http://www.facebook.com").conference(conference).build()));
             contacts.add(contactRepository.save(new Contact.Builder(ContactType.TWITTER, "www.twitter.com").conference(conference).build()));
 
+            Set<User> managers = new HashSet<>();
+            managers.add(user3);
             Room room1 = roomRepository.save(new Room.Builder("100호", "100", "100호").conference(conference).build());
+            room1.setManagerSet(managers);
+            roomRepository.save(room1);
+
             Room room2 = roomRepository.save(new Room.Builder("101호", "101", "101호").conference(conference).build());
             Room room3 = roomRepository.save(new Room.Builder("102호", "102", "102호").conference(conference).build());
 

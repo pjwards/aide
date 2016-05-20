@@ -1,4 +1,5 @@
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
+<#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 
 <!-- Navigation -->
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
@@ -18,9 +19,15 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class="page-scroll" href="/conferences/${conference.id}/admin">ADMIN</a>
-                </li>
+            <#if currentUser??>
+                <#if conference.isHost(currentUser.user)
+                || conference.isManager(currentUser.user)
+                || conference.isSpeaker(currentUser.user)>
+                    <li>
+                        <a class="page-scroll" href="/conferences/${conference.id}/admin">ADMIN</a>
+                    </li>
+                </#if>
+            </#if>
                 <li>
                     <a class="page-scroll" href="/conferences/${conference.id}/schedule">SCHEDULE</a>
                 </li>

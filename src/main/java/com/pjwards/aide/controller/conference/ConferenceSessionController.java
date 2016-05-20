@@ -45,23 +45,45 @@ public class ConferenceSessionController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/sessions")
-    public String getDays(Model model,
-                          @PathVariable("conference-id") Long conferenceId) throws ConferenceNotFoundException {
+    public String getSessions(Model model,
+                              @ModelAttribute("currentUser") CurrentUser currentUser,
+                              @PathVariable("conference-id") Long conferenceId) throws ConferenceNotFoundException {
         LOGGER.debug("Getting session list page");
 
         Conference conference = conferenceService.findById(conferenceId);
         model.addAttribute("conference", conference);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return "error/403";
+        }
 
         return "session/list";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/sessions/add")
     public ModelAndView add(Model model,
+                            @ModelAttribute("currentUser") CurrentUser currentUser,
                             @PathVariable("conference-id") Long conferenceId) throws SessionNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Getting adding page");
 
         Conference conference = conferenceService.findById(conferenceId);
         model.addAttribute("conference", conference);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
 
         return new ModelAndView("session/add", "form", new SessionForm());
     }
@@ -74,9 +96,20 @@ public class ConferenceSessionController {
                                        @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
         LOGGER.debug("Processing add session form={}, bindingResult={}", form, bindingResult);
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return "error/403";
+        }
+
         if (bindingResult.hasErrors()) {
             // failed validation
-            Conference conference = conferenceService.findById(conferenceId);
             model.addAttribute("conference", conference);
             return "session/add";
         }
@@ -93,6 +126,7 @@ public class ConferenceSessionController {
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/sessions/{id}")
     public ModelAndView update(Model model,
                                @PathVariable("conference-id") Long conferenceId,
+                               @ModelAttribute("currentUser") CurrentUser currentUser,
                                @PathVariable("id") Long id) throws SessionNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Getting update page");
 
@@ -100,6 +134,16 @@ public class ConferenceSessionController {
         model.addAttribute("conference", conference);
         Session session = sessionService.findById(id);
         model.addAttribute("session", session);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
 
         return new ModelAndView("session/update", "form", new SessionForm(session));
     }
@@ -113,9 +157,20 @@ public class ConferenceSessionController {
                                           @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException, SessionNotFoundException {
         LOGGER.debug("Processing update session form={}, bindingResult={}", form, bindingResult);
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return "error/403";
+        }
+
         if (bindingResult.hasErrors()) {
             // failed validation
-            Conference conference = conferenceService.findById(conferenceId);
             model.addAttribute("conference", conference);
             Session session = sessionService.findById(id);
             model.addAttribute("session", session);
@@ -133,8 +188,22 @@ public class ConferenceSessionController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{conference-id}/admin/sessions/{id}")
     public String delete(@PathVariable("conference-id") Long conferenceId,
+                         @ModelAttribute("currentUser") CurrentUser currentUser,
                          @PathVariable("id") Long id) throws ConferenceNotFoundException, SessionNotFoundException {
         LOGGER.debug("Deleting session : {}", id);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return "error/403";
+        }
+
         sessionService.deleteById(id);
         return "redirect:/conferences/" + conferenceId + "/admin/sessions";
     }

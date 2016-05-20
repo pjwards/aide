@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.Charge;
 import com.pjwards.aide.domain.enums.Status;
 import com.pjwards.aide.domain.forms.ConferenceForm;
+import org.springframework.security.access.method.P;
 
 import javax.persistence.*;
 import java.util.*;
@@ -311,7 +312,7 @@ public class Conference {
         return list;
     }
 
-    class RoomCompare implements Comparator<Room> {
+    private class RoomCompare implements Comparator<Room> {
         @Override
         public int compare(Room arg0, Room arg1) {
             return arg0.getName().compareTo(arg1.getName());
@@ -320,6 +321,32 @@ public class Conference {
 
     public void setRooms(Set<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public boolean isHost(User user) {
+        return host.getId().equals(user.getId());
+    }
+
+    public boolean isManager(User user) {
+        Set<Long> managers = new HashSet<>();
+
+        for (Room room : rooms) {
+            if (room.isManager(user)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isSpeaker(User user) {
+        for (ProgramDate day : programDates) {
+            if(day.isSpeaker(user)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public Conference() {
@@ -413,7 +440,7 @@ public class Conference {
             return this;
         }
 
-        public Builder sponsor(Set<Sponsor> sponsors){
+        public Builder sponsor(Set<Sponsor> sponsors) {
             built.sponsors = sponsors;
             return this;
         }

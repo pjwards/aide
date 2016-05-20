@@ -1,8 +1,9 @@
 <#import "/spring.ftl" as spring/>
-<#-- @ftlvariable name="conferences" type="java.util.List<com.pjwards.aide.domain.Conference>" -->
+<#-- @ftlvariable name="conferences" type="org.springframework.data.domain.Page<com.pjwards.aide.domain.Conference>" -->
 <#-- @ftlvariable name="advertisements" type="java.util.List<com.pjwards.aide.domain.Conference>" -->
 <#-- @ftlvariable name="rc" type="javax.servlet.http.HttpServletRequest" -->
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
+<#-- @ftlvariable name="k" type="java.lang.String" -->
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
@@ -125,6 +126,17 @@
         </#if>
 
             <div class="col-md-9">
+                <form action="" id="search_form" method="get" role="form">
+                    <div class="input-group custom-search-form" style="margin-bottom: 20px;">
+                            <input type="text" id="search_input" name="k" class="form-control" placeholder="Search..." value="<#if k??>&k=${k}</#if>">
+                            <span class="input-group-btn">
+                                <button id="search_btn" class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                    </div>
+                </form>
+
                 <div class="row carousel-holder">
 
                     <div class="col-md-12">
@@ -162,7 +174,7 @@
 
                 <div class="row">
 
-                    <#list conferences?reverse as conference>
+                    <#list conferences.content as conference>
                         <div class="col-sm-4 col-lg-4 col-md-4">
                             <div class="thumbnail">
                                 <img src="<#if conference.assetsSet?has_content>${conference.assetsSet?first.realPath}<#else>/lib/grayscale/img/intro-bg.jpg</#if>" style="width: 320px; height: 150px;" alt="">
@@ -176,19 +188,30 @@
                                     <span class="label label-${conference.status.attribute}">${conference.status.getTitle()}</span>
                                     <span class="label label-${conference.charge.color}">${conference.charge.getTitle()}</span>
                                 </div>
-                                <#--<div class="ratings">-->
-                                    <#--<p class="pull-right">15 reviews</p>-->
-                                    <#--<p>-->
-                                        <#--<span class="glyphicon glyphicon-star"></span>-->
-                                        <#--<span class="glyphicon glyphicon-star"></span>-->
-                                        <#--<span class="glyphicon glyphicon-star"></span>-->
-                                        <#--<span class="glyphicon glyphicon-star"></span>-->
-                                        <#--<span class="glyphicon glyphicon-star-empty"></span>-->
-                                    <#--</p>-->
-                                <#--</div>-->
                             </div>
                         </div>
                     </#list>
+                </div>
+                <div class="row text-center">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item <#if conferences.first>disabled</#if>">
+                                <a class="page-link" href="?page=${0}<#if k??>&k=${k}</#if>" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <#list 0..conferences.totalPages-1 as page>
+                                <li class="page-item <#if page == conferences.number>active</#if>"><a class="page-link" href="?page=${page}<#if k??>&k=${k}</#if>">${page + 1} <#if page == conferences.number><span class="sr-only">(current)</span></#if></a></li>
+                            </#list>
+                            <li class="page-item <#if conferences.last>disabled</#if>">
+                                <a class="page-link" href="?page=${conferences.totalPages-1}<#if k??>&k=${k}</#if>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -225,6 +248,15 @@
                     $(this).css('height',max+'px');
                 });
             }
+
+            $("#search_input").keypress(function (event) {
+                var key_code = event.keyCode || window.event.keyCode;
+                if (key_code == 13) document.getElementById('search_form').submit();
+            });
+
+            $("#search_btn").on("click", function (event) {
+                document.getElementById('search_form').submit();
+            });
         });
     </script>
     </@layout.put>

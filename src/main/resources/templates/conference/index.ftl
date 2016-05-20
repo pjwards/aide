@@ -79,6 +79,25 @@
         </div>
     </section>
 
+    <#if conference.sponsors?has_content>
+    <!-- Sponsor Section -->
+    <section id="sponsor" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Sponsors</h2>
+
+                <div class="col-lg-12">
+                    <#list conference.sponsors?sort_by("rank") as sponsor>
+                        <div class="col-lg-3">
+                            <a href="<#if sponsor.url??>${sponsor.url}<#else>#</#if>"><img src="<#if sponsor.assets??>${sponsor.assets.realPath}<#else>http://placehold.it/100x50</#if>" style="width: 100px; height: 50px" alt="${sponsor.name}"></a>
+                        </div>
+                    </#list>
+                </div>
+            </div>
+        </div>
+    </section>
+    </#if>
+
     <#if conference.contacts?has_content>
     <!-- Contact Section -->
     <section id="contact" class="container content-section text-center">

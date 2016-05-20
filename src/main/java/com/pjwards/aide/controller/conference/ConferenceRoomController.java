@@ -51,23 +51,41 @@ public class ConferenceRoomController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/rooms")
-    public String getDays(Model model,
-                          @PathVariable("conference-id") Long conferenceId) throws ConferenceNotFoundException {
+    public String getRooms(Model model,
+                           @ModelAttribute("currentUser") CurrentUser currentUser,
+                           @PathVariable("conference-id") Long conferenceId) throws ConferenceNotFoundException {
         LOGGER.debug("Getting room list page");
 
         Conference conference = conferenceService.findById(conferenceId);
         model.addAttribute("conference", conference);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
 
         return "room/list";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/rooms/add")
     public ModelAndView add(Model model,
+                            @ModelAttribute("currentUser") CurrentUser currentUser,
                             @PathVariable("conference-id") Long conferenceId) throws RoomNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Getting adding page");
 
         Conference conference = conferenceService.findById(conferenceId);
         model.addAttribute("conference", conference);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
 
         return new ModelAndView("room/add", "form", new RoomForm());
     }
@@ -80,9 +98,18 @@ public class ConferenceRoomController {
                                     @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
         LOGGER.debug("Processing add room form={}, bindingResult={}", form, bindingResult);
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         if (bindingResult.hasErrors()) {
             // failed validation
-            Conference conference = conferenceService.findById(conferenceId);
             model.addAttribute("conference", conference);
             return "room/add";
         }
@@ -98,6 +125,7 @@ public class ConferenceRoomController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/rooms/{id}")
     public ModelAndView update(Model model,
+                               @ModelAttribute("currentUser") CurrentUser currentUser,
                                @PathVariable("conference-id") Long conferenceId,
                                @PathVariable("id") Long id) throws RoomNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Getting update page");
@@ -106,6 +134,14 @@ public class ConferenceRoomController {
         model.addAttribute("conference", conference);
         Room room = roomService.findById(id);
         model.addAttribute("room", room);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
 
         return new ModelAndView("room/update", "form", new RoomForm(room));
     }
@@ -119,9 +155,18 @@ public class ConferenceRoomController {
                                        @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException, RoomNotFoundException {
         LOGGER.debug("Processing update room form={}, bindingResult={}", form, bindingResult);
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         if (bindingResult.hasErrors()) {
             // failed validation
-            Conference conference = conferenceService.findById(conferenceId);
             model.addAttribute("conference", conference);
             Room room = roomService.findById(id);
             model.addAttribute("room", room);
@@ -139,8 +184,20 @@ public class ConferenceRoomController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{conference-id}/admin/rooms/{id}")
     public String delete(@PathVariable("conference-id") Long conferenceId,
+                         @ModelAttribute("currentUser") CurrentUser currentUser,
                          @PathVariable("id") Long id) throws ConferenceNotFoundException, RoomNotFoundException {
         LOGGER.debug("Deleting room : {}", id);
+
+        Conference conference = conferenceService.findById(id);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         roomService.deleteById(id);
         return "redirect:/conferences/" + conferenceId + "/admin/rooms";
     }

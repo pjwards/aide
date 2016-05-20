@@ -32,8 +32,8 @@ public class ConferenceProgramController {
 
     @Autowired
     public ConferenceProgramController(ConferenceService conferenceService,
-                                    ProgramService programService,
-                                    ProgramFormValidator programFormValidator) {
+                                       ProgramService programService,
+                                       ProgramFormValidator programFormValidator) {
         this.conferenceService = conferenceService;
         this.programService = programService;
         this.programFormValidator = programFormValidator;
@@ -45,38 +45,71 @@ public class ConferenceProgramController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/programs")
-    public String getDays(Model model,
-                          @PathVariable("conference-id") Long conferenceId) throws ConferenceNotFoundException {
+    public String getPrograms(Model model,
+                              @ModelAttribute("currentUser") CurrentUser currentUser,
+                              @PathVariable("conference-id") Long conferenceId) throws ConferenceNotFoundException {
         LOGGER.debug("Getting program list page");
 
         Conference conference = conferenceService.findById(conferenceId);
         model.addAttribute("conference", conference);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return "error/403";
+        }
 
         return "program/list";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/programs/add")
     public ModelAndView add(Model model,
+                            @ModelAttribute("currentUser") CurrentUser currentUser,
                             @PathVariable("conference-id") Long conferenceId) throws ProgramNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Getting adding page");
 
         Conference conference = conferenceService.findById(conferenceId);
         model.addAttribute("conference", conference);
 
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
+
         return new ModelAndView("program/add", "form", new ProgramForm());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{conference-id}/admin/programs/add")
     public String handleAddProgramForm(@Valid @ModelAttribute("form") ProgramForm form,
-                                    BindingResult bindingResult,
-                                    Model model,
-                                    @PathVariable("conference-id") Long conferenceId,
-                                    @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
+                                       BindingResult bindingResult,
+                                       Model model,
+                                       @PathVariable("conference-id") Long conferenceId,
+                                       @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
         LOGGER.debug("Processing add program form={}, bindingResult={}", form, bindingResult);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return "error/403";
+        }
 
         if (bindingResult.hasErrors()) {
             // failed validation
-            Conference conference = conferenceService.findById(conferenceId);
             model.addAttribute("conference", conference);
             return "program/add";
         }
@@ -92,6 +125,7 @@ public class ConferenceProgramController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/programs/{id}")
     public ModelAndView update(Model model,
+                               @ModelAttribute("currentUser") CurrentUser currentUser,
                                @PathVariable("conference-id") Long conferenceId,
                                @PathVariable("id") Long id) throws ProgramNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Getting update page");
@@ -101,21 +135,42 @@ public class ConferenceProgramController {
         Program program = programService.findById(id);
         model.addAttribute("program", program);
 
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
+
         return new ModelAndView("program/update", "form", new ProgramForm(program));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{conference-id}/admin/programs/{id}")
     public String handleUpdateProgramForm(@Valid @ModelAttribute("form") ProgramForm form,
-                                       BindingResult bindingResult,
-                                       Model model,
-                                       @PathVariable("conference-id") Long conferenceId,
-                                       @PathVariable("id") Long id,
-                                       @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException, ProgramNotFoundException {
+                                          BindingResult bindingResult,
+                                          Model model,
+                                          @PathVariable("conference-id") Long conferenceId,
+                                          @PathVariable("id") Long id,
+                                          @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException, ProgramNotFoundException {
         LOGGER.debug("Processing update program form={}, bindingResult={}", form, bindingResult);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return "error/403";
+        }
 
         if (bindingResult.hasErrors()) {
             // failed validation
-            Conference conference = conferenceService.findById(conferenceId);
             model.addAttribute("conference", conference);
             Program program = programService.findById(id);
             model.addAttribute("program", program);
@@ -133,8 +188,22 @@ public class ConferenceProgramController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{conference-id}/admin/programs/{id}")
     public String delete(@PathVariable("conference-id") Long conferenceId,
+                         @ModelAttribute("currentUser") CurrentUser currentUser,
                          @PathVariable("id") Long id) throws ConferenceNotFoundException, ProgramNotFoundException {
         LOGGER.debug("Deleting program : {}", id);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())
+                && !conference.isManager(currentUser.getUser())
+                && !conference.isSpeaker(currentUser.getUser())) {
+            return "error/403";
+        }
+
         programService.deleteById(id);
         return "redirect:/conferences/" + conferenceId + "/admin/programs";
     }

@@ -4,6 +4,8 @@ import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.enums.Status;
 import com.pjwards.aide.domain.forms.ConferenceForm;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,9 +21,34 @@ public interface ConferenceService {
     /**
      * Returns a list of conferences by status.
      *
+     * @param status conference status
      * @return The list of conferences
      */
-    public List<Conference> findAllByStatus(Status status);
+    public List<Conference> findAll(Status status);
+
+    /**
+     * Returns size of conferences.
+     *
+     * @return The size of conferences
+     */
+    public long count();
+
+    /**
+     * Returns a list of conferences by page.
+     *
+     * @param pageable request page
+     * @return The list of conferences
+     */
+    public Page<Conference> findAll(Pageable pageable);
+
+    /**
+     * Returns a list of conferences by page and keyword.
+     *
+     * @param pageable request page
+     * @param keyword     keyword
+     * @return The list of conferences
+     */
+    public Page<Conference> findAll(Pageable pageable, String keyword);
 
     /**
      * Adds a new conference.
@@ -70,7 +97,7 @@ public interface ConferenceService {
      * Update conference by updated form
      *
      * @param form conference updated form
-     * @param id conference id
+     * @param id   conference id
      * @return The updated conference.
      */
     public Conference update(ConferenceForm form, Long id) throws ConferenceNotFoundException;

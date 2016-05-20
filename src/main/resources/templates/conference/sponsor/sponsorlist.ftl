@@ -79,7 +79,7 @@
                                     <tbody>
                                         <#list sponsorList as list>
                                             <tr id="${list.id}">
-                                                <td><img id="avatar" src="<#if list.assets??>${list.assets.realPath}<#else>/basic/img/user.png</#if>" alt="picture"></td>
+                                                <td><img src="<#if list.assets??>${list.assets.realPath}<#else>http://placehold.it/100x50</#if>" style="width: 100px; height: 50px" alt="picture"></td>
                                                 <td>${list.name}</td>
                                                 <td>${list.slug}</td>
                                                 <td>${list.rank}</td>
