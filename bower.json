@@ -25,7 +25,6 @@
     "datatables-responsive": ">= 1.0.7",
     "jquery-backstretch": ">= 2.0.4",
     "summernote": ">= 0.8.1",
-    "jquery-ui": ">= 1.11.4",
     "FlipClock": ">= 0.7.7",
     "eonasdan-bootstrap-datetimepicker": ">= 4.17.37"
   },

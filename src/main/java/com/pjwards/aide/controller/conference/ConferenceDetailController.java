@@ -73,8 +73,13 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/add")
-    public ModelAndView add() throws ConferenceNotFoundException {
+    public ModelAndView add(@ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
         LOGGER.debug("Getting adding page");
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
         return new ModelAndView("conference/add", "form", new ConferenceForm());
     }
 
@@ -83,6 +88,10 @@ public class ConferenceDetailController {
                                           BindingResult bindingResult,
                                           @ModelAttribute("currentUser") CurrentUser currentUser) {
         LOGGER.debug("Processing add conference form={}, bindingResult={}", form, bindingResult);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
 
         form.setHost(currentUser.getUser());
 

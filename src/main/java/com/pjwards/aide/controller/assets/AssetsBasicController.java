@@ -34,9 +34,15 @@ public class AssetsBasicController {
     public @ResponseBody Map<String, Object> upload(@ModelAttribute("currentUser") CurrentUser currentUser,
                                       @RequestParam(value = "file") MultipartFile file) {
         LOGGER.debug("Upload images.");
-        User user = currentUser.getUser();
 
         Map<String, Object> response = new LinkedHashMap<>();
+
+        if (currentUser == null) {
+            response.put("message", "The image uploaded failed. You must sign in.");
+            return response;
+        }
+
+        User user = currentUser.getUser();
 
         LOGGER.debug("File name={}, validated={}", file.getOriginalFilename(), imageValidator.validate(file.getOriginalFilename()));
         if (!imageValidator.validate(file.getOriginalFilename())) {

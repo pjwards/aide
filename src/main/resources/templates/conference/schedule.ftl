@@ -100,24 +100,22 @@
                                                 </div>
                                                 </#list>
 
-                                                <#if session.videoUrl?? || session.slideUrl??>
-                                                    <div class="data">
-                                                        <a href="/sessions/${session.id}" target="_blank">
-                                                            <i class="fa fa-comments-o" aria-hidden="true"><span class="blind">상세페이지</span></i>
+                                                <div class="data">
+                                                    <a href="/sessions/${session.id}" target="_blank">
+                                                        <i class="fa fa-comments-o" aria-hidden="true"><span class="blind">상세페이지</span></i>
+                                                    </a>
+                                                    <#if session.videoUrl?? && session.videoUrl != "">
+                                                        <a href="${session.videoUrl}" target="_blank">
+                                                            <i class="xi-slideshare"><span class="blind">프리젠테이션</span></i>
                                                         </a>
-                                                        <#if session.videoUrl??>
-                                                            <a href="${session.videoUrl}" target="_blank">
-                                                                <i class="xi-slideshare"><span class="blind">프리젠테이션</span></i>
-                                                            </a>
-                                                        </#if>
+                                                    </#if>
 
-                                                        <#if session.slideUrl??>
-                                                            <a href="${session.slideUrl}" target="_blank">
-                                                                <i class="xi-video-camera"><span class="blind">동영상</span></i>
-                                                            </a>
-                                                        </#if>
-                                                    </div>
-                                                </#if>
+                                                    <#if session.slideUrl?? && session.slideUrl != "">
+                                                        <a href="${session.slideUrl}" target="_blank">
+                                                            <i class="xi-video-camera"><span class="blind">동영상</span></i>
+                                                        </a>
+                                                    </#if>
+                                                </div>
                                             </li>
                                             </#list>
                                         <#elseif program.programType == "KEYNOTE">
@@ -154,24 +152,22 @@
                                             </div>
                                             </#list>
 
-                                            <#if program.videoUrl?? || program.slideUrl??>
-                                                <div class="data">
-                                                    <a href="/programs/${program.id}" target="_blank">
-                                                        <i class="fa fa-comments-o" aria-hidden="true"><span class="blind">상세페이지</span></i>
-                                                    </a>
-                                                    <#if program.videoUrl??>
-                                                    <a href="${program.videoUrl}" target="_blank">
-                                                        <i class="xi-slideshare"><span class="blind">프리젠테이션</span></i>
-                                                    </a>
-                                                    </#if>
+                                            <div class="data">
+                                                <a href="/programs/${program.id}" target="_blank">
+                                                    <i class="fa fa-comments-o" aria-hidden="true"><span class="blind">상세페이지</span></i>
+                                                </a>
+                                                <#if program.videoUrl?? && program.videoUrl != "">
+                                                <a href="${program.videoUrl}" target="_blank">
+                                                    <i class="xi-slideshare"><span class="blind">프리젠테이션</span></i>
+                                                </a>
+                                                </#if>
 
-                                                    <#if program.slideUrl??>
-                                                    <a href="${program.slideUrl}" target="_blank">
-                                                        <i class="xi-video-camera"><span class="blind">동영상</span></i>
-                                                    </a>
-                                                    </#if>
-                                                </div>
-                                            </#if>
+                                                <#if program.slideUrl?? && program.slideUrl != "">
+                                                <a href="${program.slideUrl}" target="_blank">
+                                                    <i class="xi-video-camera"><span class="blind">동영상</span></i>
+                                                </a>
+                                                </#if>
+                                            </div>
                                         </li>
                                         <#else>
                                         <li class="lecture_ct ${program.programType.attribute}">
