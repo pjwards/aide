@@ -1,3 +1,5 @@
+<#import "/spring.ftl" as spring/>
+
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 
 <@layout.extends name="layouts/default.ftl">
@@ -47,7 +49,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Schedule</h2>
+                    <h2 class="section-heading"><@spring.message "conference.schedule.schedule"/></h2>
                     <hr class="primary">
                 </div>
             </div>

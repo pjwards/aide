@@ -1,7 +1,6 @@
 <#import "/spring.ftl" as spring/>
 <#-- @ftlvariable name="conferences" type="org.springframework.data.domain.Page<com.pjwards.aide.domain.Conference>" -->
 <#-- @ftlvariable name="advertisements" type="java.util.List<com.pjwards.aide.domain.Conference>" -->
-<#-- @ftlvariable name="rc" type="javax.servlet.http.HttpServletRequest" -->
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 <#-- @ftlvariable name="k" type="java.lang.String" -->
 
@@ -32,10 +31,6 @@
     </@layout.put>
 
     <@layout.put block="contents">
-    <#--Language : <a href="?lang=en_US">English</a>|<a href="?lang=ko_KR">Korea</a>-->
-    <#--<h3><@spring.message "hello.test"/>, world</h3>-->
-    <#--Current Locale: ${rc.locale}-->
-
     <!-- Page Content -->
     <div class="container">
 
@@ -50,7 +45,7 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Participant</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><@spring.message "content.index.participant"/></a>
                             </h4>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse in">
@@ -68,7 +63,7 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Speaker</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><@spring.message "content.index.speaker"/></a>
                             </h4>
                         </div>
                         <div id="collapseTwo" class="panel-collapse collapse">
@@ -88,7 +83,7 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Manager</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><@spring.message "content.index.manager"/></a>
                             </h4>
                         </div>
                         <div id="collapseThree" class="panel-collapse collapse">
@@ -106,7 +101,7 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Host</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><@spring.message "content.index.host"/></a>
                             </h4>
                         </div>
                         <div id="collapseFour" class="panel-collapse collapse">
@@ -128,7 +123,7 @@
             <div class="col-md-9">
                 <form action="" id="search_form" method="get" role="form">
                     <div class="input-group custom-search-form" style="margin-bottom: 20px;">
-                            <input type="text" id="search_input" name="k" class="form-control" placeholder="Search..." value="<#if k??>&k=${k}</#if>">
+                            <input type="text" id="search_input" name="k" class="form-control" placeholder="<@spring.message "content.index.search"/>..." value="<#if k??>&k=${k}</#if>">
                             <span class="input-group-btn">
                                 <button id="search_btn" class="btn btn-default" type="button">
                                     <i class="fa fa-search"></i>
@@ -179,14 +174,28 @@
                             <div class="thumbnail">
                                 <img src="<#if conference.assetsSet?has_content>${conference.assetsSet?first.realPath}<#else>/lib/grayscale/img/intro-bg.jpg</#if>" style="width: 320px; height: 150px;" alt="">
                                 <div class="caption">
-                                    <h4 class="pull-right"><#if conference.charge == "FREE">Free<#else>$${conference.price}</#if></h4>
+                                    <h4 class="pull-right"><#if conference.charge == "FREE"><@spring.message "content.index.charge.free"/><#else><@spring.message "content.index.price"/>${conference.price}</#if></h4>
                                     <h4><a href="conferences/${conference.id}">${conference.name}</a>
                                     </h4>
                                     <p>${conference.slogan}</p>
                                 </div>
                                 <div class="ratings" style="margin-bottom: 10px;">
-                                    <span class="label label-${conference.status.attribute}">${conference.status.getTitle()}</span>
-                                    <span class="label label-${conference.charge.color}">${conference.charge.getTitle()}</span>
+                                    <span class="label label-${conference.status.attribute}" style="margin-right: 5px;">
+                                    <#if conference.status == "OPEN">
+                                        <@spring.message "content.index.status.label.open"/>
+                                    <#elseif conference.status == "CLOSED">
+                                        <@spring.message "content.index.status.label.closed"/>
+                                    <#else>
+                                        <@spring.message "content.index.status.label.progress"/>
+                                    </#if>
+                                    </span>
+                                    <span class="label label-${conference.charge.color}">
+                                    <#if conference.charge == "FREE">
+                                        <@spring.message "content.index.charge.label.free"/>
+                                    <#else>
+                                        <@spring.message "content.index.charge.label.charged"/>
+                                    </#if>
+                                    </span>
                                 </div>
                             </div>
                         </div>
