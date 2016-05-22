@@ -265,17 +265,9 @@ public class SponsorBasicController {
             return "error/403";
         }
 
-        int totalCount = sponsorRepository.countWhereConference(conferenceId);
-
         List<Sponsor> sponsorList = sponsorRepository.findAllWhereConference(conferenceId);
         model.addAttribute("sponsorList", sponsorList);
         model.addAttribute("conference", conference);
-
-        if (totalCount == 0) {
-            model.addAttribute("hasSponsor", false);
-        } else {
-            model.addAttribute("hasSponsor", true);
-        }
 
         return "conference/sponsor/sponsorlist";
     }

@@ -258,10 +258,6 @@ public class ConferenceDetailController {
             });
         }
 
-        Set<User> paticipants = conference.getParticipants();
-        paticipants.add(currentUser.getUser());
-        conference.setParticipants(paticipants);
-        conferenceService.update(conference);
         User user = currentUser.getUser();
 
         if (company != null && !company.equals("") && !company.equals(user.getCompany())) {
