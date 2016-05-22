@@ -1,4 +1,7 @@
+<#import "/spring.ftl" as spring/>
+
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
+<#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 
 <!-- Navigation -->
 <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
@@ -19,15 +22,32 @@
                 <li class="hidden">
                     <a href="#page-top"></a>
                 </li>
+                <#if currentUser??>
+                    <#if conference.isHost(currentUser.user)
+                    || conference.isManager(currentUser.user)
+                    || conference.isSpeaker(currentUser.user)>
+                        <li>
+                            <a class="page-scroll" href="${conference.id}/admin"><@spring.message "header.details.admin"/></a>
+                        </li>
+                    </#if>
+                </#if>
                 <li>
-                    <a class="page-scroll" href="${conference.id}/admin">ADMIN</a>
+                    <a class="page-scroll" href="${conference.id}/schedule"><@spring.message "header.details.schedule"/></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="${conference.id}/schedule">SCHEDULE</a>
+                    <a class="page-scroll" href="${conference.id}/register"><@spring.message "header.details.register"/></a>
                 </li>
-                <li>
-                    <a class="page-scroll" href="${conference.id}/register">REGISTER</a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-globe"></i><i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="?lang=ko_KR">한국어</a></li>
+                        <li><a href="?lang=en_US">English</a></li>
+                    </ul>
+                    <!-- /.dropdown-user -->
                 </li>
+                <!-- /.dropdown -->
             </ul>
         </div>
         <!-- /.navbar-collapse -->

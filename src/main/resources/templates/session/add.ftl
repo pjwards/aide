@@ -32,8 +32,13 @@
     </@layout.put>
 
     <@layout.put block="header" type="prepend">
-        <@layout.extends name="layouts/header/admin.ftl">
-        </@layout.extends>
+        <#if conference.isHost(currentUser.user)>
+            <@layout.extends name="layouts/header/admin.ftl">
+            </@layout.extends>
+        <#else>
+            <@layout.extends name="layouts/header/admin_2.ftl">
+            </@layout.extends>
+        </#if>
     </@layout.put>
 
 

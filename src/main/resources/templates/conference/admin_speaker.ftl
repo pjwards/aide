@@ -42,7 +42,7 @@
     </@layout.put>
 
     <@layout.put block="header" type="prepend">
-        <@layout.extends name="layouts/header/admin.ftl">
+        <@layout.extends name="layouts/header/admin_2.ftl">
         </@layout.extends>
     </@layout.put>
 
@@ -57,37 +57,16 @@
             </div>
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#statistics" data-toggle="tab">Statistics</a>
-                </li>
                 <#list conference.rooms as room>
-                    <li><a href="#${room.id}" data-toggle="tab">${room.name}</a>
+                    <li <#if room_index == 0>class="active"</#if>><a href="#${room.id}" data-toggle="tab">${room.name}</a>
                     </li>
                 </#list>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
-                <div class="tab-pane fade in active" id="statistics">
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <!-- /.panel -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <i class="fa fa-bar-chart-o fa-fw"></i> Participants
-                                </div>
-                                <div class="panel-body">
-                                    <div id="morris-donut-chart"></div>
-                                    <a href="#" class="btn btn-default btn-block">View Details</a>
-                                </div>
-                                <!-- /.panel-body -->
-                            </div>
-                            <!-- /.panel -->
-                        </div>
-                    </div>
-                </div>
                 <#list conference.rooms as room>
-                    <div class="tab-pane fade" id="${room.id}">
+                    <div class="tab-pane fade <#if room_index == 0>in active</#if>" id="${room.id}">
                         <br>
                         <div class="row">
                             <div class="col-lg-12">
@@ -133,14 +112,6 @@
                                                         <button type="button" class="btn btn-default btn-xs" onclick="refresh_${room.id}()">
                                                             <i class="fa fa-refresh"></i>
                                                         </button>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class='input-group date' id='datetimepicker${room.id}'>
-                                                        <input type='text' class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
                                                     </div>
                                                 </div>
 
@@ -223,11 +194,6 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="/bower_components/raphael/raphael.min.js"></script>
-    <script src="/bower_components/morris.js/morris.min.js"></script>
-    <script src="/lib/sb-admin/js/morris-data.js"></script>
-
     <!-- Custom Theme JavaScript -->
     <script src="/lib/sb-admin/dist/js/sb-admin-2.js"></script>
     <script src="/js/utils.js"></script>
@@ -266,26 +232,6 @@
                         clock_${room.id}.setTime(0);
                     }
                 }
-
-                $('#datetimepicker${room.id}').datetimepicker({
-                    defaultDate: before_time_${room.id}? moment(before_time_${room.id}) : false
-                });
-
-                $('#datetimepicker${room.id}').on("dp.hide", function (e) {
-                    sendTimer("/conferences/${conference.id}/admin/rooms/${room.id}/timer", e.date.toISOString());
-                    before_time_${room.id} = ajaxGet("/conferences/${conference.id}/admin/rooms/${room.id}/timer")["timer"];
-
-                    if(before_time_${room.id}) {
-                        var before_time = moment(before_time_${room.id}).toDate();
-                        var diff_time = diff(before_time, new Date());
-                        if(diff_time > 0) {
-                            clock_${room.id}.setTime(parseInt(diff_time));
-                            clock_${room.id}.start();
-                        } else {
-                            clock_${room.id}.setTime(0);
-                        }
-                    }
-                });
 
                 getMessages("/messages/rooms/${room.id}", "chat_${room.id}");
 
@@ -355,7 +301,6 @@
                 var new_time = ajaxGet("/conferences/${conference.id}/admin/rooms/${room.id}/timer")["timer"];
                 if(new_time && before_time_${room.id} != new_time) {
                     var before_time = moment(new_time).toDate();
-                    $('#datetimepicker${room.id}').datetimepicker().data('DateTimePicker').date(before_time);
                     var diff_time = diff(before_time, new Date());
                     if(diff_time > 0) {
                         clock_${room.id}.setTime(parseInt(diff_time));

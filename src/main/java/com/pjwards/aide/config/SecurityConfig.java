@@ -1,7 +1,9 @@
 package com.pjwards.aide.config;
 
+import com.pjwards.aide.config.handler.CustomLoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -25,10 +28,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/", "/home", "/index", "/user/sign_up/").permitAll()
                 .antMatchers("/forgot_password/**").permitAll()
-                .antMatchers("/conferences/add").hasAuthority("USER")
-                .antMatchers("/conferences/add").hasAuthority("ADMIN")
-                .antMatchers("/upload/**").hasAuthority("USER")
-                .antMatchers("/upload/**").hasAuthority("ADMIN")
                 .antMatchers("/conferences/**", "/programs/**", "/sessions/**", "/api/**", "/messages/**").permitAll()
                 .antMatchers("/settings/users").hasAuthority("ADMIN")
                 .antMatchers("/public/**", "/resources/**", "/resources/public/**", "/assets/**").permitAll()
@@ -39,6 +38,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/sign_in")
                 .failureUrl("/sign_in?error")
                 .usernameParameter("email")
+                .successHandler(successHandler())
                 .permitAll()
                 .and()
             .logout()
@@ -55,5 +55,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new CustomLoginSuccessHandler("/");
     }
 }

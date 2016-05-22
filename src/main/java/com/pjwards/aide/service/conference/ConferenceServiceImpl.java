@@ -13,10 +13,16 @@ import com.pjwards.aide.repository.AssetsRepository;
 import com.pjwards.aide.repository.ConferenceRepository;
 import com.pjwards.aide.repository.ContactRepository;
 import com.pjwards.aide.repository.UserRepository;
+import com.pjwards.aide.specification.ConferenceSpecs;
 import com.pjwards.aide.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,13 +70,32 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Conference> findAllByStatus(Status status) {
+    public List<Conference> findAll(Status status) {
         LOGGER.debug("Finding all conferences by status.");
 
         List<Conference> conferences = conferenceRepository.findAllByStatus(status);
         LOGGER.debug("Found {} conferences.", conferences.size());
 
         return conferences;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public long count() {
+        return contactRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<Conference> findAll(Pageable pageable) {
+        return conferenceRepository.findAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<Conference> findAll(Pageable pageable, String keyword) {
+        Specifications<Conference> spec = Specifications.where(ConferenceSpecs.nameLike(keyword));
+        return conferenceRepository.findAll(spec, pageable);
     }
 
     @Transactional
@@ -83,7 +108,6 @@ public class ConferenceServiceImpl implements ConferenceService {
 
         return added;
     }
-
 
     @Transactional(readOnly = true, rollbackFor = {ConferenceNotFoundException.class})
     @Override

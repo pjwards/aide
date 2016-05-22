@@ -78,7 +78,7 @@ public class ProgramDate {
         return list;
     }
 
-    class ProgramCompare implements Comparator<Program> {
+    private class ProgramCompare implements Comparator<Program> {
         @Override
         public int compare(Program arg0, Program arg1) {
             LocalTime begin0 = new LocalTime(arg0.getBegin());
@@ -157,6 +157,15 @@ public class ProgramDate {
 
     public Date truncateDate(Date date) {
         return DateUtils.truncate(date, Calendar.DATE);
+    }
+
+    public boolean isSpeaker(User user) {
+        for (Program program : programs) {
+            if (program.isSpeaker(user)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void update(ProgramDate updated) {

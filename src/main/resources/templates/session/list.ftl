@@ -1,4 +1,5 @@
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
+<#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
@@ -36,9 +37,14 @@
     </@layout.put>
 
     <@layout.put block="header" type="prepend">
-        <@layout.extends name="layouts/header/admin.ftl">
-        </@layout.extends>
-    </@layout.put>
+        <#if conference.isHost(currentUser.user)>
+            <@layout.extends name="layouts/header/admin.ftl">
+            </@layout.extends>
+        <#else>
+            <@layout.extends name="layouts/header/admin_2.ftl">
+            </@layout.extends>
+        </#if>
+    </@layout.put>>
 
     <@layout.put block="contents">
     <div id="wrapper">
@@ -77,52 +83,61 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+
+                                    <#if conference.isHost(currentUser.user) || conference.isManager(currentUser.user)>
+                                        <#global authentication=true>
+                                    <#else>
+                                        <#global authentication=false>
+                                    </#if>
+
                                     <#list conference.programDates as date>
                                         <#list date.programs as program>
                                             <#list program.sessions as session>
-                                                <tr id="${session.id}">
-                                                    <td>${session.title}</td>
-                                                    <td>${program.begin}</td>
-                                                    <td>${program.end}</td>
-                                                    <td>
-                                                        <#if program.date??>
-                                                        ${program.date.formattedScheduleDay}
-                                                        <#else>
-                                                            Empty
-                                                        </#if>
-                                                    </td>
-                                                    <td>
-                                                        <#if session.room??>
-                                                        ${session.room.name}
-                                                        <#else>
-                                                            Empty
-                                                        </#if>
-                                                    </td>
-                                                    <td>
-                                                        <#if session.speakerSet?has_content>
-                                                            <#list session.speakerSet as speaker>
-                                                            ${speaker.name}
-                                                                <#sep>,
-                                                            </#list>
-                                                        <#else>
-                                                            Empty
-                                                        </#if>
-                                                    </td>
-                                                    <td>
-                                                        <#if session.slideUrl?? && session.slideUrl?length != 0>
-                                                            Exist
-                                                        <#else>
-                                                            Empty
-                                                        </#if>
-                                                    </td>
-                                                    <td>
-                                                        <#if session.videoUrl?? && session.videoUrl?length != 0>
-                                                            Exist
-                                                        <#else>
-                                                            Empty
-                                                        </#if>
-                                                    </td>
-                                                </tr>
+                                                <#if authentication || session.isSpeaker(currentUser.user)>
+                                                    <tr id="${session.id}">
+                                                        <td>${session.title}</td>
+                                                        <td>${program.begin}</td>
+                                                        <td>${program.end}</td>
+                                                        <td>
+                                                            <#if program.date??>
+                                                            ${program.date.formattedScheduleDay}
+                                                            <#else>
+                                                                Empty
+                                                            </#if>
+                                                        </td>
+                                                        <td>
+                                                            <#if session.room??>
+                                                            ${session.room.name}
+                                                            <#else>
+                                                                Empty
+                                                            </#if>
+                                                        </td>
+                                                        <td>
+                                                            <#if session.speakerSet?has_content>
+                                                                <#list session.speakerSet as speaker>
+                                                                ${speaker.name}
+                                                                    <#sep>,
+                                                                </#list>
+                                                            <#else>
+                                                                Empty
+                                                            </#if>
+                                                        </td>
+                                                        <td>
+                                                            <#if session.slideUrl?? && session.slideUrl?length != 0>
+                                                                Exist
+                                                            <#else>
+                                                                Empty
+                                                            </#if>
+                                                        </td>
+                                                        <td>
+                                                            <#if session.videoUrl?? && session.videoUrl?length != 0>
+                                                                Exist
+                                                            <#else>
+                                                                Empty
+                                                            </#if>
+                                                        </td>
+                                                    </tr>
+                                                </#if>
                                             </#list>
                                         </#list>
                                     </#list>

@@ -42,7 +42,7 @@
     </@layout.put>
 
     <@layout.put block="header" type="prepend">
-        <@layout.extends name="layouts/header/admin.ftl">
+        <@layout.extends name="layouts/header/admin_2.ftl">
         </@layout.extends>
     </@layout.put>
 
@@ -135,14 +135,16 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class='input-group date' id='datetimepicker${room.id}'>
-                                                        <input type='text' class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
+                                                <#if room.isManager(currentUser.user)>
+                                                    <div class="form-group">
+                                                        <div class='input-group date' id='datetimepicker${room.id}'>
+                                                            <input type='text' class="form-control" />
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </#if>
 
                                                 <div id="clock_${room.id}" class="clock" style="margin:2em;"></div>
                                                 <div id="message_${room.id}" style="text-align: center; color: lightcoral;"></div>
@@ -267,25 +269,27 @@
                     }
                 }
 
-                $('#datetimepicker${room.id}').datetimepicker({
-                    defaultDate: before_time_${room.id}? moment(before_time_${room.id}) : false
-                });
+                <#if room.isManager(currentUser.user)>
+                    $('#datetimepicker${room.id}').datetimepicker({
+                        defaultDate: before_time_${room.id}? moment(before_time_${room.id}) : false
+                    });
 
-                $('#datetimepicker${room.id}').on("dp.hide", function (e) {
-                    sendTimer("/conferences/${conference.id}/admin/rooms/${room.id}/timer", e.date.toISOString());
-                    before_time_${room.id} = ajaxGet("/conferences/${conference.id}/admin/rooms/${room.id}/timer")["timer"];
+                    $('#datetimepicker${room.id}').on("dp.hide", function (e) {
+                        sendTimer("/conferences/${conference.id}/admin/rooms/${room.id}/timer", e.date.toISOString());
+                        before_time_${room.id} = ajaxGet("/conferences/${conference.id}/admin/rooms/${room.id}/timer")["timer"];
 
-                    if(before_time_${room.id}) {
-                        var before_time = moment(before_time_${room.id}).toDate();
-                        var diff_time = diff(before_time, new Date());
-                        if(diff_time > 0) {
-                            clock_${room.id}.setTime(parseInt(diff_time));
-                            clock_${room.id}.start();
-                        } else {
-                            clock_${room.id}.setTime(0);
+                        if(before_time_${room.id}) {
+                            var before_time = moment(before_time_${room.id}).toDate();
+                            var diff_time = diff(before_time, new Date());
+                            if(diff_time > 0) {
+                                clock_${room.id}.setTime(parseInt(diff_time));
+                                clock_${room.id}.start();
+                            } else {
+                                clock_${room.id}.setTime(0);
+                            }
                         }
-                    }
-                });
+                    });
+                </#if>
 
                 getMessages("/messages/rooms/${room.id}", "chat_${room.id}");
 
@@ -355,7 +359,9 @@
                 var new_time = ajaxGet("/conferences/${conference.id}/admin/rooms/${room.id}/timer")["timer"];
                 if(new_time && before_time_${room.id} != new_time) {
                     var before_time = moment(new_time).toDate();
-                    $('#datetimepicker${room.id}').datetimepicker().data('DateTimePicker').date(before_time);
+                    <#if room.isManager(currentUser.user)>
+                        $('#datetimepicker${room.id}').datetimepicker().data('DateTimePicker').date(before_time);
+                    </#if>
                     var diff_time = diff(before_time, new Date());
                     if(diff_time > 0) {
                         clock_${room.id}.setTime(parseInt(diff_time));

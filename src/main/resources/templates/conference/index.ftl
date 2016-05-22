@@ -1,3 +1,5 @@
+<#import "/spring.ftl" as spring/>
+
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 
 <@layout.extends name="layouts/default.ftl">
@@ -73,18 +75,37 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <a href="${conference.id}/schedule" class="btn btn-default btn-lg">
-                    SCHEDULE
+                    <@spring.message "conference.index.schedule"/>
                 </a>
             </div>
         </div>
     </section>
+
+    <#if conference.sponsors?has_content>
+    <!-- Sponsor Section -->
+    <section id="sponsor" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2><@spring.message "conference.index.sponsor"/></h2>
+
+                <div class="col-lg-12">
+                    <#list conference.sponsors?sort_by("rank") as sponsor>
+                        <div class="col-lg-3">
+                            <a href="<#if sponsor.url??>${sponsor.url}<#else>#</#if>"><img src="<#if sponsor.assets??>${sponsor.assets.realPath}<#else>http://placehold.it/100x50</#if>" style="width: 100px; height: 50px" alt="${sponsor.name}"></a>
+                        </div>
+                    </#list>
+                </div>
+            </div>
+        </div>
+    </section>
+    </#if>
 
     <#if conference.contacts?has_content>
     <!-- Contact Section -->
     <section id="contact" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Contact</h2>
+                <h2><@spring.message "conference.index.contact"/></h2>
 
                 <ul class="list-inline banner-social-buttons">
                     <#list conference.contacts as contact>

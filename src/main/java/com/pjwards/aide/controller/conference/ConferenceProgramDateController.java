@@ -47,22 +47,40 @@ public class ConferenceProgramDateController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/days")
     public String getDays(Model model,
+                          @ModelAttribute("currentUser") CurrentUser currentUser,
                           @PathVariable("conference-id") Long conferenceId) throws ConferenceNotFoundException {
         LOGGER.debug("Getting day list page");
 
         Conference conference = conferenceService.findById(conferenceId);
         model.addAttribute("conference", conference);
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         return "programdate/list";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/days/add")
     public ModelAndView add(Model model,
+                            @ModelAttribute("currentUser") CurrentUser currentUser,
                             @PathVariable("conference-id") Long conferenceId) throws ProgramDateNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Getting adding page");
 
         Conference conference = conferenceService.findById(conferenceId);
         model.addAttribute("conference", conference);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
 
         return new ModelAndView("programdate/add", "form", new ProgramDateForm());
     }
@@ -75,9 +93,18 @@ public class ConferenceProgramDateController {
                                            @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
         LOGGER.debug("Processing add program date form={}, bindingResult={}", form, bindingResult);
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         if (bindingResult.hasErrors()) {
             // failed validation
-            Conference conference = conferenceService.findById(conferenceId);
             model.addAttribute("conference", conference);
             return "programdate/add";
         }
@@ -93,6 +120,7 @@ public class ConferenceProgramDateController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{conference-id}/admin/days/{id}")
     public ModelAndView update(Model model,
+                               @ModelAttribute("currentUser") CurrentUser currentUser,
                                @PathVariable("conference-id") Long conferenceId,
                                @PathVariable("id") Long id) throws ProgramDateNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Getting update page");
@@ -101,6 +129,14 @@ public class ConferenceProgramDateController {
         model.addAttribute("conference", conference);
         ProgramDate programDate = programDateService.findById(id);
         model.addAttribute("programDate", programDate);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
 
         return new ModelAndView("programdate/update");//, "form", new ProgramDateForm(programDate
     }
@@ -114,9 +150,18 @@ public class ConferenceProgramDateController {
                                               @ModelAttribute("currentUser") CurrentUser currentUser) throws ProgramDateNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Processing update program date form={}, bindingResult={}", form, bindingResult);
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Conference conference = conferenceService.findById(conferenceId);
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         if (bindingResult.hasErrors()) {
             // failed validation
-            Conference conference = conferenceService.findById(conferenceId);
             model.addAttribute("conference", conference);
             ProgramDate programDate = programDateService.findById(id);
             model.addAttribute("programDate", programDate);
@@ -135,8 +180,20 @@ public class ConferenceProgramDateController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{conference-id}/admin/days/{id}")
     public String delete(@PathVariable("conference-id") Long conferenceId,
+                         @ModelAttribute("currentUser") CurrentUser currentUser,
                          @PathVariable("id") Long id) throws ConferenceNotFoundException, ProgramDateNotFoundException {
         LOGGER.debug("Deleting program date : {}", id);
+
+        Conference conference = conferenceService.findById(id);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         programDateService.deleteById(id);
         return "redirect:/conferences/" + conferenceId + "/admin/days";
     }

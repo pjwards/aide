@@ -1,3 +1,5 @@
+<#import "/spring.ftl" as spring/>
+
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
@@ -46,7 +48,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Register</h2>
+                    <h2 class="section-heading"><@spring.message "conference.register.register"/></h2>
                     <hr class="primary">
                     <!-- /.row -->
                     <div class="row">
@@ -58,7 +60,23 @@
                                             <form role="form" action="" method="post" enctype="multipart/form-data">
                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                                                <button type="submit" class="btn btn-default">Register</button>
+                                                <#if !currentUser??>
+                                                    <a href="/sign_in" class="btn btn-primary"><@spring.message "login.sign_in"/></a>
+                                                <#else>
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="name" placeholder="<@spring.message "form.name"/> *" value="${currentUser.name}" disabled>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="email" placeholder="<@spring.message "form.email"/> *" value="${currentUser.user.email}" disabled>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="company" placeholder="<@spring.message "form.company"/>" value="<#if currentUser.company??>${currentUser.company}</#if>">
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-default"><@spring.message "conference.register.register_btn"/></button>
+                                                </#if>
                                             </form>
                                         </div>
                                     </div>

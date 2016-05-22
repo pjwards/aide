@@ -54,7 +54,7 @@ and (min-width : 1824px) {
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
     /* iPhone4+ 레티나 디스플레이 */
     .clock{
-        zoom: 0.5;
-        -moz-transform: scale(0.5)
+        zoom: 1.8;
+        -moz-transform: scale(1.8)
     }
 }

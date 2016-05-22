@@ -74,26 +74,10 @@
                         <a href="/conferences/${conference.id}/admin"><i class="fa fa-dashboard fa-fw"></i> <@spring.message "header.admin.dashboard"/></a>
                     </li>
                     <li>
-                        <a href="/conferences/${conference.id}/admin/days"><i class="fa fa-calendar fa-fw"></i> <@spring.message "header.admin.days"/></a>
-                    </li>
-                    <li>
-                        <a href="/conferences/${conference.id}/admin/rooms"><i class="fa fa-building fa-fw"></i> <@spring.message "header.admin.rooms"/></a>
-                    </li>
-                    <li>
                         <a href="/conferences/${conference.id}/admin/programs"><i class="fa fa-table fa-fw"></i> <@spring.message "header.admin.programs"/></a>
                     </li>
                     <li>
                         <a href="/conferences/${conference.id}/admin/sessions"><i class="fa fa-edit fa-fw"></i> <@spring.message "header.admin.sessions"/></a>
-                    </li>
-                    <li>
-                        <a href="/conferences/${conference.id}/admin/sponsor/list"><i class="fa fa-money fa-fw"></i> <@spring.message "header.admin.sponsors"/></a>
-                    </li>
-                    <li>
-                        <a href="/conferences/${conference.id}/admin/update"><i class="fa fa-group fa-fw"></i> <@spring.message "header.admin.conference"/></a>
-                    </li>
-
-                    <li>
-                        <a href="forms.html"><i class="fa fa-user fa-fw"></i> <@spring.message "header.admin.users"/></a>
                     </li>
                 </ul>
             </div>

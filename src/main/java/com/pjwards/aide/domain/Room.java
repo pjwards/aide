@@ -138,7 +138,7 @@ public class Room {
         return list;
     }
 
-    class ProgramCompare implements Comparator<Program> {
+    private class ProgramCompare implements Comparator<Program> {
         @Override
         public int compare(Program arg0, Program arg1) {
             if (arg0.getDate().getDay().equals(arg1.getDate().getDay())) {
@@ -177,7 +177,7 @@ public class Room {
         return list;
     }
 
-    class SessionCompare implements Comparator<Session> {
+    private class SessionCompare implements Comparator<Session> {
         @Override
         public int compare(Session arg0, Session arg1) {
             if (arg0.getProgram().getDate().getDay().equals(arg1.getProgram().getDate().getDay())) {
@@ -237,6 +237,15 @@ public class Room {
     public Room setReceiveMessages(Set<Message> receiveMessages) {
         this.receiveMessages = receiveMessages;
         return this;
+    }
+
+    public boolean isManager(User user) {
+        for (User manager : managerSet) {
+            if (manager.getId().equals(user.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void update(Room updated) {

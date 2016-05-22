@@ -7,10 +7,16 @@ import com.pjwards.aide.domain.enums.Status;
 import com.pjwards.aide.domain.forms.ConferenceForm;
 import com.pjwards.aide.domain.validators.ConferenceFormValidator;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
+import com.pjwards.aide.exception.UserNotFoundException;
 import com.pjwards.aide.service.conference.ConferenceService;
+import com.pjwards.aide.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,11 +38,15 @@ public class ConferenceDetailController {
 
     private ConferenceService conferenceService;
     private ConferenceFormValidator conferenceFormValidator;
+    private UserService userService;
 
     @Autowired
-    public ConferenceDetailController(ConferenceService conferenceService, ConferenceFormValidator conferenceFormValidator) {
+    public ConferenceDetailController(ConferenceService conferenceService,
+                                      ConferenceFormValidator conferenceFormValidator,
+                                      UserService userService) {
         this.conferenceService = conferenceService;
         this.conferenceFormValidator = conferenceFormValidator;
+        this.userService = userService;
     }
 
     @InitBinder("form")
@@ -45,19 +55,31 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String root(Model model) {
+    public String root(Model model,
+                       @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 6) Pageable pageable,
+                       @RequestParam(value = "k", required = false) String keyword) {
         LOGGER.debug("Getting conference list page");
 
-        List<Conference> conferences = conferenceService.findAll();
-        List<Conference> advertisements = conferenceService.findAllByStatus(Status.OPEN);
-        model.addAttribute("conferences", conferences);
+        if (keyword != null && !keyword.equals("")) {
+            model.addAttribute("conferences", conferenceService.findAll(pageable, keyword));
+        } else {
+            model.addAttribute("conferences", conferenceService.findAll(pageable));
+        }
+
+        List<Conference> advertisements = conferenceService.findAll(Status.OPEN);
         model.addAttribute("advertisements", advertisements);
+
         return "index";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/add")
-    public ModelAndView add() throws ConferenceNotFoundException {
+    public ModelAndView add(@ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
         LOGGER.debug("Getting adding page");
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
         return new ModelAndView("conference/add", "form", new ConferenceForm());
     }
 
@@ -66,6 +88,10 @@ public class ConferenceDetailController {
                                           BindingResult bindingResult,
                                           @ModelAttribute("currentUser") CurrentUser currentUser) {
         LOGGER.debug("Processing add conference form={}, bindingResult={}", form, bindingResult);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
 
         form.setHost(currentUser.getUser());
 
@@ -119,15 +145,27 @@ public class ConferenceDetailController {
     @RequestMapping(method = RequestMethod.POST, value = "/{id}/register")
     public String getRegister(Model model,
                               @PathVariable("id") Long id,
-                              @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
+                              @ModelAttribute("currentUser") CurrentUser currentUser,
+                              @RequestParam(value = "company", required = false) String company) throws ConferenceNotFoundException, UserNotFoundException {
         LOGGER.debug("Getting register page");
 
         Conference conference = conferenceService.findById(id);
 
-        Set<User> paticipants = conference.getParticipants();
-        paticipants.add(currentUser.getUser());
-        conference.setParticipants(paticipants);
-        conferenceService.update(conference);
+        User user = currentUser.getUser();
+
+        if (company != null && !company.equals("") && !company.equals(user.getCompany())) {
+            user.setCompany(company);
+        }
+        Set<Conference> conferences = user.getConferenceSet();
+        conferences.add(conference);
+        user.setConferenceSet(conferences);
+        userService.update(user);
+
+        Set<User> participants = conference.getParticipants();
+        participants.add(user);
+        conference.setParticipants(participants);
+        conference = conferenceService.update(conference);
+
         model.addAttribute("conference", conference);
 
         return "redirect:/conferences/" + id;
@@ -135,22 +173,46 @@ public class ConferenceDetailController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/admin")
     public String getAdmin(Model model,
+                           @ModelAttribute("currentUser") CurrentUser currentUser,
                            @PathVariable("id") Long id) throws ConferenceNotFoundException {
         LOGGER.debug("Getting admin page");
 
         Conference conference = conferenceService.findById(id);
         model.addAttribute("conference", conference);
 
-        return "conference/admin";
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        User user = currentUser.getUser();
+
+        if (conference.isHost(user)) {
+            return "conference/admin";
+        } else if (conference.isManager(user)) {
+            return "conference/admin_manager";
+        } else if (conference.isSpeaker(user)) {
+            return "conference/admin_speaker";
+        }
+
+        return "error/403";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/admin/update")
     public ModelAndView update(Model model,
+                               @ModelAttribute("currentUser") CurrentUser currentUser,
                                @PathVariable("id") Long id) throws ConferenceNotFoundException {
         LOGGER.debug("Getting update page");
 
         Conference conference = conferenceService.findById(id);
         model.addAttribute("conference", conference);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
         return new ModelAndView("conference/update", "form", new ConferenceForm(conference));
     }
 
@@ -162,11 +224,20 @@ public class ConferenceDetailController {
                                              @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
         LOGGER.debug("Processing update conference form={}, bindingResult={}", form, bindingResult);
 
+        Conference conference = conferenceService.findById(id);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         form.setHost(currentUser.getUser());
 
         if (bindingResult.hasErrors()) {
             // failed validation
-            Conference conference = conferenceService.findById(id);
             model.addAttribute("conference", conference);
 
             return "conference/update";
@@ -182,55 +253,21 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}/admin/delete")
-    public String delete(@PathVariable("id") Long id) throws ConferenceNotFoundException {
+    public String delete(@PathVariable("id") Long id,
+                         @ModelAttribute("currentUser") CurrentUser currentUser) throws ConferenceNotFoundException {
         LOGGER.debug("Deleting conference : {}", id);
+
+        Conference conference = conferenceService.findById(id);
+
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         conferenceService.deleteById(id);
         return "redirect:/";
     }
-//    @RequestMapping(value = "/list")
-//    public String getSponsorsPage(Model model) {
-//        LOGGER.debug("Getting sponsors page");
-//
-//        int totalCount = (int)sponsorRepository.count();
-//
-//        List<Sponsor> sponsorList = sponsorRepository.findAll();
-//        model.addAttribute("sponsorList", sponsorList);
-//
-//        if(totalCount == 0) {
-//            model.addAttribute("hasSponsor", false);
-//        } else {
-//            model.addAttribute("hasSponsor", true);
-//        }
-//
-//        return "conference/sponsor/sponsorlist";
-//    }
-
-//    @RequestMapping(value = "/{id}/edit_role", method = RequestMethod.POST)
-//    public @ResponseBody
-//    Map<String, Object> ajaxEditRoleSponsor(@PathVariable("id") Long id, @RequestBody Map<String, String> json) {
-//        LOGGER.debug("Ajax edit role content={}", json);
-//
-//        Map<String, Object> response = new LinkedHashMap<>();
-//
-//        Sponsor sponsor = sponsorRepository.findOne(id);
-//
-//        if(sponsor == null){
-//            response.put("message", "400");
-//            return response;
-//        }
-//
-//        String role = json.get("j_role");
-//
-//        Role roles = Role.USER;
-//        if(role.equals("Admin")){
-//            roles = Role.ADMIN;
-//        }
-//
-//        user.update(user.getName(), user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(), user.getCompany(), roles, user.getDescription());
-//        userRepository.save(user);
-//
-//        response.put("message", "200");
-//        return response;
-//    }
-
 }

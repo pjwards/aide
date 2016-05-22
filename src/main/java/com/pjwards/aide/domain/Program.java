@@ -125,7 +125,8 @@ public class Program {
     }
 
     public String getSlideUrl() {
-        if (slideUrl == null || slideUrl.equals("") || slideUrl.startsWith("http://") || slideUrl.startsWith("https://")) return slideUrl;
+        if (slideUrl == null || slideUrl.equals("") || slideUrl.startsWith("http://") || slideUrl.startsWith("https://"))
+            return slideUrl;
         return "http://" + slideUrl;
     }
 
@@ -135,7 +136,8 @@ public class Program {
     }
 
     public String getVideoUrl() {
-        if (videoUrl == null || videoUrl.equals("") || videoUrl.startsWith("http://") || videoUrl.startsWith("https://")) return videoUrl;
+        if (videoUrl == null || videoUrl.equals("") || videoUrl.startsWith("http://") || videoUrl.startsWith("https://"))
+            return videoUrl;
         return "http://" + videoUrl;
     }
 
@@ -178,7 +180,7 @@ public class Program {
         return list;
     }
 
-    class SessionCompare implements Comparator<Session> {
+    private class SessionCompare implements Comparator<Session> {
         @Override
         public int compare(Session arg0, Session arg1) {
             return arg0.getId().compareTo(arg1.getId());
@@ -215,6 +217,31 @@ public class Program {
     public Program setVideoEmbed(String videoEmbed) {
         this.videoEmbed = videoEmbed;
         return this;
+    }
+
+    public boolean isSpeaker(User user) {
+        for (User speaker : speakerSet) {
+            if (speaker.getId().equals(user.getId())) {
+                return true;
+            }
+        }
+
+        for (Session session : sessions) {
+            if (session.isSpeaker(user)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isSpeakerOnlyProgram(User user) {
+        for (User speaker : speakerSet) {
+            if (speaker.getId().equals(user.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void update(Program updated) {
