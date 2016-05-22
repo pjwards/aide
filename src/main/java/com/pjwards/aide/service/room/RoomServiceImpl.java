@@ -112,12 +112,22 @@ public class RoomServiceImpl implements RoomService {
                 form.getLocation(),
                 form.getDescription()).conference(conference).build();
 
+        Set<User> managers = null;
         if (form.getManagers() != null) {
-            Set<User> managers = form.getManagers().stream().map(id -> userRepository.findOne(id)).collect(Collectors.toSet());
+            managers = form.getManagers().stream().map(id -> userRepository.findOne(id)).collect(Collectors.toSet());
             room.setManagerSet(managers);
         }
 
         roomRepository.save(room);
+
+        if (managers != null) {
+            for (User manager : managers) {
+                Set<Room> rooms = manager.getRoomSet();
+                rooms.add(room);
+                manager.setRoomSet(rooms);
+                userRepository.save(manager);
+            }
+        }
 
         LOGGER.debug("Successfully created");
         return room;
@@ -135,12 +145,22 @@ public class RoomServiceImpl implements RoomService {
                 .setLocation(form.getLocation())
                 .setDescription(form.getDescription());
 
+        Set<User> managers = null;
         if (form.getManagers() != null) {
-            Set<User> managers = form.getManagers().stream().map(userId -> userRepository.findOne(userId)).collect(Collectors.toSet());
+            managers = form.getManagers().stream().map(userId -> userRepository.findOne(userId)).collect(Collectors.toSet());
             room.setManagerSet(managers);
         }
 
         roomRepository.save(room);
+
+        if (managers != null) {
+            for (User manager : managers) {
+                Set<Room> rooms = manager.getRoomSet();
+                rooms.add(room);
+                manager.setRoomSet(rooms);
+                userRepository.save(manager);
+            }
+        }
 
         LOGGER.debug("Successfully updated");
         return room;

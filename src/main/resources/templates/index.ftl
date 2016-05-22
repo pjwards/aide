@@ -69,9 +69,12 @@
                         <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <div class="list-group">
-                                    <#--<#list currentUser.user.programSet as program>-->
-                                        <#--<a href="/conferences/${program.date.conference.id}" class="list-group-item">${program.date.conference.name}</a>-->
-                                    <#--</#list>-->
+                                    <#list currentUser.user.programSet as program>
+                                        <a href="/conferences/${program.date.conference.id}/admin/programs/${program.id}" class="list-group-item">${program.title}</a>
+                                    </#list>
+                                    <#list currentUser.user.sessionSet as session>
+                                        <a href="/conferences/${session.program.date.conference.id}/admin/sessions/${session.id}" class="list-group-item">${session.title}</a>
+                                    </#list>
                                 </div>
                             </div>
                             <!-- /.panel-body -->
@@ -88,9 +91,9 @@
                         </div>
                         <div id="collapseThree" class="panel-collapse collapse">
                             <div class="panel-body">
-                                <#--<#list currentUser.user.rooms as room>-->
-                                    <#--<a href="/conferences/${conference.id}" class="list-group-item">${conference.name}</a>-->
-                                <#--</#list>-->
+                                <#list currentUser.user.roomSet as room>
+                                    <a href="/conferences/${room.conference.id}/rooms/admin/${room.id}" class="list-group-item">${room.name}</a>
+                                </#list>
                             </div>
                             <!-- /.panel-body -->
                         </div>
