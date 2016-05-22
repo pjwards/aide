@@ -55,12 +55,12 @@ public class Conference {
     @JsonBackReference
     private Set<ProgramDate> programDates;
 
-    @ManyToMany(targetEntity = ConferenceRole.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "conferenceSet")
-    @JsonManagedReference
+    @OneToMany(targetEntity = ConferenceRole.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "conference")
+    @JsonBackReference
     private Set<ConferenceRole> conferenceRoleSetConference;
 
-    @ManyToMany(targetEntity = Presence.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "conferenceSet")
-    @JsonManagedReference
+    @OneToMany(targetEntity = Presence.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "conference")
+    @JsonBackReference
     private Set<Presence> presenceSetConference;
 
     @ManyToOne

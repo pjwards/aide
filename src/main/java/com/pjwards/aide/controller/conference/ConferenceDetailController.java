@@ -25,7 +25,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -168,95 +167,17 @@ public class ConferenceDetailController {
 
         Conference conference = conferenceService.findById(id);
 
-        List<ConferenceRole> conferenceRoles = conferenceRoleService.findByConference(conference);
-        if(conferenceRoles.isEmpty()){
-            LOGGER.debug("ConferenceRole Null");
-            Set<Conference> conferenceSet = new HashSet<>();
-            Set<User> users = new HashSet<>();
-            Set<User> userNull = new HashSet<>();
+        ConferenceRole conferenceRole = new ConferenceRole();
+        conferenceRole.setConferenceRole(Role.PARTICIPANT);
+        conferenceRole.setConference(conference);
+        conferenceRole.setUser(currentUser.getUser());
+        conferenceRoleService.add(conferenceRole);
 
-            ConferenceRole conferenceRoleParticipant = new ConferenceRole();
-            ConferenceRole conferenceRoleSpeaker = new ConferenceRole();
-            ConferenceRole conferenceRoleManager = new ConferenceRole();
-            ConferenceRole conferenceRoleHost = new ConferenceRole();
-
-            conferenceSet.add(conference);
-            users.add(currentUser.getUser());
-
-            conferenceRoleParticipant.setConferenceRole(Role.PARTICIPANT);
-            conferenceRoleParticipant.setConferenceSet(conferenceSet);
-            conferenceRoleParticipant.setUserSet(users);
-            conferenceRoleService.add(conferenceRoleParticipant);
-
-            conferenceRoleHost.setConferenceRole(Role.HOST);
-            conferenceRoleHost.setConferenceSet(conferenceSet);
-            conferenceRoleHost.setUserSet(userNull);
-            conferenceRoleService.add(conferenceRoleHost);
-
-            conferenceRoleManager.setConferenceRole(Role.MANAGER);
-            conferenceRoleManager.setConferenceSet(conferenceSet);
-            conferenceRoleManager.setUserSet(userNull);
-            conferenceRoleService.add(conferenceRoleManager);
-
-            conferenceRoleSpeaker.setConferenceRole(Role.SPEAKER);
-            conferenceRoleSpeaker.setConferenceSet(conferenceSet);
-            conferenceRoleSpeaker.setUserSet(userNull);
-            conferenceRoleService.add(conferenceRoleSpeaker);
-
-        }else{
-            LOGGER.debug("ConferenceRole Not Null");
-            conferenceRoles.forEach((roles) -> {
-                if(roles.getConferenceRole() == Role.PARTICIPANT){
-                    Set<User> users = roles.getUserSet();
-                    users.add(currentUser.getUser());
-                    roles.setUserSet(users);
-                    try {
-                        conferenceRoleService.updateContent(roles);
-                    }catch (ConferenceRoleNotFoundException e){
-                        LOGGER.debug("Processing update error={}", e);
-                    }
-                }
-            });
-        }
-
-        List<Presence> presences = presenceService.findByConference(conference);
-        if(presences.isEmpty()){
-            LOGGER.debug("Presence Null");
-            Set<Conference> conferenceSet = new HashSet<>();
-            Set<User> users = new HashSet<>();
-            Set<User> userNull = new HashSet<>();
-
-            Presence presencePresence = new Presence();
-            Presence presenceAbsence = new Presence();
-
-            conferenceSet.add(conference);
-            users.add(currentUser.getUser());
-
-            presencePresence.setPresenceCheck(Check.PRESENCE);
-            presencePresence.setConferenceSet(conferenceSet);
-            presencePresence.setUserSet(userNull);
-            presenceService.add(presencePresence);
-
-            presenceAbsence.setPresenceCheck(Check.ABSENCE);
-            presenceAbsence.setConferenceSet(conferenceSet);
-            presenceAbsence.setUserSet(users);
-            presenceService.add(presenceAbsence);
-
-        }else{
-            LOGGER.debug("Presence Not Null");
-            presences.forEach((roles) -> {
-                if(roles.getPresenceCheck() == Check.ABSENCE){
-                    Set<User> users = roles.getUserSet();
-                    users.add(currentUser.getUser());
-                    roles.setUserSet(users);
-                    try {
-                        presenceService.update(roles);
-                    }catch (PresenceNotFoundException e){
-                        LOGGER.debug("Processing update error={}", e);
-                    }
-                }
-            });
-        }
+        Presence presence = new Presence();
+        presence.setPresenceCheck(Check.ABSENCE);
+        presence.setConference(conference);
+        presence.setUser(currentUser.getUser());
+        presenceService.add(presence);
 
         User user = currentUser.getUser();
 
@@ -422,30 +343,8 @@ public class ConferenceDetailController {
             return response;
         }
 
-        Conference conference = conferenceService.findById(id);
-        Long userId = Long.parseLong(json.get("j_data2"));
-
-        User user = userService.findById(userId);
-        Set<User> users = conferenceRole.getUserSet();
-        users.remove(user);
-        conferenceRole.setUserSet(users);
+        conferenceRole.setConferenceRole(targetRole);
         conferenceRoleService.updateContent(conferenceRole);
-
-        List<ConferenceRole> conferenceRoles = conferenceRoleService.findByConference(conference);
-
-        final Role finalRole = targetRole;
-        conferenceRoles.forEach((roles) -> {
-            if(roles.getConferenceRole() == finalRole){
-                Set<User> userSet = roles.getUserSet();
-                userSet.add(user);
-                roles.setUserSet(userSet);
-                try {
-                    conferenceRoleService.updateContent(roles);
-                }catch (ConferenceRoleNotFoundException e){
-                    LOGGER.debug("Processing update error={}", e);
-                }
-            }
-        });
 
         response.put("message", "200");
         return response;
@@ -522,30 +421,8 @@ public class ConferenceDetailController {
             return response;
         }
 
-        Conference conference = conferenceService.findById(id);
-        Long userId = Long.parseLong(json.get("j_data2"));
-
-        User user = userService.findById(userId);
-        Set<User> users = presence.getUserSet();
-        users.remove(user);
-        presence.setUserSet(users);
+        presence.setPresenceCheck(targetCheck);
         presenceService.update(presence);
-
-        List<Presence> presences = presenceService.findByConference(conference);
-
-        final Check finalCheck = targetCheck;
-        presences.forEach((roles) -> {
-            if(roles.getPresenceCheck() == finalCheck){
-                Set<User> userSet = roles.getUserSet();
-                userSet.add(user);
-                roles.setUserSet(userSet);
-                try {
-                    presenceService.update(roles);
-                }catch (PresenceNotFoundException e){
-                    LOGGER.debug("Processing update error={}", e);
-                }
-            }
-        });
 
         response.put("message", "200");
         return response;

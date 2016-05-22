@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface PresenceRepository extends JpaRepository<Presence, Long> {
-    List<Presence> findAllByConferenceSet(Conference conference);
+    List<Presence> findAllByConference(Conference conference);
 }

@@ -202,40 +202,17 @@ public class UserServiceImpl implements UserService{
         assets.setUser(user);
         assetsRepository.save(assets);
 
-        final User finalUser = user;
-        List<ConferenceRole> conferenceRoles = conferenceRoleRepository.findAllByConferenceSet(conference);
-        conferenceRoles.forEach((roles) -> {
-            if(roles.getConferenceRole() == Role.SPEAKER){
-                Set<User> userSet = roles.getUserSet();
-                userSet.add(finalUser);
-                roles.setUserSet(userSet);
+        ConferenceRole conferenceRole = new ConferenceRole();
+        conferenceRole.setConferenceRole(Role.SPEAKER);
+        conferenceRole.setConference(conference);
+        conferenceRole.setUser(user);
+        conferenceRoleRepository.save(conferenceRole);
 
-                ConferenceRole found = conferenceRoleRepository.findOne(roles.getId());
-                if(found == null){
-                    LOGGER.debug("Not Found conferenceRole by Id: {}", roles.getId());
-                }else {
-                    found.updateContent(roles);
-                    conferenceRoleRepository.save(found);
-                }
-            }
-        });
-
-        List<Presence> presences = presenceRepository.findAllByConferenceSet(conference);
-        presences.forEach((roles) -> {
-            if(roles.getPresenceCheck() == Check.ABSENCE){
-                Set<User> userSet = roles.getUserSet();
-                userSet.add(finalUser);
-                roles.setUserSet(userSet);
-
-                Presence found = presenceRepository.findOne(roles.getId());
-                if(found == null){
-                    LOGGER.debug("Not Found conferenceRole by Id: {}", roles.getId());
-                }else {
-                    found.update(roles);
-                    presenceRepository.save(found);
-                }
-            }
-        });
+        Presence presence = new Presence();
+        presence.setPresenceCheck(Check.ABSENCE);
+        presence.setConference(conference);
+        presence.setUser(user);
+        presenceRepository.save(presence);
 
         LOGGER.debug("Successfully created");
 

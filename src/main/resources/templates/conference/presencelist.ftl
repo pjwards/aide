@@ -75,23 +75,21 @@
                                     </thead>
                                     <tbody>
                                         <#list presences as roles>
-                                            <#if roles.userSet??>
-                                                <#list roles.userSet as user>
-                                                <tr id="${user.id}">
-                                                    <td>${user.email}</td>
-                                                    <td>${user.name}</td>
+                                            <#if roles.user??>
+                                                <tr id="${roles.user.id}">
+                                                    <td>${roles.user.email}</td>
+                                                    <td>${roles.user.name}</td>
                                                     <td>
-                                                        <a href="#" id="change" class="btn btn-info change_role" role="button" val="${roles.id}" val2="${user.id}">${roles.presenceCheck}</a>
+                                                        <a href="#" id="change" class="btn btn-info change_role" role="button" val="${roles.id}">${roles.presenceCheck}</a>
                                                     </td>
                                                     <td>
-                                                        <#if user.company??>
-                                                        ${user.company}
+                                                        <#if roles.user.company??>
+                                                        ${roles.user.company}
                                                         <#else>
                                                             Empty
                                                         </#if>
                                                     </td>
                                                 </tr>
-                                                </#list>
                                             </#if>
                                         </#list>
                                     </tbody>
@@ -143,10 +141,6 @@
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
             var data = $(this).attr("val");
-            var data2 = $(this).attr("val2");
-            console.log(this);
-            console.log(data);
-            console.log(data2);
             $this = $(this);
             $( "#dialog-confirm" ).dialog({
                 resizable: false,
@@ -162,8 +156,7 @@
                             url:"/conferences/${conference.id}/admin/edit_presence",
                             data : JSON.stringify({
                                 "j_data" : data,
-                                "j_role" : "PRESENCE",
-                                "j_data2": data2
+                                "j_role" : "PRESENCE"
                             }),
                             dataType : "json",
                             beforeSend: function(xhr) {
@@ -190,8 +183,7 @@
                             url:"/conferences/${conference.id}/admin/edit_presence",
                             data : JSON.stringify({
                                 "j_data" : data,
-                                "j_role" : "ABSENCE",
-                                "j_data2": data2
+                                "j_role" : "ABSENCE"
                             }),
                             dataType : "json",
                             beforeSend: function(xhr) {

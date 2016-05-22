@@ -50,12 +50,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(targetEntity = ConferenceRole.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "userSet")
-    @JsonManagedReference
+    @ManyToMany(targetEntity = ConferenceRole.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "user")
+    @JsonBackReference
     private Set<ConferenceRole> conferenceRoleSetUser;
 
-    @ManyToMany(targetEntity = Presence.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "userSet")
-    @JsonManagedReference
+    @ManyToMany(targetEntity = Presence.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "user")
+    @JsonBackReference
     private Set<Presence> presenceRoleSetUser;
 
     @OneToOne(
