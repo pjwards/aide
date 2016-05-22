@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface ConferenceRoleRepository extends JpaRepository<ConferenceRole, Long> {
-    List<ConferenceRole> findAllByConferenceSet(Conference conference);
+    List<ConferenceRole> findAllByConference(Conference conference);
 }

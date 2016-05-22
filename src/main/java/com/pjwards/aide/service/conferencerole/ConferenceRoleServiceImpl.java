@@ -96,7 +96,7 @@ public class ConferenceRoleServiceImpl implements ConferenceRoleService{
     public List<ConferenceRole> findByConference(Conference conference) {
         LOGGER.debug("Find a conferenceRole by ConferenceId: {}", conference);
 
-        List<ConferenceRole> found = conferenceRoleRepository.findAllByConferenceSet(conference);
+        List<ConferenceRole> found = conferenceRoleRepository.findAllByConference(conference);
 
         LOGGER.debug("Find the conferenceRole size: {}", found.size());
 

@@ -25,7 +25,7 @@ public class ConferenceRoleTest {
     @Test
     public void testBuildWithMandatoryInformation() {
         assertThat(conferenceRole.getId(), nullValue());
-        assertThat(conferenceRole.getRole(), is(Role.ADMIN));
+        assertThat(conferenceRole.getConferenceRole(), is(Role.ADMIN));
         assertThat(conferenceRole.getUser(), nullValue());
         assertThat(conferenceRole.getConference(), nullValue());
     }
@@ -36,7 +36,7 @@ public class ConferenceRoleTest {
         conferenceRole.update(UPDATE_ROLE);
 
         assertThat(conferenceRole.getId(), nullValue());
-        assertThat(conferenceRole.getRole(), is(CONFERENCE_ROLE));
+        assertThat(conferenceRole.getConferenceRole(), is(CONFERENCE_ROLE));
         assertThat(conferenceRole.getUser(), nullValue());
         assertThat(conferenceRole.getConference(), nullValue());
     }

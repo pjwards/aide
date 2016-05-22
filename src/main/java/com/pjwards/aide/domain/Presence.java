@@ -1,5 +1,6 @@
 package com.pjwards.aide.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.Check;
 
 import javax.persistence.*;
@@ -15,23 +16,18 @@ public class Presence {
     @Enumerated(EnumType.STRING)
     private Check presenceCheck;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_presence", joinColumns = { @JoinColumn(name = "presence_id_frk") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id_frk") })
-    private Set<User> userSet;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "conference_presence", joinColumns = { @JoinColumn(name = "presence_id_frk") },
-            inverseJoinColumns = { @JoinColumn(name = "conference_id_frk") })
-    private Set<Conference> conferenceSet;
+    @ManyToOne
+    @JoinColumn(name = "conference_id")
+    @JsonManagedReference
+    private Conference conference;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Check getPresenceCheck() {
@@ -42,20 +38,20 @@ public class Presence {
         this.presenceCheck = presenceCheck;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Set<Conference> getConferenceSet() {
-        return conferenceSet;
+    public Conference getConference() {
+        return conference;
     }
 
-    public void setConferenceSet(Set<Conference> conferenceSet) {
-        this.conferenceSet = conferenceSet;
+    public void setConference(Conference conference) {
+        this.conference = conference;
     }
 
     public Presence(){
@@ -68,7 +64,7 @@ public class Presence {
 
     public void update(Presence update){
         this.presenceCheck = update.presenceCheck;
-        this.userSet = update.userSet;
-        this.conferenceSet = update.conferenceSet;
+        this.user = update.user;
+        this.conference = update.conference;
     }
 }

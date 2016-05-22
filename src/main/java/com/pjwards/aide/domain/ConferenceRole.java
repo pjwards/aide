@@ -1,6 +1,7 @@
 package com.pjwards.aide.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.Role;
 
 import javax.persistence.*;
@@ -17,16 +18,15 @@ public class ConferenceRole {
     @Enumerated(EnumType.STRING)
     private Role conferenceRole;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_conferenceRole", joinColumns = { @JoinColumn(name = "conferenceRole_id_frk") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id_frk") })
-    private Set<User> userSet;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "conference_conferenceRole", joinColumns = { @JoinColumn(name = "conferenceRole_id_frk") },
-            inverseJoinColumns = { @JoinColumn(name = "conference_id_frk") })
-    private Set<Conference> conferenceSet;
+    @ManyToOne
+    @JoinColumn(name = "conference_id")
+    @JsonManagedReference
+    private Conference conference;
 
     public Long getId() {
         return id;
@@ -40,22 +40,21 @@ public class ConferenceRole {
         this.conferenceRole = conferenceRole;
     }
 
-    public Set<Conference> getConferenceSet() {
-        return conferenceSet;
+    public User getUser() {
+        return user;
     }
 
-    public void setConferenceSet(Set<Conference> conferenceSet) {
-        this.conferenceSet = conferenceSet;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
+    public Conference getConference() {
+        return conference;
     }
 
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
+    public void setConference(Conference conference) {
+        this.conference = conference;
     }
-
 
     public ConferenceRole(){
 
@@ -71,8 +70,8 @@ public class ConferenceRole {
 
     public void updateContent(ConferenceRole update){
         this.conferenceRole = update.conferenceRole;
-        this.userSet = update.userSet;
-        this.conferenceSet = update.conferenceSet;
+        this.user = update.user;
+        this.conference = update.conference;
     }
 
     public static class Builder {

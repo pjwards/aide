@@ -95,7 +95,7 @@ public class PresenceServiceImpl implements PresenceService{
     public List<Presence> findByConference(Conference conference) {
         LOGGER.debug("Find a conferenceRole by ConferenceId: {}", conference);
 
-        List<Presence> found = presenceRepository.findAllByConferenceSet(conference);
+        List<Presence> found = presenceRepository.findAllByConference(conference);
 
         LOGGER.debug("Find the conferenceRole size: {}", found.size());
 
