@@ -13,7 +13,6 @@ import com.pjwards.aide.repository.ConferenceRepository;
 import com.pjwards.aide.repository.SponsorRepository;
 import com.pjwards.aide.service.sponsor.SponsorService;
 import com.pjwards.aide.util.Utils;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.validator.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/conferences/{conference_id}/admin/sponsor")
@@ -268,17 +265,9 @@ public class SponsorBasicController {
             return "error/403";
         }
 
-        int totalCount = sponsorRepository.countWhereConference(conferenceId);
-
         List<Sponsor> sponsorList = sponsorRepository.findAllWhereConference(conferenceId);
         model.addAttribute("sponsorList", sponsorList);
         model.addAttribute("conference", conference);
-
-        if (totalCount == 0) {
-            model.addAttribute("hasSponsor", false);
-        } else {
-            model.addAttribute("hasSponsor", true);
-        }
 
         return "conference/sponsor/sponsorlist";
     }

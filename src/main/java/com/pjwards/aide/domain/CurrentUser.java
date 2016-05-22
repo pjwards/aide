@@ -37,7 +37,7 @@ public class CurrentUser extends org.springframework.security.core.userdetails.U
 
     public String getDescription(){return user.getDescription(); }
 
-    public Set<ConferenceRole> getConferenceRoleSet(){ return user.getConferenceRoleSet(); }
+    public Set<ConferenceRole> getConferenceRoleSet(){ return user.getConferenceRoleSetUser(); }
 
     @Override
     public String toString() {

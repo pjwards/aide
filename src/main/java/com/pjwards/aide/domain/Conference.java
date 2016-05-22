@@ -55,14 +55,13 @@ public class Conference {
     @JsonBackReference
     private Set<ProgramDate> programDates;
 
-    @OneToMany(
-            targetEntity = ConferenceRole.class,
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.REMOVE,
-            mappedBy = "conference"
-    )
+    @ManyToMany(targetEntity = ConferenceRole.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "conferenceSet")
     @JsonManagedReference
-    private Set<ConferenceRole> conferenceRoleSet;
+    private Set<ConferenceRole> conferenceRoleSetConference;
+
+    @ManyToMany(targetEntity = Presence.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "conferenceSet")
+    @JsonManagedReference
+    private Set<Presence> presenceSetConference;
 
     @ManyToOne
     @JoinColumn(name = "host_id")
@@ -217,13 +216,20 @@ public class Conference {
         return this;
     }
 
-    public Set<ConferenceRole> getConferenceRoleSet() {
-        return conferenceRoleSet;
+    public Set<ConferenceRole> getConferenceRoleSetConference() {
+        return conferenceRoleSetConference;
     }
 
-    public Conference setConferenceRoleSet(Set<ConferenceRole> conferenceRoleSet) {
-        this.conferenceRoleSet = conferenceRoleSet;
-        return this;
+    public void setConferenceRoleSetConference(Set<ConferenceRole> conferenceRoleSetConference) {
+        this.conferenceRoleSetConference = conferenceRoleSetConference;
+    }
+
+    public Set<Presence> getPresenceSetConference() {
+        return presenceSetConference;
+    }
+
+    public void setPresenceSetConference(Set<Presence> presenceSetConference) {
+        this.presenceSetConference = presenceSetConference;
     }
 
     public Set<Sponsor> getSponsors() {

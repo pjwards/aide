@@ -1,8 +1,6 @@
-<#import "/spring.ftl" as spring/>
-
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
-<#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
+<#import "/spring.ftl" as spring/>
 
 <div id="wrapper-header">
 
@@ -91,9 +89,11 @@
                     <li>
                         <a href="/conferences/${conference.id}/admin/update"><i class="fa fa-group fa-fw"></i> <@spring.message "header.admin.conference"/></a>
                     </li>
-
                     <li>
-                        <a href="forms.html"><i class="fa fa-user fa-fw"></i> <@spring.message "header.admin.users"/></a>
+                        <a href="/conferences/${conference.id}/admin/presence"><i class="fa fa-check-square-o fa-fw"></i> <@spring.message "header.admin.presence"/></a>
+                    </li>
+                    <li>
+                        <a href="/conferences/${conference.id}/admin/list"><i class="fa fa-user fa-fw"></i> <@spring.message "header.admin.users"/></a>
                     </li>
                 </ul>
             </div>

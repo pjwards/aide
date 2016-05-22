@@ -1,5 +1,6 @@
 package com.pjwards.aide.service.user;
 
+import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.forms.SignUpForm;
 import com.pjwards.aide.domain.forms.UserUpdatePasswordForm;
@@ -24,4 +25,6 @@ public interface UserService {
     User create(SignUpForm form);
 
     User updatePassword(UserUpdatePasswordForm form);
+
+    User createDummy(SignUpForm form, Conference conference);
 }

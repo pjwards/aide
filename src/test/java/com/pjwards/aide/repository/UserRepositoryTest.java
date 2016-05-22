@@ -56,9 +56,7 @@ public class UserRepositoryTest {
         Assets assets = new Assets.Builder(FILENAME, REAL_PATH, FILE_SIZE, DOWNLOAD_COUNT).build();
         assetsRepository.save(assets);
 
-        user = new User.Builder(NAME, EMAIL, PASSWORD).conferenceRole(new HashSet<ConferenceRole>(){{
-            add(conferenceRole);
-        }}).assets(assets).build();
+        user = new User.Builder(NAME, EMAIL, PASSWORD).assets(assets).build();
 
         userRepository.save(user);
     }

@@ -28,6 +28,7 @@ public class AssetsRepositoryTest {
     private static final String REAL_PATH = "file/filename";
     private static final Long FILE_SIZE = 20L;
     private static final Integer DOWNLOAD_COUNT = 122;
+    private static final Integer RANK = 1;
 
     private Assets assets;
 
@@ -50,7 +51,7 @@ public class AssetsRepositoryTest {
     public void testSaveWithAll() {
         User user = new User.Builder(NAME, EMAIL, PASSWORD).build();
         userRepository.save(user);
-        Sponsor sponsor = new Sponsor.Builder(SLUG, NAME).build();
+        Sponsor sponsor = new Sponsor.Builder(SLUG, NAME, RANK).build();
         sponsorRepository.save(sponsor);
 
         assets = new Assets.Builder(FILENAME, REAL_PATH, FILE_SIZE, DOWNLOAD_COUNT).user(user).sponsor(sponsor).build();

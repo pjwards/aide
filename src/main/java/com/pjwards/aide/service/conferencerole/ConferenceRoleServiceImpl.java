@@ -1,6 +1,7 @@
 package com.pjwards.aide.service.conferencerole;
 
 
+import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.ConferenceRole;
 import com.pjwards.aide.exception.ConferenceRoleNotFoundException;
 import com.pjwards.aide.repository.ConferenceRoleRepository;
@@ -69,7 +70,7 @@ public class ConferenceRoleServiceImpl implements ConferenceRoleService{
         LOGGER.debug("Update the conferenceRole with Info: {}", updated);
 
         ConferenceRole found = findById(updated.getId());
-        found.update(updated.getRole());
+        found.update(updated.getConferenceRole());
         conferenceRoleRepository.save(found);
 
         LOGGER.debug("Successfully updated");
@@ -88,5 +89,31 @@ public class ConferenceRoleServiceImpl implements ConferenceRoleService{
         LOGGER.debug("Successfully deleted Info: {}", deleted);
 
         return deleted;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = {ConferenceRoleNotFoundException.class})
+    @Override
+    public List<ConferenceRole> findByConference(Conference conference) {
+        LOGGER.debug("Find a conferenceRole by ConferenceId: {}", conference);
+
+        List<ConferenceRole> found = conferenceRoleRepository.findAllByConferenceSet(conference);
+
+        LOGGER.debug("Find the conferenceRole size: {}", found.size());
+
+        return found;
+    }
+
+    @Transactional(rollbackFor = {ConferenceRoleNotFoundException.class})
+    @Override
+    public ConferenceRole updateContent(ConferenceRole updated) throws ConferenceRoleNotFoundException {
+        LOGGER.debug("Update the conferenceRole with Info: {}", updated);
+
+        ConferenceRole found = findById(updated.getId());
+        found.updateContent(updated);
+        conferenceRoleRepository.save(found);
+
+        LOGGER.debug("Successfully updated");
+
+        return found;
     }
 }

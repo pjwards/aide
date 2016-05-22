@@ -50,14 +50,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(
-            targetEntity = ConferenceRole.class,
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.REMOVE,
-            mappedBy = "user"
-    )
+    @ManyToMany(targetEntity = ConferenceRole.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "userSet")
     @JsonManagedReference
-    private Set<ConferenceRole> conferenceRoleSet;
+    private Set<ConferenceRole> conferenceRoleSetUser;
+
+    @ManyToMany(targetEntity = Presence.class, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "userSet")
+    @JsonManagedReference
+    private Set<Presence> presenceRoleSetUser;
 
     @OneToOne(
             cascade = CascadeType.REMOVE
@@ -211,14 +210,15 @@ public class User {
         return this;
     }
 
-    public Set<ConferenceRole> getConferenceRoleSet() {
-        return conferenceRoleSet;
+    public Set<ConferenceRole> getConferenceRoleSetUser() {
+        return conferenceRoleSetUser;
     }
 
-    public User setConferenceRoleSet(Set<ConferenceRole> conferenceRoleSet) {
-        this.conferenceRoleSet = conferenceRoleSet;
-        return this;
+    public void setConferenceRoleSetUser(Set<ConferenceRole> conferenceRoleSetUser) {
+        this.conferenceRoleSetUser = conferenceRoleSetUser;
     }
+
+
 
     public Assets getAssets() {
         return assets;
@@ -292,6 +292,14 @@ public class User {
         return this;
     }
 
+    public Set<Presence> getPresenceRoleSetUser() {
+        return presenceRoleSetUser;
+    }
+
+    public void setPresenceRoleSetUser(Set<Presence> presenceRoleSetUser) {
+        this.presenceRoleSetUser = presenceRoleSetUser;
+    }
+
     public User(){
 
     }
@@ -354,11 +362,6 @@ public class User {
 
         public Builder description(String description){
             built.description = description;
-            return this;
-        }
-
-        public Builder conferenceRole(Set<ConferenceRole> conferenceRoleSet){
-            built.conferenceRoleSet = conferenceRoleSet;
             return this;
         }
 

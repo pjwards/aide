@@ -171,29 +171,11 @@ public class UserSettingController {
     }
 
     @RequestMapping(value = "/users")
-    public String getUsersPage(Model model) { //@RequestParam(value = "p", required = false) Integer requestPage
+    public String getUsersPage(Model model) {
         LOGGER.debug("Getting users page");
-
-//        if(requestPage == null) requestPage = 1;
-
-        int totalCount = (int)userRepository.count();
-//
-//        Sort sort = new Sort(Sort.Direction.DESC, "id");
-//        Pageable pageable = new PageRequest(0, 10, sort);
-//        Page<User> users = userRepository.findAll(pageable);
-//        List<User> userList = users.getContent();
 
         List<User> userList = userRepository.findAll();
         model.addAttribute("userList", userList);
-
-//        Paging paging = new Paging().paging(requestPage, 10, totalCount);
-//        model.addAttribute("paging", paging);
-
-        if(totalCount == 0) {
-            model.addAttribute("hasUser", false);
-        } else {
-            model.addAttribute("hasUser", true);
-        }
 
         return "user/userlist";
     }
