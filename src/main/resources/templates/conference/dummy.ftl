@@ -8,13 +8,18 @@
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${myApp.name} :: Conference :: Add</title>
+    <title>${myApp.name} :: Conference :: Dummy</title>
+
+    <!-- MetisMenu CSS -->
+    <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="/lib/shop-homepage/css/shop-homepage.css" rel="stylesheet">
+    <link href="/lib/sb-admin/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
           type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -31,7 +36,7 @@
     </@layout.put>
 
     <@layout.put block="header" type="prepend">
-        <@layout.extends name="layouts/header.ftl">
+        <@layout.extends name="layouts/header/admin.ftl">
         </@layout.extends>
     </@layout.put>
 
@@ -39,69 +44,94 @@
         <@spring.bind "form2" />
 
     <section>
-        <#if spring.status.error>
-            <div class="alert alert-dismissable alert-danger text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <#list spring.status.errorMessages as error>
-                    <p>${error}</p>
+        <div id="wrapper">
+            <div id="page-wrapper">
+                <#if spring.status.error>
+                    <div class="alert alert-dismissable alert-danger text-center">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <#list spring.status.errorMessages as error>
+                            <p>${error}</p>
 
-                    <#if error?contains("email") || error?contains("Email")><#global errorEmail=true></#if>
-                    <#if error?contains("Name")><#global errorName=true></#if>
-                    <#if error?contains("Passwords") || error?contains("Password")><#global errorPassword=true></#if>
-                    <#if error?contains("Passwords") || error?contains("PasswordRepeated")><#global errorPasswordRepeated=true></#if>
-                </#list>
-            </div>
-        </#if>
-    </section>
-
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Conference Register</h2>
-                    <hr class="primary">
-                    <!-- /.row -->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form role="form" method="post" action="" class="login-form">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-                                <div class="form-group <#if errorEmail??>has-error</#if>"">
-                                    <label>Email</label>
-                                    <input type="email" placeholder="Email address"
-                                           class="form-email form-control"
-                                           id="email" name="email" required>
-                                </div>
-
-                                <div class="form-group <#if errorName??>has-error</#if>">
-                                    <label>Name</label>
-                                    <input type="text" placeholder="Name"
-                                           class="form-username form-control"
-                                           id="name" name="name" required>
-                                </div>
-
-                                <div class="form-group <#if errorPassword??>has-error</#if>">
-                                    <label>Password</label>
-                                    <input type="password" placeholder="password"
-                                           class="form-password form-control"
-                                           id="password" name="password" required>
-                                </div>
-                                <div class="form-group <#if errorPasswordRepeated??>has-error</#if>">
-                                    <label>Password confirmation</label>
-                                    <input type="password" placeholder="password again"
-                                           class="form-password form-control"
-                                           id="passwordRepeated" name="passwordRepeated" required>
-                                </div>
-
-                                <button type="submit" class="btn">Sign up</button>
-                            </form>
-                        </div>
-                        <!-- /.col-lg-12 -->
+                            <#if error?contains("email") || error?contains("Email")><#global errorEmail=true></#if>
+                            <#if error?contains("Name")><#global errorName=true></#if>
+                            <#if error?contains("Passwords") || error?contains("Password")><#global errorPassword=true></#if>
+                            <#if error?contains("Passwords") || error?contains("PasswordRepeated")><#global errorPasswordRepeated=true></#if>
+                        </#list>
                     </div>
-                    <!-- /.row -->
+                </#if>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Add Dummy User
+                        </h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
                 </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12" style="text-align: center;">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form role="form" action="" method="post" enctype="multipart/form-data">
+                                    <div class="panel-group" id="accordion">
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Basic Information</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseOne" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+                                                    <div class="form-group <#if errorEmail??>has-error</#if>"">
+                                                    <label>Email</label>
+                                                    <input type="email" placeholder="Email address"
+                                                           class="form-email form-control"
+                                                           id="email" name="email" required>
+                                                </div>
+
+                                                <div class="form-group <#if errorName??>has-error</#if>">
+                                                    <label>Name</label>
+                                                    <input type="text" placeholder="Name"
+                                                           class="form-username form-control"
+                                                           id="name" name="name" required>
+                                                </div>
+
+                                                <div class="form-group <#if errorPassword??>has-error</#if>">
+                                                    <label>Password</label>
+                                                    <input type="password" placeholder="password"
+                                                           class="form-password form-control"
+                                                           id="password" name="password" required>
+                                                </div>
+                                                <div class="form-group <#if errorPasswordRepeated??>has-error</#if>">
+                                                    <label>Password confirmation</label>
+                                                    <input type="password" placeholder="password again"
+                                                           class="form-password form-control"
+                                                           id="passwordRepeated" name="passwordRepeated" required>
+                                                </div>
+                                                <!-- /.panel-body -->
+                                            </div>
+                                            <!-- /.collapse -->
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+                                    <!-- /.panel group -->
+                                    <button type="submit" class="btn btn-default">Register</button>
+                                </form>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
             </div>
+            <!-- /#page-wrapper -->
         </div>
+        <!-- /#wrapper -->
     </section>
 
     </@layout.put>
@@ -112,5 +142,13 @@
     </@layout.put>
 
     <@layout.put block="script">
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/lib/sb-admin/dist/js/sb-admin-2.js"></script
+
     </@layout.put>
 </@layout.extends>
+

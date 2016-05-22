@@ -34,35 +34,38 @@ public class Presence {
         return presenceCheck;
     }
 
-    public void setPresenceCheck(Check presenceCheck) {
+    public Presence setPresenceCheck(Check presenceCheck) {
         this.presenceCheck = presenceCheck;
+        return this;
     }
 
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public Presence setUser(User user) {
         this.user = user;
+        return this;
     }
 
     public Conference getConference() {
         return conference;
     }
 
-    public void setConference(Conference conference) {
+    public Presence setConference(Conference conference) {
         this.conference = conference;
+        return this;
     }
 
-    public Presence(){
+    public Presence() {
 
     }
 
-    public Presence(Check presenceCheck){
+    public Presence(Check presenceCheck) {
         this.presenceCheck = presenceCheck;
     }
 
-    public void update(Presence update){
+    public void update(Presence update) {
         this.presenceCheck = update.presenceCheck;
         this.user = update.user;
         this.conference = update.conference;

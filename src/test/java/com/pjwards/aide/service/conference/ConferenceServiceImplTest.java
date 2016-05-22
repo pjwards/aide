@@ -4,10 +4,7 @@ import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.builder.ConferenceBuilder;
 import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
-import com.pjwards.aide.repository.AssetsRepository;
-import com.pjwards.aide.repository.ConferenceRepository;
-import com.pjwards.aide.repository.ContactRepository;
-import com.pjwards.aide.repository.UserRepository;
+import com.pjwards.aide.repository.*;
 import com.pjwards.aide.util.Utils;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +33,8 @@ public class ConferenceServiceImplTest {
     private AssetsRepository assetsRepositoryMock;
     private UserRepository userRepositoryMock;
     private ImageValidator imageValidatorMock;
+    private PresenceRepository presenceRepositoryMock;
+    private ConferenceRoleRepository conferenceRoleRepositoryMock;
     private ConferenceService conferenceService;
     private Utils utilsMock;
 
@@ -46,9 +45,12 @@ public class ConferenceServiceImplTest {
         assetsRepositoryMock = mock(AssetsRepository.class);
         imageValidatorMock = mock(ImageValidator.class);
         userRepositoryMock = mock(UserRepository.class);
+        presenceRepositoryMock = mock(PresenceRepository.class);
+        conferenceRoleRepositoryMock = mock(ConferenceRoleRepository.class);
         utilsMock = mock(Utils.class);
         conferenceService = new ConferenceServiceImpl(conferenceRepositoryMock,
-                contactRepositoryMock, assetsRepositoryMock, userRepositoryMock, imageValidatorMock, utilsMock);
+                contactRepositoryMock, assetsRepositoryMock, userRepositoryMock,
+                presenceRepositoryMock, conferenceRoleRepositoryMock, imageValidatorMock, utilsMock);
     }
 
     @Test
