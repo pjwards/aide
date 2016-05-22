@@ -36,39 +36,42 @@ public class ConferenceRole {
         return conferenceRole;
     }
 
-    public void setConferenceRole(Role conferenceRole) {
+    public ConferenceRole setConferenceRole(Role conferenceRole) {
         this.conferenceRole = conferenceRole;
+        return this;
     }
 
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public ConferenceRole setUser(User user) {
         this.user = user;
+        return this;
     }
 
     public Conference getConference() {
         return conference;
     }
 
-    public void setConference(Conference conference) {
+    public ConferenceRole setConference(Conference conference) {
         this.conference = conference;
+        return this;
     }
 
-    public ConferenceRole(){
+    public ConferenceRole() {
 
     }
 
-    public ConferenceRole(Role conferenceRole){
+    public ConferenceRole(Role conferenceRole) {
         this.conferenceRole = conferenceRole;
     }
 
-    public void update(Role update){
+    public void update(Role update) {
         this.conferenceRole = update;
     }
 
-    public void updateContent(ConferenceRole update){
+    public void updateContent(ConferenceRole update) {
         this.conferenceRole = update.conferenceRole;
         this.user = update.user;
         this.conference = update.conference;

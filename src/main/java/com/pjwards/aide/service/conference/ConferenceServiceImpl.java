@@ -1,18 +1,14 @@
 package com.pjwards.aide.service.conference;
 
-import com.pjwards.aide.domain.Assets;
-import com.pjwards.aide.domain.Conference;
-import com.pjwards.aide.domain.Contact;
-import com.pjwards.aide.domain.User;
+import com.pjwards.aide.domain.*;
+import com.pjwards.aide.domain.enums.Check;
 import com.pjwards.aide.domain.enums.ContactType;
+import com.pjwards.aide.domain.enums.Role;
 import com.pjwards.aide.domain.enums.Status;
 import com.pjwards.aide.domain.forms.ConferenceForm;
 import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.exception.ConferenceNotFoundException;
-import com.pjwards.aide.repository.AssetsRepository;
-import com.pjwards.aide.repository.ConferenceRepository;
-import com.pjwards.aide.repository.ContactRepository;
-import com.pjwards.aide.repository.UserRepository;
+import com.pjwards.aide.repository.*;
 import com.pjwards.aide.specification.ConferenceSpecs;
 import com.pjwards.aide.util.Utils;
 import org.slf4j.Logger;
@@ -39,6 +35,8 @@ public class ConferenceServiceImpl implements ConferenceService {
     private ContactRepository contactRepository;
     private AssetsRepository assetsRepository;
     private UserRepository userRepository;
+    private PresenceRepository presenceRepository;
+    private ConferenceRoleRepository conferenceRoleRepository;
     private ImageValidator imageValidator;
     private Utils utils;
 
@@ -47,12 +45,16 @@ public class ConferenceServiceImpl implements ConferenceService {
                                  ContactRepository contactRepository,
                                  AssetsRepository assetsRepository,
                                  UserRepository userRepository,
+                                 PresenceRepository presenceRepository,
+                                 ConferenceRoleRepository conferenceRoleRepository,
                                  ImageValidator imageValidator,
                                  Utils utils) {
         this.conferenceRepository = conferenceRepository;
         this.contactRepository = contactRepository;
         this.assetsRepository = assetsRepository;
         this.userRepository = userRepository;
+        this.presenceRepository = presenceRepository;
+        this.conferenceRoleRepository = conferenceRoleRepository;
         this.imageValidator = imageValidator;
         this.utils = utils;
     }
@@ -218,6 +220,9 @@ public class ConferenceServiceImpl implements ConferenceService {
             Assets assets = utils.fileSaveHelper(file, form.getHost(), "/img/");
             assetsRepository.save(assets.setConference(finalConference));
         });
+
+        presenceRepository.save(new Presence().setUser(form.getHost()).setConference(conference).setPresenceCheck(Check.ABSENCE));
+        conferenceRoleRepository.save(new ConferenceRole().setUser(form.getHost()).setConference(conference).setConferenceRole(Role.HOST));
 
         LOGGER.debug("Successfully created");
         return conference;

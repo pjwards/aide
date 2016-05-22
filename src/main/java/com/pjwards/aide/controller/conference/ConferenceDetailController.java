@@ -162,24 +162,30 @@ public class ConferenceDetailController {
     public String getRegister(Model model,
                               @PathVariable("id") Long id,
                               @ModelAttribute("currentUser") CurrentUser currentUser,
-                              @RequestParam(value = "company", required = false) String company) throws ConferenceNotFoundException, UserNotFoundException ,ConferenceRoleNotFoundException{
+                              @RequestParam(value = "company", required = false) String company) throws ConferenceNotFoundException, UserNotFoundException, ConferenceRoleNotFoundException {
         LOGGER.debug("Getting register page");
 
         Conference conference = conferenceService.findById(id);
-
-        ConferenceRole conferenceRole = new ConferenceRole();
-        conferenceRole.setConferenceRole(Role.PARTICIPANT);
-        conferenceRole.setConference(conference);
-        conferenceRole.setUser(currentUser.getUser());
-        conferenceRoleService.add(conferenceRole);
-
-        Presence presence = new Presence();
-        presence.setPresenceCheck(Check.ABSENCE);
-        presence.setConference(conference);
-        presence.setUser(currentUser.getUser());
-        presenceService.add(presence);
-
         User user = currentUser.getUser();
+
+//        ConferenceRole conferenceRole = new ConferenceRole()
+//                .setConferenceRole(Role.PARTICIPANT)
+//                .setConference(conference)
+//                .setUser(user);
+        conferenceRoleService.add(new ConferenceRole()
+                .setConferenceRole(Role.PARTICIPANT)
+                .setConference(conference)
+                .setUser(user));
+
+//        Presence presence = new Presence()
+//                .setPresenceCheck(Check.ABSENCE)
+//                .setConference(conference)
+//                .setUser(user);
+        presenceService.add(new Presence()
+                .setPresenceCheck(Check.ABSENCE)
+                .setConference(conference)
+                .setUser(user));
+
 
         if (company != null && !company.equals("") && !company.equals(user.getCompany())) {
             user.setCompany(company);
@@ -300,7 +306,7 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(value = "/{id}/admin/list")
-    public String getConferenceUserList(Model model, @PathVariable("id") Long id) throws ConferenceNotFoundException{
+    public String getConferenceUserList(Model model, @PathVariable("id") Long id) throws ConferenceNotFoundException {
         LOGGER.debug("Getting conference user list");
 
         Conference conference = conferenceService.findById(id);
@@ -312,13 +318,14 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(value = "/{id}/admin/edit_role", method = RequestMethod.POST)
-    public @ResponseBody
-    Map<String, Object> ajaxEditRoleConference(@PathVariable("id") Long id, @RequestBody Map<String, String> json) throws ConferenceRoleNotFoundException, UserNotFoundException, ConferenceNotFoundException{
+    public
+    @ResponseBody
+    Map<String, Object> ajaxEditRoleConference(@PathVariable("id") Long id, @RequestBody Map<String, String> json) throws ConferenceRoleNotFoundException, UserNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Ajax edit role content={}", json);
 
         Map<String, Object> response = new LinkedHashMap<>();
 
-        if(json.isEmpty()){
+        if (json.isEmpty()) {
             response.put("message", "400");
             return response;
         }
@@ -328,17 +335,17 @@ public class ConferenceDetailController {
         Role role = conferenceRole.getConferenceRole();
         Role targetRole = null;
 
-        if(jsonString.equals("MANAGER")){
+        if (jsonString.equals("MANAGER")) {
             targetRole = Role.MANAGER;
-        }else if(jsonString.equals("PARTICIPANT")){
-            targetRole =  Role.PARTICIPANT;
-        }else if(jsonString.equals("SPEAKER")){
+        } else if (jsonString.equals("PARTICIPANT")) {
+            targetRole = Role.PARTICIPANT;
+        } else if (jsonString.equals("SPEAKER")) {
             targetRole = Role.SPEAKER;
-        }else if(jsonString.equals("HOST")){
-            targetRole =  Role.HOST;
+        } else if (jsonString.equals("HOST")) {
+            targetRole = Role.HOST;
         }
 
-        if(role == targetRole){
+        if (role == targetRole) {
             response.put("message", "200");
             return response;
         }
@@ -359,7 +366,7 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(value = "/{id}/admin/dummy", method = RequestMethod.POST)
-    public String handleDummySignUpForm(@PathVariable("id") Long id, @Valid @ModelAttribute("form2") SignUpForm form, BindingResult bindingResult) throws ConferenceNotFoundException{
+    public String handleDummySignUpForm(@PathVariable("id") Long id, @Valid @ModelAttribute("form2") SignUpForm form, BindingResult bindingResult) throws ConferenceNotFoundException {
         LOGGER.debug("Processing user sign_up form={}, bindingResult={}", form, bindingResult);
 
         Conference conference = conferenceService.findById(id);
@@ -382,7 +389,7 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(value = "/{id}/admin/presence")
-    public String getConferencePresenceCheck(Model model, @PathVariable("id") Long id) throws ConferenceNotFoundException{
+    public String getConferencePresenceCheck(Model model, @PathVariable("id") Long id) throws ConferenceNotFoundException {
         LOGGER.debug("Getting conference presence check");
 
         Conference conference = conferenceService.findById(id);
@@ -394,13 +401,14 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(value = "/{id}/admin/edit_presence", method = RequestMethod.POST)
-    public @ResponseBody
-    Map<String, Object> ajaxEditPresenceStatus(@PathVariable("id") Long id, @RequestBody Map<String, String> json) throws PresenceNotFoundException, UserNotFoundException, ConferenceNotFoundException{
+    public
+    @ResponseBody
+    Map<String, Object> ajaxEditPresenceStatus(@PathVariable("id") Long id, @RequestBody Map<String, String> json) throws PresenceNotFoundException, UserNotFoundException, ConferenceNotFoundException {
         LOGGER.debug("Ajax edit role content={}", json);
 
         Map<String, Object> response = new LinkedHashMap<>();
 
-        if(json.isEmpty()){
+        if (json.isEmpty()) {
             response.put("message", "400");
             return response;
         }
@@ -410,13 +418,13 @@ public class ConferenceDetailController {
         Check check = presence.getPresenceCheck();
         Check targetCheck = null;
 
-        if(jsonString.equals("PRESENCE")){
+        if (jsonString.equals("PRESENCE")) {
             targetCheck = Check.PRESENCE;
-        }else if(jsonString.equals("ABSENCE")){
-            targetCheck =  Check.ABSENCE;
+        } else if (jsonString.equals("ABSENCE")) {
+            targetCheck = Check.ABSENCE;
         }
 
-        if(check == targetCheck){
+        if (check == targetCheck) {
             response.put("message", "200");
             return response;
         }
