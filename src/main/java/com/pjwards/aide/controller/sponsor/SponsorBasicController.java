@@ -13,7 +13,6 @@ import com.pjwards.aide.repository.ConferenceRepository;
 import com.pjwards.aide.repository.SponsorRepository;
 import com.pjwards.aide.service.sponsor.SponsorService;
 import com.pjwards.aide.util.Utils;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.validator.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/conferences/{conference_id}/admin/sponsor")

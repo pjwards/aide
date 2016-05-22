@@ -43,7 +43,6 @@ public class UserTest {
         assertTrue("Next day dates aren't close enough to each other!",
                 abs(user.getLastDate().getTime() - NEXT_DAY.getTime()) < 1000);
         assertThat(user.getRole(), is(ROLE));
-        assertThat(user.getConferenceRoleSet(), nullValue());
         assertThat(user.getAssets(), nullValue());
     }
 
@@ -67,7 +66,6 @@ public class UserTest {
         assertThat(user.getCompany(), is(UPDATE_COMPANY));
         assertThat(user.getLastDate(), is(UPDATE_LAST_DAY));
         assertThat(user.getRole(), is(UPDATE_ROLE));
-        assertThat(user.getConferenceRoleSet(), nullValue());
         assertThat(user.getAssets(), nullValue());
     }
 }

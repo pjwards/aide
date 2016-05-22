@@ -17,37 +17,45 @@ public class ConferenceRole {
     @Enumerated(EnumType.STRING)
     private Role conferenceRole;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "conference_id")
-    private Conference conference;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_conferenceRole", joinColumns = { @JoinColumn(name = "conferenceRole_id_frk") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id_frk") })
+    private Set<User> userSet;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "conference_conferenceRole", joinColumns = { @JoinColumn(name = "conferenceRole_id_frk") },
+            inverseJoinColumns = { @JoinColumn(name = "conference_id_frk") })
+    private Set<Conference> conferenceSet;
 
     public Long getId() {
         return id;
     }
 
-    public Role getRole() {
+    public Role getConferenceRole() {
         return conferenceRole;
     }
 
-    public User getUser() {
-        return user;
+    public void setConferenceRole(Role conferenceRole) {
+        this.conferenceRole = conferenceRole;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public Set<Conference> getConferenceSet() {
+        return conferenceSet;
     }
 
-    public Conference getConference() {
-        return conference;
+    public void setConferenceSet(Set<Conference> conferenceSet) {
+        this.conferenceSet = conferenceSet;
     }
 
-    public void setConference(Conference conference) {
-        this.conference = conference;
+    public Set<User> getUserSet() {
+        return userSet;
     }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
+    }
+
 
     public ConferenceRole(){
 
@@ -57,8 +65,14 @@ public class ConferenceRole {
         this.conferenceRole = conferenceRole;
     }
 
-    public void update(Role conferenceRole){
-        this.conferenceRole = conferenceRole;
+    public void update(Role update){
+        this.conferenceRole = update;
+    }
+
+    public void updateContent(ConferenceRole update){
+        this.conferenceRole = update.conferenceRole;
+        this.userSet = update.userSet;
+        this.conferenceSet = update.conferenceSet;
     }
 
     public static class Builder {
@@ -71,16 +85,6 @@ public class ConferenceRole {
 
         public Builder id(Long id) {
             built.id = id;
-            return this;
-        }
-
-        public Builder user(User user){
-            built.user = user;
-            return this;
-        }
-
-        public Builder conference(Conference conference){
-            built.conference = conference;
             return this;
         }
 

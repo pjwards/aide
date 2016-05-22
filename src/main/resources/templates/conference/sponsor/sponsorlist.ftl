@@ -1,6 +1,5 @@
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 <#-- @ftlvariable name="sponsorList" type="java.util.List<net.study.domain.Sponsor>" -->
-<#-- @ftlvariable name="hasSponsor" type="java.lang.Boolean" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 
 <@layout.extends name="layouts/default.ftl">

@@ -1,11 +1,15 @@
 package com.pjwards.aide.service.user;
 
-import com.pjwards.aide.domain.Assets;
-import com.pjwards.aide.domain.User;
+import com.pjwards.aide.domain.*;
+import com.pjwards.aide.domain.enums.Check;
+import com.pjwards.aide.domain.enums.Role;
 import com.pjwards.aide.domain.forms.SignUpForm;
 import com.pjwards.aide.domain.forms.UserUpdatePasswordForm;
+import com.pjwards.aide.exception.ConferenceRoleNotFoundException;
 import com.pjwards.aide.exception.UserNotFoundException;
 import com.pjwards.aide.repository.AssetsRepository;
+import com.pjwards.aide.repository.ConferenceRoleRepository;
+import com.pjwards.aide.repository.PresenceRepository;
 import com.pjwards.aide.repository.UserRepository;
 import com.pjwards.aide.util.identicon.IdenticonGeneratorUtil;
 import org.slf4j.Logger;
@@ -22,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @PropertySource("classpath:file.properties")
@@ -37,12 +42,19 @@ public class UserServiceImpl implements UserService{
 
     private final IdenticonGeneratorUtil identiconGeneratorUtil;
 
+    private final ConferenceRoleRepository conferenceRoleRepository;
+
+    private final PresenceRepository presenceRepository;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AssetsRepository assetsRepository,
-                           IdenticonGeneratorUtil identiconGeneratorUtil){
+                           IdenticonGeneratorUtil identiconGeneratorUtil, ConferenceRoleRepository conferenceRoleRepository,
+                           PresenceRepository presenceRepository){
         this.userRepository = userRepository;
         this.assetsRepository = assetsRepository;
         this.identiconGeneratorUtil = identiconGeneratorUtil;
+        this.conferenceRoleRepository = conferenceRoleRepository;
+        this.presenceRepository = presenceRepository;
     }
 
     @Transactional(readOnly = true)
@@ -161,5 +173,73 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(user);
     }
 
+    @Transactional
+    @Override
+    public User createDummy(SignUpForm form, Conference conference) {
+        LOGGER.debug("Create a dummy with Info: {}", form);
+
+        User user = new User.Builder(
+                form.getName(),
+                form.getEmail(),
+                new BCryptPasswordEncoder().encode(form.getPassword())
+        ).company("").description("").build();
+
+        Map<String, String> fileMap;
+        try {
+            fileMap = identiconGeneratorUtil.generator(form.getEmail());
+        } catch (IOException e) {
+            return userRepository.save(user);
+        }
+
+        File avatar = new File(filePath + fileMap.get("realPath"));
+
+        Assets assets = new Assets.Builder(fileMap.get("fileName"), fileMap.get("realPath"), avatar.length(), 0).build();
+        assets = assetsRepository.save(assets);
+
+        user.setAssets(assets);
+        user=userRepository.save(user);
+
+        assets.setUser(user);
+        assetsRepository.save(assets);
+
+        final User finalUser = user;
+        List<ConferenceRole> conferenceRoles = conferenceRoleRepository.findAllByConferenceSet(conference);
+        conferenceRoles.forEach((roles) -> {
+            if(roles.getConferenceRole() == Role.SPEAKER){
+                Set<User> userSet = roles.getUserSet();
+                userSet.add(finalUser);
+                roles.setUserSet(userSet);
+
+                ConferenceRole found = conferenceRoleRepository.findOne(roles.getId());
+                if(found == null){
+                    LOGGER.debug("Not Found conferenceRole by Id: {}", roles.getId());
+                }else {
+                    found.updateContent(roles);
+                    conferenceRoleRepository.save(found);
+                }
+            }
+        });
+
+        List<Presence> presences = presenceRepository.findAllByConferenceSet(conference);
+        presences.forEach((roles) -> {
+            if(roles.getPresenceCheck() == Check.ABSENCE){
+                Set<User> userSet = roles.getUserSet();
+                userSet.add(finalUser);
+                roles.setUserSet(userSet);
+
+                Presence found = presenceRepository.findOne(roles.getId());
+                if(found == null){
+                    LOGGER.debug("Not Found conferenceRole by Id: {}", roles.getId());
+                }else {
+                    found.update(roles);
+                    presenceRepository.save(found);
+                }
+            }
+        });
+
+        LOGGER.debug("Successfully created");
+
+        return user;
+    }
 
 }

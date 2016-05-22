@@ -1,6 +1,5 @@
 <#-- @ftlvariable name="userList" type="java.util.List<net.study.domain.User>" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
-<#-- @ftlvariable name="hasUser" type="java.lang.Boolean" -->
 
 <@layout.extends name="user/userbase.ftl">
     <@layout.put block="head" type="prepend">
@@ -46,7 +45,7 @@
                                 <th style="width: 30%">Email</th>
                                 <th style="width: 10%">Name</th>
                                 <th style="width: 10%">Created Date</th>
-                                <th style="width: 20%">Last Access Date</th>
+                                <th style="width: 20%">Last Date</th>
                                 <th style="width: 10%">Role</th>
                             </tr>
                             </thead>

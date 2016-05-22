@@ -1,6 +1,7 @@
 package com.pjwards.aide.service.conferencerole;
 
 
+import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.ConferenceRole;
 import com.pjwards.aide.exception.ConferenceRoleNotFoundException;
 
@@ -17,4 +18,7 @@ public interface ConferenceRoleService {
 
     public ConferenceRole deleteById(Long id) throws ConferenceRoleNotFoundException;
 
+    public List<ConferenceRole> findByConference(Conference conference);
+
+    public ConferenceRole updateContent(ConferenceRole updated) throws ConferenceRoleNotFoundException;
 }
