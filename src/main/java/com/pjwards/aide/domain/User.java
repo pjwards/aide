@@ -8,6 +8,7 @@ import com.pjwards.aide.domain.enums.Role;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -257,6 +258,9 @@ public class User {
     }
 
     public Set<Conference> getConferenceSet() {
+        if (conferenceSet == null) {
+            return new HashSet<>();
+        }
         return conferenceSet;
     }
 

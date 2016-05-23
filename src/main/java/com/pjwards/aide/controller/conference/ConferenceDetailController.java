@@ -168,19 +168,11 @@ public class ConferenceDetailController {
         Conference conference = conferenceService.findById(id);
         User user = currentUser.getUser();
 
-//        ConferenceRole conferenceRole = new ConferenceRole()
-//                .setConferenceRole(Role.PARTICIPANT)
-//                .setConference(conference)
-//                .setUser(user);
         conferenceRoleService.add(new ConferenceRole()
                 .setConferenceRole(Role.PARTICIPANT)
                 .setConference(conference)
                 .setUser(user));
 
-//        Presence presence = new Presence()
-//                .setPresenceCheck(Check.ABSENCE)
-//                .setConference(conference)
-//                .setUser(user);
         presenceService.add(new Presence()
                 .setPresenceCheck(Check.ABSENCE)
                 .setConference(conference)
@@ -213,6 +205,20 @@ public class ConferenceDetailController {
 
         Conference conference = conferenceService.findById(id);
         model.addAttribute("conference", conference);
+
+        int absence = 0;
+        int presence = 0;
+
+        for (Presence p : conference.getPresenceSetConference()) {
+            if (p.getPresenceCheck().equals(Check.ABSENCE)) {
+                absence++;
+            } else {
+                presence++;
+            }
+        }
+
+        model.addAttribute("absence", absence);
+        model.addAttribute("presence", presence);
 
         if (currentUser == null) {
             return "redirect:/sign_in";
@@ -306,10 +312,21 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(value = "/{id}/admin/list")
-    public String getConferenceUserList(Model model, @PathVariable("id") Long id) throws ConferenceNotFoundException {
+    public String getConferenceUserList(Model model,
+                                        @ModelAttribute("currentUser") CurrentUser currentUser,
+                                        @PathVariable("id") Long id) throws ConferenceNotFoundException {
         LOGGER.debug("Getting conference user list");
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
         Conference conference = conferenceService.findById(id);
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         List<ConferenceRole> conferenceRoles = conferenceRoleService.findByConference(conference);
         model.addAttribute("conferenceRoles", conferenceRoles);
         model.addAttribute("conference", conference);
@@ -358,18 +375,40 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping("/{id}/admin/dummy")
-    public ModelAndView getDummySignUpPage(@PathVariable("id") Long id, Model model) throws ConferenceNotFoundException {
+    public ModelAndView getDummySignUpPage(@PathVariable("id") Long id,
+                                           @ModelAttribute("currentUser") CurrentUser currentUser,
+                                           Model model) throws ConferenceNotFoundException {
         LOGGER.debug("Getting dummy sign_up form");
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        }
+
         Conference conference = conferenceService.findById(id);
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return new ModelAndView("error/403");
+        }
+
         model.addAttribute("conference", conference);
         return new ModelAndView("conference/dummy", "form2", new SignUpForm());
     }
 
     @RequestMapping(value = "/{id}/admin/dummy", method = RequestMethod.POST)
-    public String handleDummySignUpForm(@PathVariable("id") Long id, @Valid @ModelAttribute("form2") SignUpForm form, BindingResult bindingResult) throws ConferenceNotFoundException {
+    public String handleDummySignUpForm(@PathVariable("id") Long id,
+                                        @ModelAttribute("currentUser") CurrentUser currentUser,
+                                        @Valid @ModelAttribute("form2") SignUpForm form, BindingResult bindingResult) throws ConferenceNotFoundException {
         LOGGER.debug("Processing user sign_up form={}, bindingResult={}", form, bindingResult);
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
         Conference conference = conferenceService.findById(id);
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
 
         if (bindingResult.hasErrors()) {
             // failed validation
@@ -389,10 +428,21 @@ public class ConferenceDetailController {
     }
 
     @RequestMapping(value = "/{id}/admin/presence")
-    public String getConferencePresenceCheck(Model model, @PathVariable("id") Long id) throws ConferenceNotFoundException {
+    public String getConferencePresenceCheck(Model model,
+                                             @ModelAttribute("currentUser") CurrentUser currentUser,
+                                             @PathVariable("id") Long id) throws ConferenceNotFoundException {
         LOGGER.debug("Getting conference presence check");
 
+        if (currentUser == null) {
+            return "redirect:/sign_in";
+        }
+
         Conference conference = conferenceService.findById(id);
+
+        if (!conference.isHost(currentUser.getUser())) {
+            return "error/403";
+        }
+
         List<Presence> presences = presenceService.findByConference(conference);
         model.addAttribute("presences", presences);
         model.addAttribute("conference", conference);

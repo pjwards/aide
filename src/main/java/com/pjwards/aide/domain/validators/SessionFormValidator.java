@@ -93,6 +93,9 @@ public class SessionFormValidator implements Validator {
     }
 
     private void validateProgram(Errors errors, SessionForm form) {
+        if (form.getProgramId() == null) {
+            errors.reject("program.empty", "Program is empty");
+        }
         if (form.getProgramId() != null) {
             try {
                 programService.findById(form.getProgramId());
@@ -103,6 +106,9 @@ public class SessionFormValidator implements Validator {
     }
 
     private void validateRoom(Errors errors, SessionForm form) {
+        if (form.getRoomId() == null) {
+            errors.reject("room.empty", "Room is empty");
+        }
         if (form.getRoomId() != null) {
             try {
                 roomService.findById(form.getRoomId());

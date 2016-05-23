@@ -4,8 +4,8 @@ import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.builder.UserBuilder;
 import com.pjwards.aide.domain.enums.Role;
 import com.pjwards.aide.exception.UserNotFoundException;
-import com.pjwards.aide.repository.AssetsRepository;
-import com.pjwards.aide.repository.UserRepository;
+import com.pjwards.aide.repository.*;
+import com.pjwards.aide.util.Utils;
 import com.pjwards.aide.util.identicon.IdenticonGeneratorUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,12 +40,24 @@ public class UserServiceImplTest {
     private UserRepository userRepositoryMock;
     private UserService userService;
     private AssetsRepository assetsRepositoryMock;
-    private IdenticonGeneratorUtil identiconGeneratorUtil;
+    private ConferenceRoleRepository conferenceRoleRepositoryMock;
+    private PresenceRepository presenceRepositoryMock;
+    private IdenticonGeneratorUtil identiconGeneratorUtilMock;
+    private Utils utilsMock;
+    private ConferenceRepository conferenceRepositoryMock;
 
     @Before
     public void setup(){
         userRepositoryMock = mock(UserRepository.class);
-        userService = new UserServiceImpl(userRepositoryMock, assetsRepositoryMock, identiconGeneratorUtil);
+        assetsRepositoryMock = mock(AssetsRepository.class);
+        conferenceRoleRepositoryMock = mock(ConferenceRoleRepository.class);
+        presenceRepositoryMock = mock(PresenceRepository.class);
+        identiconGeneratorUtilMock = mock(IdenticonGeneratorUtil.class);
+        utilsMock = mock(Utils.class);
+        conferenceRepositoryMock = mock(ConferenceRepository.class);
+
+        userService = new UserServiceImpl(userRepositoryMock, assetsRepositoryMock, identiconGeneratorUtilMock,
+                conferenceRoleRepositoryMock, presenceRepositoryMock, utilsMock, conferenceRepositoryMock);
     }
 
     @Test

@@ -102,7 +102,7 @@
 
                                                     <div class="form-group <#if errorManager??>has-error</#if>">
                                                         <select name="managers" multiple class="form-control">
-                                                            <#list conference.participants as user>
+                                                            <#list conference.getManagers() as user>
                                                                 <option value="${user.id}" <#if form.managers?has_content && form.managers?seq_contains(user.id)>selected</#if>>${user.name}</option>
                                                             </#list>
                                                         </select>

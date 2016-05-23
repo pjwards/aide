@@ -56,6 +56,9 @@
                             <#if error?contains("Name")><#global errorName=true></#if>
                             <#if error?contains("Passwords") || error?contains("Password")><#global errorPassword=true></#if>
                             <#if error?contains("Passwords") || error?contains("PasswordRepeated")><#global errorPasswordRepeated=true></#if>
+                            <#if error?contains("Company")><#global errorCompany=true></#if>
+                            <#if error?contains("Description")><#global errorDescription=true></#if>
+                            <#if error?contains("File")><#global errorFile=true></#if>
                         </#list>
                     </div>
                 </#if>
@@ -86,30 +89,58 @@
                                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
                                                     <div class="form-group <#if errorEmail??>has-error</#if>"">
-                                                    <label>Email</label>
-                                                    <input type="email" placeholder="Email address"
+                                                    <input type="email" placeholder="Email *"
                                                            class="form-email form-control"
-                                                           id="email" name="email" required>
-                                                </div>
+                                                           id="email" name="email" required value="${form2.email}">
+                                                    </div>
 
-                                                <div class="form-group <#if errorName??>has-error</#if>">
-                                                    <label>Name</label>
-                                                    <input type="text" placeholder="Name"
-                                                           class="form-username form-control"
-                                                           id="name" name="name" required>
-                                                </div>
+                                                    <div class="form-group <#if errorName??>has-error</#if>">
+                                                        <input type="text" placeholder="Name *"
+                                                               class="form-username form-control"
+                                                               id="name" name="name" required value="${form2.name}">
+                                                    </div>
 
-                                                <div class="form-group <#if errorPassword??>has-error</#if>">
-                                                    <label>Password</label>
-                                                    <input type="password" placeholder="password"
-                                                           class="form-password form-control"
-                                                           id="password" name="password" required>
+                                                    <div class="form-group <#if errorPassword??>has-error</#if>">
+                                                        <input type="password" placeholder="Password *"
+                                                               class="form-password form-control"
+                                                               id="password" name="password" required value=${form2.password}>
+                                                    </div>
+                                                    <div class="form-group <#if errorPasswordRepeated??>has-error</#if>">
+                                                        <input type="password" placeholder="Password again *"
+                                                               class="form-password form-control"
+                                                               id="passwordRepeated" name="passwordRepeated" required value="${form2.passwordRepeated}">
+                                                    </div>
                                                 </div>
-                                                <div class="form-group <#if errorPasswordRepeated??>has-error</#if>">
-                                                    <label>Password confirmation</label>
-                                                    <input type="password" placeholder="password again"
-                                                           class="form-password form-control"
-                                                           id="passwordRepeated" name="passwordRepeated" required>
+                                                <!-- /.panel-body -->
+                                            </div>
+                                            <!-- /.collapse -->
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+
+                                    <div class="panel-group" id="accordion">
+                                        <div class="panel panel-warning">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Details Information</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseTwo" class="panel-collapse collapse">
+                                                <div class="panel-body">
+
+                                                    <div class="form-group <#if errorCompany??>has-error</#if>">
+                                                        <input type="text" placeholder="Company"
+                                                               class="form-username form-control"
+                                                               id="company" name="company" required value="${form2.company}">
+                                                    </div>
+
+                                                    <div class="form-group <#if errorDescription??>has-error</#if>" style="text-align: left">
+                                                        <textarea class="form-control" id="summernote" name="description" placeholder="Description *"> <#if form2.description?? && form2.description != "">${form2.description}<#else>Description *</#if></textarea>
+                                                    </div>
+
+                                                    <div class="form-group <#if errorFile??>has-error</#if>">
+                                                        <input type="file" name="file">
+                                                    </div>
                                                 </div>
                                                 <!-- /.panel-body -->
                                             </div>
@@ -147,7 +178,9 @@
     <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="/lib/sb-admin/dist/js/sb-admin-2.js"></script
+    <script src="/lib/sb-admin/dist/js/sb-admin-2.js"></script>
+
+    <script src="/js/summernote.js"></script>
 
     </@layout.put>
 </@layout.extends>

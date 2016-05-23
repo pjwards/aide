@@ -3,12 +3,14 @@ package com.pjwards.aide.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pjwards.aide.domain.enums.Charge;
+import com.pjwards.aide.domain.enums.Role;
 import com.pjwards.aide.domain.enums.Status;
 import com.pjwards.aide.domain.forms.ConferenceForm;
 import org.springframework.security.access.method.P;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Conference {
@@ -204,7 +206,7 @@ public class Conference {
         return list;
     }
 
-    class ProgramDateCompare implements Comparator<ProgramDate> {
+    private class ProgramDateCompare implements Comparator<ProgramDate> {
         @Override
         public int compare(ProgramDate arg0, ProgramDate arg1) {
             return arg0.getDay().compareTo(arg1.getDay());
@@ -334,8 +336,6 @@ public class Conference {
     }
 
     public boolean isManager(User user) {
-        Set<Long> managers = new HashSet<>();
-
         for (Room room : rooms) {
             if (room.isManager(user)) {
                 return true;
@@ -347,12 +347,33 @@ public class Conference {
 
     public boolean isSpeaker(User user) {
         for (ProgramDate day : programDates) {
-            if(day.isSpeaker(user)) {
+            if (day.isSpeaker(user)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public List<User> getSpeakers() {
+        List<User> list = conferenceRoleSetConference.stream().filter(conferenceRole -> conferenceRole.getConferenceRole().equals(Role.SPEAKER)).map(ConferenceRole::getUser).collect(Collectors.toList());
+
+        Collections.sort(list, new UserCompare());
+        return list;
+    }
+
+    public List<User> getManagers() {
+        List<User> list = conferenceRoleSetConference.stream().filter(conferenceRole -> conferenceRole.getConferenceRole().equals(Role.MANAGER)).map(ConferenceRole::getUser).collect(Collectors.toList());
+
+        Collections.sort(list, new UserCompare());
+        return list;
+    }
+
+    private class UserCompare implements Comparator<User> {
+        @Override
+        public int compare(User arg0, User arg1) {
+            return arg0.getName().compareTo(arg1.getName());
+        }
     }
 
     public Conference() {
