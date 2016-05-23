@@ -29,6 +29,50 @@
           type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
+    <style>
+        .ui-widget-header,.ui-state-default{
+            background:#b9cd6d;
+            border: 1px solid #b9cd6d;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        #participant.ui-button span.ui-button-text {
+            font-weight: bold;
+            color: #fff;
+            background-color: #5bc0de;
+            border-color: #46b8da;
+        }
+
+        #speakers.ui-button span.ui-button-text {
+            font-weight: bold;
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+
+        #manager.ui-button span.ui-button-text {
+            font-weight: bold;
+            color: #fff;
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+        }
+
+        #host.ui-button span.ui-button-text {
+            font-weight: bold;
+            color: #fff;
+            background-color: #f0ad4e;
+            border-color: #eea236;
+        }
+
+        #close.ui-button span.ui-button-text {
+            font-weight: bold;
+            color: #fff;
+            background-color: #d9534f;
+            border-color: #d43f3a;
+        }
+    </style>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -45,7 +89,8 @@
     </@layout.put>
 
     <@layout.put block="contents">
-    <div id="dialog-confirm" title="Change Role">
+    <div id="dialog-confirm" title="Edit Role">
+        <p>Which role do you want to edit?</p>
     </div>
 
     <div id="wrapper">
@@ -88,7 +133,7 @@
                                             <td>${roles.user.name}</td>
                                             <td>${roles.user.lastDate?string("yyyy-MM-dd HH:mm")}</td>
                                             <td>
-                                                <a href="#" id="change" class="btn btn-info change_role" role="button" val="${roles.id}">${roles.conferenceRole}</a>
+                                                <a href="#" id="change" class="btn btn-${roles.conferenceRole.color} change_role" role="button" val="${roles.id}">${roles.conferenceRole}</a>
                                             </td>
                                             <td>
                                                 <#if roles.user.company??>
@@ -152,121 +197,155 @@
             $this = $(this);
             $( "#dialog-confirm" ).dialog({
                 resizable: false,
-                height:140,
+                height: 200,
+                width: 500,
                 modal: true,
-                buttons: {
-                    "PARTICIPANT": function() {
-                        $.ajax({
-                            type:"POST",
-                            cache: false,
-                            contentType: "application/json; charset=UTF-8",
-                            processData: false,
-                            url:"/conferences/${conference.id}/admin/edit_role",
-                            data : JSON.stringify({
-                                "j_data" : data,
-                                "j_role" : "PARTICIPANT"
-                            }),
-                            dataType : "json",
-                            beforeSend: function(xhr) {
-                                // here it is
-                                xhr.setRequestHeader(header, token);
-                            },
-                            success:function(result){
-                                if(result.message !== "200"){
-                                    alert("Error Occurred");
-                                }else if(result.message === "200"){
-                                    alert("Successfully Changed");
-                                    console.log($this);
-                                    $this.text("PARTICIPANT");
+                buttons: [
+                    {
+                        text: "PARTICIPANT",
+                        click: function () {
+                            $fthis = $(this);
+                            $.ajax({
+                                type: "POST",
+                                cache: false,
+                                contentType: "application/json; charset=UTF-8",
+                                processData: false,
+                                url: "/conferences/${conference.id}/admin/edit_role",
+                                data: JSON.stringify({
+                                    "j_data": data,
+                                    "j_role": "PARTICIPANT"
+                                }),
+                                dataType: "json",
+                                beforeSend: function (xhr) {
+                                    // here it is
+                                    xhr.setRequestHeader(header, token);
+                                },
+                                success: function (result) {
+                                    if (result.message !== "200") {
+                                        alert("Error Occurred");
+                                    } else if (result.message === "200") {
+                                        alert("Successfully Changed");
+                                        $this.removeClass();
+                                        $this.addClass("btn btn-info change_role");
+                                        $this.text("PARTICIPANT");
+                                        $fthis.dialog("close");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        },
+                        id: "participant"
                     },
-                    "MANAGER": function() {
-                        $.ajax({
-                            type:"POST",
-                            cache: false,
-                            contentType: "application/json; charset=UTF-8",
-                            processData: false,
-                            url:"/conferences/${conference.id}/admin/edit_role",
-                            data : JSON.stringify({
-                                "j_data" : data,
-                                "j_role" : "MANAGER"
-                            }),
-                            dataType : "json",
-                            beforeSend: function(xhr) {
-                                // here it is
-                                xhr.setRequestHeader(header, token);
-                            },
-                            success:function(result){
-                                if(result.message !== "200"){
-                                    alert("Error Occurred");
-                                }else if(result.message === "200"){
-                                    alert("Successfully Changed");
-                                    console.log($this);
-                                    $this.text("MANAGER");
+                    {
+                        text: "MANAGER",
+                        click: function () {
+                            $fthis = $(this);
+                            $.ajax({
+                                type: "POST",
+                                cache: false,
+                                contentType: "application/json; charset=UTF-8",
+                                processData: false,
+                                url: "/conferences/${conference.id}/admin/edit_role",
+                                data: JSON.stringify({
+                                    "j_data": data,
+                                    "j_role": "MANAGER"
+                                }),
+                                dataType: "json",
+                                beforeSend: function (xhr) {
+                                    // here it is
+                                    xhr.setRequestHeader(header, token);
+                                },
+                                success: function (result) {
+                                    if (result.message !== "200") {
+                                        alert("Error Occurred");
+                                    } else if (result.message === "200") {
+                                        alert("Successfully Changed");
+                                        $this.removeClass();
+                                        $this.addClass("btn btn-primary change_role");
+                                        $this.text("MANAGER");
+                                        $fthis.dialog("close");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        },
+                        id: "manager"
                     },
-                    "SPEAKER": function() {
-                        $.ajax({
-                            type:"POST",
-                            cache: false,
-                            contentType: "application/json; charset=UTF-8",
-                            processData: false,
-                            url:"/conferences/${conference.id}/admin/edit_role",
-                            data : JSON.stringify({
-                                "j_data" : data,
-                                "j_role" : "SPEAKER"
-                            }),
-                            dataType : "json",
-                            beforeSend: function(xhr) {
-                                // here it is
-                                xhr.setRequestHeader(header, token);
-                            },
-                            success:function(result){
-                                if(result.message !== "200"){
-                                    alert("Error Occurred");
-                                }else if(result.message === "200"){
-                                    alert("Successfully Changed");
-                                    console.log($this);
-                                    $this.text("SPEAKER");
+                    {
+                        text: "SPEAKER",
+                        click: function () {
+                            $fthis = $(this);
+                            $.ajax({
+                                type: "POST",
+                                cache: false,
+                                contentType: "application/json; charset=UTF-8",
+                                processData: false,
+                                url: "/conferences/${conference.id}/admin/edit_role",
+                                data: JSON.stringify({
+                                    "j_data": data,
+                                    "j_role": "SPEAKER"
+                                }),
+                                dataType: "json",
+                                beforeSend: function (xhr) {
+                                    // here it is
+                                    xhr.setRequestHeader(header, token);
+                                },
+                                success: function (result) {
+                                    if (result.message !== "200") {
+                                        alert("Error Occurred");
+                                    } else if (result.message === "200") {
+                                        alert("Successfully Changed");
+                                        $this.removeClass();
+                                        $this.addClass("btn btn-success change_role");
+                                        $this.text("SPEAKER");
+                                        $fthis.dialog("close");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        },
+                        id: "speakers"
                     },
-                    "HOST": function() {
-                        $.ajax({
-                            type:"POST",
-                            cache: false,
-                            contentType: "application/json; charset=UTF-8",
-                            processData: false,
-                            url:"/conferences/${conference.id}/admin/edit_role",
-                            data : JSON.stringify({
-                                "j_data" : data,
-                                "j_role" : "HOST"
-                            }),
-                            dataType : "json",
-                            beforeSend: function(xhr) {
-                                // here it is
-                                xhr.setRequestHeader(header, token);
-                            },
-                            success:function(result){
-                                if(result.message !== "200"){
-                                    alert("Error Occurred");
-                                }else if(result.message === "200"){
-                                    alert("Successfully Changed");
-                                    console.log($this);
-                                    $this.text("HOST");
+                    {
+                        text: "HOST",
+                        click: function () {
+                            $fthis = $(this);
+                            $.ajax({
+                                type: "POST",
+                                cache: false,
+                                contentType: "application/json; charset=UTF-8",
+                                processData: false,
+                                url: "/conferences/${conference.id}/admin/edit_role",
+                                data: JSON.stringify({
+                                    "j_data": data,
+                                    "j_role": "HOST"
+                                }),
+                                dataType: "json",
+                                beforeSend: function (xhr) {
+                                    // here it is
+                                    xhr.setRequestHeader(header, token);
+                                },
+                                success: function (result) {
+                                    if (result.message !== "200") {
+                                        alert("Error Occurred");
+                                    } else if (result.message === "200") {
+                                        alert("Successfully Changed");
+                                        $this.removeClass();
+                                        $this.addClass("btn btn-warning change_role");
+                                        $this.text("HOST");
+                                        $fthis.dialog("close");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        },
+                        id: "host"
                     },
-                    Close: function() {
-                        $( this ).dialog( "close" );
+                    {
+                        text:"Close",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        },
+                        id: "close"
                     }
-                }
+
+                ]
             });
         });
 
