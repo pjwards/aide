@@ -25,11 +25,11 @@ public class Assets {
 
     @OneToOne
     @JsonBackReference
-    User user;
+    private User user;
 
     @OneToOne
     @JsonManagedReference
-    Sponsor sponsor;
+    private Sponsor sponsor;
 
     @ManyToOne
     @JoinColumn(name = "conference_id")

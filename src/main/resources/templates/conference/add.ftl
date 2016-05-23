@@ -56,6 +56,7 @@
                     <#if error?contains("Google")><#global errorGoogle=true></#if>
                     <#if error?contains("price")><#global errorPrice=true></#if>
                     <#if error?contains("disqus")><#global errorDisqus=true></#if>
+                    <#if error?contains("Files")><#global errorFiles=true></#if>
                 </#list>
             </div>
         </#if>
@@ -240,11 +241,11 @@
                                                         </h4>
                                                     </div>
                                                     <div class="panel-body">
-                                                        <div class="form-group">
+                                                        <div class="form-group <#if errorFiles??>has-error</#if>">
                                                             <select id="assets" disabled multiple class="form-control">
                                                             </select>
                                                         </div>
-                                                        <div class="form-group">
+                                                        <div class="form-group <#if errorFiles??>has-error</#if>">
                                                             <input type="file" name="assets" multiple>
                                                         </div>
                                                     </div>

@@ -101,7 +101,7 @@
                                                         <textarea class="form-control" id="summernote" name="description" placeholder="Description *"> <#if form.description?? && form.description != "">${form.description}<#else>Description *</#if></textarea>
                                                     </div>
 
-                                                    <div class="form-group <#if errorDay??>has-error</#if>">
+                                                    <div class="form-group <#if errorProgram??>has-error</#if>">
                                                         <select name="programId" class="form-control">
                                                             <#list conference.programDates as date>
                                                                 <#list date.programs as program>
@@ -123,7 +123,7 @@
 
                                                     <div class="form-group <#if errorSpeaker??>has-error</#if>">
                                                         <select name="speakers" multiple class="form-control">
-                                                            <#list conference.participants as user>
+                                                            <#list conference.getSpeakers() as user>
                                                                 <option value="${user.id}" <#if form.speakers?has_content && form.speakers?seq_contains(user.id)>selected</#if>>${user.name}</option>
                                                             </#list>
                                                         </select>

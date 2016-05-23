@@ -1,5 +1,7 @@
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
+<#-- @ftlvariable name="absence" type="java.lang.Integer" -->
+<#-- @ftlvariable name="presence" type="java.lang.Integer" -->
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 
 <@layout.extends name="layouts/default.ftl">
@@ -71,18 +73,32 @@
                     <br>
                     <div class="row">
                         <div class="col-lg-4">
-                            <!-- /.panel -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <i class="fa fa-bar-chart-o fa-fw"></i> Participants
+                            <div class="col-lg-4">
+                                <!-- /.panel -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-bar-chart-o fa-fw"></i> Attendance
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="morris-donut-chart1"></div>
+                                    </div>
+                                    <!-- /.panel-body -->
                                 </div>
-                                <div class="panel-body">
-                                    <div id="morris-donut-chart"></div>
-                                    <a href="#" class="btn btn-default btn-block">View Details</a>
-                                </div>
-                                <!-- /.panel-body -->
+                                <!-- /.panel -->
                             </div>
-                            <!-- /.panel -->
+                            <div class="col-lg-4">
+                                <!-- /.panel -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-bar-chart-o fa-fw"></i> Participants
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="morris-donut-chart2"></div>
+                                    </div>
+                                    <!-- /.panel-body -->
+                                </div>
+                                <!-- /.panel -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -228,7 +244,6 @@
     <!-- Morris Charts JavaScript -->
     <script src="/bower_components/raphael/raphael.min.js"></script>
     <script src="/bower_components/morris.js/morris.min.js"></script>
-    <script src="/lib/sb-admin/js/morris-data.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="/lib/sb-admin/dist/js/sb-admin-2.js"></script>
@@ -239,6 +254,38 @@
 
     <!-- Disqus Javascript -->
     <script id="dsq-count-scr" src="//pjwards-aide.disqus.com/count.js" async></script>
+
+    <script>
+        Morris.Donut({
+            element: 'morris-donut-chart1',
+            data: [
+                {
+                    label: "Absence",
+                    value: ${absence}
+                },
+                {
+                    label: "Presence",
+                    value: ${presence}
+                }
+            ],
+            resize: true
+        });
+
+            <#if conference.rooms?has_content>
+            Morris.Donut({
+                element: 'morris-donut-chart2',
+                data: [
+                    <#list conference.rooms as room>
+                        {
+                            label: "${room.name}",
+                            value: ${room.participants?size}
+                        }<#sep>,
+                    </#list>
+                ],
+                resize: true
+            });
+            </#if>
+    </script>
 
     <script>
         <#list conference.rooms as room>

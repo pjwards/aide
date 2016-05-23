@@ -7,10 +7,8 @@ import com.pjwards.aide.domain.forms.SignUpForm;
 import com.pjwards.aide.domain.forms.UserUpdatePasswordForm;
 import com.pjwards.aide.exception.ConferenceRoleNotFoundException;
 import com.pjwards.aide.exception.UserNotFoundException;
-import com.pjwards.aide.repository.AssetsRepository;
-import com.pjwards.aide.repository.ConferenceRoleRepository;
-import com.pjwards.aide.repository.PresenceRepository;
-import com.pjwards.aide.repository.UserRepository;
+import com.pjwards.aide.repository.*;
+import com.pjwards.aide.util.Utils;
 import com.pjwards.aide.util.identicon.IdenticonGeneratorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,15 +44,21 @@ public class UserServiceImpl implements UserService{
 
     private final PresenceRepository presenceRepository;
 
+    private final Utils utils;
+
+    private final ConferenceRepository conferenceRepository;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AssetsRepository assetsRepository,
                            IdenticonGeneratorUtil identiconGeneratorUtil, ConferenceRoleRepository conferenceRoleRepository,
-                           PresenceRepository presenceRepository){
+                           PresenceRepository presenceRepository, Utils utils, ConferenceRepository conferenceRepository){
         this.userRepository = userRepository;
         this.assetsRepository = assetsRepository;
         this.identiconGeneratorUtil = identiconGeneratorUtil;
         this.conferenceRoleRepository = conferenceRoleRepository;
         this.presenceRepository = presenceRepository;
+        this.utils = utils;
+        this.conferenceRepository = conferenceRepository;
     }
 
     @Transactional(readOnly = true)
@@ -182,25 +186,39 @@ public class UserServiceImpl implements UserService{
                 form.getName(),
                 form.getEmail(),
                 new BCryptPasswordEncoder().encode(form.getPassword())
-        ).company("").description("").build();
+        ).company(form.getCompany()).description(form.getDescription()).build();
 
-        Map<String, String> fileMap;
-        try {
-            fileMap = identiconGeneratorUtil.generator(form.getEmail());
-        } catch (IOException e) {
-            return userRepository.save(user);
+        Set<Conference> conferences = user.getConferenceSet();
+        conferences.add(conference);
+        user.setConferenceSet(conferences);
+
+        user=userRepository.save(user);
+
+        Assets assets = null;
+        if(form.getFile() == null) {
+            Map<String, String> fileMap;
+            try {
+                fileMap = identiconGeneratorUtil.generator(form.getEmail());
+            } catch (IOException e) {
+                return userRepository.save(user);
+            }
+
+            File avatar = new File(filePath + fileMap.get("realPath"));
+
+            assets = new Assets.Builder(fileMap.get("fileName"), fileMap.get("realPath"), avatar.length(), 0).build();
+            assets.setUser(user);
+            assets = assetsRepository.save(assets);
+        } else {
+            assets = utils.fileSaveHelper(form.getFile(), user, "/img/");
         }
-
-        File avatar = new File(filePath + fileMap.get("realPath"));
-
-        Assets assets = new Assets.Builder(fileMap.get("fileName"), fileMap.get("realPath"), avatar.length(), 0).build();
-        assets = assetsRepository.save(assets);
 
         user.setAssets(assets);
         user=userRepository.save(user);
 
-        assets.setUser(user);
-        assetsRepository.save(assets);
+        Set<User> participants = conference.getParticipants();
+        participants.add(user);
+        conference.setParticipants(participants);
+        conferenceRepository.save(conference);
 
         ConferenceRole conferenceRole = new ConferenceRole();
         conferenceRole.setConferenceRole(Role.SPEAKER);

@@ -1,5 +1,6 @@
 package com.pjwards.aide.domain.validators;
 
+import com.pjwards.aide.domain.User;
 import com.pjwards.aide.domain.forms.SignUpForm;
 import com.pjwards.aide.service.user.UserService;
 import org.slf4j.Logger;
@@ -8,17 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class SignUpFormValidator implements Validator {
     private static final Logger LOGGER = LoggerFactory.getLogger(SignUpFormValidator.class);
     private final UserService userService;
     private final EmailValidator emailValidator;
+    private ImageValidator imageValidator;
 
     @Autowired
-    public SignUpFormValidator(UserService userService, EmailValidator emailValidator){
+    public SignUpFormValidator(UserService userService, EmailValidator emailValidator, ImageValidator imageValidator){
         this.userService = userService;
         this.emailValidator = emailValidator;
+        this.imageValidator = imageValidator;
     }
 
 
@@ -40,6 +44,7 @@ public class SignUpFormValidator implements Validator {
         validatePasswords(errors, form);
         validateEmailAddress(errors, form);
         validateEmail(errors, form);
+        validateFile(errors, form);
     }
 
     private void validateEmailEmpty(Errors errors, SignUpForm form) {
@@ -51,6 +56,8 @@ public class SignUpFormValidator implements Validator {
     private void validateNameEmpty(Errors errors, SignUpForm form){
         if (form.getName() == null || form.getName().equals("")) {
             errors.reject("name.empty", "Name is empty");
+        } else if (form.getName().length() > User.MAX_LENGTH_NAME) {
+            errors.reject("name.large", "Name is too large");
         }
     }
 
@@ -98,6 +105,23 @@ public class SignUpFormValidator implements Validator {
     private void validateEmailAddress(Errors errors, SignUpForm form) {
         if(!emailValidator.validate(form.getEmail())){
             errors.reject("email.no_validate", "Email does not validate");
+        }
+    }
+
+    private void validateFile(Errors errors, SignUpForm form) {
+        MultipartFile file = form.getFile();
+        if (file != null) {
+            if(!imageValidator.validate(file.getOriginalFilename())) {
+                errors.reject("file.no_validate", "File does not validate(only image): " + file.getOriginalFilename());
+            }
+        }
+    }
+
+    private void validateCompany(Errors errors, SignUpForm form) {
+        if (form.getCompany() != null && !form.getCompany().equals("")) {
+            if (form.getName().length() > User.MAX_LENGTH_COMPANY) {
+                errors.reject("company.large", "Company is too large");
+            }
         }
     }
 }

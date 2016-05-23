@@ -149,7 +149,7 @@
 
                                                     <div class="form-group <#if errorSpeaker??>has-error</#if>">
                                                         <select name="speakers" multiple class="form-control">
-                                                            <#list conference.participants as user>
+                                                            <#list conference.getSpeakers() as user>
                                                                 <option value="${user.id}" <#if form.speakers?has_content && form.speakers?seq_contains(user.id)>selected</#if>>${user.name}</option>
                                                             </#list>
                                                         </select>

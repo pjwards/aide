@@ -137,6 +137,9 @@ public class ProgramFormValidator implements Validator {
     }
 
     private void validateProgramDate(Errors errors, ProgramForm form) {
+        if (form.getProgramDateId() == null) {
+            errors.reject("day.empty", "Day is empty");
+        }
         if (form.getProgramDateId() != null) {
             try {
                 programDateService.findById(form.getProgramDateId());
@@ -147,6 +150,9 @@ public class ProgramFormValidator implements Validator {
     }
 
     private void validateRoom(Errors errors, ProgramForm form) {
+        if (form.getRoomId() == null) {
+            errors.reject("room.empty", "Room is empty");
+        }
         if (form.getRoomId() != null) {
             try {
                 roomService.findById(form.getRoomId());
