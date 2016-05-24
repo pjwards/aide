@@ -282,16 +282,19 @@ public class ConferenceServiceImpl implements ConferenceService {
                             .build());
         }
 
-        if (form.getAssets() != null) {
+        if (form.getAssets() != null &&
+                !(form.getAssets().size() == 1 && form.getAssets().get(0).getOriginalFilename().equals(""))) {
+
             for (Assets assets : conference.getAssetsSet()) {
                 assetsRepository.delete(assets);
             }
+
+            final Conference finalConference = conference;
+            form.getAssets().stream().filter(file -> imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
+                Assets assets = utils.fileSaveHelper(file, form.getHost(), "/img/");
+                assetsRepository.save(assets.setConference(finalConference));
+            });
         }
-        final Conference finalConference = conference;
-        form.getAssets().stream().filter(file -> imageValidator.validate(file.getOriginalFilename())).forEach(file -> {
-            Assets assets = utils.fileSaveHelper(file, form.getHost(), "/img/");
-            assetsRepository.save(assets.setConference(finalConference));
-        });
 
         LOGGER.debug("Successfully updated");
         return conference;
