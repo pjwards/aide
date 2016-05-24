@@ -394,6 +394,7 @@ public class ConferenceDetailController {
 
     @RequestMapping(value = "/{id}/admin/dummy", method = RequestMethod.POST)
     public String handleDummySignUpForm(@PathVariable("id") Long id,
+                                        Model model,
                                         @ModelAttribute("currentUser") CurrentUser currentUser,
                                         @Valid @ModelAttribute("form2") SignUpForm form, BindingResult bindingResult) throws ConferenceNotFoundException {
         LOGGER.debug("Processing user sign_up form={}, bindingResult={}", form, bindingResult);
@@ -410,6 +411,7 @@ public class ConferenceDetailController {
 
         if (bindingResult.hasErrors()) {
             // failed validation
+            model.addAttribute("conference", conference);
             return "conference/dummy";
         }
         try {

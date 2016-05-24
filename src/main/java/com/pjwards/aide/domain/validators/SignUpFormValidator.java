@@ -112,7 +112,11 @@ public class SignUpFormValidator implements Validator {
         MultipartFile file = form.getFile();
         if (file != null) {
             if(!imageValidator.validate(file.getOriginalFilename())) {
-                errors.reject("file.no_validate", "File does not validate(only image): " + file.getOriginalFilename());
+                if (file.getOriginalFilename().equals("")) {
+                    form.setFile(null);
+                } else {
+                    errors.reject("file.no_validate", "File does not validate(only image): " + file.getOriginalFilename());
+                }
             }
         }
     }

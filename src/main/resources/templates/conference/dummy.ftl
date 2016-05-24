@@ -131,7 +131,7 @@
                                                     <div class="form-group <#if errorCompany??>has-error</#if>">
                                                         <input type="text" placeholder="Company"
                                                                class="form-username form-control"
-                                                               id="company" name="company" required value="${form2.company}">
+                                                               id="company" name="company" value="${form2.company}">
                                                     </div>
 
                                                     <div class="form-group <#if errorDescription??>has-error</#if>" style="text-align: left">
