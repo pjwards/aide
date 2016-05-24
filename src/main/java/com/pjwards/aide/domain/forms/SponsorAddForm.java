@@ -2,7 +2,7 @@ package com.pjwards.aide.domain.forms;
 
 
 import com.pjwards.aide.domain.Conference;
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 

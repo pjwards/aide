@@ -1,6 +1,8 @@
 group 'com.pjwards.aide'
 version '1.0-SNAPSHOT'
 
+apply plugin: 'groovy'
+apply plugin: 'maven'
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'idea'
@@ -78,4 +80,16 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.11'
+}
+
+jar {
+    manifest {
+        attributes  'Title': 'Aide', 'Version': 1.0, 'Main-Class': 'com.pjwards.aide.Application'
+    }
+    baseName 'aide'
+//    archiveName 'aide.jar'
+    dependsOn configurations.runtime
+    from {
+        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+    }
 }
