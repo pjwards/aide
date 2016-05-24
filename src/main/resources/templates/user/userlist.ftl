@@ -17,6 +17,36 @@
     <!-- DataTables Responsive CSS -->
     <link href="/bower_components/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
 
+    <style>
+        .ui-widget-header,.ui-state-default{
+            background:#b9cd6d;
+            border: 1px solid #b9cd6d;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        #admin.ui-button span.ui-button-text {
+            font-weight: bold;
+            color: #fff;
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+        }
+
+        #user.ui-button span.ui-button-text {
+            font-weight: bold;
+            color: #fff;
+            background-color: #5bc0de;
+            border-color: #46b8da;
+        }
+
+        #close.ui-button span.ui-button-text {
+            font-weight: bold;
+            color: #fff;
+            background-color: #d9534f;
+            border-color: #d43f3a;
+        }
+    </style>
+
     </@layout.put>
 
     <@layout.put block="header" type="replace">
@@ -57,7 +87,7 @@
                                     <td>${list.createdDate?string("yyyy-MM-dd HH:mm")}</td>
                                     <td>${list.lastDate?string("yyyy-MM-dd HH:mm")}</td>
                                     <td>
-                                        <a href="#" id="change" class="btn btn-info change_role" role="button" val="${list.email}">${list.role}</a>
+                                        <a href="#" id="change" class="btn btn-${list.role.color} change_role" role="button" val="${list.email}">${list.role}</a>
                                     </td>
                                 </tr>
                                 </#list>
@@ -92,10 +122,6 @@
                 responsive: true
             });
 
-            <#--$('#dataTables tbody').on( 'click', 'tr', function () {-->
-                <#--var list_id = $(this).attr('id');-->
-                <#--location.href = "/conferences/${conference.id}/admin/sponsor/"+list_id+"/update";-->
-            <#--} );-->
         });
 
         $(".change_role").click(function(){
@@ -107,65 +133,83 @@
                 resizable: false,
                 height:140,
                 modal: true,
-                buttons: {
-                    "Admin": function() {
-                        $.ajax({
-                            type:"POST",
-                            cache: false,
-                            contentType: "application/json; charset=UTF-8",
-                            processData: false,
-                            url:"/settings/edit_role",
-                            data : JSON.stringify({
-                                "j_username" : emailed,
-                                "j_role" : "Admin"
-                            }),
-                            dataType : "json",
-                            beforeSend: function(xhr) {
-                                // here it is
-                                xhr.setRequestHeader(header, token);
-                            },
-                            success:function(result){
-                                if(result.message !== "200"){
-                                    alert("Error Occurred");
-                                }else if(result.message === "200"){
-                                    alert("Successfully Changed");
-                                    console.log($this);
-                                    $this.text("ADMIN");
+                buttons: [
+                    {
+                        text: "Admin",
+                        click: function () {
+                            $fthis = $(this);
+                            $.ajax({
+                                type: "POST",
+                                cache: false,
+                                contentType: "application/json; charset=UTF-8",
+                                processData: false,
+                                url: "/settings/edit_role",
+                                data: JSON.stringify({
+                                    "j_username": emailed,
+                                    "j_role": "Admin"
+                                }),
+                                dataType: "json",
+                                beforeSend: function (xhr) {
+                                    // here it is
+                                    xhr.setRequestHeader(header, token);
+                                },
+                                success: function (result) {
+                                    if (result.message !== "200") {
+                                        alert("Error Occurred");
+                                    } else if (result.message === "200") {
+                                        alert("Successfully Changed");
+                                        $this.removeClass();
+                                        $this.addClass("btn btn-primary change_role");
+                                        $this.text("ADMIN");
+                                        $fthis.dialog("close");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        },
+                        id: "admin"
                     },
-                    "User": function() {
-                        $.ajax({
-                            type:"POST",
-                            cache: false,
-                            contentType: "application/json; charset=UTF-8",
-                            processData: false,
-                            url:"/settings/edit_role",
-                            data : JSON.stringify({
-                                "j_username" : emailed,
-                                "j_role" : "User"
-                            }),
-                            dataType : "json",
-                            beforeSend: function(xhr) {
-                                // here it is
-                                xhr.setRequestHeader(header, token);
-                            },
-                            success:function(result){
-                                if(result.message !== "200"){
-                                    alert("Error Occurred");
-                                }else if(result.message === "200"){
-                                    alert("Successfully Changed");
-                                    console.log($this);
-                                    $this.text("USER");
+                    {
+                        text: "User",
+                        click: function () {
+                            $fthis = $(this);
+                            $.ajax({
+                                type: "POST",
+                                cache: false,
+                                contentType: "application/json; charset=UTF-8",
+                                processData: false,
+                                url: "/settings/edit_role",
+                                data: JSON.stringify({
+                                    "j_username": emailed,
+                                    "j_role": "User"
+                                }),
+                                dataType: "json",
+                                beforeSend: function (xhr) {
+                                    // here it is
+                                    xhr.setRequestHeader(header, token);
+                                },
+                                success: function (result) {
+                                    if (result.message !== "200") {
+                                        alert("Error Occurred");
+                                    } else if (result.message === "200") {
+                                        alert("Successfully Changed");
+                                        $this.removeClass();
+                                        $this.addClass("btn btn-info change_role");
+                                        $this.text("USER");
+                                        $fthis.dialog("close");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        },
+                        id: "user"
                     },
-                    Close: function() {
+                    {
+                        text: "Close",
+                        click: function() {
                         $( this ).dialog( "close" );
+                        },
+                        id: "close"
                     }
-                }
+                ]
             });
         });
     </script>
