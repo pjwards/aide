@@ -135,40 +135,40 @@
                     </div>
                 </form>
 
-                <div class="row carousel-holder">
-
-                    <div class="col-md-12">
-                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <#list advertisements as advertisement>
-                                    <li data-target="#carousel-example-generic" data-slide-to="${advertisement_index}" <#if advertisement_index == 0>class="active"></#if></li>
-                                </#list>
-                            </ol>
-                            <div class="carousel-inner" style="text-align: center;">
-                                <#list advertisements as advertisement>
-                                    <div class="item <#if advertisement_index == 0>active</#if>">
-                                        <img class="slide-image" src="<#if advertisement.assetsSet?has_content>${advertisement.assetsSet?first.realPath}<#else>/lib/grayscale/img/intro-bg.jpg</#if>" alt="">
-                                        <div class="carousel-content">
-                                            <div>
-                                                <a href="/conferences/${advertisement.id}">
-                                                    <h3>${advertisement.name}</h3>
-                                                    <p>${advertisement.slogan}</p>
-                                                </a>
+                <#if advertisements?has_content>
+                    <div class="row carousel-holder">
+                        <div class="col-md-12">
+                            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <#list advertisements as advertisement>
+                                        <li data-target="#carousel-example-generic" data-slide-to="${advertisement_index}" <#if advertisement_index == 0>class="active"></#if></li>
+                                    </#list>
+                                </ol>
+                                <div class="carousel-inner" style="text-align: center;">
+                                    <#list advertisements as advertisement>
+                                        <div class="item <#if advertisement_index == 0>active</#if>">
+                                            <img class="slide-image" src="<#if advertisement.assetsSet?has_content>${advertisement.assetsSet?first.realPath}<#else>/lib/grayscale/img/intro-bg.jpg</#if>" alt="">
+                                            <div class="carousel-content">
+                                                <div>
+                                                    <a href="/conferences/${advertisement.id}">
+                                                        <h3>${advertisement.name}</h3>
+                                                        <p>${advertisement.slogan}</p>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </#list>
+                                    </#list>
+                                </div>
+                                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </a>
+                                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </a>
                             </div>
-                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left"></span>
-                            </a>
-                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                            </a>
                         </div>
                     </div>
-
-                </div>
+                </#if>
 
                 <div class="row">
 
