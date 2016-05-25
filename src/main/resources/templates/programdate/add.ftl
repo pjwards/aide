@@ -66,7 +66,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Day Add
+                            <@spring.message "day.add.header"/>
                         </h1>
                     </div>
                     <!-- /.col-lg-12 -->
@@ -81,7 +81,7 @@
                                         <div class="panel panel-success">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Basic Information</a>
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><@spring.message "form.title.basic_information"/></a>
                                                 </h4>
                                             </div>
                                             <div id="collapseOne" class="panel-collapse collapse in">
@@ -90,11 +90,11 @@
                                                     <input type="hidden" name="conferenceId" value="${conference.id}"/>
 
                                                     <div class="form-group <#if errorName??>has-error</#if>">
-                                                        <input class="form-control" name="name" placeholder="Name *" value="${form.name}">
+                                                        <input class="form-control" name="name" placeholder="<@spring.message "form.name"/> *" value="${form.name}">
                                                     </div>
 
                                                     <div class="form-group <#if errorDay??>has-error</#if>">
-                                                        <input class="form-control" name="day" id="day" placeholder="Day *" value="${form.day}">
+                                                        <input class="form-control" name="day" id="day" placeholder="<@spring.message "form.day"/> *" value="${form.day}">
                                                     </div>
                                                 </div>
                                                 <!-- /.panel-body -->
@@ -104,8 +104,8 @@
                                         <!-- /.panel -->
                                     </div>
                                     <!-- /.panel group -->
-                                    <a class="btn btn-danger" href="/conferences/${conference.id}/admin/days">Cancel</a>
-                                    <button type="submit" class="btn btn-default">Add</button>
+                                    <a class="btn btn-danger" href="/conferences/${conference.id}/admin/days"><@spring.message "form.btn.cancel"/></a>
+                                    <button type="submit" class="btn btn-default"><@spring.message "form.btn.add"/></button>
                                 </form>
                             </div>
                             <!-- /.panel-body -->

@@ -2,7 +2,7 @@
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 <#-- @ftlvariable name="program" type="com.pjwards.aide.domain.Program" -->
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
-<#-- @ftlvariable name="form" type="com.pjwards.aide.domain.forms.RoomForm" -->
+<#-- @ftlvariable name="form" type="com.pjwards.aide.domain.forms.ProgramForm" -->
 <#-- @ftlvariable name="rc" type="javax.servlet.http.HttpServletRequest" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 
@@ -76,7 +76,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Program Update
+                            <@spring.message "program.update.header"/>
                         </h1>
                     </div>
                     <!-- /.col-lg-12 -->
@@ -91,7 +91,7 @@
                                         <div class="panel panel-success">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Basic Information</a>
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><@spring.message "form.title.basic_information"/></a>
                                                 </h4>
                                             </div>
                                             <div id="collapseOne" class="panel-collapse collapse in">
@@ -99,25 +99,25 @@
                                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
                                                     <div class="form-group <#if errorTitle??>has-error</#if>">
-                                                        <input class="form-control" name="title" placeholder="Title *" value="${form.title}">
+                                                        <input class="form-control" name="title" placeholder="<@spring.message "form.title"/> *" value="${form.title}">
                                                     </div>
 
                                                     <div class="form-group <#if errorDescription??>has-error</#if>" style="text-align: left">
-                                                        <textarea class="form-control" id="summernote" name="description" placeholder="Description *"> <#if form.description?? && form.description != "">${form.description}<#else>Description *</#if></textarea>
+                                                        <textarea class="form-control" id="summernote" name="description" placeholder="<@spring.message "form.description"/> *"> <#if form.description?? && form.description != "">${form.description}<#else><@spring.message "form.description"/> *</#if></textarea>
                                                     </div>
 
                                                     <div class="form-group <#if errorBegin??>has-error</#if>">
-                                                        <input class="form-control" name="begin" placeholder="Begin * ex) hh:mm" value="${form.begin}">
+                                                        <input class="form-control" name="begin" placeholder="<@spring.message "form.begin"/> * ex) hh:mm" value="${form.begin}">
                                                     </div>
 
                                                     <div class="form-group <#if errorEnd??>has-error</#if>">
-                                                        <input class="form-control" name="end" placeholder="End * ex) hh:mm" value="${form.end}">
+                                                        <input class="form-control" name="end" placeholder="<@spring.message "form.end"/> * ex) hh:mm" value="${form.end}">
                                                     </div>
 
                                                     <div class="panel panel-default">
                                                         <div class="panel-heading">
                                                             <h4 class="panel-title">
-                                                                Program Type
+                                                                <@spring.message "form.program_type"/>
                                                             </h4>
                                                         </div>
                                                         <div class="panel-body">
@@ -125,7 +125,17 @@
                                                                 <#list form.programTypeList as list>
                                                                     <label class="radio-inline">
                                                                         <input type="radio" name="programType" id="status_${list_index}" value="${list}" <#if form.programType == list >checked</#if>>
-                                                                    ${list}
+                                                                        <#if list == "SESSION">
+                                                                            <@spring.message "program_type.label.session"/>
+                                                                        <#elseif list=="KEYNOTE">
+                                                                            <@spring.message "program_type.label.keynote"/>
+                                                                        <#elseif list=="REGISTER">
+                                                                            <@spring.message "program_type.label.register"/>
+                                                                        <#elseif list=="LUNCH">
+                                                                            <@spring.message "program_type.label.lunch"/>
+                                                                        <#else>
+                                                                            <@spring.message "program_type.label.bof"/>
+                                                                        </#if>
                                                                     </label>
                                                                 </#list>
                                                             </div>
@@ -165,25 +175,25 @@
                                         <div class="panel panel-warning">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Slide & Video Information</a>
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><@spring.message "form.title.slide_video_information"/></a>
                                                 </h4>
                                             </div>
                                             <div id="collapseTwo" class="panel-collapse collapse">
                                                 <div class="panel-body">
                                                     <div class="form-group <#if errorSlide??>has-error</#if>">
-                                                        <input class="form-control" name="slideUrl" placeholder="Slide Url" value="${form.slideUrl}">
+                                                        <input class="form-control" name="slideUrl" placeholder="<@spring.message "form.slide_url"/>" value="${form.slideUrl}">
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <textarea class="form-control" name="slideEmbed" placeholder="Slide Embed">${form.slideEmbed}</textarea>
+                                                        <textarea class="form-control" name="slideEmbed" placeholder="<@spring.message "form.slide_embed"/>">${form.slideEmbed}</textarea>
                                                     </div>
 
                                                     <div class="form-group <#if errorVideoUrl??>has-error</#if>">
-                                                        <input class="form-control" name="videoUrl" placeholder="Video Url" value="${form.videoUrl}">
+                                                        <input class="form-control" name="videoUrl" placeholder="<@spring.message "form.video_url"/>" value="${form.videoUrl}">
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <textarea class="form-control" name="videoEmbed" placeholder="Video Embed">${form.videoEmbed}</textarea>
+                                                        <textarea class="form-control" name="videoEmbed" placeholder="<@spring.message "form.video_embed"/>">${form.videoEmbed}</textarea>
                                                     </div>
                                                 </div>
                                                 <!-- /.panel-body -->
@@ -193,8 +203,8 @@
                                         <!-- /.panel -->
                                     </div>
                                     <!-- /.panel group -->
-                                    <button type="button" class="btn btn-danger" onclick="sendDelete()">Delete</button>
-                                    <button type="submit" class="btn btn-default">Update</button>
+                                    <button type="button" class="btn btn-danger" onclick="sendDelete()"><@spring.message "form.btn.delete"/></button>
+                                    <button type="submit" class="btn btn-default"><@spring.message "form.btn.update"/></button>
                                 </form>
                             </div>
                             <!-- /.panel-body -->
@@ -231,7 +241,7 @@
 
     <script>
         function sendDelete() {
-            if(!confirm('Do you want to delete this?'))
+            if(!confirm('<@spring.message "form.alert.delete"/>'))
                     return;
 
             var token = $("meta[name='_csrf']").attr("content");

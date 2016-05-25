@@ -1,3 +1,5 @@
+<#import "/spring.ftl" as spring/>
+
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 
 <@layout.extends name="layouts/default.ftl">
@@ -46,11 +48,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Days
+                        <@spring.message "day.header"/>
 
                         <div class="btn-group pull-right">
                             <a href="/conferences/${conference.id}/admin/days/add" class="btn btn-primary btn">
-                                Add
+                                <@spring.message "form.btn.add"/>
                             </a>
                         </div>
                     </h1>
@@ -66,9 +68,9 @@
                                 <table class="table table-hover" id="dataTables">
                                     <thead>
                                     <tr>
-                                        <th style="width: 40%">Name</th>
-                                        <th style="width: 40%">Day</th>
-                                        <th style="width: 20%">Programs</th>
+                                        <th style="width: 40%"><@spring.message "form.name"/></th>
+                                        <th style="width: 40%"><@spring.message "form.day"/></th>
+                                        <th style="width: 20%"><@spring.message "form.program"/></th>
                                     </tr>
                                     </thead>
                                     <tbody>
