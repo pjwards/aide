@@ -15,7 +15,7 @@ import java.util.*;
 @Entity
 public class ProgramDate {
 
-    public static final int MAX_LENGTH_NAME = 10;
+    public static final int MAX_LENGTH_NAME = 100;
     public static final String DAY_FORMAT = "yyyy-MM-dd";
     public static final String DAY_SCHEDULE_FORMAT = "M.d EEE";
     public static final String DAY_JSON_PATTERN = "yyyy-MM-dd'T'HH:mm:ssz";

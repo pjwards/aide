@@ -138,7 +138,7 @@ public class ConferenceProgramDateController {
             return new ModelAndView("error/403");
         }
 
-        return new ModelAndView("programdate/update");//, "form", new ProgramDateForm(programDate
+        return new ModelAndView("programdate/update", "form", new ProgramDateForm(programDate));//, "form", new ProgramDateForm(programDate
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{conference-id}/admin/days/{id}")
@@ -184,7 +184,7 @@ public class ConferenceProgramDateController {
                          @PathVariable("id") Long id) throws ConferenceNotFoundException, ProgramDateNotFoundException {
         LOGGER.debug("Deleting program date : {}", id);
 
-        Conference conference = conferenceService.findById(id);
+        Conference conference = conferenceService.findById(conferenceId);
 
         if (currentUser == null) {
             return "redirect:/sign_in";

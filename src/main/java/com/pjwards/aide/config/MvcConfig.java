@@ -1,10 +1,12 @@
 package com.pjwards.aide.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.LocaleResolver;
@@ -19,10 +21,17 @@ import java.io.File;
 import java.util.Locale;
 
 @Configuration
+@PropertySource("classpath:file.properties")
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private Environment env;
+
+    @Value("${file.realPath}")
+    private String realPath;
+
+    @Value("${file.filePath}")
+    private String filePath;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -35,7 +44,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
 
-        String extPath = "file:"+ File.separator + "tmp/assets/";
+        String extPath = "file:" + filePath + realPath + "/";
         registry.addResourceHandler("/assets/**")
                 .addResourceLocations(extPath)
                 .setCachePeriod(0);

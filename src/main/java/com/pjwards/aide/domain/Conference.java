@@ -101,7 +101,7 @@ public class Conference {
     @Enumerated(EnumType.STRING)
     private Status status = Status.OPEN;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "PARTICIPANT_CONFERENCE",
             joinColumns = @JoinColumn(name = "CONFERENCE_ID_FRK"),
             inverseJoinColumns = @JoinColumn(name = "PARTICIPANT_ID_FRK")

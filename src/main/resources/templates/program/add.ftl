@@ -131,6 +131,8 @@
                                                         </div>
                                                     </div>
 
+                                                    <br>
+
                                                     <div class="form-group <#if errorDay??>has-error</#if>">
                                                         <select name="programDateId" class="form-control">
                                                             <#list conference.programDates as date>
