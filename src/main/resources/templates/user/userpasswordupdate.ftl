@@ -6,13 +6,13 @@
 
 <@layout.extends name="user/userbase.ftl">
     <@layout.put block="head" type="prepend">
-    <title>Aide :: Change Password</title>
+    <title>Aide :: <@spring.message "header.user.password"/></title>
     </@layout.put>
 
     <@layout.put block="header" type="replace">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Change Password</h1>
+            <h1 class="page-header"><@spring.message "header.user.password"/></h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -45,19 +45,19 @@
                 <input type="hidden" name="id" id="id" value="${currentUser.getId()?c}"/>
 
                 <div class="form-group <#if errorOldPassword??>has-error</#if>">
-                    <label>Old Password</label>
+                    <label><@spring.message "user.password.old"/></label>
                     <input type="password" class="form-control" name="oldPassword" id="oldPassword" placeholder="Password" required>
                 </div>
                 <div class="form-group" <#if errorPassword??>has-error</#if>">
-                    <label>New Password</label>
+                    <label><@spring.message "user.password.new"/></label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="New Password" required>
                 </div>
                 <div class="form-group" <#if errorPasswordRepeated??>has-error</#if>>
-                    <label>Static Control</label>
+                    <label><@spring.message "user.password.again"/></label>
                     <input type="password" class="form-control" name="passwordRepeated" id="passwordRepeated" placeholder="Repeat Password" required>
                 </div>
-                <button type="submit" class="btn btn-info">Update Password</button>
-                <a href="/forgot_password/new" class="help-block">Forgot password?</a>
+                <button type="submit" class="btn btn-info"><@spring.message "user.password.update"/></button>
+                <a href="/forgot_password/new" class="help-block"><@spring.message "user.password.forgot"/></a>
             </form>
         </div>
         <!-- /.col-lg-12 -->

@@ -1,10 +1,11 @@
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 <#-- @ftlvariable name="sponsorList" type="java.util.List<net.study.domain.Sponsor>" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
+<#import "/spring.ftl" as spring/>
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${conference.name} :: Sponsor list</title>
+    <title>${conference.name} :: <@spring.message "conference.sponsor.list"/></title>
 
     <!-- MetisMenu CSS -->
     <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
@@ -47,11 +48,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Sponsor Manage Page
+                        <@spring.message "conference.sponsor.list"/>
 
                         <div class="btn-group pull-right">
                             <a href="/conferences/${conference.id}/admin/sponsor/add" class="btn btn-primary btn">
-                                Register
+                                <@spring.message "header.details.register"/>
                             </a>
                         </div>
                     </h1>
@@ -68,11 +69,11 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 30%"></th>
-                                        <th style="width: 10%">Name</th>
-                                        <th style="width: 10%">Slug</th>
-                                        <th style="width: 20%">Rank</th>
-                                        <th style="width: 10%">Url</th>
-                                        <th style="width: 10%">Delete</th>
+                                        <th style="width: 10%"><@spring.message "content.list.name"/></th>
+                                        <th style="width: 10%"><@spring.message "conference.sponsor.slug"/></th>
+                                        <th style="width: 20%"><@spring.message "conference.sponsor.rank"/></th>
+                                        <th style="width: 10%">URL</th>
+                                        <th style="width: 10%"><@spring.message "conference.sponsor.delete"/></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -89,7 +90,7 @@
                                                         Empty
                                                     </#if>
                                                 </td>
-                                                <td><button type="button" class="btn btn-danger" onclick="sendDelete(${list.id})">Delete</button></td>
+                                                <td><button type="button" class="btn btn-danger" onclick="sendDelete(${list.id})"><@spring.message "conference.sponsor.delete"/></button></td>
                                             </tr>
                                         </#list>
                                     </tbody>

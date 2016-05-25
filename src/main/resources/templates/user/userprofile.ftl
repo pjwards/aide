@@ -1,14 +1,15 @@
 <#-- @ftlvariable name="user" type="com.pjwards.aide.domain.User" -->
+<#import "/spring.ftl" as spring/>
 
 <@layout.extends name="user/userbase.ftl">
     <@layout.put block="head" type="prepend">
-    <title>Aide :: Profile</title>
+    <title>Aide :: <@spring.message "header.user.profile"/></title>
     </@layout.put>
 
     <@layout.put block="header" type="replace">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Profile</h1>
+                <h1 class="page-header"><@spring.message "header.user.profile"/></h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -23,28 +24,28 @@
                 </span>
                 <form role="form">
                     <div class="form-group">
-                        <label>Name</label>
+                        <label><@spring.message "content.list.name"/></label>
                         <p class="form-control-static">${user.name}</p>
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
+                        <label><@spring.message "content.list.email"/></label>
                         <p class="form-control-static">${user.email}</p>
                     </div>
                     <div class="form-group">
-                        <label>Sign up Date</label>
+                        <label><@spring.message "content.list.create"/></label>
                         <p class="form-control-static">${user.createdDate?string("yyyy-MM-dd HH:mm")}</p>
                     </div>
                     <div class="form-group">
-                        <label>Company</label>
+                        <label><@spring.message "content.list.company"/></label>
                         <p class="form-control-static">${user.company}</p>
                     </div>
                     <div class="form-group">
-                        <label>Description</label>
+                        <label><@spring.message "content.list.description"/></label>
                         <p class="form-control-static">${user.description}</p>
                     </div>
                 </form>
                 <div class="edit-info">
-                    <a class="btn btn-info" href="/settings/update" role="button">Update Profile</a>
+                    <a class="btn btn-info" href="/settings/update" role="button"><@spring.message "user.update.profile"/></a>
                 </div>
             </div>
             <!-- /.col-lg-12 -->

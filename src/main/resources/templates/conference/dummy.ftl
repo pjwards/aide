@@ -8,7 +8,7 @@
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${myApp.name} :: Conference :: Dummy</title>
+    <title>${myApp.name} :: <@spring.message "header.admin.conference"/> :: <@spring.message "header.admin.dummy"/></title>
 
     <!-- MetisMenu CSS -->
     <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
@@ -66,7 +66,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Add Dummy User
+                            <@spring.message "conference.dummy.account"/>
                         </h1>
                     </div>
                     <!-- /.col-lg-12 -->
@@ -81,7 +81,7 @@
                                         <div class="panel panel-success">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Basic Information</a>
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><@spring.message "conference.dummy.info"/></a>
                                                 </h4>
                                             </div>
                                             <div id="collapseOne" class="panel-collapse collapse in">
@@ -122,7 +122,7 @@
                                         <div class="panel panel-warning">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Details Information</a>
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><@spring.message "conference.dummy.detail"/></a>
                                                 </h4>
                                             </div>
                                             <div id="collapseTwo" class="panel-collapse collapse">
@@ -149,7 +149,7 @@
                                         <!-- /.panel -->
                                     </div>
                                     <!-- /.panel group -->
-                                    <button type="submit" class="btn btn-default">Register</button>
+                                    <button type="submit" class="btn btn-default"><@spring.message "header.details.register"/></button>
                                 </form>
                             </div>
                             <!-- /.panel-body -->

@@ -1,5 +1,6 @@
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
+<#import "/spring.ftl" as spring/>
 
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -23,20 +24,20 @@
                     <#--<!-- /input-group &ndash;&gt;-->
                 <#--</li>-->
                 <li>
-                    <a href="/user/${currentUser.id?c}"><i class="fa fa-user fa-fw"></i>Profile</a>
+                    <a href="/user/${currentUser.id?c}"><i class="fa fa-user fa-fw"></i><@spring.message "header.user.profile"/></a>
                 </li>
                 <li>
-                    <a href="/settings/update"><i class="fa fa-gear fa-fw"></i>Profile Update</a>
+                    <a href="/settings/update"><i class="fa fa-gear fa-fw"></i><@spring.message "header.user.update"/></a>
                 </li>
                 <li>
-                    <a href="/settings/password"><i class="fa fa-check fa-fw"></i>Password Change</a>
+                    <a href="/settings/password"><i class="fa fa-check fa-fw"></i><@spring.message "header.user.password"/></a>
                 </li>
                 <li>
-                    <a href="/settings/delete"><i class="fa fa-times fa-fw"></i>Delete Account</a>
+                    <a href="/settings/delete"><i class="fa fa-times fa-fw"></i><@spring.message "header.user.delete"/></a>
                 </li>
                 <#if currentUser.role == "ADMIN">
                 <li>
-                    <a href="/settings/users"><i class="fa fa-users fa-fw"></i>User list</a>
+                    <a href="/settings/users"><i class="fa fa-users fa-fw"></i><@spring.message "header.user.list"/></a>
                 </li>
                 </#if>
             </ul>

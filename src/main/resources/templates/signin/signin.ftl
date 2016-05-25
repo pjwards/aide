@@ -1,9 +1,10 @@
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#-- @ftlvariable name="error" type="java.util.Optional<String>" -->
+<#import "/spring.ftl" as spring>
 
 <@layout.extends name="signin/signinbase.ftl">
     <@layout.put block="head" type="prepend">
-        <title>AIDE :: Sign In</title>
+        <title>AIDE :: <@spring.message "user.login.login"/></title>
     </@layout.put>
 
     <@layout.put block="header" type="replace">
@@ -11,19 +12,17 @@
 
         <div class="description">
             <p>
-                <strong>What is hot issue this week?</strong> Hot issues, hot people and analysis for a
-                facebook group.
-                <br/><a href="/user/sign_up/"><strong>Sign up</strong></a> now, you can use funny functions.
+                <strong><@spring.message "user.login.slug"/></strong> <@spring.message "user.login.description"/>
             </p>
         </div>
     </@layout.put>
 
     <@layout.put block="content-head-left" type="replace">
-        <h3>Sign in our site</h3>
+        <h3><@spring.message "user.login.info"/></h3>
 
-        <p>Enter your username and password to sign in:</p>
+        <p><@spring.message "user.login.enter"/></p>
         <#if error.isPresent()>
-            <p style="color: #de615e;">Your username and password didn't match. Please try again.</p>
+            <p style="color: #de615e;"><@spring.message "user.login.match"/></p>
         </#if>
     </@layout.put>
 
@@ -36,27 +35,27 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <div class="form-group <#if error.isPresent()>has-error</#if>">
-                <label class="sr-only" for="username">Email</label>
+                <label class="sr-only" for="username"><@spring.message "content.list.email"/></label>
                 <input type="email" placeholder="Email Address"
                        class="form-email form-control"
                        id="email" name="email" required autofocus>
             </div>
             <div class="form-group <#if error.isPresent()>has-error</#if>">
-                <label class="sr-only" for="password">Password</label>
+                <label class="sr-only" for="password"><@spring.message "user.password.password"/></label>
                 <input type="password" placeholder="Password"
                        class="form-password form-control"
                        id="password" name="password" required>
             </div>
-            <button type="submit" class="btn">Sign in!</button>
+            <button type="submit" class="btn"><@spring.message "user.login.login"/></button>
 
         </form>
     </@layout.put>
 
     <@layout.put block="content-related" type="replace">
         <div style="text-align: center;">
-            <a href="/forgot_password/new">Lost password?</a>
+            <a href="/forgot_password/new"><@spring.message "user.login.lost"/></a>
 
-            <p>If you don't have an account, you can <a href="/user/sign_up/">sign up</a> for one.
+            <p><@spring.message "user.login.join"/> <a href="/user/sign_up/"><@spring.message "user.login.sign"/></a> <@spring.message "user.login.part"/>
         </div>
     </@layout.put>
 
