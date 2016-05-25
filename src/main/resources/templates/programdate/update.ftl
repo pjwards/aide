@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Day Update
+                            <@spring.message "day.update.header"/>
                         </h1>
                     </div>
                     <!-- /.col-lg-12 -->
@@ -82,7 +82,7 @@
                                         <div class="panel panel-success">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Basic Information</a>
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><@spring.message "form.title.basic_information"/></a>
                                                 </h4>
                                             </div>
                                             <div id="collapseOne" class="panel-collapse collapse in">
@@ -91,11 +91,11 @@
                                                     <input type="hidden" name="conferenceId" value="${conference.id}"/>
 
                                                     <div class="form-group <#if errorName??>has-error</#if>">
-                                                        <input class="form-control" name="name" placeholder="Name *" value="${form.name}">
+                                                        <input class="form-control" name="name" placeholder="<@spring.message "form.name"/> *" value="${form.name}">
                                                     </div>
 
                                                     <div class="form-group <#if errorDay??>has-error</#if>">
-                                                        <input class="form-control" name="day" id="day" placeholder="Day *" value="${form.day}">
+                                                        <input class="form-control" name="day" id="day" placeholder="<@spring.message "form.day"/> *" value="${form.day}">
                                                     </div>
                                                 </div>
                                                 <!-- /.panel-body -->
@@ -105,8 +105,8 @@
                                         <!-- /.panel -->
                                     </div>
                                     <!-- /.panel group -->
-                                    <button type="button" class="btn btn-danger" onclick="sendDelete()">Delete</button>
-                                    <button type="submit" class="btn btn-default">Update</button>
+                                    <button type="button" class="btn btn-danger" onclick="sendDelete()"><@spring.message "form.btn.delete"/></button>
+                                    <button type="submit" class="btn btn-default"><@spring.message "form.btn.update"/></button>
                                 </form>
                             </div>
                             <!-- /.panel-body -->
@@ -156,7 +156,7 @@
         });
 
         function sendDelete() {
-            if(!confirm('Do you want to delete this?'))
+            if(!confirm('<@spring.message "form.alert.delete"/>'))
                     return;
 
             var token = $("meta[name='_csrf']").attr("content");

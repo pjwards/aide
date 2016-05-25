@@ -1,3 +1,5 @@
+<#import "/spring.ftl" as spring/>
+
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 
@@ -52,11 +54,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Sessions
+                        <@spring.message "session.header"/>
 
                         <div class="btn-group pull-right">
                             <a href="/conferences/${conference.id}/admin/sessions/add" class="btn btn-primary btn">
-                                Add
+                                <@spring.message "session.header"/>
                             </a>
                         </div>
                     </h1>
@@ -72,14 +74,14 @@
                                 <table class="table table-hover" id="dataTables">
                                     <thead>
                                     <tr>
-                                        <th style="width: 30%">Title</th>
-                                        <th style="width: 10%">Begin</th>
-                                        <th style="width: 10%">End</th>
-                                        <th style="width: 20%">Day</th>
-                                        <th style="width: 10%">Room</th>
-                                        <th style="width: 10%">Speakers</th>
-                                        <th style="width: 5%">Slide</th>
-                                        <th style="width: 5%">Video</th>
+                                        <th style="width: 30%"><@spring.message "form.title"/></th>
+                                        <th style="width: 10%"><@spring.message "form.begin"/></th>
+                                        <th style="width: 10%"><@spring.message "form.end"/></th>
+                                        <th style="width: 20%"><@spring.message "form.day"/></th>
+                                        <th style="width: 10%"><@spring.message "form.room"/></th>
+                                        <th style="width: 10%"><@spring.message "form.speaker"/></th>
+                                        <th style="width: 5%"><@spring.message "form.slide"/></th>
+                                        <th style="width: 5%"><@spring.message "form.video"/></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -102,14 +104,14 @@
                                                             <#if program.date??>
                                                             ${program.date.formattedScheduleDay}
                                                             <#else>
-                                                                Empty
+                                                                <@spring.message "form.empty"/>
                                                             </#if>
                                                         </td>
                                                         <td>
                                                             <#if session.room??>
                                                             ${session.room.name}
                                                             <#else>
-                                                                Empty
+                                                                <@spring.message "form.empty"/>
                                                             </#if>
                                                         </td>
                                                         <td>
@@ -119,21 +121,21 @@
                                                                     <#sep>,
                                                                 </#list>
                                                             <#else>
-                                                                Empty
+                                                                <@spring.message "form.empty"/>
                                                             </#if>
                                                         </td>
                                                         <td>
                                                             <#if session.slideUrl?? && session.slideUrl?length != 0>
-                                                                Exist
+                                                                <@spring.message "form.exist"/>
                                                             <#else>
-                                                                Empty
+                                                                <@spring.message "form.empty"/>
                                                             </#if>
                                                         </td>
                                                         <td>
                                                             <#if session.videoUrl?? && session.videoUrl?length != 0>
-                                                                Exist
+                                                                <@spring.message "form.exist"/>
                                                             <#else>
-                                                                Empty
+                                                                <@spring.message "form.empty"/>
                                                             </#if>
                                                         </td>
                                                     </tr>

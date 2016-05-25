@@ -1,6 +1,7 @@
+<#import "/spring.ftl" as spring/>
+
 <#-- @ftlvariable name="currentUser" type="com.pjwards.aide.domain.CurrentUser" -->
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
-<#import "/spring.ftl" as spring/>
 
 <div id="wrapper-header">
 

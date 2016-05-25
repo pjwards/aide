@@ -51,7 +51,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
+                    <h1 class="page-header"><@spring.message "admin.dashboard.dashboard"/></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -98,7 +98,7 @@
                                                 <span id="program_time_${room.id}" class="huge"></span>
                                             </div>
                                             <div class="col-xs-3 text-right">
-                                                <i class="fa fa-comments fa-3x"><span class="badge"><a id="program_badge_${room.id}" href="#">Link</a></span></i>
+                                                <i class="fa fa-comments fa-3x"><span class="badge"><a id="program_badge_${room.id}" href="#"><@spring.message "admin.dashboard.qna"/></a></span></i>
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +107,7 @@
                                             <div class="chat-panel panel panel-default">
                                                 <div class="panel-heading">
                                                     <i class="fa fa-clock-o fa-fw"></i>
-                                                    Timer
+                                                    <@spring.message "admin.dashboard.timer"/>
                                                     <div class="btn-group pull-right">
                                                         <button type="button" class="btn btn-default btn-xs" onclick="refresh_${room.id}()">
                                                             <i class="fa fa-refresh"></i>
@@ -124,7 +124,7 @@
                                             <div class="chat-panel panel panel-default">
                                                 <div class="panel-heading">
                                                     <i class="fa fa-comments fa-fw"></i>
-                                                    Chat
+                                                    <@spring.message "admin.dashboard.chat"/>
                                                     <div class="btn-group pull-right">
                                                         <button type="button" class="btn btn-default btn-xs dropdown-toggle"
                                                                 data-toggle="dropdown">
@@ -133,7 +133,7 @@
                                                         <ul class="dropdown-menu slidedown">
                                                             <li>
                                                                 <a href="#" onclick="getMessages('/messages/rooms/${room.id}', 'chat_${room.id}')">
-                                                                    <i class="fa fa-refresh fa-fw"></i> Refresh
+                                                                    <i class="fa fa-refresh fa-fw"></i> <@spring.message "admin.dashboard.refresh"/>
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -152,7 +152,7 @@
                                                                    placeholder="Type your message here..."/>
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-warning btn-sm" id="chat_${room.id}_btn">
-                                                                Send
+                                                                <@spring.message "admin.dashboard.send"/>
                                                             </button>
                                                         </span>
                                                         </div>
