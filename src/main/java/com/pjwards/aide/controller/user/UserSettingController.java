@@ -8,6 +8,7 @@ import com.pjwards.aide.domain.enums.Role;
 import com.pjwards.aide.domain.forms.UserUpdatePasswordForm;
 import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.domain.validators.UserUpdatePasswordFormValidator;
+import com.pjwards.aide.exception.UserNotFoundException;
 import com.pjwards.aide.repository.UserRepository;
 import com.pjwards.aide.service.user.UserService;
 import com.pjwards.aide.util.Utils;
@@ -86,8 +87,8 @@ public class UserSettingController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ModelAndView handleSettingsDelete(@ModelAttribute("currentUser")CurrentUser currentUser,
-                                             @RequestParam(value = "password", required = true) String password){
+    public ModelAndView handleSettingsDelete(@ModelAttribute("currentUser") CurrentUser currentUser,
+                                             @RequestParam(value = "password", required = true) String password) {
 
         LOGGER.debug("Delete User id={}", currentUser.getId());
 
@@ -95,7 +96,7 @@ public class UserSettingController {
         if (!passwordEncoder.matches(password, currentUser.getUser().getPassword())) {
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("user/userdelete");
-            modelAndView.addObject("deleteError","Passwords do not match");
+            modelAndView.addObject("deleteError", "Passwords do not match");
             return modelAndView;
         }
 
@@ -112,11 +113,11 @@ public class UserSettingController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ModelAndView updateSettingsUser(@ModelAttribute("currentUser")CurrentUser currentUser,
-                                            @RequestParam(value = "file",required = false) MultipartFile file,
-                                            @RequestParam(value = "name", required = false) String name,
-                                            @RequestParam(value = "company", required = false) String company,
-                                            @RequestParam(value = "description", required = false) String description) {
+    public ModelAndView updateSettingsUser(@ModelAttribute("currentUser") CurrentUser currentUser,
+                                           @RequestParam(value = "file", required = false) MultipartFile file,
+                                           @RequestParam(value = "name", required = false) String name,
+                                           @RequestParam(value = "company", required = false) String company,
+                                           @RequestParam(value = "description", required = false) String description) {
         LOGGER.debug("Getting settings user update, name={}", name);
 
         ModelAndView modelAndView = new ModelAndView("user/userprofileupdate");
@@ -126,7 +127,7 @@ public class UserSettingController {
         /*
         Set name
          */
-        if(name != null && !name.equals("") ){
+        if (name != null && !name.equals("")) {
             user.update(name, user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(),
                     user.getCompany(), user.getRole(), user.getDescription());
             userRepository.save(user);
@@ -138,11 +139,11 @@ public class UserSettingController {
         /*
         Set user thumbnail
          */
-        if(file != null && imageValidator.validate(file.getOriginalFilename())){
+        if (file != null && imageValidator.validate(file.getOriginalFilename())) {
             LOGGER.debug("File name={}, validated={}", file.getOriginalFilename(), imageValidator.validate(file.getOriginalFilename()));
             Assets assets = utils.profileSaveHelper(file, user);
 
-            if(assets != null){
+            if (assets != null) {
                 modelAndView.addObject("avatarSuccess", "The avatar has been changed successfully");
             }
         }
@@ -150,7 +151,7 @@ public class UserSettingController {
         /*
         Set company
          */
-        if(company != null && !company.equals("")){
+        if (company != null && !company.equals("")) {
             user.update(user.getName(), user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(),
                     company, user.getRole(), user.getDescription());
             userRepository.save(user);
@@ -160,7 +161,7 @@ public class UserSettingController {
         /*
         Set description
          */
-        if(description!= null && !description.equals("")){
+        if (description != null && !description.equals("")) {
             user.update(user.getName(), user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(),
                     user.getCompany(), user.getRole(), description);
             userRepository.save(user);
@@ -181,14 +182,16 @@ public class UserSettingController {
     }
 
     @RequestMapping(value = "/edit_role", method = RequestMethod.POST)
-    public @ResponseBody Map<String, Object> ajaxEditRole(@RequestBody Map<String, String> json) {
+    public
+    @ResponseBody
+    Map<String, Object> ajaxEditRole(@RequestBody Map<String, String> json) {
         LOGGER.debug("Ajax edit role content={}", json);
 
         Map<String, Object> response = new LinkedHashMap<>();
 
         User user = userRepository.findOneByEmail(json.get("j_username")).get();
 
-        if(user == null){
+        if (user == null) {
             response.put("message", "400");
             return response;
         }
@@ -196,7 +199,7 @@ public class UserSettingController {
         String role = json.get("j_role");
 
         Role roles = Role.USER;
-        if(role.equals("Admin")){
+        if (role.equals("Admin")) {
             roles = Role.ADMIN;
         }
 
@@ -205,5 +208,84 @@ public class UserSettingController {
 
         response.put("message", "200");
         return response;
+    }
+
+    @RequestMapping("/admin/update/{id}")
+    public ModelAndView getSettingsUserAdminUpdate(@ModelAttribute("currentUser") CurrentUser currentUser,
+                                                   @PathVariable("id") Long id) throws UserNotFoundException {
+        LOGGER.debug("Getting settings user update form");
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        } else if (!currentUser.getRole().equals(Role.ADMIN)) {
+            return new ModelAndView("error/403");
+        }
+
+        return new ModelAndView("user/userprofileadminupdate", "user", userService.findById(id));
+    }
+
+    @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
+    public ModelAndView adminUpdateSettingsUser(@ModelAttribute("currentUser") CurrentUser currentUser,
+                                                @PathVariable("id") Long id,
+                                                @RequestParam(value = "file", required = false) MultipartFile file,
+                                                @RequestParam(value = "name", required = false) String name,
+                                                @RequestParam(value = "company", required = false) String company,
+                                                @RequestParam(value = "description", required = false) String description) throws UserNotFoundException {
+        LOGGER.debug("Getting settings user update, name={}", name);
+
+        if (currentUser == null) {
+            return new ModelAndView("redirect:/sign_in");
+        } else if (!currentUser.getRole().equals(Role.ADMIN)) {
+            return new ModelAndView("error/403");
+        }
+
+        User user = userService.findById(id);
+        ModelAndView modelAndView = new ModelAndView("user/userprofileadminupdate", "user", user);
+
+        /*
+        Set name
+         */
+        if (name != null && !name.equals("")) {
+            user.update(name, user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(),
+                    user.getCompany(), user.getRole(), user.getDescription());
+            userRepository.save(user);
+            modelAndView.addObject("nameSuccess", "Changed successfully");
+        } else {
+            modelAndView.addObject("nameError", "Name is empty");
+        }
+
+        /*
+        Set user thumbnail
+         */
+        if (file != null && imageValidator.validate(file.getOriginalFilename())) {
+            LOGGER.debug("File name={}, validated={}", file.getOriginalFilename(), imageValidator.validate(file.getOriginalFilename()));
+            Assets assets = utils.profileSaveHelper(file, user);
+
+            if (assets != null) {
+                modelAndView.addObject("avatarSuccess", "The avatar has been changed successfully");
+            }
+        }
+
+        /*
+        Set company
+         */
+        if (company != null && !company.equals("")) {
+            user.update(user.getName(), user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(),
+                    company, user.getRole(), user.getDescription());
+            userRepository.save(user);
+            modelAndView.addObject("companySuccess", "Changed successfully");
+        }
+
+        /*
+        Set description
+         */
+        if (description != null && !description.equals("")) {
+            user.update(user.getName(), user.getEmail(), user.getPassword(), user.getCreatedDate(), user.getLastDate(),
+                    user.getCompany(), user.getRole(), description);
+            userRepository.save(user);
+            modelAndView.addObject("descriptionSuccess", "Changed successfully");
+        }
+
+        return modelAndView;
     }
 }

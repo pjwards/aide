@@ -122,6 +122,10 @@
                 responsive: true
             });
 
+            $('#dataTables tbody').on( 'click', 'tr', function () {
+                var user_id = $(this).attr('id');
+                location.href = '/settings/admin/update/' + user_id;
+            });
         });
 
         $(".change_role").click(function(){
