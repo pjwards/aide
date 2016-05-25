@@ -7,7 +7,7 @@
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title> Sponsor :: Register</title>
+    <title><@spring.message "conference.sponsor.name"/> :: <@spring.message "header.details.register"/></title>
 
     <!-- MetisMenu CSS -->
     <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
@@ -65,7 +65,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Sponsor Register
+                        <@spring.message "conference.sponsor.name"/> <@spring.message "header.details.register"/>
                     </h1>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -79,31 +79,31 @@
 
                         </div>
                         <div class="form-group <#if errorName??>has-error</#if>"">
-                            <label>Name</label>
+                            <label><@spring.message "content.list.name"/></label>
                             <input class="form-control" type="text" name="name" id="name" placeholder="Name" value="${form.name}" required>
                         </div>
                         <div class="form-group <#if errorSlug??>has-error</#if>"">
-                            <label>Slug</label>
+                            <label><@spring.message "conference.sponsor.slug"/></label>
                             <input class="form-control" type="text" name="slug" id="slug" placeholder="Slug" value="${form.slug}" required>
                         </div>
                         <div class="form-group <#if errorUrl??>has-error</#if>"">
-                            <label>Url</label>
+                            <label>URL</label>
                             <input type="text" class="form-control" id="basic-url" name="url" value="${form.url}">
                         </div>
                         <div class="form-group <#if errorUrl??>has-error</#if>"">
-                            <label>Rank(1 ~ 100)</label>
+                            <label><@spring.message "conference.sponsor.rank"/>(1 ~ 100)</label>
                             <input class="form-control" type="number" name="rank" id="rank" min="1" max="100" value="${form.rank}" required>
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
+                            <label><@spring.message "content.list.description"/></label>
                             <textarea class="form-control" id="summernote" name="description" placeholder=""><#if form.description?? && form.description != "">${form.description}</#if></textarea>
                         </div>
                         <div class="form-group <#if errorFiles??>has-error</#if>"">
-                            <label>Image</label>
+                            <label><@spring.message "conference.sponsor.image"/></label>
                             <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
                             <input type="file" name="assets" id="inputFile" multiple="">
                         </div>
-                        <button type="submit" class="btn btn-info">Register</button>
+                        <button type="submit" class="btn btn-info"><@spring.message "header.details.register"/></button>
                     </form>
                 </div>
             </div>

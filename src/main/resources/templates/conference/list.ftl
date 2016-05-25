@@ -1,10 +1,11 @@
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 <#-- @ftlvariable name="conferenceRoles" type="java.util.List<net.study.domain.ConferenceRole>" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
+<#import "/spring.ftl" as spring/>
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${conference.name} :: User list</title>
+    <title>${conference.name} :: <@spring.message "header.admin.users"/></title>
 
     <!-- MetisMenu CSS -->
     <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
@@ -90,7 +91,7 @@
 
     <@layout.put block="contents">
     <div id="dialog-confirm" title="Edit Role">
-        <p>Which role do you want to edit?</p>
+        <p><@spring.message "content.list.account"/></p>
     </div>
 
     <div id="wrapper">
@@ -98,11 +99,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        User Manage Page
+                        <@spring.message "conference.user.list"/>
 
                         <div class="btn-group pull-right">
                             <a href="/conferences/${conference.id}/admin/dummy" class="btn btn-primary btn">
-                                Register
+                                <@spring.message "conference.dummy.account"/>
                             </a>
                         </div>
                     </h1>
@@ -118,11 +119,11 @@
                                 <table class="table table-hover" id="dataTables">
                                     <thead>
                                     <tr>
-                                        <th style="width: 30%">Email</th>
-                                        <th style="width: 10%">Name</th>
-                                        <th style="width: 10%">Last Date</th>
-                                        <th style="width: 20%">Role</th>
-                                        <th style="width: 10%">Company</th>
+                                        <th style="width: 30%"><@spring.message "content.list.email"/></th>
+                                        <th style="width: 10%"><@spring.message "content.list.name"/></th>
+                                        <th style="width: 10%"><@spring.message "content.list.last"/></th>
+                                        <th style="width: 20%"><@spring.message "content.list.role"/></th>
+                                        <th style="width: 10%"><@spring.message "content.list.company"/></th>
                                     </tr>
                                     </thead>
                                     <tbody>

@@ -1,12 +1,13 @@
 <#-- @ftlvariable name="userList" type="java.util.List<net.study.domain.User>" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
+<#import "/spring.ftl" as spring/>
 
 <@layout.extends name="user/userbase.ftl">
     <@layout.put block="head" type="prepend">
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-    <title>Aide :: Users List</title>
+    <title>Aide :: <@spring.message "header.user.list"/></title>
 
     <!-- jquery-ui css -->
     <link rel="stylesheet" href="/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
@@ -52,7 +53,7 @@
     <@layout.put block="header" type="replace">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Users List</h1>
+            <h1 class="page-header"><@spring.message "header.user.list"/></h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -60,8 +61,8 @@
     </@layout.put>
 
     <@layout.put block="contents" type="replace">
-    <div id="dialog-confirm" title="Change Role">
-        <p>Which role would you change?</p>
+    <div id="dialog-confirm" title="<@spring.message "content.list.change"/>">
+        <p><@spring.message "content.list.account"/></p>
     </div>
 
     <div class="row">
@@ -72,11 +73,11 @@
                         <table class="table table-hover" id="dataTables">
                             <thead>
                             <tr>
-                                <th style="width: 30%">Email</th>
-                                <th style="width: 10%">Name</th>
-                                <th style="width: 10%">Created Date</th>
-                                <th style="width: 20%">Last Date</th>
-                                <th style="width: 10%">Role</th>
+                                <th style="width: 30%"><@spring.message "content.list.email"/></th>
+                                <th style="width: 10%"><@spring.message "content.list.name"/></th>
+                                <th style="width: 10%"><@spring.message "content.list.create"/></th>
+                                <th style="width: 20%"><@spring.message "content.list.last"/></th>
+                                <th style="width: 10%"><@spring.message "content.list.role"/></th>
                             </tr>
                             </thead>
                             <tbody>

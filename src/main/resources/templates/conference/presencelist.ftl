@@ -1,10 +1,11 @@
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 <#-- @ftlvariable name="presences" type="java.util.List<net.study.domain.Presence>" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
+<#import "/spring.ftl" as spring/>
 
 <@layout.extends name="layouts/default.ftl">
     <@layout.put block="head">
-    <title>${conference.name} :: User list</title>
+    <title>${conference.name} :: <@spring.message "header.admin.presence"/></title>
 
     <!-- MetisMenu CSS -->
     <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
@@ -76,7 +77,7 @@
 
     <@layout.put block="contents">
     <div id="dialog-confirm" title="Presented?">
-        <p>Presented?</p>
+        <p><@spring.message "header.admin.presence"/></p>
     </div>
 
     <div id="wrapper">
@@ -84,7 +85,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        User List
+                        <@spring.message "content.list.presence"/>
                     </h1>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -98,10 +99,10 @@
                                 <table class="table table-hover" id="dataTables">
                                     <thead>
                                     <tr>
-                                        <th style="width: 30%">Email</th>
-                                        <th style="width: 10%">Name</th>
-                                        <th style="width: 20%">Check</th>
-                                        <th style="width: 10%">Company</th>
+                                        <th style="width: 30%"><@spring.message "content.list.email"/></th>
+                                        <th style="width: 10%"><@spring.message "content.list.name"/></th>
+                                        <th style="width: 20%"><@spring.message "content.list.presence"/></th>
+                                        <th style="width: 10%"><@spring.message "content.list.email"/></th>
                                     </tr>
                                     </thead>
                                     <tbody>

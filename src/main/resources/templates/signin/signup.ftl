@@ -5,15 +5,13 @@
 
 <@layout.extends name="signin/signinbase.ftl">
     <@layout.put block="head" type="prepend">
-    <title>AIDE :: Sign Up</title>
+    <title>AIDE :: <@spring.message "user.login.sign"/></title>
     </@layout.put>
 
     <@layout.put block="content-head-left" type="replace">
-        <h3>Sign up our site</h3>
+        <h3><@spring.message "user.login.guide"/></h3>
 
-        <p>Fill out the form to the left, and your
-            account will be created; you'll be sent an email with instructions on how
-            to finish your registration.</p>
+        <p><@spring.message "user.login.account"/></p>
     </@layout.put>
 
     <@layout.put block="content-head-right" type="replace">
@@ -42,33 +40,33 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <div class="form-group <#if errorEmail??>has-error</#if>"">
-                <label class="sr-only" for="email">Email</label>
+                <label class="sr-only" for="email"><@spring.message "content.list.email"/></label>
                 <input type="email" placeholder="Email address"
                        class="form-email form-control"
                        id="email" name="email" required>
             </div>
 
             <div class="form-group <#if errorName??>has-error</#if>">
-                <label class="sr-only" for="name">Name</label>
+                <label class="sr-only" for="name"><@spring.message "content.list.name"/></label>
                 <input type="text" placeholder="Name"
                        class="form-username form-control"
                        id="name" name="name" required>
             </div>
 
             <div class="form-group <#if errorPassword??>has-error</#if>">
-                <label class="sr-only" for="password">Password</label>
+                <label class="sr-only" for="password"><@spring.message "user.password.password"/></label>
                 <input type="password" placeholder="password"
                        class="form-password form-control"
                        id="password" name="password" required>
             </div>
             <div class="form-group <#if errorPasswordRepeated??>has-error</#if>">
-                <label class="sr-only" for="passwordRepeated">Password confirmation</label>
+                <label class="sr-only" for="passwordRepeated"><@spring.message "user.password.again"/></label>
                 <input type="password" placeholder="password again"
                        class="form-password form-control"
                        id="passwordRepeated" name="passwordRepeated" required>
             </div>
 
-            <button type="submit" class="btn">Sign up!</button>
+            <button type="submit" class="btn"><@spring.message "user.login.sign"/></button>
         </form>
     </@layout.put>
 
