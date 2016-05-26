@@ -1,3 +1,5 @@
+<#import "/spring.ftl" as spring/>
+
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
 
 <@layout.extends name="layouts/default.ftl">
@@ -46,11 +48,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Rooms
+                        <@spring.message "room.header"/>
 
                         <div class="btn-group pull-right">
                             <a href="/conferences/${conference.id}/admin/rooms/add" class="btn btn-primary btn">
-                                Add
+                                <@spring.message "form.btn.add"/>
                             </a>
                         </div>
                     </h1>
@@ -66,11 +68,11 @@
                                 <table class="table table-hover" id="dataTables">
                                     <thead>
                                     <tr>
-                                        <th style="width: 30%">Name</th>
-                                        <th style="width: 30%">Location</th>
-                                        <th style="width: 20%">Managers</th>
-                                        <th style="width: 10%">Programs</th>
-                                        <th style="width: 10%">Sessions</th>
+                                        <th style="width: 30%"><@spring.message "form.name"/></th>
+                                        <th style="width: 30%"><@spring.message "form.location"/></th>
+                                        <th style="width: 20%"><@spring.message "form.manager"/></th>
+                                        <th style="width: 10%"><@spring.message "form.program"/></th>
+                                        <th style="width: 10%"><@spring.message "form.session"/></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -86,7 +88,7 @@
                                                     </#list>
                                                 </td>
                                             <#else>
-                                                <td>Empty</td>
+                                                <td><@spring.message "form.empty"/></td>
                                             </#if>
                                             <td>${room.programs?size}</td>
                                             <td>${room.sessions?size}</td>

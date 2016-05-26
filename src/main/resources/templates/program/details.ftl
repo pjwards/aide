@@ -1,3 +1,5 @@
+<#import "/spring.ftl" as spring/>
+
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
 <#-- @ftlvariable name="program" type="com.pjwards.aide.domain.Program" -->
 <#-- @ftlvariable name="conference" type="com.pjwards.aide.domain.Conference" -->
@@ -64,7 +66,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Contents</h2>
+                    <h2 class="section-heading"><@spring.message "program.details.content"/></h2>
                     <hr class="primary">
                     <!-- /.row -->
                     <div class="row">
@@ -89,7 +91,7 @@
             <#if program.slideEmbed??>
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2 text-center">
-                        <h2 class="section-heading">Slide</h2>
+                        <h2 class="section-heading"><@spring.message "program.details.slide"/></h2>
                         <hr class="primary">
                         <!-- /.row -->
                         <div class="row">
@@ -115,7 +117,7 @@
             <#if program.videoEmbed??>
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2 text-center">
-                        <h2 class="section-heading">Video</h2>
+                        <h2 class="section-heading"><@spring.message "program.details.video"/></h2>
                         <hr class="primary">
                         <!-- /.row -->
                         <div class="row">
@@ -141,7 +143,7 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <h2 class="section-heading">
-                        Comments
+                        <@spring.message "program.details.comments"/>
                     </h2>
                     <hr class="primary">
                     <!-- /.row -->
