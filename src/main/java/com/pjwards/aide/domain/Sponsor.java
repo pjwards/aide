@@ -72,8 +72,9 @@ public class Sponsor {
         return assets;
     }
 
-    public void setAssets(Assets assets) {
+    public Sponsor setAssets(Assets assets) {
         this.assets = assets;
+        return this;
     }
 
     public void setRank(int rank) {
@@ -106,6 +107,7 @@ public class Sponsor {
         this.url = updated.url;
         this.description = updated.description;
         this.rank = updated.rank;
+        this.assets = updated.assets;
     }
 
     public void update(String slug, String name, String url, String description, int rank){

@@ -252,6 +252,8 @@ public class Room {
         this.name = updated.name;
         this.location = updated.location;
         this.description = updated.description;
+        this.managerSet = updated.managerSet;
+        this.participants = updated.participants;
     }
 
     public static class Builder {

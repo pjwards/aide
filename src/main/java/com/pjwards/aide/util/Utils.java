@@ -15,9 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
@@ -127,6 +125,23 @@ public class Utils {
         return null;
     }
 
+    public Assets profileSaveHelper(File file, User user) {
+        LOGGER.debug("Avatar save helper name={}, validated={}", file.getName(), imageValidator.validate(file.getName()));
+
+        Assets assets = fileSaveHelper(file, user, identiconRealPath);
+
+        if (assets != null) {
+            Assets oldAsset = user.getAssets();
+            fileRemoveHelper(oldAsset.getRealPath());
+            user.setAssets(assets);
+            userRepository.save(user);
+            assetsRepository.delete(oldAsset);
+            return assets;
+        }
+
+        return null;
+    }
+
     public Assets fileSaveHelper(MultipartFile file, User user, String fileType) {
 
         String path = realPath + fileType + fileNameHelper();
@@ -140,15 +155,13 @@ public class Utils {
             Assets assets = new Assets.Builder(file.getOriginalFilename(), path, (long) bytes.length, 0)
                     .user(user).build();
 
-            assetsRepository.save(assets);
-
-            return assets;
+            return assetsRepository.save(assets);
         } catch (Exception e) {
             return null;
         }
     }
 
-    public Assets fileSaveHelperSponsor(MultipartFile file, Sponsor sponsor, String fileType) {
+    public Assets fileSaveHelper(MultipartFile file, Sponsor sponsor, String fileType) {
 
         String path = realPath + fileType + fileNameHelper();
 
@@ -161,9 +174,63 @@ public class Utils {
             Assets assets = new Assets.Builder(file.getOriginalFilename(), path, (long) bytes.length, 0)
                     .sponsor(sponsor).build();
 
-            assetsRepository.save(assets);
+            return assetsRepository.save(assets);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-            return assets;
+    public Assets fileSaveHelper(File file, User user, String fileType) {
+
+        String path = realPath + fileType + fileNameHelper();
+
+        try {
+            BufferedInputStream streamIn = new BufferedInputStream(new FileInputStream(file));
+            BufferedOutputStream streamOut = new BufferedOutputStream(new FileOutputStream(new File(filePath + path)));
+
+            int fileSize = 0;
+            int readCount = 0;
+            byte[] buffer = new byte[512];
+            while((readCount=streamIn.read(buffer)) != -1) {
+                streamOut.write(buffer, 0, readCount);
+                fileSize += readCount;
+            }
+
+            streamIn.close();
+            streamOut.close();
+
+            Assets assets = new Assets.Builder(file.getName(), path, (long) fileSize, 0)
+                    .user(user).build();
+
+            return assetsRepository.save(assets);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Assets fileSaveHelper(File file, Sponsor sponsor, String fileType) {
+
+        String path = realPath + fileType + fileNameHelper();
+
+        try {
+            BufferedInputStream streamIn = new BufferedInputStream(new FileInputStream(file));
+            BufferedOutputStream streamOut = new BufferedOutputStream(new FileOutputStream(new File(filePath + path)));
+
+            int fileSize = 0;
+            int readCount = 0;
+            byte[] buffer = new byte[512];
+            while((readCount=streamIn.read(buffer)) != -1) {
+                streamOut.write(buffer, 0, readCount);
+                fileSize += readCount;
+            }
+
+            streamIn.close();
+            streamOut.close();
+
+            Assets assets = new Assets.Builder(file.getName(), path, (long) fileSize, 0)
+                    .sponsor(sponsor).build();
+
+            return assetsRepository.save(assets);
         } catch (Exception e) {
             return null;
         }
