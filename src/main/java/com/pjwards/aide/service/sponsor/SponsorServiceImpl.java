@@ -1,13 +1,9 @@
 package com.pjwards.aide.service.sponsor;
 
 import com.pjwards.aide.domain.Assets;
-import com.pjwards.aide.domain.Conference;
 import com.pjwards.aide.domain.Sponsor;
 import com.pjwards.aide.domain.forms.SponsorAddForm;
-import com.pjwards.aide.domain.validators.ImageValidator;
 import com.pjwards.aide.exception.SponsorNotFoundException;
-import com.pjwards.aide.repository.AssetsRepository;
-import com.pjwards.aide.repository.ConferenceRepository;
 import com.pjwards.aide.repository.SponsorRepository;
 import com.pjwards.aide.util.Utils;
 import org.slf4j.Logger;
@@ -111,7 +107,7 @@ public class SponsorServiceImpl implements SponsorService{
 
         sponsor = sponsorRepository.save(sponsor);
 
-        Assets assets = utils.fileSaveHelperSponsor(form.getAssets(), sponsor, "/img/");
+        Assets assets = utils.fileSaveHelper(form.getAssets(), sponsor, "/img/");
 
         sponsor.setAssets(assets);
 

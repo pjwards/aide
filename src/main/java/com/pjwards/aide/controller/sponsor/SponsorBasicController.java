@@ -191,7 +191,7 @@ public class SponsorBasicController {
          */
         if (file != null && imageValidator.validate(file.getOriginalFilename())) {
             LOGGER.debug("File name={}, validated={}", file.getOriginalFilename(), imageValidator.validate(file.getOriginalFilename()));
-            Assets assets = utils.fileSaveHelperSponsor(file, sponsor, "/img/");
+            Assets assets = utils.fileSaveHelper(file, sponsor, "/img/");
             if (assets != null) {
                 Assets oldAsset = sponsor.getAssets();
                 utils.fileRemoveHelper(oldAsset.getRealPath());

@@ -51,6 +51,18 @@
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading"><@spring.message "conference.schedule.schedule"/></h2>
                     <hr class="primary">
+                    <#if !conference.programDates?has_content>
+                        <!-- /.row -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h3><@spring.message "conference.schedule.preparation"/></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </#if>
                 </div>
             </div>
         </div>
@@ -106,14 +118,15 @@
                                                     <a href="/sessions/${session.id}" target="_blank">
                                                         <i class="fa fa-comments-o" aria-hidden="true"><span class="blind">상세페이지</span></i>
                                                     </a>
-                                                    <#if session.videoUrl?? && session.videoUrl != "">
-                                                        <a href="${session.videoUrl}" target="_blank">
+
+                                                    <#if session.slideUrl?? && session.slideUrl != "">
+                                                        <a href="${session.slideUrl}" target="_blank">
                                                             <i class="xi-slideshare"><span class="blind">프리젠테이션</span></i>
                                                         </a>
                                                     </#if>
 
-                                                    <#if session.slideUrl?? && session.slideUrl != "">
-                                                        <a href="${session.slideUrl}" target="_blank">
+                                                    <#if session.videoUrl?? && session.videoUrl != "">
+                                                        <a href="${session.videoUrl}" target="_blank">
                                                             <i class="xi-video-camera"><span class="blind">동영상</span></i>
                                                         </a>
                                                     </#if>
@@ -158,16 +171,17 @@
                                                 <a href="/programs/${program.id}" target="_blank">
                                                     <i class="fa fa-comments-o" aria-hidden="true"><span class="blind">상세페이지</span></i>
                                                 </a>
-                                                <#if program.videoUrl?? && program.videoUrl != "">
-                                                <a href="${program.videoUrl}" target="_blank">
-                                                    <i class="xi-slideshare"><span class="blind">프리젠테이션</span></i>
-                                                </a>
-                                                </#if>
 
                                                 <#if program.slideUrl?? && program.slideUrl != "">
-                                                <a href="${program.slideUrl}" target="_blank">
-                                                    <i class="xi-video-camera"><span class="blind">동영상</span></i>
-                                                </a>
+                                                    <a href="${program.slideUrl}" target="_blank">
+                                                        <i class="xi-slideshare"><span class="blind">프리젠테이션</span></i>
+                                                    </a>
+                                                </#if>
+
+                                                <#if program.videoUrl?? && program.videoUrl != "">
+                                                    <a href="${program.videoUrl}" target="_blank">
+                                                        <i class="xi-video-camera"><span class="blind">동영상</span></i>
+                                                    </a>
                                                 </#if>
                                             </div>
                                         </li>

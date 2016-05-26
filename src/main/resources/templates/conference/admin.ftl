@@ -402,6 +402,7 @@
                 var new_time = ajaxGet("/conferences/${conference.id}/admin/rooms/${room.id}/timer")["timer"];
                 if(new_time && before_time_${room.id} != new_time) {
                     var before_time = moment(new_time).toDate();
+                    $('#message_${room.id}').empty();
                     $('#datetimepicker${room.id}').datetimepicker().data('DateTimePicker').date(before_time);
                     var diff_time = diff(before_time, new Date());
                     if(diff_time > 0) {

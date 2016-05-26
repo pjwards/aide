@@ -406,9 +406,11 @@
                 var new_time = ajaxGet("/conferences/${conference.id}/admin/rooms/${room.id}/timer")["timer"];
                 if(new_time && before_time_${room.id} != new_time) {
                     var before_time = moment(new_time).toDate();
+                    $('#message_${room.id}').empty();
                     <#if room.isManager(currentUser.user)>
                         $('#datetimepicker${room.id}').datetimepicker().data('DateTimePicker').date(before_time);
                     </#if>
+
                     var diff_time = diff(before_time, new Date());
                     if(diff_time > 0) {
                         clock_${room.id}.setTime(parseInt(diff_time));

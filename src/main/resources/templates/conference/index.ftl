@@ -91,7 +91,7 @@
                 <div class="col-lg-12">
                     <#list conference.sponsors?sort_by("rank") as sponsor>
                         <div class="col-lg-3">
-                            <a href="<#if sponsor.url??>${sponsor.url}<#else>#</#if>"><img src="<#if sponsor.assets??>${sponsor.assets.realPath}<#else>http://placehold.it/100x50</#if>" style="width: 100px; height: 50px" alt="${sponsor.name}"></a>
+                            <a href="<#if sponsor.url??>${sponsor.url}<#else>#</#if>"><img src="<#if sponsor.assets??>${sponsor.assets.realPath}<#else>http://placehold.it/100x50</#if>" style="width: 100px; height: 50px; background-color: #FFFFFF;" alt="${sponsor.name}"></a>
                         </div>
                     </#list>
                 </div>

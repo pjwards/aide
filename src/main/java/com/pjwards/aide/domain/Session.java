@@ -11,7 +11,7 @@ import java.util.Set;
 public class Session {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Session.class);
-    public static final int MAX_LENGTH_TITLE = 100;
+    public static final int MAX_LENGTH_TITLE = 200;
     public static final int MAX_LENGTH_SLIDE_URL = 255;
     public static final int MAX_LENGTH_VIDEO_URL = 255;
 
