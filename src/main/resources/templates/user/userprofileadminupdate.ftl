@@ -5,10 +5,11 @@
 <#-- @ftlvariable name="descriptionSuccess" type="java.util.Optional<String>" -->
 <#-- @ftlvariable name="user" type="com.pjwards.aide.domain.User" -->
 <#-- @ftlvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" -->
+<#import "/spring.ftl" as spring/>
 
 <@layout.extends name="user/userbase.ftl">
     <@layout.put block="head" type="prepend">
-    <title>Aide :: Profile Edit</title>
+    <title>Aide :: <@spring.message "header.user.update"/></title>
 
     <!-- Summernote CSS -->
     <link rel="stylesheet" type="text/css" href="/bower_components/summernote/dist/summernote.css"/>
@@ -20,7 +21,7 @@
     <@layout.put block="header" type="replace">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Profile Edit</h1>
+            <h1 class="page-header"><@spring.message "header.user.update"/></h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -35,30 +36,31 @@
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <p>${nameError}</p>
             </div>
-        </#if>
-        <#if nameSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${nameSuccess}</p>
-            </div>
-        </#if>
-        <#if avatarSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${avatarSuccess}</p>
-            </div>
-        </#if>
-        <#if companySuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${companySuccess}</p>
-            </div>
-        </#if>
-        <#if descriptionSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${descriptionSuccess}</p>
-            </div>
+        <#else>
+            <#if nameSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${nameSuccess}</p>
+                </div>
+            </#if>
+            <#if avatarSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${avatarSuccess}</p>
+                </div>
+            </#if>
+            <#if companySuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${companySuccess}</p>
+                </div>
+            </#if>
+            <#if descriptionSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${descriptionSuccess}</p>
+                </div>
+            </#if>
         </#if>
         </div>
     </div>
@@ -70,24 +72,24 @@
                 <input type="hidden" name="id" value="${user.id}"/>
 
                 <div class="form-group <#if nameError??>has-error</#if>"">
-                    <label>Name</label>
+                    <label><@spring.message "content.list.name"/></label>
                     <input class="form-control" type="text" name="name" id="name" placeholder="Name" value="${user.name}" required>
                 </div>
                 <div class="form-group">
-                    <label>Company</label>
+                    <label><@spring.message "content.list.company"/></label>
                     <input class="form-control" type="text" name="company" id="company" placeholder="" value="${user.company}">
                 </div>
                 <div class="form-group">
-                    <label>Description</label>
+                    <label><@spring.message "content.list.description"/></label>
                     <textarea class="form-control" id="summernote" name="description" placeholder=""><#if user.description?? && user.description != "">${user.description}<#else></#if></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Thumbnail</label>
+                    <label><@spring.message "content.list.thumbnail"/></label>
                     <img id="avatar" src="<#if user.assets??>${user.assets.realPath}<#else>/basic/img/user.png</#if>" alt="picture" class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                     <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
                     <input type="file" name="file" id="inputFile" multiple="">
                 </div>
-                <button type="submit" class="btn btn-info">Update Profile</button>
+                <button type="submit" class="btn btn-info"><@spring.message "user.update.profile"/></button>
             </form>
         </div>
         <!-- /.col-lg-12-->

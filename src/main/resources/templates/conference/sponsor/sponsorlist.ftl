@@ -141,7 +141,7 @@
         });
 
         function sendDelete(param) {
-            if(!confirm('Do you want to delete this?'))
+            if(!confirm('<@spring.message "form.alert.delete"/>'))
                 return;
 
             var token = $("meta[name='_csrf']").attr("content");
