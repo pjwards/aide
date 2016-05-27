@@ -48,59 +48,65 @@
     <@layout.put block="contents">
     <div class="row">
         <div class="col-lg-12">
-        <#if nameError??>
-            <div class="alert alert-dismissable alert-danger text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${nameError}</p>
-            </div>
-        </#if>
-        <#if nameSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${nameSuccess}</p>
-            </div>
-        </#if>
-        <#if avatarSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${avatarSuccess}</p>
-            </div>
-        </#if>
-        <#if slugSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${slugSuccess}</p>
-            </div>
-        </#if>
-        <#if slugError??>
-            <div class="alert alert-dismissable alert-danger text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${slugError}</p>
-            </div>
-        </#if>
-        <#if rankError??>
-            <div class="alert alert-dismissable alert-danger text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${rankError}</p>
-            </div>
-        </#if>
-        <#if rankSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${rankSuccess}</p>
-            </div>
-        </#if>
-        <#if urlSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${urlSuccess}</p>
-            </div>
-        </#if>
-        <#if descriptionSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${descriptionSuccess}</p>
-            </div>
+        <#if nameError?? || slugError?? || rankError??>
+            <#if nameError??>
+                <div class="alert alert-dismissable alert-danger text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${nameError}</p>
+                </div>
+            </#if>
+            <#if slugError??>
+                <div class="alert alert-dismissable alert-danger text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${slugError}</p>
+                </div>
+            </#if>
+
+            <#if rankError??>
+                <div class="alert alert-dismissable alert-danger text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${rankError}</p>
+                </div>
+            </#if>
+        <#else>
+            <#if nameSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${nameSuccess}</p>
+                </div>
+            </#if>
+            <#if avatarSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${avatarSuccess}</p>
+                </div>
+            </#if>
+            <#if slugSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${slugSuccess}</p>
+                </div>
+            </#if>
+
+
+            <#if rankSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${rankSuccess}</p>
+                </div>
+            </#if>
+            <#if urlSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${urlSuccess}</p>
+                </div>
+            </#if>
+            <#if descriptionSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${descriptionSuccess}</p>
+                </div>
+            </#if>
         </#if>
         </div>
     </div>

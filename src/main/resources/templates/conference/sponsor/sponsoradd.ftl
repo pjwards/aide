@@ -78,19 +78,19 @@
                         <div class="form-group">
 
                         </div>
-                        <div class="form-group <#if errorName??>has-error</#if>"">
+                        <div class="form-group <#if errorName??>has-error</#if>">
                             <label><@spring.message "content.list.name"/></label>
                             <input class="form-control" type="text" name="name" id="name" placeholder="Name" value="${form.name}" required>
                         </div>
-                        <div class="form-group <#if errorSlug??>has-error</#if>"">
+                        <div class="form-group <#if errorSlug??>has-error</#if>">
                             <label><@spring.message "conference.sponsor.slug"/></label>
                             <input class="form-control" type="text" name="slug" id="slug" placeholder="Slug" value="${form.slug}" required>
                         </div>
-                        <div class="form-group <#if errorUrl??>has-error</#if>"">
+                        <div class="form-group <#if errorUrl??>has-error</#if>">
                             <label>URL</label>
                             <input type="text" class="form-control" id="basic-url" name="url" value="${form.url}">
                         </div>
-                        <div class="form-group <#if errorUrl??>has-error</#if>"">
+                        <div class="form-group <#if errorUrl??>has-error</#if>">
                             <label><@spring.message "conference.sponsor.rank"/>(1 ~ 100)</label>
                             <input class="form-control" type="number" name="rank" id="rank" min="1" max="100" value="${form.rank}" required>
                         </div>
@@ -98,7 +98,7 @@
                             <label><@spring.message "content.list.description"/></label>
                             <textarea class="form-control" id="summernote" name="description" placeholder=""><#if form.description?? && form.description != "">${form.description}</#if></textarea>
                         </div>
-                        <div class="form-group <#if errorFiles??>has-error</#if>"">
+                        <div class="form-group <#if errorFiles??>has-error</#if>">
                             <label><@spring.message "conference.sponsor.image"/></label>
                             <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
                             <input type="file" name="assets" id="inputFile" multiple="">

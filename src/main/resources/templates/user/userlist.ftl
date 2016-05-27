@@ -83,7 +83,9 @@
                             <tbody>
                                 <#list userList as list>
                                 <tr id="${list.id}">
-                                    <td>${list.email}</td>
+                                    <td>
+                                        <a href="/settings/admin/update/${list.id}">${list.email}
+                                    </td>
                                     <td>${list.name}</td>
                                     <td>${list.createdDate?string("yyyy-MM-dd HH:mm")}</td>
                                     <td>${list.lastDate?string("yyyy-MM-dd HH:mm")}</td>
@@ -121,11 +123,6 @@
         $(document).ready(function () {
             $('#dataTables').DataTable({
                 responsive: true
-            });
-
-            $('#dataTables tbody').on( 'click', 'tr', function () {
-                var user_id = $(this).attr('id');
-                location.href = '/settings/admin/update/' + user_id;
             });
         });
 

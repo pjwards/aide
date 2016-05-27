@@ -36,31 +36,33 @@
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <p>${nameError}</p>
             </div>
+        <#else>
+            <#if nameSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${nameSuccess}</p>
+                </div>
+            </#if>
+            <#if avatarSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${avatarSuccess}</p>
+                </div>
+            </#if>
+            <#if companySuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${companySuccess}</p>
+                </div>
+            </#if>
+            <#if descriptionSuccess??>
+                <div class="alert alert-dismissable alert-success text-center">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <p>${descriptionSuccess}</p>
+                </div>
+            </#if>
         </#if>
-        <#if nameSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${nameSuccess}</p>
-            </div>
-        </#if>
-        <#if avatarSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${avatarSuccess}</p>
-            </div>
-        </#if>
-        <#if companySuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${companySuccess}</p>
-            </div>
-        </#if>
-        <#if descriptionSuccess??>
-            <div class="alert alert-dismissable alert-success text-center">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <p>${descriptionSuccess}</p>
-            </div>
-        </#if>
+
         </div>
     </div>
 
